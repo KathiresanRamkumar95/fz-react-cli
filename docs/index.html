@@ -1,0 +1,486 @@
+<html>
+	<head>
+	<style>
+		body{
+				font-family: ProximaNovaRegular;
+				margin: 0px;
+				padding: 0px;
+				background-color: #f5f5f5;
+				font-size: 14px;
+			}
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.container{
+				display: flex; 
+				flex-direction: row;
+				flex-wrap: nowrap;
+				align-items:stretch;
+				height: 100%;
+			}
+			.left{
+				width: 15%;
+				overflow: hidden;
+				border-right:5px solid #e1e1e1;	
+			}
+			.left a{
+				text-decoration: none;
+			}
+			.right{
+				display: flex; 
+				flex-direction: column;
+				margin:0 auto; 
+				background-color: #fff;
+				padding-left: 0.8em;
+				padding: 10;
+				
+				border-right: 5px solid #e1e1e1;
+				background: #fefefe;
+			}
+			.component{
+				min-height: 57%;
+				margin-right: 10px;
+			}
+			.iframe{
+				width: 100%;
+				height: 100%;
+				border: 0px;
+				font-family: ProximaNovaRegular;
+				margin: 10px;
+			}
+			.iframe body{
+				font-family: ProximaNovaRegular;
+			}
+			.dir,.file,.dir .dir{
+				color: #0f7df0;
+				font-weight: bold;
+			}
+			.file{
+				margin-left: 27px;
+			}
+			.dir,.dir .dir,.dir .file,.file{
+				margin-top:8px;
+			}
+			.dir .dir{
+				margin-left: 10px;
+			}
+			.dir .file{
+				margin-left: 40px;
+				font-weight: normal;
+				color: #555;
+				cursor: pointer;
+			}
+			.active{
+				color: red;
+			}
+			.menu {
+    position: fixed;
+    right: 0;
+    background: #ccc;
+    border-radius: 10px;
+    margin-top: 2px;
+    margin-right: 20px;
+}
+			.menu span {
+    margin: 10px;
+    cursor: pointer;
+}
+	</style>
+	</head>
+	<body>
+		<div class="menu">
+		<span onClick="iframeSize('mobile')">Mobile</span>
+		<span onClick="iframeSize('tab')">Tab</span>
+		<span onClick="iframeSize('desktop')">Desktop</span>
+		</div>
+		<div id="react"></div>
+		<script src="http://localhost:9292/docs/js/vendor.js"></script>
+		<script src="http://localhost:9292/docs/js/main.js"></script>
+		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+		<script type="text/babel">
+			var ReactDOM = Component.ReactDOM;
+			var React = Component.React;
+			class Doc extends React.Component{
+				constructor(props){
+					super(props);
+					this.state = {
+						atoms : props.atoms,
+						molecules : props.molecules,
+						organisms : props.organisms,
+						templates : props.templates,
+						pages : props. pages,
+						search : "",
+						selectedComponent:location.hash
+					}
+					this.search = this.search.bind(this);
+					this.hashChange = this.hashChange.bind(this);
+				}
+				hashChange(){
+					console.log("hashchange");
+					var src = document.getElementById("componentIframe").src;
+					var url = src.split("#")[0];
+					document.getElementById("componentIframe").src=url+location.hash;
+					this.setState({selectedComponent:location.hash})
+				}
+				componentDidMount() {
+					window.addEventListener("hashchange",this.hashChange);
+				}
+				componentWillUnmount() {
+					window.removeEventListener("hashchange",this.hashChange);
+				}
+				search(e){
+					this.setState({search:e.target.value});
+				}
+				filter(list,str){
+					return list.filter((item)=>item.toUpperCase().indexOf(str.toUpperCase())!=-1);
+				}
+				render(){
+					const { atoms, molecules, organisms, templates, pages, search, selectedComponent } = this.state;
+					return (
+					<div className="container">
+						<div className="left">
+							<h1>React Style Guide</h1>
+							<Search onChange={this.search}/>
+							<ComponentList type="Atom" components={this.filter(atoms, search)} selectedComponent={selectedComponent}/>
+							<ComponentList type="Molecules" components={this.filter(molecules, search)}  selectedComponent={selectedComponent}/>
+							<ComponentList type="Organisms" components={this.filter(organisms,search)} selectedComponent={selectedComponent}/>
+							<ComponentList type="Template" components={this.filter(templates,search)} selectedComponent={selectedComponent}/>
+							<ComponentList type="Pages" components={this.filter(pages,search)} selectedComponent={selectedComponent}/>
+						</div>
+						<div id="c1" style={{width: "85%",margin:"25px 10px"}}>
+						<div className="right" id="resize">
+							<iframe id="componentIframe" className="iframe" src={"/docs/component.html"+location.hash} style={{width:"auto"}}/>
+						</div>
+						</div>
+					</div>
+					)
+				}
+			}
+			class Search extends React.Component{
+				render(){
+					return <input type="text" onChange={this.props.onChange} placeholder="Search"/>
+				}
+			}
+			class ComponentList extends React.Component{
+				render(){
+					const {components,type} = this.props;
+					return <div className={type}>
+					<div className="dir">{type}</div>
+					{
+						components.map((component,i)=>{
+							return <div className="file" key={"component"+i}>
+								<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{component}</a>
+							</div>
+						})
+					}
+					</div>
+				}
+			}
+			var atoms = [];
+			var molecules = [];
+			var organisms = [];
+			var templates = [];
+			var pages = [];
+
+			Object.keys(Component).forEach((key)=>{
+
+					if(key == "React" || key == "ReactDOM"){
+						return;
+					}
+					console.log(Component[key].docs.componentGroup)
+					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
+						atoms.push(key)
+					}
+					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecules"){
+						molecules.push(key)
+					}
+				})
+			ReactDOM.render(<Doc components={Component} atoms={atoms} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
+			
+			
+		</script>
+		<script>
+		/*
+ * @author https://twitter.com/blurspline / https://github.com/zz85
+ * See post @ http://www.lab4games.net/zz85/blog/2014/11/15/resizing-moving-snapping-windows-with-js-css/
+ */
+
+
+window.onload=function(){
+// Minimum resizable area
+var minWidth = 60;
+var minHeight = 40;
+
+// Thresholds
+var FULLSCREEN_MARGINS = -10;
+var MARGINS = 4;
+
+// End of what's configurable.
+var clicked = null;
+var onRightEdge, onBottomEdge, onLeftEdge, onTopEdge;
+
+var rightScreenEdge, bottomScreenEdge;
+
+var preSnapped;
+
+var b, x, y;
+
+var redraw = false;
+
+var pane = document.getElementById('resize');
+var ghostpane = document.getElementById('ghostpane');
+
+function setBounds(element, x, y, w, h) {
+	element.style.left = x + 'px';
+	element.style.top = y + 'px';
+	element.style.width = w + 'px';
+	element.style.height = h + 'px';
+}
+
+function hintHide() {
+  //setBounds(ghostpane, b.left, b.top, b.width, b.height);
+  //ghostpane.style.opacity = 0;
+
+  // var b = ghostpane.getBoundingClientRect();
+  // ghostpane.style.top = b.top + b.height / 2;
+  // ghostpane.style.left = b.left + b.width / 2;
+  // ghostpane.style.width = 0;
+  // ghostpane.style.height = 0;
+}
+
+
+// Mouse events
+pane.addEventListener('mousedown', onMouseDown);
+document.addEventListener('mousemove', onMove);
+document.addEventListener('mouseup', onUp);
+
+// Touch events	
+pane.addEventListener('touchstart', onTouchDown);
+document.addEventListener('touchmove', onTouchMove);
+document.addEventListener('touchend', onTouchEnd);
+
+
+function onTouchDown(e) {
+  onDown(e.touches[0]);
+  e.preventDefault();
+}
+
+function onTouchMove(e) {
+  onMove(e.touches[0]);		
+}
+
+function onTouchEnd(e) {
+  if (e.touches.length ==0) onUp(e.changedTouches[0]);
+}
+
+function onMouseDown(e) {
+  onDown(e);
+  e.preventDefault();
+}
+
+function onDown(e) {
+  calc(e);
+
+  var isResizing = onRightEdge || onBottomEdge || onTopEdge || onLeftEdge;
+
+  clicked = {
+    x: x,
+    y: y,
+    cx: e.clientX,
+    cy: e.clientY,
+    w: b.width,
+    h: b.height,
+    isResizing: isResizing,
+    isMoving: !isResizing && canMove(),
+    onTopEdge: onTopEdge,
+    onLeftEdge: onLeftEdge,
+    onRightEdge: onRightEdge,
+    onBottomEdge: onBottomEdge
+  };
+}
+
+function canMove() {
+  return x > 0 && x < b.width && y > 0 && y < b.height
+  && y < 30;
+}
+
+function calc(e) {
+  b = pane.getBoundingClientRect();
+  x = e.clientX - b.left;
+  y = e.clientY - b.top;
+
+  onTopEdge = y < MARGINS;
+  onLeftEdge = x < MARGINS;
+  onRightEdge = x >= b.width - MARGINS;
+  onBottomEdge = y >= b.height - MARGINS;
+
+  rightScreenEdge = window.innerWidth - MARGINS;
+  bottomScreenEdge = window.innerHeight - MARGINS;
+}
+
+var e;
+
+function onMove(ee) {
+  calc(ee);
+
+  e = ee;
+
+  redraw = true;
+
+}
+
+function animate() {
+
+  requestAnimationFrame(animate);
+
+  if (!redraw) return;
+
+  redraw = false;
+
+  if (clicked && clicked.isResizing) {
+
+    if (clicked.onRightEdge) pane.style.width = Math.max(x, minWidth) + 'px';
+    if (clicked.onBottomEdge) pane.style.height = Math.max(y, minHeight) + 'px';
+
+    if (clicked.onLeftEdge) {
+      var currentWidth = Math.max(clicked.cx - e.clientX  + clicked.w, minWidth);
+      if (currentWidth > minWidth) {
+        pane.style.width = currentWidth + 'px';
+        pane.style.left = e.clientX + 'px';	
+      }
+    }
+
+    if (clicked.onTopEdge) {
+      var currentHeight = Math.max(clicked.cy - e.clientY  + clicked.h, minHeight);
+      if (currentHeight > minHeight) {
+        pane.style.height = currentHeight + 'px';
+        pane.style.top = e.clientY + 'px';	
+      }
+    }
+
+    hintHide();
+
+    return;
+  }
+
+  if (clicked && clicked.isMoving) {
+
+    if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > window.innerWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
+      // hintFull();
+      setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight);
+      ghostpane.style.opacity = 0.2;
+    } else if (b.top < MARGINS) {
+      // hintTop();
+      setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight / 2);
+      ghostpane.style.opacity = 0.2;
+    } else if (b.left < MARGINS) {
+      // hintLeft();
+      setBounds(ghostpane, 0, 0, window.innerWidth / 2, window.innerHeight);
+      ghostpane.style.opacity = 0.2;
+    } else if (b.right > rightScreenEdge) {
+      // hintRight();
+      setBounds(ghostpane, window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+      ghostpane.style.opacity = 0.2;
+    } else if (b.bottom > bottomScreenEdge) {
+      // hintBottom();
+      setBounds(ghostpane, 0, window.innerHeight / 2, window.innerWidth, window.innerWidth / 2);
+      ghostpane.style.opacity = 0.2;
+    } else {
+      hintHide();
+    }
+
+    if (preSnapped) {
+      setBounds(pane,
+      	e.clientX - preSnapped.width / 2,
+      	e.clientY - Math.min(clicked.y, preSnapped.height),
+      	preSnapped.width,
+      	preSnapped.height
+      );
+      return;
+    }
+
+    // moving
+    pane.style.top = (e.clientY - clicked.y) + 'px';
+    pane.style.left = (e.clientX - clicked.x) + 'px';
+
+    return;
+  }
+
+  // This code executes when mouse moves without clicking
+
+  // style cursor
+  if (onRightEdge && onBottomEdge || onLeftEdge && onTopEdge) {
+    pane.style.cursor = 'nwse-resize';
+  } else if (onRightEdge && onTopEdge || onBottomEdge && onLeftEdge) {
+    pane.style.cursor = 'nesw-resize';
+  } else if (onRightEdge || onLeftEdge) {
+    pane.style.cursor = 'ew-resize';
+  } else if (onBottomEdge || onTopEdge) {
+    pane.style.cursor = 'ns-resize';
+  } else if (canMove()) {
+    pane.style.cursor = 'move';
+  } else {
+    pane.style.cursor = 'default';
+  }
+}
+
+animate();
+
+function onUp(e) {
+  calc(e);
+
+  if (clicked && clicked.isMoving) {
+    // Snap
+    var snapped = {
+      width: b.width,
+      height: b.height
+    };
+
+    if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > window.innerWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
+      // hintFull();
+      setBounds(pane, 0, 0, window.innerWidth, window.innerHeight);
+      preSnapped = snapped;
+    } else if (b.top < MARGINS) {
+      // hintTop();
+      setBounds(pane, 0, 0, window.innerWidth, window.innerHeight / 2);
+      preSnapped = snapped;
+    } else if (b.left < MARGINS) {
+      // hintLeft();
+      setBounds(pane, 0, 0, window.innerWidth / 2, window.innerHeight);
+      preSnapped = snapped;
+    } else if (b.right > rightScreenEdge) {
+      // hintRight();
+      setBounds(pane, window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+      preSnapped = snapped;
+    } else if (b.bottom > bottomScreenEdge) {
+      // hintBottom();
+      setBounds(pane, 0, window.innerHeight / 2, window.innerWidth, window.innerWidth / 2);
+      preSnapped = snapped;
+    } else {
+      preSnapped = null;
+    }
+
+    hintHide();
+
+  }
+
+  clicked = null;
+
+}
+
+}
+function iframeSize(type){
+			if(type=="mobile"){
+				resize.style.width="300px";
+			}
+			else if(type=="tab"){
+				resize.style.width="600px";
+			}
+			else{
+				resize.style.width="100%"
+			}
+		}
+		</script>
+	</body>
+</html>
