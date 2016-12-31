@@ -4,8 +4,8 @@
 var path = require('path');
 var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
-var host = process.env.npm_config_server_host || process.env.npm_package_serverconfig_host;
-var port = process.env.npm_config_server_port || process.env.npm_package_serverconfig_port;
+var host = "localhost" || process.env.npm_package_serverconfig_host;
+var port = "9292" || process.env.npm_package_serverconfig_port;
 var url = "htt" + "p://" + host + ":9292";
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
@@ -16,7 +16,7 @@ module.exports = {
 	},
 	devtool: 'eval',
 	output: {
-		path: require("path").resolve("./portal"),
+		path: path.resolve(appPath,"build"),
 		filename: '[name].js',
 		publicPath: url + '/docs/js',
 		library: 'Component',
