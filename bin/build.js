@@ -7,7 +7,14 @@ var path = require('path')
 //var appPath = fs.realpathSync(process.cwd())
 
 switch (script) {
-
+	case 'start':
+		var result = spawn.sync(
+	    'node',
+	    [require.resolve('../lib/server/server')].concat(args),
+	    {stdio: 'inherit'}
+	  );
+	  process.exit(result.status);
+	break;
 	case 'clean':
 	var appPath = fs.realpathSync(process.cwd())
 	args=args.map((arg)=>path.join(appPath,arg))
