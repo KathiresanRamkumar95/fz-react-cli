@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -65,7 +65,8 @@
     "rimraf": "^2.5.4",
     "cross-env": "^1.0.7",
     "cross-spawn": "4.0.0",
-    "body-parser": "^1.15.2"
+    "body-parser": "^1.15.2",
+    "url-loader": "^0.5.7"
   },
  "bin": {
     "fz-react-cli": "bin/build.js"
