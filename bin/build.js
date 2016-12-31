@@ -34,12 +34,14 @@ switch (script) {
 	[
 		"BABEL_ENV=commonjs", 
 		path.resolve(fzNodeModulesFolder,".bin/babel"),
-		"src --out-dir lib",
+		"src",
+		"--out-dir",
+		"lib",
 		"--presets="+path.resolve(fzNodeModulesFolder,'babel-preset-es2015/lib/index.js')+","+path.resolve(fzNodeModulesFolder,"babel-preset-react/lib/index.js"), 
 		"--copy-files"
 	].concat(args),
 	{stdio: 'inherit'});
-	process.exit(result.status);
+	process.exit(result.status);	
 
 	break;
 	case "build:component:umd":
