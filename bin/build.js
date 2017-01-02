@@ -4,6 +4,7 @@ var script = process.argv[2];
 var args = process.argv.slice(3);
 var fs = require('fs');
 var path = require('path')
+
 //var appPath = fs.realpathSync(process.cwd())
 
 switch (script) {
@@ -61,6 +62,26 @@ switch (script) {
 		    {stdio: 'inherit'}
 	  	);  
 	  	process.exit(result.status);
+	break;
+	case "build":
+		var result = spawn.sync(
+		    require.resolve('../node_modules/.bin/webpack'),
+		    [
+		    "--config",
+		    require.resolve('../lib/config/webpack.prod.config.js')
+		    ].concat(args),
+		    {stdio: 'inherit'}
+	  	);  
+	  	process.exit(result.status);
+	break;
+	case "test":
+		var appPath = fs.realpathSync(process.cwd())
+		var result = spawn.sync(
+	    'node',
+	    [require.resolve('../lib/test')].concat(args),
+	    {stdio: 'inherit'}
+	  );
+	  process.exit(result.status);
 	break;
 	default:
 	  console.log('Unknown script "' + script + '".');

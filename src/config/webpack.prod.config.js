@@ -8,21 +8,26 @@ module.exports = {
 		main: path.join(appPath,"src", "index.js"),
 		vendors: ['react', 'react-dom']
 	},
-	devtool: 'eval',
 	output: {
 		path: path.resolve(appPath,"build"),
-		filename: '[name].js',
-		publicPath: url + '/docs/js',
-		library: 'Component',
-		libraryTarget: 'umd'
+		filename: 'js/[name].js'
+		
 	},
 	plugins: [
 		new ForceCaseSensitivityPlugin(), 
-		new webpack.optimize.CommonsChunkPlugin('vendors', 'vendor.js'), 
+		new webpack.optimize.CommonsChunkPlugin('vendors', 'js/vendor.js'), 
 		new webpack.DefinePlugin({
 			__TEST__: false,
-			__DEVELOPMENT__: false
-		})
+			__DEVELOPMENT__: false,
+			'process.env': {
+			    NODE_ENV: JSON.stringify('production')
+			  }
+		}),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    })
 	],
 	module: {
 		loaders: [{
@@ -39,11 +44,15 @@ module.exports = {
 		    }
 		}, { 
 			test: /\.css$/, 
-			loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]&sourceMap' 
+			loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]' 
 		}, 
 		{ 
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.eot$|\.svg$|\.ttf$/, 
-			loader: "url-loader?limit=10000&name=[name].[ext]" 
+			test: /\.jpe?g$|\.gif$|\.png$/, 
+			loader: "url-loader?limit=10000&name=./images/[name].[ext]" 
+		},
+		{ 
+			test: /\.svg$|\.woff$|\.ttf$/, 
+			loader: "url-loader?limit=10000&name=./fonts/[name].[ext]" 
 		}]
 	},
 	resolve: {

@@ -46,8 +46,12 @@ module.exports = {
 			loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local__[hash:base64:5]&sourceMap' 
 		}, 
 		{ 
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.eot$|\.svg$|\.ttf$/, 
-			loader: "url-loader?limit=10000&name=[name].[ext]" 
+			test: /\.jpe?g$|\.gif$|\.png$/, 
+			loader: "url-loader?limit=10000&name=./images/[name].[ext]" 
+		},
+		{ 
+			test: /\.svg$|\.woff$|\.ttf$/, 
+			loader: "url-loader?limit=10000&name=./fonts/[name].[ext]" 
 		}]
 	},
 	resolve: {
