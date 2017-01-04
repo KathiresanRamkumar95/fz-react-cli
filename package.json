@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.0",
+  "version": "0.0.3-beta.1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "fz-i18n": "^1.0.9",
     "fz-propertytojson": "^1.0.1",
     "history": "^3.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^17.0.2",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",

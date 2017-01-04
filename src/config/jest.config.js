@@ -1,10 +1,12 @@
 var fs = require('fs');
+var path = require('path');
 module.exports =function(){
   var appPath = fs.realpathSync(process.cwd());
   return {
       "rootDir": appPath,
       "testPathIgnorePatterns": [
-        "/node_modules/"
+        "/node_modules/",
+        "docs"
       ],
       "unmockedModulePathPatterns": [
         "__tests__",
@@ -26,10 +28,14 @@ module.exports =function(){
         "jsx"
       ],
       "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(jsx|js|json|node)$",
-      "testResultsProcessor": "./result.js",
-      "transform": "../preprocessor.js",
+      "moduleNameMapper": {
+        "\\.(css|less)$": "identity-obj-proxy"
+      },
+       "transform": {
+        "\\.(js|jsx)$":path.resolve(__dirname,"..","preprocessor.js")
+      },
       "setupFiles": [
-        "../setup.jsx"
+        path.resolve(__dirname,"..","setup.js")
       ]
     }
 }
