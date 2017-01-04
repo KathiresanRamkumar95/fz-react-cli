@@ -31,9 +31,7 @@ module.exports =function(){
       "moduleNameMapper": {
         "\\.(css|less)$": "identity-obj-proxy"
       },
-       "transform": {
-        "\\.(js|jsx)$":path.resolve(__dirname,"..","preprocessor.js")
-      },
+        "transform": {".js":  path.resolve(__dirname,"..","preprocessor.js")},
       "setupFiles": [
         path.resolve(__dirname,"..","setup.js")
       ]
