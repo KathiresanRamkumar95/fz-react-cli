@@ -34,6 +34,7 @@ module.exports =function(){
         "transform": {".js":  path.resolve(__dirname,"..","preprocessor.js")},
       "setupFiles": [
         path.resolve(__dirname,"..","setup.js")
-      ]
+      ],
+      "modulePaths": [path.resolve(__dirname, "..","..","node_modules")]
     }
 }
