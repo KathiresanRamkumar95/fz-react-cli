@@ -8,10 +8,10 @@ var config = require('../config/webpack.dev.config');
 
 var app = express();
 var compiler = webpack(config);
-var host = process.env.npm_package_serverconfig_host || "localhost";
-var port = process.env.npm_package_serverconfig_port || "9090";
-var appName = process.env.npm_package_serverconfig_appName || "app" 
-var mockFlag = process.env.npm_package_serverconfig_mock || false;
+var host = process.env.npm_config_server_host || "localhost";
+var port = process.env.npm_config_server_port || "9090";
+var appName = process.env.npm_config_server_appName || "app" 
+var mockFlag = process.env.npm_config_server_mock || false;
 var appPath =fs.realpathSync(process.cwd());
 var url = "htt" + "p://" + host + ":" + port;
 app.use(require('webpack-dev-middleware')(compiler, {
