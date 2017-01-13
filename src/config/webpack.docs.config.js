@@ -3,8 +3,8 @@
 var path = require('path');
 var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
-var host = process.env.npm_package_serverconfig_host || "localhost";
-var port = process.env.npm_package_serverconfig_port || "9292" ;
+var host = process.env.npm_config_server_host || "localhost";
+var port = process.env.npm_config_server_port || "9292" ;
 var url = "htt" + "p://" + host + ":9292";
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
@@ -26,7 +26,7 @@ module.exports = {
 		new webpack.optimize.CommonsChunkPlugin('vendors', 'vendor.js'), 
 		new webpack.DefinePlugin({
 			__TEST__: false,
-			__DEVELOPMENT__: false
+			__DEVELOPMENT__: true
 		})
 	],
 	module: {

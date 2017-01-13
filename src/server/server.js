@@ -11,7 +11,8 @@ var compiler = webpack(config);
 var host = process.env.npm_package_serverconfig_host || "localhost";
 var port = process.env.npm_package_serverconfig_port || "9090";
 var appName = process.env.npm_package_serverconfig_appName || "app" 
-
+var mockFlag = process.env.npm_package_serverconfig_mock || false;
+var appPath =fs.realpathSync(process.cwd());
 var url = "htt" + "p://" + host + ":" + port;
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -19,6 +20,15 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
+if (mockFlag) {
+  try{
+    var mockServer = require(path.resolve(appPath, 'mockapi', 'index.js'));
+    mockServer(app);
+  }
+  catch(e){
+    console.log("create mockapi folder and index.js should export fn and express app as input");
+  }
+}
 /*app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();

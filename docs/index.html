@@ -21,7 +21,7 @@
 			}
 			.left{
 				width: 15%;
-				overflow: hidden;
+				overflow: scroll;
 				border-right:5px solid #e1e1e1;	
 			}
 			.left a{
@@ -185,17 +185,24 @@
 
 			Object.keys(Component).forEach((key)=>{
 
-					if(key == "React" || key == "ReactDOM"){
+					if(key == "React" || key == "ReactDOM" || !Component[key].docs){
 						return;
 					}
 					console.log(Component[key].docs.componentGroup)
-					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
+					if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
 						atoms.push(key)
 					}
-					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecules"){
+					else if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecules"){
 						molecules.push(key)
 					}
+					else if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Organisms"){
+						organisms.push(key)
+					}
 				})
+
+			atoms.sort();
+			molecules.sort();
+			organisms.sort();
 			ReactDOM.render(<Doc components={Component} atoms={atoms} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
 			
 			

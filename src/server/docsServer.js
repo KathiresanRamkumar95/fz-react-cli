@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 //config.entry.main = path.join(appPath, "index.js");
 //console.log(config.entry);
 var compiler = webpack(config);
-var host = process.env.npm_package_serverconfig_host || "localhost";
-var port = process.env.npm_package_serverconfig_port || "9292";
+var host = process.env.npm_config_server_host || "localhost";
+var port = process.env.npm_config_server_port || "9292";
 var url = "htt" + "p://" + host + ":9292";
 
 app.use(require('webpack-dev-middleware')(compiler, {
