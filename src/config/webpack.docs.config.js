@@ -5,12 +5,13 @@ var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
 var host = process.env.npm_config_server_host || "localhost";
 var port = process.env.npm_config_server_port || "9292" ;
+var componentPath = process.env.npm_config_server_componentPath || null ;
 var url = "htt" + "p://" + host + ":9292";
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
 module.exports = {
 	entry: {
-		main: path.join(appPath,"src", "index.js"),
+		main: path.join(appPath,componentPath || "src", "index.js"),
 		vendors: ['react', 'react-dom']
 	},
 	devtool: 'eval',
