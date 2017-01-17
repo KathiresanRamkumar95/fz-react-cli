@@ -51,6 +51,9 @@ module.exports = {
 		}]
 	},
 	resolve: {
+		alias:{
+			"history":path.join(__dirname,"..","hook","history.js")
+		},
 		fallback: path.join(__dirname,'..','..','node_modules')
 	},
 	resolveLoader: {

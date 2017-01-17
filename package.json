@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.7",
+  "version": "0.0.3-beta.8",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -61,7 +61,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-mock-store": "^1.2.1",
-    "redux-router-middleware": "^1.0.0-beta.0",
+    "redux-router-middleware": "^1.0.0-beta.2",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.1",
     "rimraf": "^2.5.4",
