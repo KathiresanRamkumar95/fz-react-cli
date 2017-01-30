@@ -1,25 +1,102 @@
 <html>
 	<head>
+		<style type="text/css">
+			.comps
+			{
+				padding: 10px;
+				max-width: 100%;
+				margin-bottom: 10px;
+				border-bottom: 1px solid #f5f5f5;
+			}
+			.componentNameRed
+			{
+				color: red;
+			}
+			.propertyName
+			{
+				color:green;
+				margin-left: 10px;
+			}
+			.valueName
+			{
+				color:orange;
+				margin-right: 10px;
+			}
+			.example
+			{
+				padding: 20px 20px 20px 0px;
+				width: 100%;
+				box-sizing: border-box;
+				margin: 15px 0px;
+			}
+			.htmlTag
+			{
+				color: #999;
+				color: #676565;
+    			line-height: 25px;
+    			margin-bottom: 10px;
+    			font-size: 13px;
+			}
+			.textArea
+			{
+				min-width: 50%;
+			    outline: none;
+			    min-height: 100px;
+			    margin: 15px 0px;
+			    max-width: 90%;
+			}
+			.details:after
+			{
+				content: " ";
+				clear: both;
+				display: block;
+			}
+			.details span
+			{
+				margin-top: 10px;
+				background: black;
+				display: inline-block;
+				padding: 5px;
+				color:#fff;
+				font-size: 12px;
+				float: right;
+				cursor: pointer;
+			}
+		</style>
+		<script src="https://localjs.zohostatic.com/ze/v69/js/i18n/en/ze_sa.min.js"></script>
 	</head>
 	<body>
 		<div id="react"></div>
-		<script src="http://localhost:9292/docs/js/vendor.js"></script>
-		<script src="http://localhost:9292/docs/js/main.js"></script>
+		<div id="reactUserEdit"></div>
+		<script src="/docs/js/vendor.js"  defer="true"></script>
+		
+		<script src="/docs/js/main.js" defer="true"></script>
+
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
+			window.staticJSServerURL = Component.domainUrls.staticJSServerURL;
+			var test="test"
 			var ReactDOM = Component.ReactDOM;
 			var React = Component.React;
+			var ReactDOMServer = Component.ReactDOMServer
 			class RenderComponent extends React.Component{
 				constructor(props) {
 					super(props);
 					this.state={
 						Components:Component,
+						details:false,
 						selectedComponent:location.hash !="" ? location.hash.substring(1) : null
 					};
 					this.hashChange = this.hashChange.bind(this);
+					this.detailsToggle = this.detailsToggle.bind(this);
 				}
 				hashChange(){
 					this.setState({selectedComponent:location.hash !="" ? location.hash.substring(1) : null})
+				}
+				detailsToggle(e){
+					this.setState({details:! this.state.details});
+					e.stopPropagation && e.stopPropagation();
+    				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
 				}
 				componentDidMount() {
 					window.addEventListener("hashchange",this.hashChange);
@@ -28,28 +105,146 @@
 					window.removeEventListener("hashchange",this.hashChange);
 				}
 				render(){
-					const { Components, selectedComponent } = this.state;
-					var ComponentClass = selectedComponent && Components[selectedComponent]					
-					return <div>
-						{
-							Components[selectedComponent] && <div>
-								<ComponentClass {...ComponentClass.docs.testProps}/>
+					const { Components, selectedComponent, details} = this.state;
+					var ComponentClass = selectedComponent && Components[selectedComponent]	
+					var keysSingleAr = Object.keys(ComponentClass.docs.testProps) || []
+					return 	<div>
+								{
+									Components[selectedComponent] && <div>
+										<div className="details">
+											<span onClick={this.detailsToggle} >details</span>
+										</div>
+										{
+											Array.isArray(ComponentClass.docs.testProps) ?
+												ComponentClass.docs.testProps.map((prop,i)=>{
+														
+												return <div className="comps">
+																<ComponentClass {...prop }/>
+															
+																{details?<div>
+																		<div className="example">
+																			<span className="componentNameRed"> {"<"+selectedComponent} 
+																			</span> 
+																			{
+																				Object.keys(prop).map((val)=>{
+																				
+																				return 	<span>
+																							<span className="propertyName">{val}</span>
+																							<span> = </span>
+																							<span className="valueName">
+																							{JSON.stringify(prop[val])}
+																							</span>
+																						</span>
 
-								{/*
-									ComponentClass.propTypes && Object.keys(ComponentClass.propTypes).map((prop)=>{
-										return <div>key-{prop}</div>
-									})
-								*/}
+																				})
+																			}
+																			<span className="componentNameRed"> {" />"} </span> 
+																		</div>
+
+																		<div className="htmlTag">
+																		{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps[i] }/>)}
+																		</div>
+																	</div>:null
+																}
+
+															</div>
+												}):
+												<div>
+													<ComponentClass {...ComponentClass.docs.testProps}/> 
+													{details?<div>
+													<div className="example">
+														<span className="componentNameRed"> {"<"+selectedComponent} </span> 
+														{
+															keysSingleAr.map((val,i)=>{
+																return 	<span>
+																			<span className="propertyName">{val}=</span>
+																			<span className="valueName">{JSON.stringify(ComponentClass.docs.testProps[val]) }</span>
+																		</span>
+															})
+														}
+														<span className="componentNameRed"> {" />"} </span> 
+													</div>
+													<div className="htmlTag">
+													{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps }/>)}
+													</div>
+												</div>:null}
+											</div>
+										}
+										
+									</div>
+
+								}
 							</div>
-
-						}
-					</div>
 				}
 			}
-
-			ReactDOM.render(<RenderComponent/>,react);
 			
+			ReactDOM.render(<RenderComponent/>,react);
+		</script>
 
+
+		<script type="text/babel">
+			var ReactDOM = Component.ReactDOM;
+			var React = Component.React;
+			class UserEdit extends React.Component{
+				constructor(props) {
+					super(props);
+					this.state={
+						Components:Component,
+						selectedComponent:location.hash !="" ? location.hash.substring(1) : null,
+						componentProps : {}
+					};
+					this.hashChange = this.hashChange.bind(this);
+					this.propsChange = this.propsChange.bind(this);
+				}
+				hashChange(){
+					this.setState({selectedComponent:location.hash !="" ? location.hash.substring(1) : null})
+				}
+				componentDidMount() {
+					window.addEventListener("hashchange",this.hashChange);
+					let selectedComponent = location.hash !="" ? location.hash.substring(1) : null;
+					var ComponentClass = selectedComponent && Component[selectedComponent];
+					let comPro = ComponentClass.docs.testProps;
+					let componentProp = Array.isArray(comPro) ? comPro[0] : comPro;
+					this.setState({componentProps:componentProp})
+				}
+				propsChange(e){
+					let { componentProps } = this.state;
+					var props;
+					try{
+						props=JSON.parse(e.target.value)
+					}
+					catch(e){
+						props={};
+					}
+    				this.setState({ componentProps : props });
+				}
+				componentWillUnmount() {
+					window.removeEventListener("hashchange",this.hashChange);
+				}
+
+				render(){
+						const { Components, selectedComponent,componentProps } = this.state;
+						var ComponentClass = selectedComponent && Components[selectedComponent]	;
+						var isEdit = ComponentClass.isEditable
+					if(isEdit){
+						return 	<div>
+								<textarea className="textArea" onChange={this.propsChange} values={componentProps}></textarea>
+
+								{
+									Components[selectedComponent] && <div>
+												<ComponentClass {...componentProps}/> 				
+									</div>
+								}
+
+							</div>
+						}
+					else
+					{
+					return null
+					}
+				}
+			}
+			ReactDOM.render(<UserEdit/>,reactUserEdit);
 		</script>
 
 	</body>

@@ -2,49 +2,104 @@
 	<head>
 	<style>
 		body{
-				font-family: ProximaNovaRegular;
-				margin: 0px;
-				padding: 0px;
 				background-color: #f5f5f5;
 				font-size: 14px;
+				overflow: hidden;
 			}
 			*{
 				margin: 0;
 				padding: 0;
 			}
-			.container{
-				display: flex; 
-				flex-direction: row;
-				flex-wrap: nowrap;
-				align-items:stretch;
-				height: 100%;
+			main
+			{
+				height: 100vh;
+				width: 100vw;
+				background: #f5f5f5;
 			}
-			.left{
-				width: 15%;
-				overflow: scroll;
+			menu{
+				width: 220px;
+				overflow: auto;
 				border-right:5px solid #e1e1e1;	
-			}
-			.left a{
-				text-decoration: none;
-			}
-			.right{
-				display: flex; 
+				box-sizing: border-box;
+				float: left;
+				height: 100vh;
+				padding: 5px 10px;
+				background: black;
+				display: flex;
 				flex-direction: column;
-				margin:0 auto; 
-				background-color: #fff;
-				padding-left: 0.8em;
-				padding: 10;
-				
+				transition: margin-left 0.5s ease;
+				margin-left: 0px;
+			}
+			*::-webkit-scrollbar {
+    					width: 0px;
+					}
+			.menuHideLeft
+			{
+				transition: margin-left 0.5s ease;
+				width: 220px;
+				overflow: auto;
+				border-right:5px solid #e1e1e1;	
+				box-sizing: border-box;
+				float: left;
+				height: 100vh;
+				padding: 5px 10px;
+				background: black;
+				font: 12px Arial, Helvetica, sans-serif;
+				display: flex;
+				flex-direction: column;
+				margin-left: -220px;
+			}
+			.scrollComp
+			{
+				flex:1;
+				overflow: auto;
+				font-family: 'Lora', serif;
+			}
+			menu a{
+				text-decoration: none;
+				color: #a7a7a7;
+			}
+			menu a:active{
+				text-decoration: none;
+				color: #fff;
+			}
+			container
+			{
+				transition: margin-left 0.5s ease;
+				margin-left: 220px;
+				height: 100vh;
+				display: block;
+			}
+			.fullContainer
+			{
+				transition: margin-left 0.5s ease;
+				margin-left: 0px;
+				height: 100vh;
+				display: block;
+			}
+			section{
+				padding: 25px 10px 10px 10px;
+				box-sizing: border-box;
+				height: 100%;
+				overflow: auto;
 				border-right: 5px solid #e1e1e1;
 				background: #fefefe;
+				margin:0px 20px;
+				display: flex;
+
+			}
+			.bottom
+			{
+				width: 100%;
+				height: 40vh;
+				border-top: 1px solid #ddd;
 			}
 			.component{
 				min-height: 57%;
 				margin-right: 10px;
 			}
 			.iframe{
-				width: 100%;
-				height: 100%;
+				flex:1;
 				border: 0px;
 				font-family: ProximaNovaRegular;
 				margin: 10px;
@@ -53,11 +108,14 @@
 				font-family: ProximaNovaRegular;
 			}
 			.dir,.file,.dir .dir{
-				color: #0f7df0;
+				color: #a7a7a7;
 				font-weight: bold;
+				cursor: pointer;
+				font: 12px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
 			}
 			.file{
 				margin-left: 27px;
+				cursor: pointer;
 			}
 			.dir,.dir .dir,.dir .file,.file{
 				margin-top:8px;
@@ -68,37 +126,357 @@
 			.dir .file{
 				margin-left: 40px;
 				font-weight: normal;
-				color: #555;
+				color: #a7a7a7;
 				cursor: pointer;
 			}
 			.active{
-				color: red;
+				color: #fff;
 			}
 			.menu {
-    position: fixed;
-    right: 0;
-    background: #ccc;
-    border-radius: 10px;
-    margin-top: 2px;
-    margin-right: 20px;
-}
+			    position: fixed;
+			    right: 0px;
+			    top: 0px;
+			    background: black;
+			    color: #cacaca;
+			    padding: 3px;
+			}
 			.menu span {
-    margin: 10px;
-    cursor: pointer;
-}
+			    margin: 10px;
+			    cursor: pointer;
+			}
+			.header
+			{
+				font-size: 17px;
+				text-align: center;
+				color: #fff;
+				font-family: 'Slabo 27px', serif;
+				padding: 8px 0px; 
+				border-bottom: 1px solid #696969;
+			}
+			.inputSearch
+			{
+				width: 100%;
+				margin: auto;
+				border:none;
+				outline: none;
+				border-bottom: 1px solid #696969;
+			    padding: 5px;
+			    background: transparent;
+			    color: #696969;
+			    font-size: 12px;
+			    margin: 5px 0px; 
+			}
+			.inputSearch:focus
+			{
+				transition: all 0.5s ease;
+				color: #fff;
+				border-bottom: 1px solid #fff;
+			}
+			.propsTable
+			{
+				    width: 96%;
+				    box-sizing: border-box;
+				    border: 1px solid #ddd;
+				    margin: 2%;
+			}
+			.tableHeader
+			{
+				display: flex;
+				flex-direction: row;
+				border-bottom: 1px solid #ddd;
+				box-sizing: border-box;
+			}
+			.tableHeaderNB
+			{
+				display: flex;
+				flex-direction: row;
+				border-bottom: 1px solid transparent;
+				box-sizing: border-box;
+			}
+			.tableHeader span,.tableHeaderNB span
+			{
+				flex:1;
+				text-align: center;
+				box-sizing: border-box;
+				overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			    word-wrap: normal;
+			}
+			.tableHeader span div,.tableHeaderNB span div,.brR
+			{
+				border-right: 1px solid #ddd;
+				padding: 5px;
+				text-align: center;
+			    box-sizing: border-box;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			    word-wrap: normal;
+			    color: #777;
+			}
+			.brR
+			{
+				color: #942416;
+			}
+			.folderClose
+			{
+				display: none;
+			}
+			.folderIcon
+			{
+				width: 15px;
+				height: 10px;
+				margin-right: 5px; 
+			}
+
+
+			.options
+			{
+				text-align: center;
+				width: 100%;
+				padding-bottom: 10px;
+			}
+			.parent
+			{
+				display: inline-block;
+			}
+			.child
+			{
+				min-width: 100px;
+				padding: 6px;
+				color:#fff;
+			    margin: 0px 40px;
+			    background: rgb(72, 68, 68);
+			    display: inline-block;
+			    position: relative;
+			    box-sizing: border-box;	
+			}
+			.childSelect
+			{
+				min-width: 100px;
+				padding: 6px;
+				color:#fff;
+			    margin: 0px 40px;
+			    background: black;
+			    display: inline-block;
+			    position: relative;
+			    box-sizing: border-box;	
+			}
+			.child:hover
+			{
+				transition: all 0.5s ease;
+				background: black;
+			}
+			.cur
+			{
+				cursor: pointer;
+			}
+			.popUp
+			{
+				transition: all 0.5s ease;
+				position: absolute;
+				width: 400px;
+				height: 400px;
+				bottom: 101%;
+				background: #fff;
+				left: -150px;
+				transform-origin: bottom;
+    			transform: scale(1);
+    			z-index: 3;
+    			box-shadow: 0px 0px 15px 1px rgba(105, 100, 100, 0.88);
+			}
+			.popUpHide
+			{
+				transition: all 0.8s ease;
+				position: absolute;
+				width: 400px;
+				height: 400px;
+				bottom: 101%;
+				background: gray;
+				left: -150px;
+				bottom: -400px;
+				transform-origin: bottom;
+    			transform: scale(0);
+    			z-index: 3;
+    			box-shadow: 10px 10px 30px 1px rgba(105, 100, 100, 0.88);
+			}
+			.fullWHS
+			{
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+			}
+
+			.flex
+			{
+				height: calc( 100vh - 45px);
+				overflow: auto;
+				padding-bottom: 10px;
+				box-sizing: border-box;
+			}
+			.srcCode{
+				color: #2d2929;
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+				padding: 10px;
+				box-sizing: border-box;
+				word-wrap: break-word;
+				border:none;
+				outline: none;
+			}
+			.popUpClose
+			{
+				position: absolute;
+			    padding: 3px 8px;
+			    background: #484848;
+			    border-radius: 50%;
+			    top: -12px;
+			    right: -13px;
+			}
+			.popUpClose:hover
+			{
+				transition: 0.3s ease;
+				background: black;
+				cursor: pointer;
+			}
+			.hideToggleLeft
+			{
+				padding:10px;
+				background-color: #fff;
+				z-index: 5;
+				position: absolute;
+				bottom: 15px;
+				left: 20px;
+				border-radius: 50%;
+				transition: all 0.5s ease;
+				transform: scale(0);
+				box-shadow: 0px 0px 15px 1px rgba(105, 100, 100, 0.88);
+			}
+			.showToggleLeft
+			{
+				padding:5px;
+				background-color: #fff;
+				z-index: 5;
+				position: absolute;
+				bottom: 15px;
+				left: 20px;
+				border-radius: 50%;
+				transition: all 0.5s ease;
+				transform: scale(1);
+				box-shadow: 0px 0px 15px 1px rgba(105, 100, 100, 0.88);
+				cursor: pointer;
+			}
+			.showToggleLeft img,.hideToggleLeft img
+			{
+				width: 15px;
+				height: 15px;
+			}
+			.bn
+			{
+				border:none !important;
+			}
+			.psdImages
+			{
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+			}
+			.psdDiv
+			{
+				margin-top: 20px;
+				padding-bottom: 10px;
+				border-bottom: 1px solid #ddd;
+			}
+			.psdDiv a
+			{
+				text-decoration: none;
+				color: #00a3fe;
+				font-size: 12px;
+				padding: 5px;
+				display: inline-block;
+			}
+			.psdName{
+				color: #000;
+				padding-bottom: 10px;
+				font-size: 16px;
+			}
+			.psd
+			{
+				width: 300px;
+			    height: 250px;
+			    padding-bottom: 10px;
+			}
+			.fileNameDoc
+			{
+				margin-top: 8px;
+				margin-left: 40px;
+    			cursor: pointer;
+    			color: #a7a7a7;
+    			font-weight: bold;
+    			font: 10px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
+			}
+			.blurDiv
+			{
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				top: 0px;
+				bottom: 0px;
+				background: rgba(4, 4, 4, 0.61);
+				z-index: 10;
+				padding: 20px;
+				box-sizing: border-box;
+			}
+			.fullScreenClick
+			{
+				position: absolute;
+			    color: #777;
+			    top: 0px;
+			    background: #fff;
+			    width: 100%;
+			}
+			.closeFullSrc
+			{
+				color: #fff;
+			    background: black;
+			    padding: 6px 10px;
+			    position: absolute;
+			    top: 5px;
+			    right: 5px;
+			    border-radius: 28px;
+			    cursor: pointer;
+			}
+
+/*	
+		font-family: 'Slabo 27px', serif;
+		font-family: 'Source Sans Pro', sans-serif;
+		font-family: 'Lemonada', cursive;
+		font-family: 'Open Sans Condensed', sans-serif;
+		font-family: 'Lora', serif;
+		font-family: 'Frank Ruhl Libre', sans-serif;
+		font-family: 'PT Sans Narrow', sans-serif;
+*/
 	</style>
+	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Lemonada|Lora|Open+Sans+Condensed:300|PT+Sans+Narrow|Slabo+27px|Source+Sans+Pro" rel="stylesheet">
+		</link>
+	<link href="https://supportclientapp.localzoho.com/support/images/support-2.ico" type="IMAGE/X-ICON" rel="SHORTCUT ICON"></Link>
+	<title>React-Components</title>
 	</head>
 	<body>
 		<div class="menu">
-		<span onClick="iframeSize('mobile')">Mobile</span>
-		<span onClick="iframeSize('tab')">Tab</span>
-		<span onClick="iframeSize('desktop')">Desktop</span>
+			<span onClick="iframeSize('mobile')">Mobile</span>
+			<span onClick="iframeSize('tab')">Tab</span>
+			<span onClick="iframeSize('desktop')">Desktop</span>
 		</div>
 		<div id="react"></div>
-		<script src="http://localhost:9292/docs/js/vendor.js"></script>
-		<script src="http://localhost:9292/docs/js/main.js"></script>
+		<script src="/docs/js/vendor.js"></script>
+		<script src="/docs/js/main.js"></script>
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
+			
+			window.staticJSServerURL = Component.domainUrls.staticJSServerURL;
 			var ReactDOM = Component.ReactDOM;
 			var React = Component.React;
 			class Doc extends React.Component{
@@ -111,13 +489,19 @@
 						templates : props.templates,
 						pages : props. pages,
 						search : "",
-						selectedComponent:location.hash
+						selectedComponent:location.hash,
+						Components : Component,
+						popUp:"",
+						fullScreenSrc:""
 					}
 					this.search = this.search.bind(this);
 					this.hashChange = this.hashChange.bind(this);
+					this.popupToggle = this.popupToggle.bind(this);
+					this.popupToggleDoc = this.popupToggleDoc.bind(this);
+					this.removeClose = this.removeClose.bind(this);
+					this.fullScreenSrcToggle = this.fullScreenSrcToggle.bind(this);
 				}
 				hashChange(){
-					console.log("hashchange");
 					var src = document.getElementById("componentIframe").src;
 					var url = src.split("#")[0];
 					document.getElementById("componentIframe").src=url+location.hash;
@@ -125,6 +509,11 @@
 				}
 				componentDidMount() {
 					window.addEventListener("hashchange",this.hashChange);
+					document.addEventListener("click",this.popupToggleDoc);
+								       
+				}
+				componentWillUnmount(){
+					document.removeEventListener("click",this.popupToggleDoc);
 				}
 				componentWillUnmount() {
 					window.removeEventListener("hashchange",this.hashChange);
@@ -132,51 +521,204 @@
 				search(e){
 					this.setState({search:e.target.value});
 				}
+				popupToggleDoc(){
+					this.setState({popUp : ""})
+				}
+				fullScreenSrcToggle(select){
+				console.log(select)
+					this.setState({fullScreenSrc : select})
+					this.popupToggleDoc();
+				}
+				popupToggle(popup,e){
+					this.setState({popUp : popup})
+					e.stopPropagation && e.stopPropagation();
+	  				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
+				}
+				removeClose(e){
+					e.stopPropagation && e.stopPropagation();
+	  				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
+				}
 				filter(list,str){
+					list = list.sort();
 					return list.filter((item)=>item.toUpperCase().indexOf(str.toUpperCase())!=-1);
 				}
 				render(){
-					const { atoms, molecules, organisms, templates, pages, search, selectedComponent } = this.state;
+
+					const { Components,atoms,fullScreenSrc,molecules, organisms, templates, pages, search, selectedComponent,popUp } = this.state;
+					let compName = location.hash !="" ? location.hash.substring(1) : null;
+					let propsObj = Components && Components[compName] && Components[compName].docs && Components[compName].docs.propTypes || {};
+					let currentCompProps = Object.keys( propsObj ) || [];
+					let currentCompDefault = Components[compName] && Components[compName].defaultProps || {};
 					return (
-					<div className="container">
-						<div className="left">
-							<h1>React Style Guide</h1>
-							<Search onChange={this.search}/>
-							<ComponentList type="Atom" components={this.filter(atoms, search)} selectedComponent={selectedComponent}/>
-							<ComponentList type="Molecules" components={this.filter(molecules, search)}  selectedComponent={selectedComponent}/>
-							<ComponentList type="Organisms" components={this.filter(organisms,search)} selectedComponent={selectedComponent}/>
-							<ComponentList type="Template" components={this.filter(templates,search)} selectedComponent={selectedComponent}/>
-							<ComponentList type="Pages" components={this.filter(pages,search)} selectedComponent={selectedComponent}/>
+					<main>
+						<div id="leftPanelClick" className="hideToggleLeft" onClick={window.iframeSize.bind(window,"tab")}>
+							<img src="http://www.tax-consulting-group-san-diego.com/images/taxes-menu-icon.png" />
 						</div>
-						<div id="c1" style={{width: "85%",margin:"25px 10px"}}>
-						<div className="right" id="resize">
-							<iframe id="componentIframe" className="iframe" src={"/docs/component.html"+location.hash} style={{width:"auto"}}/>
+						<menu id="leftPanel">
+								<div className="header">Components</div>
+								<span className="icon-setup-integ2"></span>
+								<Search onChange={this.search}/>
+							<div className="scrollComp">
+								<ComponentList type="Atoms" components={this.filter(atoms, search)} selectedComponent={selectedComponent}/>
+								<ComponentList type="Molecules" components={this.filter(molecules, search)}  selectedComponent={selectedComponent}/>
+								<ComponentList type="Organisms" components={this.filter(organisms,search)} selectedComponent={selectedComponent}/>
+								<ComponentList type="Templates" components={this.filter(templates,search)} selectedComponent={selectedComponent}/>
+								<ComponentList type="Pages" components={this.filter(pages,search)} selectedComponent={selectedComponent}/>
+							</div>
+						</menu>
+						<container id="container">
+							<div className="flex">
+								<section id="resize" >
+									<iframe id="componentIframe" className="iframe" src={"/docs/component.html"+location.hash} style={{width:"auto"}} />
+								</section>
+							</div>
+							<div className="options">
+									<span className="parent">
+										<div className={popUp == "props"?"childSelect":"child"} onClick={ popUp == "props" ? null :this.popupToggle.bind(this,"props") }>
+											<div className="cur">Props</div>
+											<span className={popUp == "props" ?"popUp":"popUpHide"}>
+												<div className="fullWHS" onClick={this.removeClose}>
+													<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+													<div className="propsTable">
+														<div className="tableHeader">
+															<span className="brR">PropsName</span>
+															<span className="brR">Type</span>
+															<span className="brR">isRequired</span>
+															<span className="brR bn">Default Props</span>
+														</div>
+														{	
+															currentCompProps.map((value,i)=>{
+																	return	<div className={currentCompProps.length-1 == i ? "tableHeaderNB":"tableHeader"}>
+																					<span>
+																						<div>{value}</div>
+																					</span>
+																					<span>
+																						<div>{propsObj[value].type}</div>
+																					</span> 
+																					<span>
+																						<div>{propsObj[value].isRequired}</div>
+																					</span>
+																					<span>
+																						<div className="bn">{currentCompDefault[value]}</div>
+																					</span>
+																			</div>
+																	})
+														}
+													</div>
+												</div>
+										</span>
+								</div>
+
+								<div className={popUp == "importFile"?"childSelect":"child"}  onClick={ popUp == "importFile" ? null :this.popupToggle.bind(this,"importFile") }>
+									<div className="cur">Import File</div>
+									<span className={popUp == "importFile" ?"popUp":"popUpHide"}>
+										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+									</span>
+								</div>
+
+								
+								{
+									Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
+										<div className="cur">Doc Source</div>
+										<span className={popUp == "src" ?"popUp":"popUpHide"}>
+											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+											<div className="fullScreenClick" onClick={this.fullScreenSrcToggle.bind(this,"docSrcFull")}>
+											Full screen</div>
+												<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].docs.source} readOnly={true}></textarea>
+										</span>
+									</div>:null
+								}
+
+								
+								<div className={popUp == "psd"?"childSelect":"child"}  onClick={ popUp == "psd" ? null : this.popupToggle.bind(this,"psd") }>
+									<div className="cur">Visual Design</div>
+									<span className={popUp == "psd" ?"popUp":"popUpHide"}>
+										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+											<div className="psdImages"  onClick={this.removeClose}> 
+												{ 
+													Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
+														return <div className="psdDiv">
+														<div className="psdName">{image.name}</div>
+														<img className="psd" src={image.view}></img>
+														<div><a href={image.psd} target="_blank" download>Download PSD</a></div>
+														<div><a href={image.view} target="_blank" download>Download Image</a></div>
+														</div>
+													})
+												}
+											</div>
+									</span>
+								</div>
+
+								{
+
+									Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
+										<div className="cur">Source</div>
+										<span className={popUp == "comSrc" ?"popUp":"popUpHide"}>
+											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+											<div className="fullScreenClick" onClick={this.fullScreenSrcToggle.bind(this,"srcFull")}>
+											Full screen</div>
+											<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].source} readOnly={true}></textarea>
+										</span>
+									</div>:null
+								}
+
+
+
+							</span>
+
 						</div>
-						</div>
-					</div>
+
+						{
+							fullScreenSrc == "" ? null:<div className="blurDiv">
+									<div className="closeFullSrc" onClick={this.fullScreenSrcToggle.bind(this,"")}>X</div>
+									{fullScreenSrc == "srcFull"? <textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].source} readOnly={true}></textarea>:null}
+
+									{fullScreenSrc == "docSrcFull"?<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].docs.source} readOnly={true}></textarea>:null}
+							</div>
+						}
+						</container>
+					</main>
 					)
 				}
 			}
 			class Search extends React.Component{
 				render(){
-					return <input type="text" onChange={this.props.onChange} placeholder="Search"/>
+					return <input type="text" onChange={this.props.onChange} placeholder="Search" className="inputSearch" />
 				}
 			}
 			class ComponentList extends React.Component{
+				constructor(props){
+					super(props);
+					this.state = {
+						toggle : true
+					}
+					this.toggleFolder = this.toggleFolder.bind(this);
+				}
+				toggleFolder(){
+					this.setState({ toggle: !this.state.toggle })
+				}
 				render(){
 					const {components,type} = this.props;
 					return <div className={type}>
-					<div className="dir">{type}</div>
-					{
-						components.map((component,i)=>{
-							return <div className="file" key={"component"+i}>
-								<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{component}</a>
+							<div className="dir" onClick={this.toggleFolder}>
+								<img className="folderIcon" src="http://www.clker.com/cliparts/f/7/2/7/13480026211392627789Open%20White%20Folder%20Icon.svg.hi.png" />
+								{type}
 							</div>
-						})
-					}
+								<div className={this.state.toggle ? "folderOpen" : "folderClose" } >
+									{
+										components.map((component,i)=>{
+											let docsComp = component.search("__")
+											return <div className={ docsComp == -1 ?"file":"fileNameDoc"} key={"component"+i}>
+												<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{component}</a>
+											</div>
+										})
+									}
+								</div>
 					</div>
 				}
 			}
+
+
 			var atoms = [];
 			var molecules = [];
 			var organisms = [];
@@ -184,25 +726,25 @@
 			var pages = [];
 
 			Object.keys(Component).forEach((key)=>{
-
-					if(key == "React" || key == "ReactDOM" || !Component[key].docs){
+					if(key == "React" || key == "ReactDOM"){
 						return;
 					}
-					console.log(Component[key].docs.componentGroup)
-					if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
+					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
 						atoms.push(key)
 					}
-					else if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecules"){
+					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecule"){
 						molecules.push(key)
 					}
-					else if(Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Organisms"){
+					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Organism"){
 						organisms.push(key)
 					}
+					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Template"){
+						templates.push(key)
+					}
+					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Page"){
+						pages.push(key)
+					}
 				})
-
-			atoms.sort();
-			molecules.sort();
-			organisms.sort();
 			ReactDOM.render(<Doc components={Component} atoms={atoms} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
 			
 			
@@ -478,16 +1020,29 @@ function onUp(e) {
 
 }
 function iframeSize(type){
+			var leftpanel = document.getElementById("leftPanel");
+			var container = document.getElementById("container");
+			var leftToggle = document.getElementById("leftPanelClick");
 			if(type=="mobile"){
 				resize.style.width="300px";
+				leftpanel.className = "";
+				container.className = "";
+				leftToggle.className = "hideToggleLeft";
 			}
 			else if(type=="tab"){
 				resize.style.width="600px";
+				leftpanel.className = "";
+				container.className = "";
+				leftToggle.className = "hideToggleLeft";
 			}
 			else{
-				resize.style.width="100%"
+				resize.style.width="97%";
+				leftpanel.className = "menuHideLeft";
+				container.className = "fullContainer";
+				leftToggle.className = "showToggleLeft"
 			}
 		}
 		</script>
+
 	</body>
 </html>

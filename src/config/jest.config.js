@@ -14,7 +14,8 @@ module.exports =function(){
         ".*"
       ],
       "testPathDirs": [
-        "<rootDir>/__tests__/"
+        "<rootDir>/__tests__/",
+        "<rootDir>/src/"
       ],
       "collectCoverage": true,
       "coverageReporters": [
