@@ -475,8 +475,6 @@
 		<script src="/docs/js/main.js"></script>
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
-			
-			window.staticJSServerURL = Component.domainUrls.staticJSServerURL;
 			var ReactDOM = Component.ReactDOM;
 			var React = Component.React;
 			class Doc extends React.Component{
@@ -618,7 +616,7 @@
 
 								
 								{
-									Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
+									Component[compName] && Component[compName].docs && Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
 										<div className="cur">Doc Source</div>
 										<span className={popUp == "src" ?"popUp":"popUpHide"}>
 											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
@@ -636,7 +634,7 @@
 										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
 											<div className="psdImages"  onClick={this.removeClose}> 
 												{ 
-													Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
+													Component[compName] && Component[compName].docs && Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
 														return <div className="psdDiv">
 														<div className="psdName">{image.name}</div>
 														<img className="psd" src={image.view}></img>
@@ -651,7 +649,7 @@
 
 								{
 
-									Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
+									Component[compName] && Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
 										<div className="cur">Source</div>
 										<span className={popUp == "comSrc" ?"popUp":"popUpHide"}>
 											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
