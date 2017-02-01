@@ -31,6 +31,9 @@ module.exports = {
 	],
 	module: {
 		loaders: [{
+			    include: /\.json$/,
+			    loaders: ['json-loader']
+			},{
 			test: /\.jsx|\.js$/,
 			loader: 'babel',
 			include:path.join(appPath,"src"),
