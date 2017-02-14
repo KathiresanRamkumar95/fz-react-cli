@@ -15,7 +15,16 @@
 				height: 100vh;
 				width: 100vw;
 				background: #f5f5f5;
+				animation: slide 0.4s ease 0s  normal ;
 			}
+			@keyframes slide {
+					0%{
+					transform: translateY(-100vh);
+					}
+					100%{
+					transform: translateY(0);
+					}
+				}
 			menu{
 				width: 220px;
 				overflow: auto;
@@ -85,7 +94,7 @@
 				border-right: 5px solid #e1e1e1;
 				background: #fefefe;
 				margin:0px 20px;
-				display: flex;
+				display: flex ;
 
 			}
 			.bottom
@@ -320,7 +329,7 @@
 				width: 100%;
 				height: 100%;
 				overflow: auto;
-				padding: 10px;
+				padding: 20px 10px;
 				box-sizing: border-box;
 				word-wrap: break-word;
 				border:none;
@@ -334,6 +343,7 @@
 			    border-radius: 50%;
 			    top: -12px;
 			    right: -13px;
+			    z-index: 1;
 			}
 			.popUpClose:hover
 			{
@@ -404,8 +414,8 @@
 			}
 			.psd
 			{
-				width: 300px;
-			    height: 250px;
+				max-width: 300px;
+			    max-height: 250px;
 			    padding-bottom: 10px;
 			}
 			.fileNameDoc
@@ -436,6 +446,7 @@
 			    top: 0px;
 			    background: #fff;
 			    width: 100%;
+			    cursor: pointer;
 			}
 			.closeFullSrc
 			{
@@ -448,7 +459,55 @@
 			    border-radius: 28px;
 			    cursor: pointer;
 			}
-
+			#ifm
+			{
+				outline: none;
+				border: none;
+				overflow: hidden;
+				z-index: 1;
+				position:fixed;
+			}
+			.iframeCentering
+			{
+				height: 98vh;
+				width: 100vw;
+				display: flex;
+				background: #fff;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+			}
+			.posAb
+			{
+				position: absolute;
+				z-index: 999;
+				animation: jump 1.5s ease 0s infinite normal ;
+				font-size: 24px;
+				color: black;
+			}
+			@keyframes jump {
+					0%{
+					transform: translateY(0);
+					}
+					20%{
+					transform: translateY(0);
+					}
+					40%{
+					transform: translateY(-30px);
+					}
+					50%{
+					transform: translateY(0);
+					}
+					60%{
+					transform: translateY(-15px);
+					}
+					80%{
+					transform: translateY(0);
+					}
+					100%{
+					transform: translateY(0);
+					}
+				}
 /*	
 		font-family: 'Slabo 27px', serif;
 		font-family: 'Source Sans Pro', sans-serif;
@@ -457,6 +516,14 @@
 		font-family: 'Lora', serif;
 		font-family: 'Frank Ruhl Libre', sans-serif;
 		font-family: 'PT Sans Narrow', sans-serif;
+
+		<script type="text/javascript">
+			var iframe = document.createElement('iframe');
+			var html = '<body><script src="/docs/js/vendor.js"/><script src="/docs/js/main.js"/><script></script></body>';
+			iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+			document.getElementById("loadIframe").appendChild(iframe);
+			console.log(document.getElementById("loadIframe"));
+		</script>
 */
 	</style>
 	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Lemonada|Lora|Open+Sans+Condensed:300|PT+Sans+Narrow|Slabo+27px|Source+Sans+Pro" rel="stylesheet">
@@ -471,17 +538,28 @@
 			<span onClick="iframeSize('desktop')">Desktop</span>
 		</div>
 		<div id="react"></div>
-		<script src="/docs/js/vendor.js"></script>
-		<script src="/docs/js/main.js"></script>
+
+		
+
+
+		<div class="iframeCentering">
+				<span class="posAb">React Components Library</span>
+				<iframe src="about:blank" id="ifm"></iframe>
+		</div>
+			
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
-			var ReactDOM = Component.ReactDOM;
-			var React = Component.React;
-			class Doc extends React.Component{
+			window.loadDOC = function(Component){
+					
+
+				var ReactDOM = Component.ReactDOM;
+				var React = Component.React;
+				class Doc extends React.Component{
 				constructor(props){
 					super(props);
 					this.state = {
 						atoms : props.atoms,
+						global : props.global,
 						molecules : props.molecules,
 						organisms : props.organisms,
 						templates : props.templates,
@@ -523,7 +601,6 @@
 					this.setState({popUp : ""})
 				}
 				fullScreenSrcToggle(select){
-				console.log(select)
 					this.setState({fullScreenSrc : select})
 					this.popupToggleDoc();
 				}
@@ -540,9 +617,10 @@
 					list = list.sort();
 					return list.filter((item)=>item.toUpperCase().indexOf(str.toUpperCase())!=-1);
 				}
+
 				render(){
 
-					const { Components,atoms,fullScreenSrc,molecules, organisms, templates, pages, search, selectedComponent,popUp } = this.state;
+					const { Components,atoms,global,fullScreenSrc,molecules, organisms, templates, pages, search, selectedComponent,popUp } = this.state;
 					let compName = location.hash !="" ? location.hash.substring(1) : null;
 					let propsObj = Components && Components[compName] && Components[compName].docs && Components[compName].docs.propTypes || {};
 					let currentCompProps = Object.keys( propsObj ) || [];
@@ -557,6 +635,7 @@
 								<span className="icon-setup-integ2"></span>
 								<Search onChange={this.search}/>
 							<div className="scrollComp">
+								<ComponentList type="Global" components={this.filter(global, search)} selectedComponent={selectedComponent}/>
 								<ComponentList type="Atoms" components={this.filter(atoms, search)} selectedComponent={selectedComponent}/>
 								<ComponentList type="Molecules" components={this.filter(molecules, search)}  selectedComponent={selectedComponent}/>
 								<ComponentList type="Organisms" components={this.filter(organisms,search)} selectedComponent={selectedComponent}/>
@@ -567,6 +646,7 @@
 						<container id="container">
 							<div className="flex">
 								<section id="resize" >
+									<div id="loadIframe"></div>
 									<iframe id="componentIframe" className="iframe" src={"/docs/component.html"+location.hash} style={{width:"auto"}} />
 								</section>
 							</div>
@@ -616,7 +696,7 @@
 
 								
 								{
-									Component[compName] && Component[compName].docs && Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
+									Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
 										<div className="cur">Doc Source</div>
 										<span className={popUp == "src" ?"popUp":"popUpHide"}>
 											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
@@ -634,7 +714,7 @@
 										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
 											<div className="psdImages"  onClick={this.removeClose}> 
 												{ 
-													Component[compName] && Component[compName].docs && Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
+													Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
 														return <div className="psdDiv">
 														<div className="psdName">{image.name}</div>
 														<img className="psd" src={image.view}></img>
@@ -649,7 +729,7 @@
 
 								{
 
-									Component[compName] && Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
+									Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
 										<div className="cur">Source</div>
 										<span className={popUp == "comSrc" ?"popUp":"popUpHide"}>
 											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
@@ -722,6 +802,7 @@
 			var organisms = [];
 			var templates = [];
 			var pages = [];
+			var global = []
 
 			Object.keys(Component).forEach((key)=>{
 					if(key == "React" || key == "ReactDOM"){
@@ -729,6 +810,9 @@
 					}
 					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
 						atoms.push(key)
+					}
+					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Global"){
+						global.push(key)
 					}
 					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecule"){
 						molecules.push(key)
@@ -743,12 +827,39 @@
 						pages.push(key)
 					}
 				})
-			ReactDOM.render(<Doc components={Component} atoms={atoms} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
+
+
+				ReactDOM.render(<Doc components={Component} atoms={atoms} global={global} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
+
+			}
+		
+			
 			
 			
 		</script>
+<script type="text/javascript">
+				var html = "<body><script src='http://localhost:9292/docs/js/vendor.js'><\/script><script src='http://localhost:9292/docs/js/main.js'><\/script> <script> parent.loadDOC(Component)  <\/script> <\/body>";
+				
+				var iframe = document.getElementById("ifm");
+        		var frameDoc = iframe.document;
+        		if (iframe.contentWindow){
+            		frameDoc = iframe.contentWindow.document;
+        			frameDoc.open();
+        			frameDoc.writeln(html);
+        			frameDoc.close();
+				}
+				else{
+					console.log("error")
+				}
+
+			</script>
 		<script>
+
+
+
 		/*
+
+
  * @author https://twitter.com/blurspline / https://github.com/zz85
  * See post @ http://www.lab4games.net/zz85/blog/2014/11/15/resizing-moving-snapping-windows-with-js-css/
  */
@@ -1043,4 +1154,10 @@ function iframeSize(type){
 		</script>
 
 	</body>
+
+
+
+
+
+
 </html>
