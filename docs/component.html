@@ -45,23 +45,7 @@
 			    margin: 15px 0px;
 			    max-width: 90%;
 			}
-			.details:after
-			{
-				content: " ";
-				clear: both;
-				display: block;
-			}
-			.details span
-			{
-				margin-top: 10px;
-				background: black;
-				display: inline-block;
-				padding: 5px;
-				color:#fff;
-				font-size: 12px;
-				float: right;
-				cursor: pointer;
-			}
+			
 		</style>
 		<script src="https://localjs.zohostatic.com/ze/v69/js/i18n/en/ze_sa.min.js"></script>
 	</head>
@@ -83,20 +67,16 @@
 					super(props);
 					this.state={
 						Components:Component,
-						details:false,
+						
 						selectedComponent:location.hash !="" ? location.hash.substring(1) : null
 					};
 					this.hashChange = this.hashChange.bind(this);
-					this.detailsToggle = this.detailsToggle.bind(this);
+					
 				}
 				hashChange(){
 					this.setState({selectedComponent:location.hash !="" ? location.hash.substring(1) : null})
 				}
-				detailsToggle(e){
-					this.setState({details:! this.state.details});
-					e.stopPropagation && e.stopPropagation();
-    				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
-				}
+				
 				componentDidMount() {
 					window.addEventListener("hashchange",this.hashChange);
 				}
@@ -104,15 +84,13 @@
 					window.removeEventListener("hashchange",this.hashChange);
 				}
 				render(){
-					const { Components, selectedComponent, details} = this.state;
+					const { Components, selectedComponent } = this.state;
 					var ComponentClass = selectedComponent && Components[selectedComponent]	
 					var keysSingleAr = ComponentClass && ComponentClass.docs && ComponentClass.docs.testProps && Object.keys(ComponentClass.docs.testProps) || []
 					return 	<div>
 								{
 									Components[selectedComponent] && <div>
-										<div className="details">
-											<span onClick={this.detailsToggle} >details</span>
-										</div>
+										
 										{
 											Array.isArray(ComponentClass.docs.testProps) ?
 												ComponentClass.docs.testProps.map((prop,i)=>{
@@ -120,7 +98,7 @@
 												return <div className="comps">
 																<ComponentClass {...prop }/>
 															
-																{details?<div>
+																{/*details?<div>
 																		<div className="example">
 																			<span className="componentNameRed"> {"<"+selectedComponent} 
 																			</span> 
@@ -144,13 +122,13 @@
 																		{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps[i] }/>)}
 																		</div>
 																	</div>:null
-																}
+																*/}
 
 															</div>
 												}):
 												<div>
 													<ComponentClass {...ComponentClass.docs.testProps}/> 
-													{details?<div>
+													{/*details?<div>
 													<div className="example">
 														<span className="componentNameRed"> {"<"+selectedComponent} </span> 
 														{
@@ -166,7 +144,7 @@
 													<div className="htmlTag">
 													{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps }/>)}
 													</div>
-												</div>:null}
+												</div>:null*/}
 											</div>
 										}
 										

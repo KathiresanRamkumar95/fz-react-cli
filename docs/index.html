@@ -67,6 +67,7 @@
 			menu a{
 				text-decoration: none;
 				color: #a7a7a7;
+				text-transform: capitalize;
 			}
 			menu a:active{
 				text-decoration: none;
@@ -120,7 +121,7 @@
 				color: #a7a7a7;
 				font-weight: bold;
 				cursor: pointer;
-				font: 12px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
+				font: 13px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
 			}
 			.file{
 				margin-left: 27px;
@@ -147,11 +148,12 @@
 			    top: 0px;
 			    background: black;
 			    color: #cacaca;
-			    padding: 3px;
 			}
 			.menu span {
-			    margin: 10px;
+			    padding: 10px;
 			    cursor: pointer;
+			    border-right: 1px solid;
+    			display: inline-block;
 			}
 			.header
 			{
@@ -425,7 +427,7 @@
     			cursor: pointer;
     			color: #a7a7a7;
     			font-weight: bold;
-    			font: 10px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
+    			font: 13px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
 			}
 			.blurDiv
 			{
@@ -536,6 +538,7 @@
 			<span onClick="iframeSize('mobile')">Mobile</span>
 			<span onClick="iframeSize('tab')">Tab</span>
 			<span onClick="iframeSize('desktop')">Desktop</span>
+			<span onClick="iframeSize('full')">Full Screen</span>
 		</div>
 		<div id="react"></div>
 
@@ -787,7 +790,7 @@
 										components.map((component,i)=>{
 											let docsComp = component.search("__")
 											return <div className={ docsComp == -1 ?"file":"fileNameDoc"} key={"component"+i}>
-												<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{component}</a>
+												<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{docsComp == -1 ? component:component.split("__")[1]}</a>
 											</div>
 										})
 									}
@@ -1133,13 +1136,19 @@ function iframeSize(type){
 			var container = document.getElementById("container");
 			var leftToggle = document.getElementById("leftPanelClick");
 			if(type=="mobile"){
-				resize.style.width="300px";
+				resize.style.width="330px";
 				leftpanel.className = "";
 				container.className = "";
 				leftToggle.className = "hideToggleLeft";
 			}
 			else if(type=="tab"){
 				resize.style.width="600px";
+				leftpanel.className = "";
+				container.className = "";
+				leftToggle.className = "hideToggleLeft";
+			}
+			else if(type=="desktop"){
+				resize.style.width="";
 				leftpanel.className = "";
 				container.className = "";
 				leftToggle.className = "hideToggleLeft";
