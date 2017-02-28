@@ -11,16 +11,19 @@ var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
 
 module.exports = {
-	entry : path.join(appPath,"src", "index.js"),
+	entry : {
+		main: path.join(appPath, "src", "index.js"),
+		vendor: ['react', 'react-dom', 'redux', 'react-redux']
+	},
 	devtool: 'eval',
 	output : {
 		path : path.resolve(appPath,"build"),
-		filename : 'main.js',
+		filename : '[name].js',
 		publicPath : [url,appName,'js'].join('/')
 	},
 	plugins : [ 
 		new ForceCaseSensitivityPlugin(), 
-		new webpack.optimize.CommonsChunkPlugin('vendors', 'vendor.js'), 
+		new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }), 
 		new webpack.DefinePlugin({
 	        __CLIENT__: true,
 	        __TEST__: false,
@@ -30,36 +33,32 @@ module.exports = {
       	})
 	],
 	module : {
-		loaders : [{
+		rules : [{
 			    include: /\.json$/,
-			    loaders: ['json-loader']
+			    use: ['json-loader']
 			},{
 			test : /\.jsx|\.js$/,
-			loader : 'babel',
-        	include:path.join(appPath,"src"),
-			babelrc: false,
-			query: {
-			    presets: [
+			use:[{
+				loader:'babel-loader',
+				options:{
+					 presets: [
 			        require.resolve('babel-preset-es2015'),
 			        require.resolve('babel-preset-react')
 			    ],
 			    cacheDirectory:true
-		    }
+				}
+			}],
+        	include:path.join(appPath,"src")
 		}, {
 			test : /\.css$/,
-			loader : 'style-loader!css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]'
+			use : ['style-loader','css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]']
 		}, { 
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.eot$|\.svg$|\.ttf$/, 
-			loader: "url-loader?limit=100&name=[name].[ext]" 
-		}]
-	},
-	resolve: {
-		alias:{
-			"history":path.join(__dirname,"..","hook","history.js")
+			test: /\.jpe?g$|\.gif$|\.png$/, 
+			use: ["url-loader?limit=10000&name=./images/[name].[ext]" ]
 		},
-		fallback: path.join(__dirname,'..','..','node_modules')
-	},
-	resolveLoader: {
-	    fallback: path.join(__dirname,'..','..','node_modules')
+		{ 
+			test: /\.svg$|\.woff$|\.ttf$/, 
+			use: [ "url-loader?limit=10000&name=./fonts/[name].[ext]" ]
+		}]
 	}
 };

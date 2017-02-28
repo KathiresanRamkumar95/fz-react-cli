@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.11",
+  "version": "0.0.3-beta.12",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -9,6 +9,9 @@
     "build": "npm run build:commonjs",
     "prepublish": "npm run clean && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "<=6.10.0"
   },
   "repository": {
     "type": "git",
@@ -37,7 +40,7 @@
     "express": "^4.13.4",
     "fbjs": "^0.8.8",
     "force-case-sensitivity-webpack-plugin": "^0.2.1",
-    "fz-i18n": "1.2.0-beta.3",
+    "fz-i18n": "1.2.0-beta.4",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.2",
     "history": "^3.0.0",
@@ -45,7 +48,7 @@
     "jest": "^17.0.2",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
-    "moment": "^2.17.1",
+    "moment": "^2.17.1",  
     "moment-timezone": "^0.5.10",
     "nock": "^9.0.2",
     "object-assign": "^4.1.0",
@@ -62,14 +65,14 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-mock-store": "^1.2.1",
-    "redux-router-middleware": "1.0.0-beta.3",
+    "redux-router-middleware": "1.0.0-beta.4",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.1",
     "rimraf": "^2.5.4",
     "selectn": "^1.1.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0",
+    "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0",
     "xhr2": "^0.1.3"

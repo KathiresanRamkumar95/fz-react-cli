@@ -35,17 +35,17 @@ switch (script) {
 	  process.exit(result.status);
 	break;
 	case "build:component":
-	var fzNodeModulesFolder =path.resolve(__dirname,'..','node_modules');
+	
 
 	var result = spawn.sync(
-	path.resolve(fzNodeModulesFolder,'.bin/cross-env'),
+	'cross-env',
 	[
 		"BABEL_ENV=commonjs", 
-		path.resolve(fzNodeModulesFolder,".bin/babel"),
+		'babel',
 		"src",
 		"--out-dir",
 		"lib",
-		"--presets="+path.resolve(fzNodeModulesFolder,'babel-preset-es2015/lib/index.js')+","+path.resolve(fzNodeModulesFolder,"babel-preset-react/lib/index.js"), 
+		"--presets=babel-preset-es2015/lib/index.js,babel-preset-react/lib/index.js", 
 		"--copy-files"
 	].concat(args),
 	{stdio: 'inherit'});
@@ -54,7 +54,7 @@ switch (script) {
 	break;
 	case "build:component:umd":
 		var result = spawn.sync(
-		    require.resolve('../node_modules/.bin/webpack'),
+		    'webpack',
 		    [
 		    "--config",
 		    require.resolve('../lib/config/webpack.component.build.config.js')
@@ -65,7 +65,7 @@ switch (script) {
 	break;
 	case "build":
 		var result = spawn.sync(
-		    require.resolve('../node_modules/.bin/webpack'),
+		    'webpack',
 		    [
 		    "--config",
 		    require.resolve('../lib/config/webpack.prod.config.js')
@@ -85,7 +85,6 @@ switch (script) {
 	break;
 	default:
 	  console.log('Unknown script "' + script + '".');
-	  console.log('Perhaps you need to update react-scripts?');
 	  break;
 }
 

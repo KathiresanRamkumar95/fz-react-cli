@@ -12,7 +12,7 @@ var appPath =fs.realpathSync(process.cwd());
 module.exports = {
 	entry: {
 		main: path.join(appPath,componentPath || "src", "index.js"),
-		vendors: ['react', 'react-dom']
+		vendor: ['react', 'react-dom', 'redux', 'react-redux']
 	},
 	devtool: 'eval',
 	output: {
@@ -24,46 +24,44 @@ module.exports = {
 	},
 	plugins: [
 		new ForceCaseSensitivityPlugin(), 
-		new webpack.optimize.CommonsChunkPlugin('vendors', 'vendor.js'), 
+		new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }), 
 		new webpack.DefinePlugin({
 			__TEST__: false,
 			__DEVELOPMENT__: true
 		})
 	],
 	module: {
-		loaders: [{
+		rules : [{
 			    include: /\.json$/,
-			    loaders: ['json-loader']
+			    use: ['json-loader']
 			},{
-			test: /\.jsx|\.js$/,
-			loader: 'babel',
-			include:path.join(appPath,"src"),
-			babelrc: false,
-			query: {
-		        presets: [
-		        	require.resolve('babel-preset-es2015'),
-		        	require.resolve('babel-preset-react')
-		        ],
-		        cacheDirectory:true
-		    }
+			test : /\.jsx|\.js$/,
+			use:[{
+				loader:'babel-loader',
+				options:{
+					 presets: [
+			        require.resolve('babel-preset-es2015'),
+			        require.resolve('babel-preset-react')
+			    ],
+			    cacheDirectory:true
+				}
+			}],
+        	include:path.join(appPath,"src")
 		}, {
         test : /\.docs\.jsx$/,
-        loader :require.resolve('../docsLoader.js'),
+        use :require.resolve('../docsLoader.js'),
         exclude : /node_modules/
 
-      }, { 
-			test: /\.css$/, 
-			loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]&sourceMap' 
-		}, 
+      },  {
+			test : /\.css$/,
+			use : ['style-loader','css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]']
+		}, { 
+			test: /\.jpe?g$|\.gif$|\.png$/, 
+			use: ["url-loader?limit=10000&name=./images/[name].[ext]" ]
+		},
 		{ 
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.eot$|\.svg$|\.ttf$/, 
-			loader: "url-loader?limit=10000&name=[name].[ext]" 
+			test: /\.svg$|\.woff$|\.ttf$/, 
+			use: [ "url-loader?limit=10000&name=./fonts/[name].[ext]" ]
 		}]
-	},
-	resolve: {
-		fallback: path.join(__dirname,'..','..','node_modules')
-	},
-	resolveLoader: {
-	    fallback: path.join(__dirname,'..','..','node_modules')
 	}
 };

@@ -106,7 +106,7 @@
 				render(){
 					const { Components, selectedComponent, details} = this.state;
 					var ComponentClass = selectedComponent && Components[selectedComponent]	
-					var keysSingleAr = Object.keys(ComponentClass.docs.testProps) || []
+					var keysSingleAr = ComponentClass && ComponentClass.docs && ComponentClass.docs.testProps && Object.keys(ComponentClass.docs.testProps) || []
 					return 	<div>
 								{
 									Components[selectedComponent] && <div>
