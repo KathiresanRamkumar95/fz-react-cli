@@ -48,7 +48,7 @@ module.exports = {
 			}],
         	include:path.join(appPath,"src")
 		}, {
-        test : /\.docs\.jsx$/,
+        test : /\.docs\.jsx$|\.docs\.js$/,
         use :require.resolve('../docsLoader.js'),
         exclude : /node_modules/
 

@@ -4,9 +4,11 @@ var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
 var host= process.env.npm_config_server_host || "localhost";
 var port= process.env.npm_config_server_port || "9090";
-var appName = process.env.npm_config_server_appName || "app" 
 var url="htt"+"p://"+host+":"+port;
-var srcPath=path.resolve(__dirname, 'app');
+var context = process.env.npm_config_server_context || "app" 
+var appFolder = process.env.npm_config_app_folder || "src"
+
+//var srcPath=path.resolve(__dirname, 'app');
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
 var isVendor = function isVendor(_ref) {
@@ -19,13 +21,13 @@ var isReact = function isReact(_ref){
 }
 module.exports = {
 	entry : {
-		main: path.join(appPath, "src", "index.js")
+		main: path.join(appPath, appFolder, "index.js")
 	},
 	devtool: 'eval',
 	output : {
 		path : path.resolve(appPath,"build"),
 		filename : '[name].js',
-		publicPath : [url,appName,'js'].join('/')
+		publicPath : [url,context,'js'].join('/')
 	},
 	plugins : [ 
 		new ForceCaseSensitivityPlugin(), 
@@ -64,7 +66,7 @@ module.exports = {
 			    cacheDirectory:true
 				}
 			}],
-        	include:path.join(appPath,"src")
+        	include:path.join(appPath,appFolder)
 		}, {
 			test : /\.css$/,
 			use : ['style-loader','css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]']

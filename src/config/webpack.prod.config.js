@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
 var folder = process.env.npm_config_output_folder || "build" 
+var appFolder = process.env.npm_config_app_folder || "src"
+
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
 
@@ -16,7 +18,7 @@ var isReact = function isReact(_ref){
 
 module.exports = {
 	entry: {
-		main: path.join(appPath,"src", "index.js")
+		main: path.join(appPath,appFolder, "index.js")
 	},
 	output: {
 		path: path.resolve(appPath,folder),
@@ -64,7 +66,7 @@ module.exports = {
 			    cacheDirectory:true
 				}
 			}],
-        	include:path.join(appPath,"src")
+        	include:path.join(appPath,appFolder)
 		}, { 
 			test: /\.css$/, 
 			use: ['style-loader','css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]' ]

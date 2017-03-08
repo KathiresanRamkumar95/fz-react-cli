@@ -3,10 +3,11 @@
 var path = require('path');
 var webpack = require('webpack');
 var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
-var host = process.env.npm_config_server_host || "localhost";
-var port = process.env.npm_config_server_port || "9292" ;
-var url = "htt" + "p://" + host + ":"+port;
 var fs = require('fs');
+//var host = process.env.npm_config_server_host || "localhost";
+//var port = process.env.npm_config_server_port || "9292" ;
+//var url = "htt" + "p://" + host + ":"+port;
+
 var appPath = fs.realpathSync(process.cwd());
 module.exports = {
 	entry: {

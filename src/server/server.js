@@ -20,13 +20,13 @@ app.use(compression())
 var compiler = webpack(config);
 var host = process.env.npm_config_server_host || "localhost";
 var port = process.env.npm_config_server_port || "9090";
-var appName = process.env.npm_config_server_appName || "app" 
+var context = process.env.npm_config_server_context || "app" 
 var mockFlag = process.env.npm_config_server_mock || true;
 var appPath =fs.realpathSync(process.cwd());
 var url = "htt" + "p://" + host + ":" + port;
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: false,
-  publicPath: config.output.publicPath
+  publicPath: prodFlag?url+"/"+context:config.output.publicPath
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
@@ -42,10 +42,10 @@ if (mockFlag) {
 /*app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
-}).use('/'+appName+'/fonts', express.static(appName+"/fonts"));
+}).use('/'+context+'/fonts', express.static(context+"/fonts"));
 */
-app.use('/'+appName, express.static(appName));
-app.use('/'+appName+"/*", express.static(appName));
+app.use('/'+context, express.static(context));
+app.use('/'+context+"/*", express.static(context));
 
 //app.use('/app', express.static('app'));
 //app.use('/app/i18n', express.static('app/i18n'));
@@ -59,7 +59,10 @@ app.listen(port, function (err) {
 
   if (!process.env.npm_config_server_host && !process.env.npm_config_server_port) {
     console.log("you can change hostname and port using following command");
-    console.log("npm start --server:host={hostname} --server:port={port}");
+    console.log("npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app}");
   }
   console.log('Listening at ' + url);
 });
+
+
+
