@@ -1,4 +1,5 @@
 //$Id$//
+/*eslint no-console: "error"*/
 'use strict';
 var fs = require('fs');
 var path = require('path');
@@ -36,6 +37,7 @@ if (mockFlag) {
     mockServer(app);
   }
   catch(e){
+    // custom console
     console.log("create mockapi folder and index.js should export fn and express app as input");
   }
 }
@@ -53,14 +55,18 @@ app.use('/'+context+"/*", express.static(context));
 
 app.listen(port, function (err) {
   if (err) {
+    // custom console
     console.log(err);
     return;
   }
 
   if (!process.env.npm_config_server_host && !process.env.npm_config_server_port) {
+    // custom console
     console.log("you can change hostname and port using following command");
+    // custom console
     console.log("npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app}");
   }
+  // custom console
   console.log('Listening at ' + url);
 });
 
