@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.13",
+  "version": "0.0.3-beta.14",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
     "force-case-sensitivity-webpack-plugin": "^0.2.1",
-    "fz-i18n": "1.2.0-beta.4",
+    "fz-i18n": "1.2.0-beta.7",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.2",
     "history": "^3.0.0",

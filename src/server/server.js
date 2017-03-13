@@ -26,7 +26,7 @@ var mockFlag = process.env.npm_config_server_mock || true;
 var appPath =fs.realpathSync(process.cwd());
 var url = "htt" + "p://" + host + ":" + port;
 app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: false,
+  noInfo: true,
   publicPath: prodFlag?url+"/"+context:config.output.publicPath
 }));
 
