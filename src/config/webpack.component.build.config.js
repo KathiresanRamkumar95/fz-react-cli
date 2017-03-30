@@ -2,7 +2,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
+var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var fs = require('fs');
 //var host = process.env.npm_config_server_host || "localhost";
 //var port = process.env.npm_config_server_port || "9292" ;
@@ -21,7 +21,7 @@ module.exports = {
 		libraryTarget: 'umd'
 	},
 	plugins: [
-		new ForceCaseSensitivityPlugin(), 
+		new CaseSensitivePathsPlugin(), 
 		new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }), 
 		new webpack.DefinePlugin({
 			__TEST__: false,

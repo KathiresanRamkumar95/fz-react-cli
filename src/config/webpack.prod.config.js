@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
+var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var folder = process.env.npm_config_output_folder || "build" 
 var appFolder = process.env.npm_config_app_folder || "src"
 
@@ -25,7 +25,7 @@ module.exports = {
 		filename: 'js/[name].js'
 	},
 	plugins: [
-		new ForceCaseSensitivityPlugin(),
+		new CaseSensitivePathsPlugin(),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',

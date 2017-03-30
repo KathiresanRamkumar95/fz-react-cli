@@ -1,7 +1,7 @@
 //$Id$//
 var path = require('path');
 var webpack = require('webpack');
-var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
+var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var host= process.env.npm_config_server_host || "localhost";
 var port= process.env.npm_config_server_port || "9090";
 var url="htt"+"p://"+host+":"+port;
@@ -30,7 +30,7 @@ module.exports = {
 		publicPath : [url,context,'js'].join('/')
 	},
 	plugins : [ 
-		new ForceCaseSensitivityPlugin(), 
+		new CaseSensitivePathsPlugin(), 
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',

@@ -1,7 +1,7 @@
 //$Id$//
 var path = require('path');
 var webpack = require('webpack');
-var ForceCaseSensitivityPlugin = require('force-case-sensitivity-webpack-plugin');
+var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var host= process.env.npm_config_server_host || "localhost";
 var port= process.env.npm_config_server_port || "9090";
 var appName = process.env.npm_config_server_appName || "app" 
@@ -20,7 +20,7 @@ function extractBundles(bundles) {
   	B:path.join(appPath, "src", "B.js")
   };
   const plugins = [
-  new ForceCaseSensitivityPlugin(), 
+  new CaseSensitivePathsPlugin(), 
   new webpack.DefinePlugin({
 	        __CLIENT__: true,
 	        __TEST__: false,
