@@ -60,7 +60,7 @@ module.exports = {
 				loader:'babel-loader',
 				options:{
 					 presets: [
-			        require.resolve('babel-preset-es2015'),
+			        [require.resolve('babel-preset-es2015'),{modules:false}],
 			        require.resolve('babel-preset-react')
 			    ],
 			    cacheDirectory:true
