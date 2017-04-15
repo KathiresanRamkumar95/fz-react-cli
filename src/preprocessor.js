@@ -1,7 +1,7 @@
 const babelJest = require('babel-jest');
 console.log("preprocess called")
 module.exports = babelJest.createTransformer({
-  presets: [[require.resolve('babel-preset-es2015'),{modules:false}], require.resolve('babel-preset-react')]
+  presets: [[require.resolve('babel-preset-es2015')], require.resolve('babel-preset-react')]
 });
 
 
