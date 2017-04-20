@@ -10,6 +10,28 @@ var mockDomain = "http://zoho.com";
 global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
+global.localStorage = global.sessionStorage = {
+    getItem: function (key) {
+        return this[key];
+    },
+    setItem: function (key, value) {
+    if (value.length > 100){
+    throw new Error('Data size is too exceeded');
+    }
+        this[key] = value;
+    },
+    removeItem: function (key){
+    delete this[key];
+    },
+    clear: function(){
+    var keys = ['getItem','setItem','removeItem','clear'];
+    for (let key in this){
+    if (keys.indexOf(key) === -1){
+    delete this[key];
+    }
+    }
+    }
+}
 global.ZE_Init={};
 global.String.prototype.contains = function (text) {return this.indexOf(text) != -1}
 global.TestUtils = TestUtils;	

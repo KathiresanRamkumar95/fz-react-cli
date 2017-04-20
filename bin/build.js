@@ -34,6 +34,14 @@ switch (script) {
 	  );
 	  process.exit(result.status);
 	break;
+	case 'sstest':
+		var result = spawn.sync(
+	    'node',
+	    [require.resolve('../lib/server/ssServer')].concat(args),
+	    {stdio: 'inherit'}
+	  );
+	  process.exit(result.status);
+	break;
 	case "build:component":
 	
 
