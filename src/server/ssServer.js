@@ -7,7 +7,7 @@ var express = require('express');
 var webpack = require('webpack');
 var bodyParser = require('body-parser');
 var config = require('../config/webpack.docs.config');
-var ssTest = require('@zohodesk/fz-screenshot-test');
+var ssTest = require('fz-screenshot-test');
 var app = express();
 var appPath = fs.realpathSync(process.cwd());
 app.use(bodyParser.json()); // to support JSON-encoded bodies

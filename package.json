@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.27",
+  "version": "0.0.3-beta.28",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -80,7 +80,7 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0",
     "xhr2": "^0.1.3",
-    "@zohodesk/fz-screenshot-test":"1.0.0-beta.0"
+    "fz-screenshot-test":"1.0.0-beta.0"
   },
   "bin": {
     "fz-react-cli": "bin/build.js"
@@ -94,8 +94,5 @@
   "serverconfig": {
     "host": "localhost",
     "port": "9090"
-  },
-  "devDependencies": {
-    "hoist-non-react-statics": "^1.2.0"
   }
 }
