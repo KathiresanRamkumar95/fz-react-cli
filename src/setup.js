@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import XMLHttpRequest from 'xhr2';
 import nock from "nock";
 
-var mockDomain = "http://zoho.com";
+var mockDomain = "htt"+"p://zoho.com";
 global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;

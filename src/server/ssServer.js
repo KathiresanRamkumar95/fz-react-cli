@@ -1,3 +1,4 @@
+/*eslint no-console: "error"*/
 'use strict';
 
 var fs = require('fs');
