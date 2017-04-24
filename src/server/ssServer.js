@@ -22,11 +22,11 @@ var host = process.env.npm_config_server_host || "localhost";
 var port = process.env.npm_config_server_port || "9292";
 var repoBranch = process.env.npm_config_repo_branch || false;
 var url = "htt" + "p://" + host + ":9292";
-
-app.use(require('webpack-dev-middleware')(compiler, {
+var wMid = require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
-}));
+});
+app.use(wMid);
 
 app.use(require('webpack-hot-middleware')(compiler));
 
@@ -56,20 +56,18 @@ var server = app.listen(port, function (err) {
     console.log("npm start --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080");
   }
   console.log('Listening at ' + url + '/docs/');
-  
 });
-compiler.plugin('done',()=>{
-  console.log("done....")
-  ssTest.run({
-      ip: "http://" + host + ":" + port, //http://docsserver:9292
-      url: "http://" + host + ":" + port + "/docs/component.html",
-      mode: "reference",
-      folderPrefix: "my_ui_",
-      script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
-    }, function () {
-      server.close();
-    });
-})
+ssTest.run({
+    ip: "http://" + host + ":" + port, //http://docsserver:9292
+    url: "http://" + host + ":" + port + "/docs/component.html",
+    mode: "test",
+    folderPrefix: "my_ui_",
+    script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
+  }, function () {
+    console.log(server);
+    server.close();
+    wMid.close();
+  });
 /*var confObj = {
   ip:"115.249.224.165",
   //ci_url:"http://tsi-desk-u14:8080/React_Coverage/"+process.env.CI_BUILD_ID+"_docs/DocumentationPage.html",
