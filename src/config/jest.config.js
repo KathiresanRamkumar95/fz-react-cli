@@ -35,7 +35,7 @@ module.exports =function(){
         "transform": {
           "^.+\\.(js|jsx)$":  path.resolve(__dirname,"..","jsPreprocessor.js"),
           "^.+\\.css$":  path.resolve(__dirname,"..","cssPreprocessor.js"),
-          "^(?!.*\\.(js|jsx|css|json)$)":  path.resolve(__dirname,"..","otherFilesPreprocessor.js"),
+          "^(?!.*\\.(js|jsx|css|json)$)":  path.resolve(__dirname,"..","otherFilesPreprocessor.js")
         },
       "setupFiles": [
         path.resolve(__dirname,"..","setup.js")
