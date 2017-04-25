@@ -479,6 +479,18 @@
 				align-items: center;
 				position: relative;
 			}
+			.color{
+				color:#000;
+				height: 100%;
+				width: 100%;
+				overflow: auto;
+				text-align: left;
+			}
+			.color div
+			{
+				padding: 5px;
+
+			}
 			.posAb
 			{
 				position: absolute;
@@ -552,7 +564,7 @@
 			
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
-			window.loadDOC = function(Component){
+			window.loadDOC = function(Component, mdata){
 					
 
 				var ReactDOM = Component.ReactDOM;
@@ -694,6 +706,30 @@
 									<div className="cur">Import File</div>
 									<span className={popUp == "importFile" ?"popUp":"popUpHide"}>
 										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
+										<div className="color">
+										<div>
+										ReferencedBy :
+											{
+												compName.indexOf("__")>-1?
+												mdata[compName.substring(0,compName.indexOf("_"))].referencedby.map((val,i)=>{
+												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
+												}):mdata[compName].referencedby.map((val,i)=>{
+												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
+												})
+
+											}
+											<br/>
+											Refernces :
+											{
+											 compName.indexOf("__")>-1?
+												mdata[compName.substring(0,compName.indexOf("_"))].references.map((val,i)=>{
+												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
+												}):mdata[compName].references.map((val,i)=>{
+												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
+												})
+											}
+											</div>
+										</div>	
 									</span>
 								</div>
 
@@ -841,7 +877,7 @@
 			
 		</script>
 <script type="text/javascript">
-				var html = "<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script> <script> parent.loadDOC(Component)  <\/script> <\/body>";
+				var html = "<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
 				
 				var iframe = document.getElementById("ifm");
         		var frameDoc = iframe.document;
