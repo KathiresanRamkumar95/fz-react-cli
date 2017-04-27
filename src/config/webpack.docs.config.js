@@ -9,6 +9,8 @@ var componentPath = process.env.npm_config_server_componentPath || null ;
 var url = "htt" + "p://" + host + ":9292";
 var fs = require('fs');
 var appPath =fs.realpathSync(process.cwd());
+var moduleStats = require("../moduleStatsPlugin");
+
 module.exports = {
 	entry: {
 		main: path.join(appPath,componentPath || "src", "index.js"),
@@ -28,7 +30,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			__TEST__: false,
 			__DEVELOPMENT__: true
-		})
+		}),
+		 new moduleStatsPlugin({filename:"moduleStats.js"})
 	],
 	module: {
 		rules : [{

@@ -37,8 +37,12 @@ module.exports =function(){
           "^.+\\.css$":  path.resolve(__dirname,"..","cssPreprocessor.js"),
           "^(?!.*\\.(js|jsx|css|json)$)":  path.resolve(__dirname,"..","otherFilesPreprocessor.js")
         },
+        "testResultsProcessor": path.resolve(__dirname,"..","result.js"),
       "setupFiles": [
         path.resolve(__dirname,"..","setup.js")
-      ]
+      ],
+      "globals": {
+        "__DEVELOPMENT__": true
+      }
     }
 }

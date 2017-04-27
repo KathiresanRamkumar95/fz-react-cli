@@ -710,23 +710,23 @@
 										<div>
 										ReferencedBy :
 											{
-												compName.indexOf("__")>-1?
+												compName ? compName.indexOf("__")>-1?
 												mdata[compName.substring(0,compName.indexOf("_"))].referencedby.map((val,i)=>{
 												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
 												}):mdata[compName].referencedby.map((val,i)=>{
 												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												})
+												}):null
 
 											}
 											<br/>
 											Refernces :
 											{
-											 compName.indexOf("__")>-1?
+											 compName ? compName.indexOf("__")>-1?
 												mdata[compName.substring(0,compName.indexOf("_"))].references.map((val,i)=>{
 												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
 												}):mdata[compName].references.map((val,i)=>{
 												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												})
+												}):null
 											}
 											</div>
 										</div>	

@@ -91,6 +91,15 @@ switch (script) {
 	  );
 	  process.exit(result.status);
 	break;
+	case "publish:report":
+		var appPath = fs.realpathSync(process.cwd())
+		var result = spawn.sync(
+	    'sh',
+	    [path.join(__dirname,'..','reportpublish.sh')].concat(args),
+	    {stdio: 'inherit'}
+	  );
+	  process.exit(result.status);
+	break;
 	default:
 	  console.log('Unknown script "' + script + '".');
 	  break;
