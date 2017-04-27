@@ -6,7 +6,7 @@ const result = function (inp) {
 		testPathPattern = "";
 	}
 	var testPathRegex = new RegExp(testPathPattern);
-	var testResults = inp["testResults"];
+	var testResults = inp.testResults;
 	var testFilesArr = [];
 	for (var i=0;i<testResults.length;i++) {
 		var filePath = testResults[i].testFilePath;
@@ -16,9 +16,9 @@ const result = function (inp) {
 		filePath = filePath.replace(".spec","");
 		filePath = filePath.replace("__tests__","app");
 		var fileJson = {};
-		fileJson["testPath"] = testResults[i].testFilePath;
-		fileJson["sourcePath"] = filePath;
-		fileJson["data"] = testResults[i];
+		fileJson.testPath = testResults[i].testFilePath;
+		fileJson.sourcePath = filePath;
+		fileJson.data = testResults[i];
 		testFilesArr.push(fileJson);
 	}
 	var coverageSummary = fs.readFileSync("./coverage/coverage-summary.json").toString();
@@ -32,10 +32,10 @@ const result = function (inp) {
 	var branchesPercent = 0;
 	for (var i=0;i<testFilesArr.length;i++) {
 		var curFileObj = testFilesArr[i];		
-		var curSourceFile = testFilesArr[i]["sourcePath"];
+		var curSourceFile = testFilesArr[i].sourcePath;
 		var coverageData = coverageJson[curSourceFile];
 		if (coverageData == undefined) {
-			throw new Error("Can't able to find source for "+testFilesArr[i]["testPath"]+"\n Please check the file name and the path is correct for test file");
+			throw new Error("Can't able to find source for "+testFilesArr[i].testPath+"\n Please check the file name and the path is correct for test file");
 		}
 		linesPercent+=coverageData.lines.pct;
 		functionPercent+=coverageData.functions.pct;
