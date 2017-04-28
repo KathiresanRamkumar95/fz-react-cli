@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
+var getIP = require('../utils/ipaddress');
 var prodFlag = process.env.npm_config_server_prod || false;
 var https = require('https');
 var app = express();
@@ -20,7 +21,7 @@ app.use(compression())
 
 
 var compiler = webpack(config);
-var host = process.env.npm_config_server_host || "localhost";
+var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || "9090";
 var context = process.env.npm_config_server_context || "app" 
 var mockFlag = process.env.npm_config_server_mock || true;
