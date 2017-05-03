@@ -1,15 +1,14 @@
 /*eslint no-console: "error"*/
 'use strict';
-
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
+var spawn= require('cross-spawn');
 var bodyParser = require('body-parser');
 var config = require('../config/webpack.docs.config');
 var ssTest = require('fz-screenshot-test');
 var getIP = require('../utils/ipaddress');
-
 var app = express();
 var appPath = fs.realpathSync(process.cwd());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -24,6 +23,7 @@ var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || "9292";
 var seleniumHub = process.env.npm_config_selenium_hub || "htt"+"p://zsupport-tech-1.tsi.zohocorpin.com:4444";
 var repoBranch = process.env.npm_config_repo_branch || false;
+var referBranch = process.env.npm_config_refer_branch || "master";
 var url = "htt" + "p://" + host + ":9292";
 var wMid = require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -55,23 +55,61 @@ var server = app.listen(port, function (err) {
     return;
   }
   if (!process.env.npm_config_server_host && !process.env.npm_config_server_port) {
-    console.log("you can change hostname and port using following command");
+   console.log("you can change hostname and port using following command");
     console.log("npm start --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080");
   }
   console.log('Listening at ' + url + '/docs/');
 });
-ssTest.run({
-    seleniumHub:seleniumHub,
-    ip: "htt"+"p://" + host + ":" + port, //http://docsserver:9292
-    url: "htt"+"p://" + host + ":" + port + "/docs/component.html",
-    mode: "test",
-    folderPrefix: "my_ui_",
-    script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
-  }, function () {
-    console.log(server);
-    server.close();
-    wMid.close();
-  });
+  
+  var results = spawn.sync('git', ["rev-parse", "--abbrev-ref" ,"HEAD"],{ encoding : 'utf8' });
+  var currentBranch=results.output.filter((d)=>d)[0];
+  currentBranch=currentBranch.replace(/(\r\n|\n|\r)/gm,"");
+  spawn.sync('git', ["pull"],{ encoding : 'utf8' });
+  spawn.sync("git",["checkout",referBranch],{ encoding : 'utf8' });
+
+  ssTest.run({
+       ip: "http://" + host + ":" + port, //http://docsserver:9292
+      url: "http://" + host + ":" + port + "/docs/component.html",
+      mode: "reference",
+      folderPrefix: "my_ui_",
+      script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
+    }, function () {
+      console.log("Reference Mode call back server kill function called..!")
+      testMode();
+    });
+
+  var testMode=function(){
+    spawn.sync("git",["checkout",currentBranch],{ encoding : 'utf8' })
+
+  console.log("Current Branch test mode test called..!")
+
+  ssTest.run({
+      ip: "http://" + host + ":" + port, //http://docsserver:9292
+      url: "http://" + host + ":" + port + "/docs/component.html",
+      mode: "test",
+      folderPrefix: "my_ui_",
+      script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
+    }, function () {
+      server.close();
+      wMid.close();
+    });
+  }
+
+  // spawn.sync("git",["checkout",currentBranch],{ encoding : 'utf8' })
+
+  // console.log("Current Branch test mode test called..!")
+
+  // ssTest.run({
+  //     ip: "http://" + host + ":" + port, //http://docsserver:9292
+  //     url: "http://" + host + ":" + port + "/docs/component.html",
+  //     mode: "test",
+  //     folderPrefix: "my_ui_",
+  //     script: "var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist"
+  //   }, function () {
+  //     server.close();
+  //     wMid.close();
+  //   });
+
 /*var confObj = {
   ip:"115.249.224.165",
   //ci_url:"http://tsi-desk-u14:8080/React_Coverage/"+process.env.CI_BUILD_ID+"_docs/DocumentationPage.html",
