@@ -60,7 +60,7 @@ var server = app.listen(port, function (err) {
   }
   console.log('Listening at ' + url + '/docs/');
 });
-  
+
   var results = spawn.sync('git', ["rev-parse", "--abbrev-ref" ,"HEAD"],{ encoding : 'utf8' });
   var currentBranch=results.output.filter((d)=>d)[0];
   currentBranch=currentBranch.replace(/(\r\n|\n|\r)/gm,"");
@@ -68,7 +68,8 @@ var server = app.listen(port, function (err) {
   spawn.sync("git",["checkout",referBranch],{ encoding : 'utf8' });
 
   ssTest.run({
-       ip: "http://" + host + ":" + port, //http://docsserver:9292
+      seleniumHub:seleniumHub,
+      ip: "http://" + host + ":" + port, //http://docsserver:9292
       url: "http://" + host + ":" + port + "/docs/component.html",
       mode: "reference",
       folderPrefix: "my_ui_",
@@ -84,6 +85,7 @@ var server = app.listen(port, function (err) {
   console.log("Current Branch test mode test called..!")
 
   ssTest.run({
+      seleniumHub:seleniumHub,
       ip: "http://" + host + ":" + port, //http://docsserver:9292
       url: "http://" + host + ":" + port + "/docs/component.html",
       mode: "test",
