@@ -28,7 +28,7 @@
 			menu{
 				width: 220px;
 				overflow: auto;
-				border-right:5px solid #e1e1e1;	
+				border-right:5px solid #e1e1e1;
 				box-sizing: border-box;
 				float: left;
 				height: 100vh;
@@ -47,7 +47,7 @@
 				transition: margin-left 0.5s ease;
 				width: 220px;
 				overflow: auto;
-				border-right:5px solid #e1e1e1;	
+				border-right:5px solid #e1e1e1;
 				box-sizing: border-box;
 				float: left;
 				height: 100vh;
@@ -161,7 +161,7 @@
 				text-align: center;
 				color: #fff;
 				font-family: 'Slabo 27px', serif;
-				padding: 8px 0px; 
+				padding: 8px 0px;
 				border-bottom: 1px solid #696969;
 			}
 			.inputSearch
@@ -175,7 +175,7 @@
 			    background: transparent;
 			    color: #696969;
 			    font-size: 12px;
-			    margin: 5px 0px; 
+			    margin: 5px 0px;
 			}
 			.inputSearch:focus
 			{
@@ -238,7 +238,7 @@
 			{
 				width: 15px;
 				height: 10px;
-				margin-right: 5px; 
+				margin-right: 5px;
 			}
 
 
@@ -261,7 +261,7 @@
 			    background: rgb(72, 68, 68);
 			    display: inline-block;
 			    position: relative;
-			    box-sizing: border-box;	
+			    box-sizing: border-box;
 			}
 			.childSelect
 			{
@@ -272,7 +272,7 @@
 			    background: black;
 			    display: inline-block;
 			    position: relative;
-			    box-sizing: border-box;	
+			    box-sizing: border-box;
 			}
 			.child:hover
 			{
@@ -522,7 +522,7 @@
 					transform: translateY(0);
 					}
 				}
-/*	
+/*
 		font-family: 'Slabo 27px', serif;
 		font-family: 'Source Sans Pro', sans-serif;
 		font-family: 'Lemonada', cursive;
@@ -554,649 +554,904 @@
 		</div>
 		<div id="react"></div>
 
-		
+
 
 
 		<div class="iframeCentering">
 				<span class="posAb">React Components Library</span>
 				<iframe src="about:blank" id="ifm"></iframe>
 		</div>
-			
+
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
-			window.loadDOC = function(Component, mdata){
-					
+		window.loadDOC = function(Component, mdata) {
+	var ReactDOM = Component.ReactDOM;
+	var React = Component.React;
+	class Doc extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				atoms: props.atoms,
+				global: props.global,
+				molecules: props.molecules,
+				organisms: props.organisms,
+				templates: props.templates,
+				pages: props.pages,
+				search: '',
+				selectedComponent: location.hash,
+				Components: Component,
+				popUp: '',
+				fullScreenSrc: ''
+			};
+			this.search = this.search.bind(this);
+			this.hashChange = this.hashChange.bind(this);
+			this.popupToggle = this.popupToggle.bind(this);
+			this.popupToggleDoc = this.popupToggleDoc.bind(this);
+			this.removeClose = this.removeClose.bind(this);
+			this.fullScreenSrcToggle = this.fullScreenSrcToggle.bind(this);
+		}
+		hashChange() {
+			var src = document.getElementById('componentIframe').src;
+			var url = src.split('#')[0];
+			document.getElementById('componentIframe').src = url + location.hash;
+			this.setState({ selectedComponent: location.hash });
+		}
+		componentDidMount() {
+			window.addEventListener('hashchange', this.hashChange);
+			document.addEventListener('click', this.popupToggleDoc);
+		}
+		componentWillUnmount() {
+			document.removeEventListener('click', this.popupToggleDoc);
+		}
+		componentWillUnmount() {
+			window.removeEventListener('hashchange', this.hashChange);
+		}
+		search(e) {
+			this.setState({ search: e.target.value });
+		}
+		popupToggleDoc() {
+			this.setState({ popUp: '' });
+		}
+		fullScreenSrcToggle(select) {
+			this.setState({ fullScreenSrc: select });
+			this.popupToggleDoc();
+		}
+		popupToggle(popup, e) {
+			this.setState({ popUp: popup });
+			e.stopPropagation && e.stopPropagation();
+			e.nativeEvent.stopImmediatePropagation &&
+				e.nativeEvent.stopImmediatePropagation();
+		}
+		removeClose(e) {
+			e.stopPropagation && e.stopPropagation();
+			e.nativeEvent.stopImmediatePropagation &&
+				e.nativeEvent.stopImmediatePropagation();
+		}
+		filter(list, str) {
+			list = list.sort((a, b) => {
+				var at = a.split('__')[0];
+				var bt = b.split('__')[0];
+				return at > bt ? 1 : at < bt ? -1 : 0;
+			});
+			return list.filter(
+				item => item.toUpperCase().indexOf(str.toUpperCase()) != -1
+			);
+		}
 
-				var ReactDOM = Component.ReactDOM;
-				var React = Component.React;
-				class Doc extends React.Component{
-				constructor(props){
-					super(props);
-					this.state = {
-						atoms : props.atoms,
-						global : props.global,
-						molecules : props.molecules,
-						organisms : props.organisms,
-						templates : props.templates,
-						pages : props. pages,
-						search : "",
-						selectedComponent:location.hash,
-						Components : Component,
-						popUp:"",
-						fullScreenSrc:""
-					}
-					this.search = this.search.bind(this);
-					this.hashChange = this.hashChange.bind(this);
-					this.popupToggle = this.popupToggle.bind(this);
-					this.popupToggleDoc = this.popupToggleDoc.bind(this);
-					this.removeClose = this.removeClose.bind(this);
-					this.fullScreenSrcToggle = this.fullScreenSrcToggle.bind(this);
-				}
-				hashChange(){
-					var src = document.getElementById("componentIframe").src;
-					var url = src.split("#")[0];
-					document.getElementById("componentIframe").src=url+location.hash;
-					this.setState({selectedComponent:location.hash})
-				}
-				componentDidMount() {
-					window.addEventListener("hashchange",this.hashChange);
-					document.addEventListener("click",this.popupToggleDoc);
-								       
-				}
-				componentWillUnmount(){
-					document.removeEventListener("click",this.popupToggleDoc);
-				}
-				componentWillUnmount() {
-					window.removeEventListener("hashchange",this.hashChange);
-				}
-				search(e){
-					this.setState({search:e.target.value});
-				}
-				popupToggleDoc(){
-					this.setState({popUp : ""})
-				}
-				fullScreenSrcToggle(select){
-					this.setState({fullScreenSrc : select})
-					this.popupToggleDoc();
-				}
-				popupToggle(popup,e){
-					this.setState({popUp : popup})
-					e.stopPropagation && e.stopPropagation();
-	  				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
-				}
-				removeClose(e){
-					e.stopPropagation && e.stopPropagation();
-	  				e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
-				}
-				filter(list,str){
-					list = list.sort();
-					return list.filter((item)=>item.toUpperCase().indexOf(str.toUpperCase())!=-1);
-				}
-
-				render(){
-
-					const { Components,atoms,global,fullScreenSrc,molecules, organisms, templates, pages, search, selectedComponent,popUp } = this.state;
-					let compName = location.hash !="" ? location.hash.substring(1) : null;
-					let propsObj = Components && Components[compName] && Components[compName].docs && Components[compName].docs.propTypes || {};
-					let currentCompProps = Object.keys( propsObj ) || [];
-					let currentCompDefault = Components[compName] && Components[compName].defaultProps || {};
-					return (
-					<main>
-						<div id="leftPanelClick" className="hideToggleLeft" onClick={window.iframeSize.bind(window,"tab")}>
-							<img src="http://www.tax-consulting-group-san-diego.com/images/taxes-menu-icon.png" />
+		render() {
+			const {
+				Components,
+				atoms,
+				global,
+				fullScreenSrc,
+				molecules,
+				organisms,
+				templates,
+				pages,
+				search,
+				selectedComponent,
+				popUp
+			} = this.state;
+			let compName = location.hash != '' ? location.hash.substring(1) : null;
+			let propsObj = (Components &&
+				Components[compName] &&
+				Components[compName].docs &&
+				Components[compName].docs.propTypes) || {};
+			let currentCompProps = Object.keys(propsObj) || [];
+			let currentCompDefault = (Components[compName] &&
+				Components[compName].defaultProps) || {};
+			return (
+				<main>
+					<div
+						id="leftPanelClick"
+						className="hideToggleLeft"
+						onClick={window.iframeSize.bind(window, 'tab')}>
+						<img src="http://www.tax-consulting-group-san-diego.com/images/taxes-menu-icon.png" />
+					</div>
+					<menu id="leftPanel">
+						<div className="header">Components</div>
+						<span className="icon-setup-integ2" />
+						<Search onChange={this.search} />
+						<div className="scrollComp">
+							<ComponentList
+								type="Global"
+								components={this.filter(global, search)}
+								selectedComponent={selectedComponent}
+							/>
+							<ComponentList
+								type="Atoms"
+								components={this.filter(atoms, search)}
+								selectedComponent={selectedComponent}
+							/>
+							<ComponentList
+								type="Molecules"
+								components={this.filter(molecules, search)}
+								selectedComponent={selectedComponent}
+							/>
+							<ComponentList
+								type="Organisms"
+								components={this.filter(organisms, search)}
+								selectedComponent={selectedComponent}
+							/>
+							<ComponentList
+								type="Templates"
+								components={this.filter(templates, search)}
+								selectedComponent={selectedComponent}
+							/>
+							<ComponentList
+								type="Pages"
+								components={this.filter(pages, search)}
+								selectedComponent={selectedComponent}
+							/>
 						</div>
-						<menu id="leftPanel">
-								<div className="header">Components</div>
-								<span className="icon-setup-integ2"></span>
-								<Search onChange={this.search}/>
-							<div className="scrollComp">
-								<ComponentList type="Global" components={this.filter(global, search)} selectedComponent={selectedComponent}/>
-								<ComponentList type="Atoms" components={this.filter(atoms, search)} selectedComponent={selectedComponent}/>
-								<ComponentList type="Molecules" components={this.filter(molecules, search)}  selectedComponent={selectedComponent}/>
-								<ComponentList type="Organisms" components={this.filter(organisms,search)} selectedComponent={selectedComponent}/>
-								<ComponentList type="Templates" components={this.filter(templates,search)} selectedComponent={selectedComponent}/>
-								<ComponentList type="Pages" components={this.filter(pages,search)} selectedComponent={selectedComponent}/>
-							</div>
-						</menu>
-						<container id="container">
-							<div className="flex">
-								<section id="resize" >
-									<div id="loadIframe"></div>
-									<iframe id="componentIframe" className="iframe" src={"/docs/component.html"+location.hash} style={{width:"auto"}} />
-								</section>
-							</div>
-							<div className="options">
-									<span className="parent">
-										<div className={popUp == "props"?"childSelect":"child"} onClick={ popUp == "props" ? null :this.popupToggle.bind(this,"props") }>
-											<div className="cur">Props</div>
-											<span className={popUp == "props" ?"popUp":"popUpHide"}>
-												<div className="fullWHS" onClick={this.removeClose}>
-													<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
-													<div className="propsTable">
-														<div className="tableHeader">
-															<span className="brR">PropsName</span>
-															<span className="brR">Type</span>
-															<span className="brR">isRequired</span>
-															<span className="brR bn">Default Props</span>
-														</div>
-														{	
-															currentCompProps.map((value,i)=>{
-																	return	<div className={currentCompProps.length-1 == i ? "tableHeaderNB":"tableHeader"}>
-																					<span>
-																						<div>{value}</div>
-																					</span>
-																					<span>
-																						<div>{propsObj[value].type}</div>
-																					</span> 
-																					<span>
-																						<div>{propsObj[value].isRequired}</div>
-																					</span>
-																					<span>
-																						<div className="bn">{propsObj[value].defaultProps}</div>
-																					</span>
-																			</div>
-																	})
-														}
-													</div>
+					</menu>
+					<container id="container">
+						<div className="flex">
+							<section id="resize">
+								<div id="loadIframe" />
+								<iframe
+									id="componentIframe"
+									className="iframe"
+									src={'/docs/component.html' + location.hash}
+									style={{ width: 'auto' }}
+								/>
+							</section>
+						</div>
+						<div className="options">
+							<span className="parent">
+								<div
+									className={popUp == 'props' ? 'childSelect' : 'child'}
+									onClick={
+										popUp == 'props'
+											? null
+											: this.popupToggle.bind(this, 'props')
+									}>
+									<div className="cur">Props</div>
+									<span className={popUp == 'props' ? 'popUp' : 'popUpHide'}>
+										<div className="fullWHS" onClick={this.removeClose}>
+											<div
+												className="popUpClose"
+												onClick={this.popupToggle.bind(this, '')}>
+												x
+											</div>
+											<div className="propsTable">
+												<div className="tableHeader">
+													<span className="brR">PropsName</span>
+													<span className="brR">Type</span>
+													<span className="brR">isRequired</span>
+													<span className="brR bn">Default Props</span>
 												</div>
-										</span>
-								</div>
-
-								<div className={popUp == "importFile"?"childSelect":"child"}  onClick={ popUp == "importFile" ? null :this.popupToggle.bind(this,"importFile") }>
-									<div className="cur">Import File</div>
-									<span className={popUp == "importFile" ?"popUp":"popUpHide"}>
-										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
-										<div className="color">
-										<div>
-										ReferencedBy :
-											{
-												compName ? compName.indexOf("__")>-1?
-												mdata[compName.substring(0,compName.indexOf("_"))].referencedby.map((val,i)=>{
-												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												}):mdata[compName].referencedby.map((val,i)=>{
-												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												}):null
-
-											}
-											<br/>
-											Refernces :
-											{
-											 compName ? compName.indexOf("__")>-1?
-												mdata[compName.substring(0,compName.indexOf("_"))].references.map((val,i)=>{
-												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												}):mdata[compName].references.map((val,i)=>{
-												return <li key={i}><a className="link" href={"#"+val}>{val}</a></li>
-												}):null
-											}
-											</div>
-										</div>	
-									</span>
-								</div>
-
-								
-								{
-									Component[compName] && Component[compName].docs && Component[compName].docs.source?<div className={popUp == "src"?"childSelect":"child"}  onClick={ popUp == "src" ? null : this.popupToggle.bind(this,"src") }>
-										<div className="cur">Doc Source</div>
-										<span className={popUp == "src" ?"popUp":"popUpHide"}>
-											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
-											<div className="fullScreenClick" onClick={this.fullScreenSrcToggle.bind(this,"docSrcFull")}>
-											Full screen</div>
-												<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].docs.source} readOnly={true}></textarea>
-										</span>
-									</div>:null
-								}
-
-								
-								<div className={popUp == "psd"?"childSelect":"child"}  onClick={ popUp == "psd" ? null : this.popupToggle.bind(this,"psd") }>
-									<div className="cur">Visual Design</div>
-									<span className={popUp == "psd" ?"popUp":"popUpHide"}>
-										<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
-											<div className="psdImages"  onClick={this.removeClose}> 
-												{ 
-													Component[compName] && Component[compName].docs && Component[compName].docs.images && Component[compName].docs.images.map((image)=>{
-														return <div className="psdDiv">
-														<div className="psdName">{image.name}</div>
-														<img className="psd" src={image.view}></img>
-														<div><a href={image.psd} target="_blank" download>Download PSD</a></div>
-														<div><a href={image.view} target="_blank" download>Download Image</a></div>
+												{currentCompProps.map((value, i) => {
+													return (
+														<div
+															className={
+																currentCompProps.length - 1 == i
+																	? 'tableHeaderNB'
+																	: 'tableHeader'
+															}>
+															<span>
+																<div>{value}</div>
+															</span>
+															<span>
+																<div>{propsObj[value].type}</div>
+															</span>
+															<span>
+																<div>{propsObj[value].isRequired}</div>
+															</span>
+															<span>
+																<div className="bn">
+																	{propsObj[value].defaultProps}
+																</div>
+															</span>
 														</div>
-													})
-												}
+													);
+												})}
 											</div>
+										</div>
 									</span>
 								</div>
 
-								{
+								<div
+									className={popUp == 'importFile' ? 'childSelect' : 'child'}
+									onClick={
+										popUp == 'importFile'
+											? null
+											: this.popupToggle.bind(this, 'importFile')
+									}>
+									<div className="cur">Import File</div>
+									<span
+										className={popUp == 'importFile' ? 'popUp' : 'popUpHide'}>
+										<div
+											className="popUpClose"
+											onClick={this.popupToggle.bind(this, '')}>
+											x
+										</div>
+										<div className="color">
+											<div>
+												ReferencedBy :
+												{compName
+													? compName.indexOf('__') > -1
+															? mdata[
+																	compName.substring(0, compName.indexOf('_'))
+																].referencedby.map((val, i) => {
+																	return (
+																		<li key={i}>
+																			<a className="link" href={'#' + val}>
+																				{val}
+																			</a>
+																		</li>
+																	);
+																})
+															: mdata[compName].referencedby.map((val, i) => {
+																	return (
+																		<li key={i}>
+																			<a className="link" href={'#' + val}>
+																				{val}
+																			</a>
+																		</li>
+																	);
+																})
+													: null}
+												<br />
+												Refernces :
+												{compName
+													? compName.indexOf('__') > -1
+															? mdata[
+																	compName.substring(0, compName.indexOf('_'))
+																].references.map((val, i) => {
+																	return (
+																		<li key={i}>
+																			<a className="link" href={'#' + val}>
+																				{val}
+																			</a>
+																		</li>
+																	);
+																})
+															: mdata[compName].references.map((val, i) => {
+																	return (
+																		<li key={i}>
+																			<a className="link" href={'#' + val}>
+																				{val}
+																			</a>
+																		</li>
+																	);
+																})
+													: null}
+											</div>
+										</div>
+									</span>
+								</div>
 
-									Component[compName] && Component[compName].source ?<div className={popUp == "comSrc"?"childSelect":"child"}  onClick={ popUp == "comSrc" ? null : this.popupToggle.bind(this,"comSrc") }>
-										<div className="cur">Source</div>
-										<span className={popUp == "comSrc" ?"popUp":"popUpHide"}>
-											<div className="popUpClose" onClick={this.popupToggle.bind(this,"")}>x</div>
-											<div className="fullScreenClick" onClick={this.fullScreenSrcToggle.bind(this,"srcFull")}>
-											Full screen</div>
-											<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].source} readOnly={true}></textarea>
-										</span>
-									</div>:null
-								}
+								{Component[compName] &&
+									Component[compName].docs &&
+									Component[compName].docs.source
+									? <div
+											className={popUp == 'src' ? 'childSelect' : 'child'}
+											onClick={
+												popUp == 'src'
+													? null
+													: this.popupToggle.bind(this, 'src')
+											}>
+											<div className="cur">Doc Source</div>
+											<span className={popUp == 'src' ? 'popUp' : 'popUpHide'}>
+												<div
+													className="popUpClose"
+													onClick={this.popupToggle.bind(this, '')}>
+													x
+												</div>
+												<div
+													className="fullScreenClick"
+													onClick={this.fullScreenSrcToggle.bind(
+														this,
+														'docSrcFull'
+													)}>
+													Full screen
+												</div>
+												<textarea
+													className="srcCode"
+													onClick={this.removeClose}
+													value={Component[compName].docs.source}
+													readOnly={true}
+												/>
+											</span>
+										</div>
+									: null}
 
+								<div
+									className={popUp == 'psd' ? 'childSelect' : 'child'}
+									onClick={
+										popUp == 'psd' ? null : this.popupToggle.bind(this, 'psd')
+									}>
+									<div className="cur">Visual Design</div>
+									<span className={popUp == 'psd' ? 'popUp' : 'popUpHide'}>
+										<div
+											className="popUpClose"
+											onClick={this.popupToggle.bind(this, '')}>
+											x
+										</div>
+										<div className="psdImages" onClick={this.removeClose}>
+											{Component[compName] &&
+												Component[compName].docs &&
+												Component[compName].docs.images &&
+												Component[compName].docs.images.map(image => {
+													return (
+														<div className="psdDiv">
+															<div className="psdName">{image.name}</div>
+															<img className="psd" src={image.view} />
+															<div>
+																<a href={image.psd} target="_blank" download>
+																	Download PSD
+																</a>
+															</div>
+															<div>
+																<a href={image.view} target="_blank" download>
+																	Download Image
+																</a>
+															</div>
+														</div>
+													);
+												})}
+										</div>
+									</span>
+								</div>
 
+								{Component[compName] && Component[compName].source
+									? <div
+											className={popUp == 'comSrc' ? 'childSelect' : 'child'}
+											onClick={
+												popUp == 'comSrc'
+													? null
+													: this.popupToggle.bind(this, 'comSrc')
+											}>
+											<div className="cur">Source</div>
+											<span
+												className={popUp == 'comSrc' ? 'popUp' : 'popUpHide'}>
+												<div
+													className="popUpClose"
+													onClick={this.popupToggle.bind(this, '')}>
+													x
+												</div>
+												<div
+													className="fullScreenClick"
+													onClick={this.fullScreenSrcToggle.bind(
+														this,
+														'srcFull'
+													)}>
+													Full screen
+												</div>
+												<textarea
+													className="srcCode"
+													onClick={this.removeClose}
+													value={Component[compName].source}
+													readOnly={true}
+												/>
+											</span>
+										</div>
+									: null}
 
 							</span>
 
 						</div>
 
-						{
-							fullScreenSrc == "" ? null:<div className="blurDiv">
-									<div className="closeFullSrc" onClick={this.fullScreenSrcToggle.bind(this,"")}>X</div>
-									{fullScreenSrc == "srcFull"? <textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].source} readOnly={true}></textarea>:null}
+						{fullScreenSrc == ''
+							? null
+							: <div className="blurDiv">
+									<div
+										className="closeFullSrc"
+										onClick={this.fullScreenSrcToggle.bind(this, '')}>
+										X
+									</div>
+									{fullScreenSrc == 'srcFull'
+										? <textarea
+												className="srcCode"
+												onClick={this.removeClose}
+												value={Component[compName].source}
+												readOnly={true}
+											/>
+										: null}
 
-									{fullScreenSrc == "docSrcFull"?<textarea className="srcCode"  onClick={this.removeClose} value={Component[compName].docs.source} readOnly={true}></textarea>:null}
-							</div>
-						}
-						</container>
-					</main>
-					)
-				}
-			}
-			class Search extends React.Component{
-				render(){
-					return <input type="text" onChange={this.props.onChange} placeholder="Search" className="inputSearch" />
-				}
-			}
-			class ComponentList extends React.Component{
-				constructor(props){
-					super(props);
-					this.state = {
-						toggle : true
-					}
-					this.toggleFolder = this.toggleFolder.bind(this);
-				}
-				toggleFolder(){
-					this.setState({ toggle: !this.state.toggle })
-				}
-				render(){
-					const {components,type} = this.props;
-					return <div className={type}>
-							<div className="dir" onClick={this.toggleFolder}>
-								<img className="folderIcon" src="http://www.clker.com/cliparts/f/7/2/7/13480026211392627789Open%20White%20Folder%20Icon.svg.hi.png" />
-								{type}
-							</div>
-								<div className={this.state.toggle ? "folderOpen" : "folderClose" } >
-									{
-										components.map((component,i)=>{
-											let docsComp = component.search("__")
-											return <div className={ docsComp == -1 ?"file":"fileNameDoc"} key={"component"+i}>
-												<a href={"#"+component} className={this.props.selectedComponent=="#"+component?"active":""}>{docsComp == -1 ? component:component.split("__")[1]}</a>
-											</div>
-										})
-									}
-								</div>
+									{fullScreenSrc == 'docSrcFull'
+										? <textarea
+												className="srcCode"
+												onClick={this.removeClose}
+												value={Component[compName].docs.source}
+												readOnly={true}
+											/>
+										: null}
+								</div>}
+					</container>
+				</main>
+			);
+		}
+	}
+	class Search extends React.Component {
+		render() {
+			return (
+				<input
+					type="text"
+					onChange={this.props.onChange}
+					placeholder="Search"
+					className="inputSearch"
+				/>
+			);
+		}
+	}
+	class ComponentList extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				toggle: true
+			};
+			this.toggleFolder = this.toggleFolder.bind(this);
+		}
+		toggleFolder() {
+			this.setState({ toggle: !this.state.toggle });
+		}
+		render() {
+			const { components, type } = this.props;
+			return (
+				<div className={type}>
+					<div className="dir" onClick={this.toggleFolder}>
+						<img
+							className="folderIcon"
+							src="http://www.clker.com/cliparts/f/7/2/7/13480026211392627789Open%20White%20Folder%20Icon.svg.hi.png"
+						/>
+						{type}
 					</div>
-				}
-			}
+					<div className={this.state.toggle ? 'folderOpen' : 'folderClose'}>
+						{components.map((component, i) => {
+							let docsComp = component.search('__');
+							return (
+								<div
+									className={docsComp == -1 ? 'file' : 'fileNameDoc'}
+									key={'component' + i}>
+									<a
+										href={'#' + component}
+										className={
+											this.props.selectedComponent == '#' + component
+												? 'active'
+												: ''
+										}>
+										{docsComp == -1 ? component : component.split('__')[1]}
+									</a>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			);
+		}
+	}
 
+	var atoms = [];
+	var molecules = [];
+	var organisms = [];
+	var templates = [];
+	var pages = [];
+	var global = [];
 
-			var atoms = [];
-			var molecules = [];
-			var organisms = [];
-			var templates = [];
-			var pages = [];
-			var global = []
+	Object.keys(Component).forEach(key => {
+		if (key == 'React' || key == 'ReactDOM') {
+			return;
+		}
+		if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Atom'
+		) {
+			atoms.push(key);
+		}
+		if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Global'
+		) {
+			global.push(key);
+		} else if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Molecule'
+		) {
+			molecules.push(key);
+		} else if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Organism'
+		) {
+			organisms.push(key);
+		} else if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Template'
+		) {
+			templates.push(key);
+		} else if (
+			Component[key].docs &&
+			Component[key].docs.componentGroup &&
+			Component[key].docs.componentGroup == 'Page'
+		) {
+			pages.push(key);
+		}
+	});
 
-			Object.keys(Component).forEach((key)=>{
-					if(key == "React" || key == "ReactDOM"){
-						return;
-					}
-					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Atom"){
-						atoms.push(key)
-					}
-					if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Global"){
-						global.push(key)
-					}
-					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Molecule"){
-						molecules.push(key)
-					}
-					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Organism"){
-						organisms.push(key)
-					}
-					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Template"){
-						templates.push(key)
-					}
-					else if(Component[key].docs && Component[key].docs.componentGroup && Component[key].docs.componentGroup == "Page"){
-						pages.push(key)
-					}
-				})
-
-
-				ReactDOM.render(<Doc components={Component} atoms={atoms} global={global} molecules={molecules} organisms={organisms} templates={templates} pages={pages}/>,react);
-
-			}
-		
-			
-			
-			
-		</script>
+	ReactDOM.render(
+		<Doc
+			components={Component}
+			atoms={atoms}
+			global={global}
+			molecules={molecules}
+			organisms={organisms}
+			templates={templates}
+			pages={pages}
+		/>,
+		react
+	);
+};
+</script>
 <script type="text/javascript">
-				var html = "<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
-				
-				var iframe = document.getElementById("ifm");
-        		var frameDoc = iframe.document;
-        		if (iframe.contentWindow){
-            		frameDoc = iframe.contentWindow.document;
-        			frameDoc.open();
-        			frameDoc.writeln(html);
-        			frameDoc.close();
-				}
-				else{
-					console.log("error")
-				}
+var html =
+	"<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
 
-			</script>
+var iframe = document.getElementById('ifm');
+var frameDoc = iframe.document;
+if (iframe.contentWindow) {
+	frameDoc = iframe.contentWindow.document;
+	frameDoc.open();
+	frameDoc.writeln(html);
+	frameDoc.close();
+} else {
+	console.log('error');
+}
+</script>
 		<script>
-
-
-
-		/*
+/*
 
 
  * @author https://twitter.com/blurspline / https://github.com/zz85
  * See post @ http://www.lab4games.net/zz85/blog/2014/11/15/resizing-moving-snapping-windows-with-js-css/
  */
 
+window.onload = function() {
+	// Minimum resizable area
+	var minWidth = 60;
+	var minHeight = 40;
 
-window.onload=function(){
-// Minimum resizable area
-var minWidth = 60;
-var minHeight = 40;
+	// Thresholds
+	var FULLSCREEN_MARGINS = -10;
+	var MARGINS = 4;
 
-// Thresholds
-var FULLSCREEN_MARGINS = -10;
-var MARGINS = 4;
+	// End of what's configurable.
+	var clicked = null;
+	var onRightEdge, onBottomEdge, onLeftEdge, onTopEdge;
 
-// End of what's configurable.
-var clicked = null;
-var onRightEdge, onBottomEdge, onLeftEdge, onTopEdge;
+	var rightScreenEdge, bottomScreenEdge;
 
-var rightScreenEdge, bottomScreenEdge;
+	var preSnapped;
 
-var preSnapped;
+	var b, x, y;
 
-var b, x, y;
+	var redraw = false;
 
-var redraw = false;
+	var pane = document.getElementById('resize');
+	var ghostpane = document.getElementById('ghostpane');
 
-var pane = document.getElementById('resize');
-var ghostpane = document.getElementById('ghostpane');
+	function setBounds(element, x, y, w, h) {
+		element.style.left = x + 'px';
+		element.style.top = y + 'px';
+		element.style.width = w + 'px';
+		element.style.height = h + 'px';
+	}
 
-function setBounds(element, x, y, w, h) {
-	element.style.left = x + 'px';
-	element.style.top = y + 'px';
-	element.style.width = w + 'px';
-	element.style.height = h + 'px';
-}
+	function hintHide() {
+		//setBounds(ghostpane, b.left, b.top, b.width, b.height);
+		//ghostpane.style.opacity = 0;
+		// var b = ghostpane.getBoundingClientRect();
+		// ghostpane.style.top = b.top + b.height / 2;
+		// ghostpane.style.left = b.left + b.width / 2;
+		// ghostpane.style.width = 0;
+		// ghostpane.style.height = 0;
+	}
 
-function hintHide() {
-  //setBounds(ghostpane, b.left, b.top, b.width, b.height);
-  //ghostpane.style.opacity = 0;
+	// Mouse events
+	pane.addEventListener('mousedown', onMouseDown);
+	document.addEventListener('mousemove', onMove);
+	document.addEventListener('mouseup', onUp);
 
-  // var b = ghostpane.getBoundingClientRect();
-  // ghostpane.style.top = b.top + b.height / 2;
-  // ghostpane.style.left = b.left + b.width / 2;
-  // ghostpane.style.width = 0;
-  // ghostpane.style.height = 0;
-}
+	// Touch events
+	pane.addEventListener('touchstart', onTouchDown);
+	document.addEventListener('touchmove', onTouchMove);
+	document.addEventListener('touchend', onTouchEnd);
 
+	function onTouchDown(e) {
+		onDown(e.touches[0]);
+		e.preventDefault();
+	}
 
-// Mouse events
-pane.addEventListener('mousedown', onMouseDown);
-document.addEventListener('mousemove', onMove);
-document.addEventListener('mouseup', onUp);
+	function onTouchMove(e) {
+		onMove(e.touches[0]);
+	}
 
-// Touch events	
-pane.addEventListener('touchstart', onTouchDown);
-document.addEventListener('touchmove', onTouchMove);
-document.addEventListener('touchend', onTouchEnd);
+	function onTouchEnd(e) {
+		if (e.touches.length == 0) onUp(e.changedTouches[0]);
+	}
 
+	function onMouseDown(e) {
+		onDown(e);
+		e.preventDefault();
+	}
 
-function onTouchDown(e) {
-  onDown(e.touches[0]);
-  e.preventDefault();
-}
+	function onDown(e) {
+		calc(e);
 
-function onTouchMove(e) {
-  onMove(e.touches[0]);		
-}
+		var isResizing = onRightEdge || onBottomEdge || onTopEdge || onLeftEdge;
 
-function onTouchEnd(e) {
-  if (e.touches.length ==0) onUp(e.changedTouches[0]);
-}
+		clicked = {
+			x: x,
+			y: y,
+			cx: e.clientX,
+			cy: e.clientY,
+			w: b.width,
+			h: b.height,
+			isResizing: isResizing,
+			isMoving: !isResizing && canMove(),
+			onTopEdge: onTopEdge,
+			onLeftEdge: onLeftEdge,
+			onRightEdge: onRightEdge,
+			onBottomEdge: onBottomEdge
+		};
+	}
 
-function onMouseDown(e) {
-  onDown(e);
-  e.preventDefault();
-}
+	function canMove() {
+		return x > 0 && x < b.width && y > 0 && y < b.height && y < 30;
+	}
 
-function onDown(e) {
-  calc(e);
+	function calc(e) {
+		b = pane.getBoundingClientRect();
+		x = e.clientX - b.left;
+		y = e.clientY - b.top;
 
-  var isResizing = onRightEdge || onBottomEdge || onTopEdge || onLeftEdge;
+		onTopEdge = y < MARGINS;
+		onLeftEdge = x < MARGINS;
+		onRightEdge = x >= b.width - MARGINS;
+		onBottomEdge = y >= b.height - MARGINS;
 
-  clicked = {
-    x: x,
-    y: y,
-    cx: e.clientX,
-    cy: e.clientY,
-    w: b.width,
-    h: b.height,
-    isResizing: isResizing,
-    isMoving: !isResizing && canMove(),
-    onTopEdge: onTopEdge,
-    onLeftEdge: onLeftEdge,
-    onRightEdge: onRightEdge,
-    onBottomEdge: onBottomEdge
-  };
-}
+		rightScreenEdge = window.innerWidth - MARGINS;
+		bottomScreenEdge = window.innerHeight - MARGINS;
+	}
 
-function canMove() {
-  return x > 0 && x < b.width && y > 0 && y < b.height
-  && y < 30;
-}
+	var e;
 
-function calc(e) {
-  b = pane.getBoundingClientRect();
-  x = e.clientX - b.left;
-  y = e.clientY - b.top;
+	function onMove(ee) {
+		calc(ee);
 
-  onTopEdge = y < MARGINS;
-  onLeftEdge = x < MARGINS;
-  onRightEdge = x >= b.width - MARGINS;
-  onBottomEdge = y >= b.height - MARGINS;
+		e = ee;
 
-  rightScreenEdge = window.innerWidth - MARGINS;
-  bottomScreenEdge = window.innerHeight - MARGINS;
-}
+		redraw = true;
+	}
 
-var e;
+	function animate() {
+		requestAnimationFrame(animate);
 
-function onMove(ee) {
-  calc(ee);
+		if (!redraw) return;
 
-  e = ee;
+		redraw = false;
 
-  redraw = true;
+		if (clicked && clicked.isResizing) {
+			if (clicked.onRightEdge) pane.style.width = Math.max(x, minWidth) + 'px';
+			if (clicked.onBottomEdge)
+				pane.style.height = Math.max(y, minHeight) + 'px';
 
-}
-
-function animate() {
-
-  requestAnimationFrame(animate);
-
-  if (!redraw) return;
-
-  redraw = false;
-
-  if (clicked && clicked.isResizing) {
-
-    if (clicked.onRightEdge) pane.style.width = Math.max(x, minWidth) + 'px';
-    if (clicked.onBottomEdge) pane.style.height = Math.max(y, minHeight) + 'px';
-
-    if (clicked.onLeftEdge) {
-      var currentWidth = Math.max(clicked.cx - e.clientX  + clicked.w, minWidth);
-      if (currentWidth > minWidth) {
-        pane.style.width = currentWidth + 'px';
-        pane.style.left = e.clientX + 'px';	
-      }
-    }
-
-    if (clicked.onTopEdge) {
-      var currentHeight = Math.max(clicked.cy - e.clientY  + clicked.h, minHeight);
-      if (currentHeight > minHeight) {
-        pane.style.height = currentHeight + 'px';
-        pane.style.top = e.clientY + 'px';	
-      }
-    }
-
-    hintHide();
-
-    return;
-  }
-
-  if (clicked && clicked.isMoving) {
-
-    if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > window.innerWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
-      // hintFull();
-      setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight);
-      ghostpane.style.opacity = 0.2;
-    } else if (b.top < MARGINS) {
-      // hintTop();
-      setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight / 2);
-      ghostpane.style.opacity = 0.2;
-    } else if (b.left < MARGINS) {
-      // hintLeft();
-      setBounds(ghostpane, 0, 0, window.innerWidth / 2, window.innerHeight);
-      ghostpane.style.opacity = 0.2;
-    } else if (b.right > rightScreenEdge) {
-      // hintRight();
-      setBounds(ghostpane, window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
-      ghostpane.style.opacity = 0.2;
-    } else if (b.bottom > bottomScreenEdge) {
-      // hintBottom();
-      setBounds(ghostpane, 0, window.innerHeight / 2, window.innerWidth, window.innerWidth / 2);
-      ghostpane.style.opacity = 0.2;
-    } else {
-      hintHide();
-    }
-
-    if (preSnapped) {
-      setBounds(pane,
-      	e.clientX - preSnapped.width / 2,
-      	e.clientY - Math.min(clicked.y, preSnapped.height),
-      	preSnapped.width,
-      	preSnapped.height
-      );
-      return;
-    }
-
-    // moving
-    pane.style.top = (e.clientY - clicked.y) + 'px';
-    pane.style.left = (e.clientX - clicked.x) + 'px';
-
-    return;
-  }
-
-  // This code executes when mouse moves without clicking
-
-  // style cursor
-  if (onRightEdge && onBottomEdge || onLeftEdge && onTopEdge) {
-    pane.style.cursor = 'nwse-resize';
-  } else if (onRightEdge && onTopEdge || onBottomEdge && onLeftEdge) {
-    pane.style.cursor = 'nesw-resize';
-  } else if (onRightEdge || onLeftEdge) {
-    pane.style.cursor = 'ew-resize';
-  } else if (onBottomEdge || onTopEdge) {
-    pane.style.cursor = 'ns-resize';
-  } else if (canMove()) {
-    pane.style.cursor = 'move';
-  } else {
-    pane.style.cursor = 'default';
-  }
-}
-
-animate();
-
-function onUp(e) {
-  calc(e);
-
-  if (clicked && clicked.isMoving) {
-    // Snap
-    var snapped = {
-      width: b.width,
-      height: b.height
-    };
-
-    if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > window.innerWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
-      // hintFull();
-      setBounds(pane, 0, 0, window.innerWidth, window.innerHeight);
-      preSnapped = snapped;
-    } else if (b.top < MARGINS) {
-      // hintTop();
-      setBounds(pane, 0, 0, window.innerWidth, window.innerHeight / 2);
-      preSnapped = snapped;
-    } else if (b.left < MARGINS) {
-      // hintLeft();
-      setBounds(pane, 0, 0, window.innerWidth / 2, window.innerHeight);
-      preSnapped = snapped;
-    } else if (b.right > rightScreenEdge) {
-      // hintRight();
-      setBounds(pane, window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
-      preSnapped = snapped;
-    } else if (b.bottom > bottomScreenEdge) {
-      // hintBottom();
-      setBounds(pane, 0, window.innerHeight / 2, window.innerWidth, window.innerWidth / 2);
-      preSnapped = snapped;
-    } else {
-      preSnapped = null;
-    }
-
-    hintHide();
-
-  }
-
-  clicked = null;
-
-}
-
-}
-function iframeSize(type){
-			var leftpanel = document.getElementById("leftPanel");
-			var container = document.getElementById("container");
-			var leftToggle = document.getElementById("leftPanelClick");
-			if(type=="mobile"){
-				resize.style.width="330px";
-				leftpanel.className = "";
-				container.className = "";
-				leftToggle.className = "hideToggleLeft";
+			if (clicked.onLeftEdge) {
+				var currentWidth = Math.max(
+					clicked.cx - e.clientX + clicked.w,
+					minWidth
+				);
+				if (currentWidth > minWidth) {
+					pane.style.width = currentWidth + 'px';
+					pane.style.left = e.clientX + 'px';
+				}
 			}
-			else if(type=="tab"){
-				resize.style.width="600px";
-				leftpanel.className = "";
-				container.className = "";
-				leftToggle.className = "hideToggleLeft";
+
+			if (clicked.onTopEdge) {
+				var currentHeight = Math.max(
+					clicked.cy - e.clientY + clicked.h,
+					minHeight
+				);
+				if (currentHeight > minHeight) {
+					pane.style.height = currentHeight + 'px';
+					pane.style.top = e.clientY + 'px';
+				}
 			}
-			else if(type=="desktop"){
-				resize.style.width="";
-				leftpanel.className = "";
-				container.className = "";
-				leftToggle.className = "hideToggleLeft";
-			}
-			else{
-				resize.style.width="97%";
-				leftpanel.className = "menuHideLeft";
-				container.className = "fullContainer";
-				leftToggle.className = "showToggleLeft"
-			}
+
+			hintHide();
+
+			return;
 		}
-		</script>
+
+		if (clicked && clicked.isMoving) {
+			if (
+				b.top < FULLSCREEN_MARGINS ||
+				b.left < FULLSCREEN_MARGINS ||
+				b.right > window.innerWidth - FULLSCREEN_MARGINS ||
+				b.bottom > window.innerHeight - FULLSCREEN_MARGINS
+			) {
+				// hintFull();
+				setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight);
+				ghostpane.style.opacity = 0.2;
+			} else if (b.top < MARGINS) {
+				// hintTop();
+				setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight / 2);
+				ghostpane.style.opacity = 0.2;
+			} else if (b.left < MARGINS) {
+				// hintLeft();
+				setBounds(ghostpane, 0, 0, window.innerWidth / 2, window.innerHeight);
+				ghostpane.style.opacity = 0.2;
+			} else if (b.right > rightScreenEdge) {
+				// hintRight();
+				setBounds(
+					ghostpane,
+					window.innerWidth / 2,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight
+				);
+				ghostpane.style.opacity = 0.2;
+			} else if (b.bottom > bottomScreenEdge) {
+				// hintBottom();
+				setBounds(
+					ghostpane,
+					0,
+					window.innerHeight / 2,
+					window.innerWidth,
+					window.innerWidth / 2
+				);
+				ghostpane.style.opacity = 0.2;
+			} else {
+				hintHide();
+			}
+
+			if (preSnapped) {
+				setBounds(
+					pane,
+					e.clientX - preSnapped.width / 2,
+					e.clientY - Math.min(clicked.y, preSnapped.height),
+					preSnapped.width,
+					preSnapped.height
+				);
+				return;
+			}
+
+			// moving
+			pane.style.top = e.clientY - clicked.y + 'px';
+			pane.style.left = e.clientX - clicked.x + 'px';
+
+			return;
+		}
+
+		// This code executes when mouse moves without clicking
+
+		// style cursor
+		if ((onRightEdge && onBottomEdge) || (onLeftEdge && onTopEdge)) {
+			pane.style.cursor = 'nwse-resize';
+		} else if ((onRightEdge && onTopEdge) || (onBottomEdge && onLeftEdge)) {
+			pane.style.cursor = 'nesw-resize';
+		} else if (onRightEdge || onLeftEdge) {
+			pane.style.cursor = 'ew-resize';
+		} else if (onBottomEdge || onTopEdge) {
+			pane.style.cursor = 'ns-resize';
+		} else if (canMove()) {
+			pane.style.cursor = 'move';
+		} else {
+			pane.style.cursor = 'default';
+		}
+	}
+
+	animate();
+
+	function onUp(e) {
+		calc(e);
+
+		if (clicked && clicked.isMoving) {
+			// Snap
+			var snapped = {
+				width: b.width,
+				height: b.height
+			};
+
+			if (
+				b.top < FULLSCREEN_MARGINS ||
+				b.left < FULLSCREEN_MARGINS ||
+				b.right > window.innerWidth - FULLSCREEN_MARGINS ||
+				b.bottom > window.innerHeight - FULLSCREEN_MARGINS
+			) {
+				// hintFull();
+				setBounds(pane, 0, 0, window.innerWidth, window.innerHeight);
+				preSnapped = snapped;
+			} else if (b.top < MARGINS) {
+				// hintTop();
+				setBounds(pane, 0, 0, window.innerWidth, window.innerHeight / 2);
+				preSnapped = snapped;
+			} else if (b.left < MARGINS) {
+				// hintLeft();
+				setBounds(pane, 0, 0, window.innerWidth / 2, window.innerHeight);
+				preSnapped = snapped;
+			} else if (b.right > rightScreenEdge) {
+				// hintRight();
+				setBounds(
+					pane,
+					window.innerWidth / 2,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight
+				);
+				preSnapped = snapped;
+			} else if (b.bottom > bottomScreenEdge) {
+				// hintBottom();
+				setBounds(
+					pane,
+					0,
+					window.innerHeight / 2,
+					window.innerWidth,
+					window.innerWidth / 2
+				);
+				preSnapped = snapped;
+			} else {
+				preSnapped = null;
+			}
+
+			hintHide();
+		}
+
+		clicked = null;
+	}
+};
+function iframeSize(type) {
+	var leftpanel = document.getElementById('leftPanel');
+	var container = document.getElementById('container');
+	var leftToggle = document.getElementById('leftPanelClick');
+	if (type == 'mobile') {
+		resize.style.width = '330px';
+		leftpanel.className = '';
+		container.className = '';
+		leftToggle.className = 'hideToggleLeft';
+	} else if (type == 'tab') {
+		resize.style.width = '600px';
+		leftpanel.className = '';
+		container.className = '';
+		leftToggle.className = 'hideToggleLeft';
+	} else if (type == 'desktop') {
+		resize.style.width = '';
+		leftpanel.className = '';
+		container.className = '';
+		leftToggle.className = 'hideToggleLeft';
+	} else {
+		resize.style.width = '97%';
+		leftpanel.className = 'menuHideLeft';
+		container.className = 'fullContainer';
+		leftToggle.className = 'showToggleLeft';
+	}
+}
+</script>
 
 	</body>
 
