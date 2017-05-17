@@ -522,23 +522,7 @@
 					transform: translateY(0);
 					}
 				}
-/*
-		font-family: 'Slabo 27px', serif;
-		font-family: 'Source Sans Pro', sans-serif;
-		font-family: 'Lemonada', cursive;
-		font-family: 'Open Sans Condensed', sans-serif;
-		font-family: 'Lora', serif;
-		font-family: 'Frank Ruhl Libre', sans-serif;
-		font-family: 'PT Sans Narrow', sans-serif;
 
-		<script type="text/javascript">
-			var iframe = document.createElement('iframe');
-			var html = '<body><script src="/docs/js/vendor.js"/><script src="/docs/js/main.js"/><script></script></body>';
-			iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
-			document.getElementById("loadIframe").appendChild(iframe);
-			console.log(document.getElementById("loadIframe"));
-		</script>
-*/
 	</style>
 	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Lemonada|Lora|Open+Sans+Condensed:300|PT+Sans+Narrow|Slabo+27px|Source+Sans+Pro" rel="stylesheet">
 		</link>
@@ -655,8 +639,7 @@
 			let compName = location.hash != '' ? location.hash.substring(1) : null;
 			let propsObj = (Components &&
 				Components[compName] &&
-				Components[compName].docs &&
-				Components[compName].docs.propTypes) || {};
+				Components[compName].propTypes) || {};
 			let currentCompProps = Object.keys(propsObj) || [];
 			let currentCompDefault = (Components[compName] &&
 				Components[compName].defaultProps) || {};
@@ -753,14 +736,16 @@
 																<div>{value}</div>
 															</span>
 															<span>
-																<div>{propsObj[value].type}</div>
+																<div>{propsObj[value].hookType}</div>
 															</span>
 															<span>
-																<div>{propsObj[value].isRequired}</div>
+																<div>
+																	{propsObj[value].isRequired ? '' : 'true'}
+																</div>
 															</span>
 															<span>
 																<div className="bn">
-																	{propsObj[value].defaultProps}
+																	{JSON.stringify(currentCompDefault[value])}
 																</div>
 															</span>
 														</div>
@@ -1109,12 +1094,8 @@
 };
 </script>
 <script type="text/javascript">
-var html =
-	"<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
-
-var iframe = document.getElementById('ifm');
-var frameDoc = iframe.document;
-if (iframe.contentWindow) {
+var html ="<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
+var iframe = document.getElementById("ifm");var frameDoc = iframe.document;if (iframe.contentWindow) {
 	frameDoc = iframe.contentWindow.document;
 	frameDoc.open();
 	frameDoc.writeln(html);
@@ -1124,13 +1105,6 @@ if (iframe.contentWindow) {
 }
 </script>
 		<script>
-/*
-
-
- * @author https://twitter.com/blurspline / https://github.com/zz85
- * See post @ http://www.lab4games.net/zz85/blog/2014/11/15/resizing-moving-snapping-windows-with-js-css/
- */
-
 window.onload = function() {
 	// Minimum resizable area
 	var minWidth = 60;

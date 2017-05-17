@@ -45,7 +45,7 @@
 			    margin: 15px 0px;
 			    max-width: 90%;
 			}
-			
+
 		</style>
 		<script src="https://localjs.zohostatic.com/ze/v69/js/i18n/en/ze_sa.min.js"></script>
 	</head>
@@ -53,58 +53,62 @@
 		<div id="react"></div>
 		<div id="reactUserEdit"></div>
 		<script src="/docs/js/vendor.js"  defer="true"></script>
-		
+
 		<script src="/docs/js/main.js" defer="true"></script>
 
 		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 		<script type="text/babel">
-			var test="test"
-			var ReactDOM = Component.ReactDOM;
-			var React = Component.React;
-			var ReactDOMServer = Component.ReactDOMServer
-			class RenderComponent extends React.Component{
-				constructor(props) {
-					super(props);
-					this.state={
-						Components:Component,
-						
-						selectedComponent:location.hash !="" ? location.hash.substring(1) : null
-					};
-					this.hashChange = this.hashChange.bind(this);
-					
-				}
-				hashChange(){
-					this.setState({selectedComponent:location.hash !="" ? location.hash.substring(1) : null})
-				}
-				
-				componentDidMount() {
-					window.addEventListener("hashchange",this.hashChange);
-				}
-				componentWillUnmount() {
-					window.removeEventListener("hashchange",this.hashChange);
-				}
-				render(){
-					const { Components, selectedComponent } = this.state;
-					var ComponentClass = selectedComponent && Components[selectedComponent]	
-					var keysSingleAr = ComponentClass && ComponentClass.docs && ComponentClass.docs.testProps && Object.keys(ComponentClass.docs.testProps) || []
-					return 	<div>
-								{
-									Components[selectedComponent] && <div>
-										
-										{
-											Array.isArray(ComponentClass.docs.testProps) ?
-												ComponentClass.docs.testProps.map((prop,i)=>{
-														
-												return <div className="comps">
-																<ComponentClass {...prop }/>
-															
-																{/*details?<div>
+		var test = 'test';
+var ReactDOM = Component.ReactDOM;
+var React = Component.React;
+var ReactDOMServer = Component.ReactDOMServer;
+class RenderComponent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			Components: Component,
+
+			selectedComponent: location.hash != '' ? location.hash.substring(1) : null
+		};
+		this.hashChange = this.hashChange.bind(this);
+	}
+	hashChange() {
+		this.setState({
+			selectedComponent: location.hash != '' ? location.hash.substring(1) : null
+		});
+	}
+
+	componentDidMount() {
+		window.addEventListener('hashchange', this.hashChange);
+	}
+	componentWillUnmount() {
+		window.removeEventListener('hashchange', this.hashChange);
+	}
+	render() {
+		const { Components, selectedComponent } = this.state;
+		var ComponentClass = selectedComponent && Components[selectedComponent];
+		var keysSingleAr = (ComponentClass &&
+			ComponentClass.docs &&
+			ComponentClass.docs.testProps &&
+			Object.keys(ComponentClass.docs.testProps)) || [];
+		return (
+			<div>
+				{Components[selectedComponent] &&
+					<div>
+
+						{Array.isArray(ComponentClass.docs.testProps)
+							? ComponentClass.docs.testProps.map((prop, i) => {
+									return (
+										<div className="comps">
+											<ComponentClass {...prop} />
+
+											{/*details?<div>
 																		<div className="example">
-																			<span className="componentNameRed"> {"<"+selectedComponent} 
-																			</span> 
+																			<span className="componentNameRed"> {"<"+selectedComponent}
+																			</span>
 																			{
 																				Object.keys(prop).map((val)=>{
-																				
+
 																				return 	<span>
 																							<span className="propertyName">{val}</span>
 																							<span> = </span>
@@ -115,7 +119,7 @@
 
 																				})
 																			}
-																			<span className="componentNameRed"> {" />"} </span> 
+																			<span className="componentNameRed"> {" />"} </span>
 																		</div>
 
 																		<div className="htmlTag">
@@ -124,13 +128,14 @@
 																	</div>:null
 																*/}
 
-															</div>
-												}):
-												<div>
-													<ComponentClass {...ComponentClass.docs.testProps}/> 
-													{/*details?<div>
+										</div>
+									);
+								})
+							: <div>
+									<ComponentClass {...ComponentClass.docs.testProps} />
+									{/*details?<div>
 													<div className="example">
-														<span className="componentNameRed"> {"<"+selectedComponent} </span> 
+														<span className="componentNameRed"> {"<"+selectedComponent} </span>
 														{
 															keysSingleAr.map((val,i)=>{
 																return 	<span>
@@ -139,90 +144,96 @@
 																		</span>
 															})
 														}
-														<span className="componentNameRed"> {" />"} </span> 
+														<span className="componentNameRed"> {" />"} </span>
 													</div>
 													<div className="htmlTag">
 													{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps }/>)}
 													</div>
 												</div>:null*/}
-											</div>
-										}
-										
-									</div>
+								</div>}
 
-								}
-							</div>
-				}
-			}
-			
-			ReactDOM.render(<RenderComponent/>,react);
-		</script>
+					</div>}
+			</div>
+		);
+	}
+}
+
+ReactDOM.render(<RenderComponent />, react);
+</script>
 
 
 		<script type="text/babel">
-			var ReactDOM = Component.ReactDOM;
-			var React = Component.React;
-			class UserEdit extends React.Component{
-				constructor(props) {
-					super(props);
-					this.state={
-						Components:Component,
-						selectedComponent:location.hash !="" ? location.hash.substring(1) : null,
-						componentProps : {}
-					};
-					this.hashChange = this.hashChange.bind(this);
-					this.propsChange = this.propsChange.bind(this);
-				}
-				hashChange(){
-					this.setState({selectedComponent:location.hash !="" ? location.hash.substring(1) : null})
-				}
-				componentDidMount() {
-					window.addEventListener("hashchange",this.hashChange);
-					let selectedComponent = location.hash !="" ? location.hash.substring(1) : null;
-					var ComponentClass = selectedComponent && Component[selectedComponent];
-					let comPro = ComponentClass.docs.testProps;
-					let componentProp = Array.isArray(comPro) ? comPro[0] : comPro;
-					this.setState({componentProps:componentProp})
-				}
-				propsChange(e){
-					let { componentProps } = this.state;
-					var props;
-					try{
-						props=JSON.parse(e.target.value)
-					}
-					catch(e){
-						props={};
-					}
-    				this.setState({ componentProps : props });
-				}
-				componentWillUnmount() {
-					window.removeEventListener("hashchange",this.hashChange);
-				}
+		var ReactDOM = Component.ReactDOM;
+var React = Component.React;
+class UserEdit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			Components: Component,
+			selectedComponent: location.hash != ''
+				? location.hash.substring(1)
+				: null,
+			componentProps: {}
+		};
+		this.hashChange = this.hashChange.bind(this);
+		this.propsChange = this.propsChange.bind(this);
+	}
+	hashChange() {
+		this.setState({
+			selectedComponent: location.hash != '' ? location.hash.substring(1) : null
+		});
+	}
+	componentDidMount() {
+		window.addEventListener('hashchange', this.hashChange);
+		let selectedComponent = location.hash != ''
+			? location.hash.substring(1)
+			: null;
+		var ComponentClass = selectedComponent && Component[selectedComponent];
+		let comPro = ComponentClass.docs.testProps;
+		let componentProp = Array.isArray(comPro) ? comPro[0] : comPro;
+		this.setState({ componentProps: componentProp });
+	}
+	propsChange(e) {
+		let { componentProps } = this.state;
+		var props;
+		try {
+			props = JSON.parse(e.target.value);
+		} catch (e) {
+			props = {};
+		}
+		this.setState({ componentProps: props });
+	}
+	componentWillUnmount() {
+		window.removeEventListener('hashchange', this.hashChange);
+	}
 
-				render(){
-						const { Components, selectedComponent,componentProps } = this.state;
-						var ComponentClass = selectedComponent && Components[selectedComponent]	;
-						var isEdit = ComponentClass.isEditable
-					if(isEdit){
-						return 	<div>
-								<textarea className="textArea" onChange={this.propsChange} values={componentProps}></textarea>
+	render() {
+		const { Components, selectedComponent, componentProps } = this.state;
+		var ComponentClass = selectedComponent && Components[selectedComponent];
+		var isEdit = ComponentClass.isEditable;
+		if (isEdit) {
+			return (
+				<div>
+					<textarea
+						className="textArea"
+						onChange={this.propsChange}
+						values={componentProps}
+					/>
 
-								{
-									Components[selectedComponent] && <div>
-												<ComponentClass {...componentProps}/> 				
-									</div>
-								}
+					{Components[selectedComponent] &&
+						<div>
+							<ComponentClass {...componentProps} />
+						</div>}
 
-							</div>
-						}
-					else
-					{
-					return null
-					}
-				}
-			}
-			ReactDOM.render(<UserEdit/>,reactUserEdit);
-		</script>
+				</div>
+			);
+		} else {
+			return null;
+		}
+	}
+}
+ReactDOM.render(<UserEdit />, reactUserEdit);
+</script>
 
 	</body>
 </html>

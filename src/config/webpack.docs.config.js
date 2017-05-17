@@ -85,6 +85,9 @@ module.exports = {
 		]
 	},
 	resolve: {
-		extensions: ['.js', '.jsx']
+		extensions: ['.js', '.jsx'],
+		alias: {
+			react$: path.resolve(__dirname, '..', 'hook', 'proptypes.js')
+		}
 	}
 };
