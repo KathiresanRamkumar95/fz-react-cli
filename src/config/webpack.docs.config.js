@@ -82,8 +82,12 @@ module.exports = {
 				use: ['url-loader?limit=10000&name=./images/[name].[ext]']
 			},
 			{
-				test: /\.svg$|\.woff$|\.ttf$|\.eot$/,
+				test: /\.woff$|\.ttf$|\.eot$/,
 				use: ['url-loader?limit=10000&name=./fonts/[name].[ext]']
+			},
+			{
+				test: /\.svg$/,
+				use: ['url-loader?limit=1&name=./fonts/[name].[ext]']
 			}
 		]
 	},
