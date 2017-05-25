@@ -34,7 +34,7 @@ global.localStorage = global.sessionStorage = {
 }
 global.ZE_Init={};
 global.String.prototype.contains = function (text) {return this.indexOf(text) != -1}
-global.TestUtils = TestUtils;	
+global.TestUtils = TestUtils;
 var xmlReq = XMLHttpRequest;
 window.XMLHttpRequest = function () {
 	var xmlReqCopy = new xmlReq();
@@ -94,7 +94,7 @@ global.setup = function (Component,props,state) {
 	}
 	// var store = {
 	// 	store:{
-	// 		getState:function(){return state;} 
+	// 		getState:function(){return state;}
 	// 	}
 	// }
 	var Component = higherComponent(Component,router);

@@ -236,6 +236,12 @@ class UserEdit extends React.Component {
 }
 ReactDOM.render(<UserEdit />, reactUserEdit);
 </script>
-
+<!-- hook for screen shot testing start-->
+<script type="text/javascript">
+			var err =null;
+			var findErr = window.onerror = function(e, line){  err = e };
+			var funct = function(){ return err; };
+		</script>
+		<!-- hook for screen shot testing End-->
 	</body>
 </html>

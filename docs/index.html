@@ -614,11 +614,11 @@
 				e.nativeEvent.stopImmediatePropagation();
 		}
 		filter(list, str) {
-			list = list.sort((a, b) => {
+			list = list.sort(/*(a, b) => {
 				var at = a.split('__')[0];
 				var bt = b.split('__')[0];
 				return at > bt ? 1 : at < bt ? -1 : 0;
-			});
+			}*/);
 			return list.filter(
 				item => item.toUpperCase().indexOf(str.toUpperCase()) != -1
 			);

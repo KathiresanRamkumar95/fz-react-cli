@@ -1,8 +1,51 @@
+<!DOCTYPE html>
 <html>
-	<body>
-		<a href="/docs/" target="report">Docs</a>
-		<a href="./coverage" target="report">Code Coverage</a>
-		<a href="./screenshot" target="report">Screen Shot</a><br/>
-		<iframe src="/reports/coverage"	name="report" width="100%" height="100%"></iframe>
-	</body>
+<head>
+<title>Test Report</title>
+  <style>
+  	body
+    {
+    	badding:0;
+        margin:0;
+    }
+
+    div
+    {
+    	width:100%;
+        height:100vh;
+     }
+
+    button
+    {
+        background-color:#bbbbbb;
+        padding:10px;
+     	color:rgba(14, 0, 0, 0.62);
+        font-weight:bold;
+        border-radius:5px;
+        font-size:20px;
+        outline:none;
+        border:none;
+        cursor:pointer;
+        margin-right:40px;
+        margin-left:10px;
+     }
+
+     iframe
+     {
+     	height:calc(100% - 60px);
+        width:100%;
+        margin-top:10px;
+       	outline:none;
+        border:none;
+     }
+
+  </style>
+</head>
+<body>
+<div>
+<a href="./coverage" target="iframe"><button >Unit Test Report</button></a>
+<a href="./screenShots" target="iframe"><button target="iframe" >ScreenShot Test Report</button></a>
+<iframe name="iframe" src=""></iframe>
+</div>
+</body>
 </html>
