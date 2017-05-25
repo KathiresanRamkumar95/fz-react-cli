@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.42",
+  "version": "0.0.3-beta.43",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "fz-i18n": "1.2.0-beta.8",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.2",
-    "fz-screenshot-test": "1.0.0-beta.5",
+    "fz-screenshot-test": "1.0.0-beta.6",
     "history": "^3.0.0",
     "hoist-non-react-statics": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
