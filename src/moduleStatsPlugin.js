@@ -10,7 +10,7 @@ ModuleStatsPlugin.prototype = {
   apply: function (compiler) {
   	var self = this;
     compiler.plugin("emit", function (compilation, callback) {
-      
+
      var stats = compilation.getStats().toJson();
 
      var modules = stats.modules;
@@ -23,12 +23,12 @@ ModuleStatsPlugin.prototype = {
 	 var references = "";
 	 var referencedBy = "";
 	 var normalizedData="";
-	
+
      for(var i in modules)
      {
      	moduleName = modules[i].name;
      	if(moduleName.startsWith("./src") && !(((moduleName).indexOf("index.js"))>-1) && !(moduleName.endsWith("css")))
-     	{	     	
+     	{
 	     	rModuleName = moduleName.substring(moduleName.lastIndexOf("/")+1,moduleName.lastIndexOf("."));
 	     	if(rModuleName.endsWith("docs"))
 	     	{
@@ -48,27 +48,30 @@ ModuleStatsPlugin.prototype = {
 	     		    	}
 	     		    	else{
 	     		    		rReferencedByArray.push(referencedBy.substring(referencedBy.lastIndexOf("/")+1,referencedBy.lastIndexOf(".")));
-	     		    	}	     		    	
-	     		    }		     				     		
+	     		    	}
+	     		    }
 	     		}
 		    }
 
-	     	for (var module in modules)
-	     	{
-	     		for(var reason in modules[module].reasons)
-	     		{
-	     			if(moduleName === modules[module].reasons[reason].moduleName && !(((modules[module].name).indexOf("css"))>-1))
-	     			{
-	     				if(!((modules[module].name).endsWith("react.js")) && !(((modules[module].name).indexOf("react-dom"))>-1) && !(modules[module].name.endsWith(".png")))
-	     				{	
-	     					references =  modules[module].name;					
-	     				    rReferencesArray.push(references.substring(references.lastIndexOf("/")+1,references.lastIndexOf(".")));	     				    
-	     				}	     				
-	     			}	     			
-	     		}	     	
-	     	}
-	     	
-	     	rReferencesArray = rReferencesArray.filter( function( item, index, inputArray ) {
+        for (var module in modules)
+        {
+          if(modules[module].name.startsWith("./src"))
+          {
+            for(var reason in modules[module].reasons)
+            {
+              if(moduleName === modules[module].reasons[reason].moduleName && !(((modules[module].name).indexOf("css"))>-1))
+              {
+                if(!((modules[module].name).endsWith("react.js")) && !(((modules[module].name).indexOf("react-dom"))>-1) && !(modules[module].name.endsWith(".png")))
+                {
+                  references =  modules[module].name;
+                  rReferencesArray.push(references.substring(references.lastIndexOf("/")+1,references.lastIndexOf(".")));
+                }
+              }
+            }
+          }
+        }
+
+	     	rReferencesArray = rReferencesArray.filter(function( item, index, inputArray ) {
            return inputArray.indexOf(item) == index;
     		});
 
@@ -80,7 +83,7 @@ ModuleStatsPlugin.prototype = {
 
         	var dre ="";
 
-	     	data.results.push(moduleDetails);  	
+	     	data.results.push(moduleDetails);
 	     	moduleDetails = {};
 	     	rReferencesArray=[];
 	     	rReferencedByArray=[];
@@ -89,8 +92,8 @@ ModuleStatsPlugin.prototype = {
 
 	     	data.results.forEach((mod)=>{
           dre += "'"+mod.name+"':"+JSON.stringify(mod)+","
-        }); 
-     	}   	
+        });
+     	}
      }
 
      var dataResult = "{"+dre+"}";
