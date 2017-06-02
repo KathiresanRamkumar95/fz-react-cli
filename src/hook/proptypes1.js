@@ -1,4 +1,4 @@
-var PropTypes = require('prop-types');
+var PropTypes = require('prop-types/index.js');
 PropTypes.array.hookType = 'array';
 PropTypes.bool.hookType = 'bool';
 PropTypes.func.hookType = 'func';
