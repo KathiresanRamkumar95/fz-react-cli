@@ -648,9 +648,7 @@
         popUp
       } = this.state;
       let compName = location.hash != '' ? location.hash.substring(1) : null;
-      let propComName = compName.search('__')
-        ? compName.split('__')[0]
-        : compName;
+      let propComName = compName ? compName.split('__')[0] : '';
       let propsObj = (Components &&
         Components[propComName] &&
         Components[propComName].propTypes) || {};
