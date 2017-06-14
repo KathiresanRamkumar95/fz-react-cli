@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var folder = process.env.npm_config_output_folder || 'build';
 var appFolder = process.env.npm_config_app_folder || 'src';
+var mig = process.env.npm_config_react_mig || false;
 
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
@@ -18,7 +19,10 @@ var isReact = function isReact(_ref) {
 
 module.exports = {
   entry: {
-    main: ['babel-polyfill', path.join(appPath, appFolder, 'index.js')]
+    main: [
+      'babel-polyfill',
+      path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
+    ]
   },
   output: {
     path: path.resolve(appPath, folder),

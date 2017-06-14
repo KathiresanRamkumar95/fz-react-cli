@@ -8,6 +8,7 @@ var port = process.env.npm_config_server_port || '9090';
 var url = 'htt' + 'ps://' + host + ':' + port;
 var context = process.env.npm_config_server_context || 'app';
 var appFolder = process.env.npm_config_app_folder || 'src';
+var mig = process.env.npm_config_react_mig || false;
 
 //var srcPath=path.resolve(__dirname, 'app');
 var fs = require('fs');
@@ -22,7 +23,10 @@ var isReact = function isReact(_ref) {
 };
 module.exports = {
   entry: {
-    main: ['babel-polyfill', path.join(appPath, appFolder, 'index.js')]
+    main: [
+      'babel-polyfill',
+      path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
+    ]
   },
   devtool: 'eval',
   output: {

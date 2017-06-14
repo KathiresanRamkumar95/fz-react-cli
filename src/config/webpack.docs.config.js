@@ -64,7 +64,7 @@ module.exports = {
             }
           }
         ],
-        include: path.join(appPath, 'src')
+        include: path.join(appPath, componentPath || 'src')
       },
       {
         test: /\.docs\.jsx$|\.docs\.js$/,
