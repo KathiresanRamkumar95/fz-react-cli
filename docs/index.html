@@ -623,11 +623,11 @@
         e.nativeEvent.stopImmediatePropagation();
     }
     filter(list, str) {
-      list = list.sort(/*(a, b) => {
-				var at = a.split('__')[0];
-				var bt = b.split('__')[0];
-				return at > bt ? 1 : at < bt ? -1 : 0;
-			}*/);
+      list = list.sort((a, b) => {
+        var at = a.toLowerCase();
+        var bt = b.toLowerCase();
+        return at > bt ? 1 : at < bt ? -1 : 0;
+      });
       return list.filter(
         item => item.toUpperCase().indexOf(str.toUpperCase()) != -1
       );
@@ -682,27 +682,27 @@
                 selectedComponent={selectedComponent}
               />
               <ComponentList
-                type="Atoms"
+                type="Atom"
                 components={this.filter(atoms, search)}
                 selectedComponent={selectedComponent}
               />
               <ComponentList
-                type="Molecules"
+                type="Molecule"
                 components={this.filter(molecules, search)}
                 selectedComponent={selectedComponent}
               />
               <ComponentList
-                type="Organisms"
+                type="Organism"
                 components={this.filter(organisms, search)}
                 selectedComponent={selectedComponent}
               />
               <ComponentList
-                type="Templates"
+                type="Template"
                 components={this.filter(templates, search)}
                 selectedComponent={selectedComponent}
               />
               <ComponentList
-                type="Pages"
+                type="Page"
                 components={this.filter(pages, search)}
                 selectedComponent={selectedComponent}
               />
@@ -804,15 +804,18 @@
                           ? compName.indexOf('__') > -1
                               ? mdata[
                                   compName.substring(0, compName.indexOf('_'))
-                                ].referencedby.map((val, i) => {
-                                  return (
-                                    <li key={i}>
-                                      <a className="link" href={'#' + val}>
-                                        {val}
-                                      </a>
-                                    </li>
-                                  );
-                                })
+                                ] &&
+                                  mdata[
+                                    compName.substring(0, compName.indexOf('_'))
+                                  ].referencedby.map((val, i) => {
+                                    return (
+                                      <li key={i}>
+                                        <a className="link" href={'#' + val}>
+                                          {val}
+                                        </a>
+                                      </li>
+                                    );
+                                  })
                               : mdata[compName].referencedby.map((val, i) => {
                                   return (
                                     <li key={i}>
@@ -829,15 +832,18 @@
                           ? compName.indexOf('__') > -1
                               ? mdata[
                                   compName.substring(0, compName.indexOf('_'))
-                                ].references.map((val, i) => {
-                                  return (
-                                    <li key={i}>
-                                      <a className="link" href={'#' + val}>
-                                        {val}
-                                      </a>
-                                    </li>
-                                  );
-                                })
+                                ] &&
+                                  mdata[
+                                    compName.substring(0, compName.indexOf('_'))
+                                  ].references.map((val, i) => {
+                                    return (
+                                      <li key={i}>
+                                        <a className="link" href={'#' + val}>
+                                          {val}
+                                        </a>
+                                      </li>
+                                    );
+                                  })
                               : mdata[compName].references.map((val, i) => {
                                   return (
                                     <li key={i}>

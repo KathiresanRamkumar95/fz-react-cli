@@ -1,51 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test Report</title>
-  <style>
-  	body
-    {
-    	badding:0;
-        margin:0;
-    }
-
-    div
-    {
-    	width:100%;
-        height:100vh;
-     }
-
-    button
-    {
-        background-color:#bbbbbb;
-        padding:10px;
-     	color:rgba(14, 0, 0, 0.62);
-        font-weight:bold;
-        border-radius:5px;
-        font-size:20px;
-        outline:none;
-        border:none;
-        cursor:pointer;
-        margin-right:40px;
-        margin-left:10px;
-     }
-
-     iframe
-     {
-     	height:calc(100% - 60px);
-        width:100%;
-        margin-top:10px;
-       	outline:none;
-        border:none;
-     }
-
-  </style>
+  <title>Automation</title>
+  <link rel="shortcut icon" href="./images/image1.png" type="image/x-icon" />
+  <link rel="stylesheet" href="./css/font-icon.css">
+  <link rel="stylesheet" href="./css/font-icon-style.css">
+  <link rel="stylesheet" type="text/css" href="./css/Report.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./js/Report.js"></script>
+  <script type="text/javascript" src="../screenShots/js/detail.js"></script>
+  <script type="text/javascript" src="../screenShots/js/mData.js"></script>
 </head>
 <body>
-<div>
-<a href="./coverage" target="iframe"><button >Unit Test Report</button></a>
-<a href="./screenShots" target="iframe"><button target="iframe" >ScreenShot Test Report</button></a>
-<iframe name="iframe" src=""></iframe>
+  <div class="main">
+    <div class="logo">
+      <img id="my_img" src="./images/image.png">
+    </div>
+    <div class="top">
+        <div class="tab1_hover" title="Unit Testcase Report">Unit Testcase Report
+        <div id="line1"></div>
+      </div>
+      <div class="tab2" title="Screenshot Testcase Report">Screenshot Testcase Report
+        <div id="line2"></div>
+      </div>
+    </div>
+  <div class="clr"></div>
+  <div class="content">
+    <div class="Unit" >
+      <iframe src="../coverage/index.html" class="iframe"></iframe>
+    </div>
+    <div class="Screenshot" >
+      <div class="scr_top">
+        <ul class="list">
+          <li class="tab_li1_hover">ScreenShots<input class="inp" placeholder="Search"><span class="glyphicon glyphicon-search icon1"></span> <div id="line3"></div></li>
+          <li class="tab_li2">Newly Added Files <div id="line4"></div></li>
+          <li class="tab_li3">Error Files <div id="line5"></div></li>
+        </ul>
+      </div>
+      <div class="scr_buttom">
+        <div class="ul_catch_main">
+          <div class="ul_catch_1">
+            <ul class="image_view"></ul>
+          </div>
+          <div class="ul_catch_2">
+          </div>
+          <div class="ul_catch_3">
+          </div>
+        </div>
+      </div>
+      <div class="popup_view">
+        <span class="close text-white" aria-hidden="true" style="color:white;opacity:1">&times;</span>
+        <a class="a" target="_blank" ><span class="glyphicon glyphicon-new-window" style="color:white;opacity:1;float: right;right: 100px; top: -79px;cursor: pointer;" ></span>
+        </a>
+        <img class="large_img" >
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
 </body>
 </html>

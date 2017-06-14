@@ -1,0 +1,1061 @@
+/* $Id$ */
+.icon-font-edit{
+	font-size:22px;
+	color:#bbb;
+}
+.icon-font-edit:hover,.icon-delete2:hover{
+	color:#00acda!important;
+}
+.zscuspolpanelbox .icon-font-edit{
+	color:#666;
+	margin-right:5px;
+	cursor:pointer;
+	top:-2px;
+}
+.zscuspolpanelbox .icon-delete2{
+	cursor:pointer;
+	margin-right:10px;
+	font-size:16px;
+	top:-6px;
+	color:#222;
+}
+.icon-close2{
+	font-size:10px;
+	color:#888;
+	cursor:pointer;	
+}
+.icon-draw12{
+	font-size:26px;
+}
+.icon-html9,.icon-css5{
+	font-size:30px;
+}
+.icon-gear{
+	font-size:23px;
+	color:#aaa;
+	top:3px;
+}
+#customizebtn .icon-gear{
+	color:#fff;
+	font-size:21px;
+	top:1px;
+}
+.icon-arrow-left{
+	color:#aaa;
+	font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: -4px;
+}
+.icon-webform{
+	font-size:90px!important;
+}
+.icon-webform,.icon-file{
+	font-size:80px;
+	color:#dfdfdf;
+	display:inline-block;
+	margin-bottom:10px;
+}
+.icon-exclamation-black{
+	font-size:62px;
+	color:#ececec;
+}
+.icon-close-e{
+	color:#aaa;
+	font-size:35px;
+	position:absolute;
+	right:0px!important;
+	top:0px;
+}
+.icon-close-e:hover{
+	top:1px;
+	color:#222;
+	font-size:35px;
+	cursor:pointer;
+	/* transform:rotateZ(90deg);
+	transition:all 300ms ease 0s; */
+}
+.emptysupmail .icon-mail-o{
+	font-size:65px;
+	color:#ddd;
+}
+.icon-help-round{
+	font-size:20px;
+	cursor:pointer;
+}
+.emptytwitter .icon-twitter2,.emptyfb .icon-facebook2,.emptychat .icon-bubbles2,.emptychat .icon-speechbubble56{
+	font-size:70px;
+	color:#eee;
+}
+#departmentInfo .icon-mail-o{
+	color:#bbb;
+	font-size:13px;
+	top:2px;
+	margin-right:0px;
+}
+#fromAddData .zsnorecord{
+	padding:20px 10px 0px 0px;
+	border:0px!important;
+	background-color:#fff;	
+}
+#mailAliasAddData .zsnorecord{
+	padding:15px 10px 0px 0px;
+	border:0px!important;
+	background-color:#fff;	
+}
+.zsmdaddforum input.txtfieldnew{
+	padding:5px;
+}
+.zswebformlist{
+	padding:0px 10px 0px 10px;
+}
+.zswidsource{
+	top:-4px;
+}
+.zsmailaddtxtboxdiv{
+	border:1px solid #f1f1f1;
+	border-radius:4px;
+	text-align:left;
+	width:60%;
+	height:34px;
+}
+#selectChatUserList .zsflabel{
+	margin-top:7px!important;
+}
+#disableChatBtn{
+	float:right;
+	margin:12px 0 10px 20px;
+}
+#buttonaddsuprepuserForChat{
+	float:right;
+	margin:8px 0 10px 20px;
+}
+.multibrandhelp{
+	float:left;
+	margin-left:10px;
+	margin-top:-5px;
+}
+#availUserContainerForChat .select2-container-multi .select2-choices .select2-search-field input{
+	padding:2px 5px!important
+}
+#comfrmList .zsforumhover .icon-edit-mp-013{
+	top:3px;
+}
+.zscomlisteditdelete{
+	float:left;
+	margin-right:10px;
+	top:-6px;
+}
+.zsportalname span.zspdisablename{
+	font-size:16px;
+	color:#999;
+}
+.zsportalleddiv{
+	margin:20px 10px 0 0;
+	text-align:right;
+	float:right;
+}
+.zs-deptrow .zsportalleddiv{
+	margin:23px 10px 0 0!important;
+}
+/* edit style start here */
+.icon-edit-mp-013{
+	font-size:22px;
+	color:#bbb;
+	top:-3px;
+	cursor:pointer;
+}
+#deptcomdivhover .icon-edit-mp-013{
+	top:0px!important;
+} 
+#fromAddData .icon-edit-mp-013{
+	top:0px;
+} 
+.zs-deptrow .icon-edit-mp-013{
+	visibility:hidden;
+}
+.zs-deptrow:hover .icon-edit-mp-013{
+	visibility:visible;
+}
+.zs-deptrow .EditDelDiv .icon-edit-mp-013{
+	top:0px!important;
+}
+.zswebformlist .icon-edit-mp-013{
+	top:0px!important;
+}
+/* edit style end here */
+/*Delete style start here */
+.icon-delete2{
+	font-size:16px;
+	color:#999;
+	position:relative;
+	top:-1px;
+	cursor:pointer;
+}
+.zsportalleddiv .icon-delete2{
+	top:2px;
+}
+#fromAddData .icon-delete2{
+	top:1px;
+} 
+.zswebformlist .icon-delete2{
+	top:-4px!important;
+}
+.zsportaledit .icon-delete2{
+	top:-7px;
+}
+/*Delete style start here */
+/* Plus style start here */
+#addMailAliasButton .icon-add52{
+	font-size:19px;
+	color:#000;
+	font-weight:bold;
+	cursor:pointer;
+}
+/* Plus style start here */
+/* black down arrow start here */
+.icon-Block-down-arrow{
+	font-size:8px;
+	color:#000;
+	top:-4px;
+	left:1px;
+	cursor:pointer;
+}
+/* black down arrow start here */
+/*lock icon start here */
+.icon-locked,.icon-unlocked{
+	font-size:21px;
+	margin-right:5px;
+}
+/*lock icon end here */
+#addfromaddhelpicon,#webtoCaseForm .icon-help-round,.multibrandhelp .icon-help-round,#portalDomainForm .icon-help-round,#helptextHover.icon-help-round,.icon-help-round{
+	top:3px;
+	color:#00acda !important;
+}
+.multibrandhelp .icon-help-round{
+	margin-top:1px;
+	display:inline-block;
+}
+#portalDomainForm .icon-help-round{
+	top:-2px;	
+}
+.icon-box-01,.icon-tick8{
+	top:2px;
+}
+.icon-box-01{
+	color:#bbb;
+}
+.icon-tick8{
+	color:#38CA2F;
+}
+.feedbackPopupInDep #hideform.icon-close-e{
+	font-size:40px!important;
+	color:#999;
+	top:-52px !important;
+	right:-61px!important;
+}
+#hideform.icon-close-e:hover{
+	color:#222;
+}
+.zsaddsoliinnerdiv .icon-Block-down-arrow{
+	top:-1px!important;
+	color:#888
+}
+#popupTitle .icon-edit-mp-013{
+	color:#888!important;
+	top:-1px!important;
+	left:5px!important;
+} 
+.fbf-editdelete .icon-edit-mp-013,.wtc-editdelete .icon-edit-mp-013{
+	float:left;
+	margin:0 9px!important;
+	cursor:pointer;
+	top:0px;
+}
+.fbf-editdelete .icon-delete2,.wtc-editdelete .icon-delete2{
+	float:left;
+	margin-right:10px;
+	cursor:pointer;
+	top:0px;
+}
+#helptextHover.icon-help-round{
+	top:4px;
+}
+.wtcformrow .icon-help-round{
+	top:5px;
+}
+.wtc-editdelete .icon-edit-mp-013{
+	top:-2px!important;
+	position:relative;
+}
+.icon-chat51{
+	color:#3fb233;
+	font-size:15px;
+	cursor:pointer;
+}
+.zschatoff{
+	color:#c5c5c5!important;
+}
+.detinforgt .icon-close2{
+	color:#f00;
+	font-size:10px;
+}
+.detinforgt .icon-androidd{
+	color: #27ba00;
+    font-size: 21px;
+    margin-top: 0px;
+    position: relative;
+    top: -3px;
+}
+.zscuspolpanelbox .icon-font-edit,.zscuspolpanelbox .icon-delete2,.icon-gear,#addfromaddhelpicon,#webtoCaseForm .icon-help-round,.multibrandhelp .icon-help-round,#portalDomainForm .icon-help-round,#departmentInfo .icon-mail-o,.zswidsource,#comfrmList .zsforumhover .icon-edit-mp-013,.icon-box-01,.icon-tick8,.icon-Block-down-arrow,.icon-delete2,.zscomlisteditdelete,.icon-edit-mp-013,#hideform.icon-close-e,.icon-help-round,#mailConfigForm .icon-edit-mp-013{
+	position:relative;
+}
+.zspopacc .icon-edit-mp-013{
+	position:relative;
+	top:3px;
+}
+.zscuspolpanelbox .icon-font-edit,.zscuspolpanelbox .icon-delete2,.icon-gear{
+	position:relative;
+}
+#cpsearchmaindiv .icon-search3 {
+    background-color: #fff;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 25px;
+    padding-top: 10px;
+    position: absolute;
+    right: 0;
+    top: -8px;
+    width: 31px;
+    z-index: 8999
+}
+#cpsearchmaindiv.w100 .icon-search3{
+	left:1px;
+	right:none;
+	width:30px;
+	margin-left:-5px;
+	padding-left:5px;
+}
+.cpretoplayer .icon-outlined1,.cpretoplayer .icon-comments-o2{
+	font-size:15px;
+	font-weight:bold;
+	color:#017fbe;
+}
+.cpretoplayer .icon-comments-o2{
+	position:relative;
+	top:3px;
+}
+.zspopacc .icon-help-round{
+	font-size:15px;
+	top:-1px;
+	position:relative;
+}
+.zsmngcat .icon-locked, .zsmngcat .icon-unlocked{
+	position:relative;
+	top:-3px;
+	margin-right:0px;
+}
+.zsmngcat .icon-edit-mp-013{
+	top:0px;
+	margin-right:8px;
+}
+.zsforaction .icon-locked,.zsforaction .icon-unlocked{
+	position:relative;
+	top:-3px;
+	margin-right:0px;
+}
+.zsforaction .icon-edit-mp-013{
+	top:0px;
+	margin-right:5px;
+}
+.zsforaction .icon-delete2{
+	top:-4px;
+	margin-right:8px;
+}
+.zsforaction .icon-move{
+	position:relative;
+	top:-5px;
+	margin-right:10px;
+}
+#comfrmList .zsforumhover .icon-delete2{
+	top:4px!important;
+}
+.zspopaccnew .icon-edit-mp-013{
+	top:4px;
+	opacity:1!important
+}
+#confirmMailMsg .icon-exclamation-lightborder{
+	color:#f00;
+	font-size:30px;
+	opacity:0.5;
+}
+#confirmMailMsg .icon-cross72{
+	font-size: 9px;
+    margin-top: 9px;
+    margin-right: 8px;
+}
+.zs-deptdvrow .zschatstausdiv{
+	display: table;
+    text-align: right;
+    margin-top:5px;
+}
+.zs-deptdvrow .icon-delete2{
+	margin-right:0px!important;
+}
+#allForumList .dragDropCls .icon-delete2{
+	top:-5px;
+	right:4px;
+	margin-right:5px;
+	top:-5px;
+	margin-right:10px;
+}
+#allForumList .icon-edit-mp-013,#comfrmList .icon-edit-mp-013{
+	top:1px!important;
+}
+.zscuspolpanelbox .icon-font-edit,.zscuspolpanelbox .icon-delete2,.icon-gear{
+	position:relative;
+}
+.zssolusubtab .icon-comment-thick{
+	position: relative;
+    top: 4px;
+    font-size: 18px;
+    color: #555;
+}
+.relatedsolsearch.icon-search3{
+	font-size: 25px;
+    color: #bbb
+}
+.icon-zsbell{
+	float: left;
+    font-size: 17px;
+    margin-top: 6px;
+    margin-right: 10px;
+}
+.cpgreenclr{
+	color:#98BB38;
+}
+.cpdimclr{
+	color:#D9D9D9;
+}
+.editor-icn-cont .icon-clip{
+	font-size:17px;
+	color:#00acda;
+} 
+.cpnewfollowbtn i.icon-plus{
+	margin-right: 5px; 
+	font-size: 12px;
+} 
+.cpnewunfollowbtn i.icon-minus{
+	margin-right: 5px; 
+	font-size: 12px;
+} 
+#articleDashboard .icon-foursqblk{
+	font-size: 13.5px;
+	margin-right: 6px;
+}
+.ad-midcontainer .icon-help-round{
+    font-size: 27px;
+    color: #ddd;
+    color: #ddd!important;
+    cursor: pointer;
+    position: relative;
+    top: -1px;
+    right: -3px
+}
+.ad-midcontainer .icon-help-round:hover{
+	color:#00acda;
+}
+.articleusagechartdiv .icon-checkmark-o{
+	font-size:27px;
+	color:#5AD5BC;
+}
+.mostpopartimg .icon-eye4{
+	font-size:30px;
+	color:#aaa;
+}
+.mostpopartimg .icon-comment-thick,.mostpopartimg .icon-like2,.mostpopartimg .icon-dislike,.mostpopartimg .icon-ticket,.mostpopartimg .icon-document9,.App2tic .icon-eye4{
+	font-size:20px !important;
+	color:#aaa !important;
+	position:relative;
+	top:-9px;
+	margin-left:6px;
+	margin-right:6px;
+}
+.mostpopartimg .icon-comment-thick{
+}
+.mostpopartimg .icon-like2{
+	top:-14px;
+	font-size:23px;
+}
+.mostpopartimg .icon-dislike{
+	font-size:23px;
+	top:-8px;
+}
+.nw_filtericon .icon-delete {
+  float: right;
+  margin: -49px 46px;
+  font-size:20px;
+  color:#d5d5d5;
+}
+#CPSolsearch .icon-delete,.cpticksearchtxt .icon-delete,#CPSolsearch.solsearchresultmdiv .icon-cross72,#CPSolsearch.searchoff .icon-cross72{
+    left: 97%;
+    top: 12px;
+    position: absolute;
+     display: inline-block;
+    font-size: 13px;
+    z-index: 9;
+    color: #d5d5d5;
+    cursor: pointer;
+}
+.zscatdetailview .icon-edit-mp-013,.zscatlisting .icon-delete2{
+	position:relative;
+	top:2px!important;
+}
+.zscatdetailview .icon-edit-mp-013{
+	top:0px!important;
+}
+#comfrmList li .icon-delete2{
+	position:relative;
+	top:-5px;
+}
+.zscatlisting .icon-lock-01,.zscatlisting .icon-unlock-01,.zscomactiondiv .icon-lock-01,.zscomactiondiv .icon-unlock-01{
+	color: #bbb;
+    font-size: 23px;
+    position: relative;
+    right: -4px;
+    top: -2px;
+}
+.zscomactiondiv .icon-lock-01,.zscomactiondiv .icon-unlock-01{
+	right:-7px;
+}
+#comfrmList .icon-move{
+	position: relative;
+    top: -6px;
+    margin-left: 7px;
+    margin-right: 4px;
+}
+.zsnewdimtxt .icon-Department{
+	font-size:14px;
+	color:#bbb;
+	position: relative;
+    top: 1px;
+}
+.cpbreadcrumbs .icon-bcarr {
+    color: #999;
+    font-size: 5px;
+    margin: 0 5px;
+    position: relative;
+    top: -1px;
+}
+.cprqthread  #editorContainer .icon-cross72{
+	color: #999;
+    font-size: 12px;
+    position: relative;
+    right: 13px;
+    top: 1px;
+    margin-left:15px;
+    cursor:pointer;
+    display:block!important;
+}
+.icon-thcnt-01{
+	position: relative;
+    top: 2px;
+}
+.comment_threads .icon-comments-o2{
+    color: #e2be0e;
+    font-size: 16px;
+    margin-right: 10px;
+    position: relative;
+    top: 5px;
+    font-weight:bold;
+}
+.icon-camera4:before{
+    font-size:35px;
+    position:relative;
+    top:1px;
+    left:2px;
+}
+.icon-Feedbackform{
+	color: #888;
+    font-size: 19px;
+    left: -3px;
+    margin-right: -6px;
+    position: relative;
+    top: 1px;
+    font-weight:bold;
+}
+.icon-sphere{
+	font-size: 15px;
+    left: 2px;
+    position: relative;
+}
+.Tfontarrow{
+	font-size:8px;
+}
+.show-dtls-pos i.icon-close2{
+	color: #aaa;
+    font-size: 9px;
+}
+.cpreqbcbdr .icon-bcarr{
+	cursor:default;
+}
+.item span i.icon-outlined1{
+	color:#666;
+	font-size: 19px;
+    position: relative;
+    top: -1px;
+    margin-right:13px;
+}
+.item span i.icon-printer2{
+	 font-size: 21px;
+	 margin-right:15px;
+}
+.item span i.icon-draft-send-2,.item span i.icon-draft_edit{
+	font-size: 17px;
+    margin-left: 3px;
+    margin-right: 16px;
+    position: relative;
+    top: -3px;
+    transform:rotatey(180deg);
+}
+.item span i.icon-draft_edit{
+	margin-left: 5px!important;
+    margin-right: 14px!important;
+    transform: none !important;
+}
+.item span i.icon-showoriginal{
+	font-size: 33px;
+    height: 21px;
+    margin-right: 15px;
+    position: relative;
+    top: -2px;
+}
+.cpticketth .icon-cpog{
+	font-size: 30px;
+    position: relative;
+    right: -9px;
+    top: -5px;
+}
+#cpticketthreadsview .icon-Fdraft{
+	font-size: 23px;
+    position: relative;
+    right: -8px;	
+}
+#cpticketthreadsview .icon-Fdraft .path1::before,#cpticketthreadsview .icon-Fdraft .path3::before{
+	 color: #888;
+}
+#cpticketthreadsview .icon-mailic,#cpticketthreadsview .icon-mailog-01{
+	font-size: 17px;
+    position: relative;
+    top: -2px;
+    left:3px;
+}
+#cpticketthreadsview .icon-forumic,#cpticketthreadsview .icon-forumoc{
+	 font-size: 27px;
+    position: relative;
+    right: -7px;
+}
+#cpticketthreadsview .icon-mailfor-01{
+	position: relative;
+    right: -5px;
+    top: -2px;
+}
+#cpticketthreadsview .icon-twitog-01,#cpticketthreadsview .icon-twitic-01,#cpticketthreadsview .icon-fbog-01,#cpticketthreadsview .icon-fbig-01,#cpticketthreadsview .icon-chatrednew-01{
+	font-size: 19px;
+    margin-left: 5px;
+    position: relative;
+    right: -4px;
+    top: -1px;
+}
+#cpticketthreadsview .icon-chatrednew-01{
+	 font-size: 21px;
+	 right:-3px;	
+}
+.cptickdetail a.cpbtlist .icon-arrow-left3{
+	position:relative;
+	top:1.5px;
+	
+}
+.cptickdetail #cpsearchmaindiv.w100 .icon-search3{
+	left:1px;
+	right:none;
+	width:30px;
+	margin-left:-5px;
+	padding-left:5px;
+}
+.cpdetnavi .prevspan .icon-arrow-left3,.cpdetnavi .nxtspan .icon-arrow-right3{
+	font-size:22px;
+	color:#aaa;
+	margin-left:0px;
+}
+.cpdetnavi .prevspan .icon-arrow-left3:hover,.cpdetnavi .nxtspan .icon-arrow-right3:hover,.cpdetnavi span i:hover,.cptickdetail a.cpbtlist:hover .icon-arrow-left3,
+.cpdownloadpanel .icon-inbox:hover,.cpreqdesub .icon-draft_edit,#solution_search_result .cp-relsolsub .icon-newtab:hover{
+	color:#017fbe;
+}
+.cpdetnavi .nxtspan .icon-arrow-right3{
+	margin-left:0px;
+}
+.icon-cross72{
+	display:none;
+}
+.freshsearch .icon-cross72{
+	display:inline-block;
+	position: absolute;
+    right: 5px;
+    top: 10px;
+    font-size: 13px;
+    color: #666;
+    cursor:pointer;
+}
+.artformbackdiv .icon-arrow-left3{
+	float:left;
+	font-size: 30px;
+    position: relative;
+    margin:0 10px 0 -10px;
+}
+.artformbackdiv .icon-arrow-left3:hover{
+	color:#000;
+}
+.popularkeywordBack .icon-arrow-left3,#massop_Solutions .icon-arrow-left3{
+	font-size: 17px;
+    top: 2.5px;
+    position:relative;
+}
+#massop_Solutions .icon-arrow-left3{
+	color: #aaa;
+	left: -5px
+}
+#keywordsDetailedPage .icon-arrow-down-single{
+	font-size: 12px;
+    cursor: pointer;
+}
+#Keydropdown .zspoparrownew {
+    right: 15px!important;
+    top: -10px!important;
+}
+.previewtoppanel .icon-arrow-left3{
+	float:left;
+	position: relative;
+    top: 2.5px;
+    font-size: 15px
+}
+.artfirstimgdiv .icon-document9{
+	font-size: 45px;
+    color: #ddd;
+    margin-top: 0px;
+    cursor:default!important;
+}
+.artdashstats .icon-dislike,.artdashstats .icon-like2,.artdashstats .icon-Comment-new-right,.artdashstats .icon-file{
+	color: #ddd;
+	font-size:50px;
+	cursor:default!important;
+} 
+.artdashstats .icon-file{
+	font-size:45px !important
+}
+#artusageicn.icon-exclamation-lightborder{
+	font-size: 22px;
+    color: #F06E7B;
+    position: relative;
+    top: -2px;
+    margin-right: 3px;
+    margin-top: 4px;
+    display: inline-block;
+    margin-left: 2px;
+}
+.zssollisticn .icon-font-edit,.zssollisticn .icon-delete2,.zssollisticn .icon-newtab{
+	color: #bbb;
+	margin-left:8px;
+}
+.zssollisticn .icon-newtab{
+	margin-left:0px!important;
+    position: relative;
+    font-weight: bold;
+    top: -1px
+}
+.zssollisticn .icon-font-edit:hover,.zssollisticn .icon-delete2:hover,.zssollisticn .icon-newtab:hover{
+	color: #555!important;
+}
+.zssollisticn .icon-font-edit{
+	font-size: 22px;
+    position: relative;
+    top: 4px;
+}
+.zssollisticn .icon-delete2 {
+    font-size: 15px;
+    font-weight: bold;
+}
+.zssollisticn .icon-open {
+    font-size: 16px;
+}
+.solvotingdiv .icon-like2,.solvotingdiv .icon-dislike{
+	color: #AAA;
+    font-size: 18px;
+}
+.solvotingdiv .icon-like2:hover,.solvotingdiv .icon-dislike:hover{
+	cursor:pointer;
+}
+.solvotingdiv .icon-dislike{
+	position:relative;
+	top:4px;
+}
+#articleVoteMsg .icon-like2,#articleVoteMsg .icon-dislike{
+	cursor:default!important
+}
+#massop_Solutions .icon-delete2,#massop_Solutions .icon-pencil84,#massop_Solutions .icon-newtab{
+    margin-left: 13px;
+    font-size: 18px;
+    color: #00acda!important;
+    cursor: pointer
+}
+.soltopheaddiv .icon-newtab{
+    color: #b9b9b9;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    top: 2px;
+    float: right;
+    margin: 2px 15px 0 0;
+    display: none
+}
+.cpmoredetdiv .icon-attach16{
+	color: #aaa;
+    transform: rotate(45deg);
+}
+.cpdownloadpanel .icon-inbox{
+	color:#bbb;
+}
+/* .cpdownloadpanel .icon-inbox:hover{
+	color:#00acda;
+} */
+.cpartsub .icon-clip{
+	font-size: 14px;
+    margin-right: 5px;
+    position: relative;
+    color:#aaa;
+}
+.cpreqlist .cpmodeicon .icon-cpog{
+	font-size: 23px;
+    left: -4px;
+    margin-right: -9px;
+    position: relative;
+    top:-2px;
+}
+.cpreqlist .cpmodeicon .icon-cpog .path1::before{
+	color: #bbb !important;
+}
+.cpreqlist .cpmodeicon .icon-forumoc,.cpreqlist .cpmodeicon .icon-forumic{
+	 font-size: 20px;
+    left: -4px;
+    margin-right: -9px;
+    position: relative;
+    top: 1px;
+}
+.cpreqlist .cpmodeicon .icon-forumoc .path1::before,.cpreqlist .cpmodeicon .icon-forumic .path1::before{
+	color:#777!important;
+}
+.cpreqlist .cpmodeicon .icon-mailfor-01{
+	font-size: 13px;
+    position: relative;
+    top: 1px;
+}
+.cpreqlist .cpmodeicon .icon-Fdraft{
+	font-size: 17px;
+    margin-right: -3px;
+    position: relative;
+    top: 1px;
+}
+.cpreqlist .cpmodeicon .icon-Fdraft .path1::before{
+	color:#aaa!important;
+}
+.cpreqlist .cpmodeicon .icon-twitog-01{
+	font-size: 14px;
+    margin-right: 0px;
+    position: relative;
+}
+.cpreqlist .cpmodeicon .icon-twitic-01{
+	  left: -15px;
+    margin-right: -43px;
+    position: relative;
+}
+.cpreqlist .cpmodeicon .icon-twitic-01 .path5::before{
+	left: -28px;
+    position: relative;
+    margin-left:0px;
+}
+.cpreqlist .cpmodeicon .icon-fbog-01,.cpreqlist .cpmodeicon .icon-fbig-01{
+	 left: -1px;
+    margin-right: -21px;
+    position: relative;
+}
+.cpreqlist .cpmodeicon .icon-fbog-01 .path2::before,.cpreqlist .cpmodeicon .icon-fbig-01.path2::before{
+	 left: -22px;
+    position: relative;
+    margin-left:0px;
+}
+.cpreqlist .cpmodeicon .icon-chatrednew-01{
+ 	font-size: 18px;
+    left: -37px;
+    margin-right: -68px;
+    position: relative;
+}
+.cpreqlist .cpmodeicon .icon-chatrednew-01 .path4::before{
+	left: -27px;
+    margin-left: 0;
+    position: relative;
+}
+.cpreqlist .cpmodeicon .icon-chatrednew-01 .path3::before{
+	left: 0;
+    margin-left: -1em;
+    position: relative;
+    color:#bbb;
+}
+.cpreqlist .cpmodeicon .icon-chatrednew-01 .path2::before{
+	left: 10px;
+    margin-left: 0;
+    position: relative;
+    color:#bbb;
+}
+.cpreqlist .cpmodeicon .icon-chatrednew-01 .path1::before{
+	left: 37px;
+    position: relative;
+    color:#bbb;
+}
+.cphelpcenterview  .icon-paper{
+	color:#bbb;
+}
+.cprelatedarticle ul li i.icon-bcarr{
+	color:#aaa;
+	font-size:5px;
+    cursor: auto
+}
+.cp-reqlpanel .icon-file{
+	font-size: 15px;
+    position: relative;
+    top: 5px;
+    color:#999!important;
+}
+.cp-reqlpanel .icon-chatic-01{
+	font-size: 17px;
+    margin-right: -3px;	
+}
+.solvotingdiv .icon-like2,.solvotingdiv .icon-dislike{
+	color: #AAA;
+    font-size: 18px;
+}
+.solvotingdiv .icon-like2:hover,.solvotingdiv .icon-dislike:hover{
+	cursor:pointer;
+}
+.solvotingdiv .icon-dislike{
+	position:relative;
+	top:4px;
+}
+.cpreqsecline .cpmodeicon .icon-surveyff{
+	  font-size: 17px;
+    margin-right: -2px;
+}
+.cpreqsecline .cpmodeicon .icon-surveyff .path1::before,.cpreqsecline .cpmodeicon .icon-surveyff .path2::before,.cpreqsecline .cpmodeicon .icon-surveyff .path3::before,.cpreqsecline .cpmodeicon .icon-surveyff .path4::before{
+	color:#aaa
+}
+.cpreqsecline .cpmodeicon .icon-surveyff .path5::before{
+    position: relative;
+    top: -1px;
+}
+.cprqthread .cpmoredetdiv .icon-surveyff{
+	 font-size: 20px;
+    position: relative;
+    right: -4px;
+    top: -3px;
+}
+.cprqthread .cpmoredetdiv .icon-surveyff .path5::before{
+	font-size: 24px;
+    position: relative;
+    right: -2px;
+    top: 2px;
+}
+#cpfilterdepname i.icon-Block-down-arrow{
+	font-weight: bold; 
+	margin: 0px 5px; 
+	position: relative; 
+	top: 0px; 
+	color: #bbb; 
+	font-size: 8px;
+}
+.cpticksearchtxt .icon-delete{
+	left: auto !important;
+    right: 0 !important;
+    top: -40px;
+}
+.cpreqdesub .icon-draft_edit{
+    font-size: 16px;
+    position: relative;
+    top: -4px;
+}
+.cpmodeicon .icon-forumsic-01{
+	position:relative;
+	top:2px;
+}
+.item .icon-chat51{
+	color: #666;
+    font-size: 17px;
+    margin-left: 2px;
+    margin-right: 13px;
+}
+.cpmoredetdiv .icon-draft_edit{
+	color: #aaa;
+    font-size: 20px;
+    position: relative;
+    top: -2px;
+}
+.threads-pop .icon-draft_edit{
+	color:#000;
+}
+#solution_search_result .cp-relsolsub .icon-newtab{
+	color: #aaa;
+    display: none;
+    font-size: 14px;
+    margin-top: 6px;	
+}
+#solution_search_result .cp-relsolsub:hover .icon-newtab{
+	display:inline-block;
+}
+.cpaddticktemplate .cpaddticktemplate{
+	font-size: 20px;
+    position: absolute;
+    right: 9px;
+    top: 9px;
+}
+.cpreqsecline .icon-thcnt-01{
+	color:#444;
+}
+.templateppop .icon-search3{
+	 font-size: 20px;
+    position: absolute;
+    right: 10px;
+}
+.cpmoreli .icon-arrows{
+	position: relative; 
+	font-size: 8px; 
+	color: #017fbe;
+	top: 1px;
+	font-weight:bold;
+}
+.cpbacktoli .icon-arrows{
+	position: relative; 
+	font-size: 8px; 
+	color: #017fbe; 
+	font-weight:bold;
+	top: 0px;
+    transform: rotate(180deg);
+}
+#threadindicator_desc #editorContainer i.icon-cross72{
+	color: #999;
+    font-size: 12px;
+    position: relative;
+    right: 13px;
+    top: 1px;
+    margin-left: 15px;
+    cursor: pointer;
+    display: block!important;
+}
+   
