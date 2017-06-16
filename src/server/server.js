@@ -7,14 +7,16 @@ var express = require('express');
 var webpack = require('webpack');
 var getIP = require('../utils/ipaddress');
 var prodFlag = process.env.npm_config_server_prod || false;
+var hotReload = process.env.npm_config_dev_hot || false;
 var https = require('https');
 var app = express();
 var config;
 if (prodFlag) {
   config = require('../config/webpack.prod.config');
-
   var compression = require('compression');
   app.use(compression());
+} else if (hotReload) {
+  config = require('../config/webpack.dev.hot.config');
 } else {
   config = require('../config/webpack.dev.config');
 }
@@ -24,6 +26,7 @@ var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || '9090';
 var context = process.env.npm_config_server_context || 'app';
 var mockFlag = process.env.npm_config_server_mock || true;
+
 var appPath = fs.realpathSync(process.cwd());
 var url = 'htt' + 'ps://' + host + ':' + port;
 app.use(
@@ -34,7 +37,11 @@ app.use(
   })
 );
 
-app.use(require('webpack-hot-middleware')(compiler));
+//app.use(require('webpack-hot-middleware')(compiler));
+if (hotReload) {
+  app.use(require('react-error-overlay/middleware')());
+}
+app.use(require('../hmrMiddleware')(compiler, { path: '/sockjs-node/info' }));
 if (mockFlag) {
   try {
     var mockServer = require(path.resolve(appPath, 'mockapi', 'index.js'));
@@ -83,7 +90,7 @@ https
       console.log('you can change hostname and port using following command');
       // custom console
       console.log(
-        'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true}'
+        'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true} --dev:hot={true}'
       );
     }
     // custom console
