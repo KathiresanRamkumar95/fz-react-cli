@@ -1,9 +1,13 @@
 module.exports = hmrMiddleware;
 
 function pathMatch(url, path) {
-  if (url == path) return true;
+  if (url == path) {
+    return true;
+  }
   var q = url.indexOf('?');
-  if (q == -1) return false;
+  if (q == -1) {
+    return false;
+  }
   return url.substring(0, q) == path;
 }
 
@@ -20,7 +24,9 @@ function hmrMiddleware(compiler, opts) {
 
   compiler.plugin('compile', function() {
     latestStats = null;
-    if (opts.log) opts.log('webpack building...');
+    if (opts.log) {
+      opts.log('webpack building...');
+    }
     eventStream.publish({ type: 'building' });
   });
   compiler.plugin('done', function(statsResult) {
@@ -30,7 +36,9 @@ function hmrMiddleware(compiler, opts) {
     publishStats('built', latestStats, eventStream, opts.log);
   });
   var middleware = function(req, res, next) {
-    if (!pathMatch(req.url, opts.path)) return next();
+    if (!pathMatch(req.url, opts.path)) {
+      return next();
+    }
     eventStream.handler(req, res);
     if (latestStats) {
       // Explicitly not passing in `log` fn as we don't want to log again on
@@ -100,38 +108,44 @@ function publishStats(action, statsResult, eventStream, log) {
       (!stats.errors || stats.errors.length === 0) &&
       stats.assets &&
       stats.assets.every(asset => !asset.emitted)
-    )
+    ) {
       eventStream.publish({
         type: 'still-ok'
       });
+    }
     eventStream.publish({
       type: 'hash',
       data: stats.hash
     });
 
-    if (stats.errors.length > 0)
+    if (stats.errors.length > 0) {
       eventStream.publish({
         type: 'errors',
         data: stats.errors
       });
-    else if (stats.warnings.length > 0)
+    } else if (stats.warnings.length > 0) {
       eventStream.publish({
         type: 'warnings',
         data: stats.warnings
       });
-    else
+    } else {
       eventStream.publish({
         type: 'ok'
       });
+    }
   });
 }
 
 function extractBundles(stats) {
   // Stats has modules, single bundle
-  if (stats.modules) return [stats];
+  if (stats.modules) {
+    return [stats];
+  }
 
   // Stats has children, multiple bundles
-  if (stats.children && stats.children.length) return stats.children;
+  if (stats.children && stats.children.length) {
+    return stats.children;
+  }
 
   // Not sure, assume single
   return [stats];
