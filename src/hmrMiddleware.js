@@ -52,7 +52,7 @@ function createEventStream(heartbeat) {
   }
   setInterval(function heartbeatTick() {
     everyClient(function(client) {
-      client.write('data: \uD83D\uDC93\n\n');
+      client.write('data: ' + JSON.stringify({ type: 'heartbeat' }) + '\n\n');
     });
   }, heartbeat).unref();
   return {
@@ -95,6 +95,7 @@ function publishStats(action, statsResult, eventStream, log) {
     }
     if (
       //  !force &&
+      action !== 'sync' &&
       stats &&
       (!stats.errors || stats.errors.length === 0) &&
       stats.assets &&

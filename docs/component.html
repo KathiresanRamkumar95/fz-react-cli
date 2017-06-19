@@ -241,13 +241,15 @@ ReactDOM.render(<UserEdit />, reactUserEdit);
 <!-- hook for screen shot testing start-->
 <script type="text/javascript">
 var err = null;
+var comName = '';
 var findErr = (window.onerror = function(e, line) {
   err = e;
+  comName = window.location.hash.substr(1);
 });
 var funct = function() {
-  return err;
+  return { error: err, name: comName };
 };
 </script>
-		<!-- hook for screen shot testing End-->
+    <!-- hook for screen shot testing End-->
 	</body>
 </html>

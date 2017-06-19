@@ -1,11 +1,6 @@
 $(document).ready(function() {
   var This;
-
-  // var fileObj ={
-  //     diff : ['desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png'],
-  //     test :['desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png'],
-  //     reference :['desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png']
-  // }
+  var selected=1;
 
   var div = '';
 
@@ -16,6 +11,42 @@ $(document).ready(function() {
       '</span> </li>';
     div += content;
   }
+
+  var newDiv='';
+
+  if(resObj.newFiles.length>0)
+  {
+      for (var i = resObj.newFiles.length - 1; i >= 0; i--) {
+      var content =
+        '<li class="image_li_new"><span>' +
+        resObj.newFiles[i]+
+        '</span> </li>';
+      newDiv += content;
+    }
+  }
+  else
+  {
+    newDiv='<li class="image_li_new">No files added newly</li>'
+  }
+
+  var errDiv='';
+
+  if(resObj.errorfiles.length>0)
+  {
+      for (var i = resObj.errorfiles.length - 1; i >= 0; i--) {
+      var content =
+        '<li class="image_li_err"><span>' +
+        resObj.errorfiles[i]+
+        '</span> </li>';
+      errDiv += content;
+    }
+  }
+  else
+  {
+    errDiv='<li class="image_li_err">No Error files !</li>'
+  }
+  
+
 
   $('#line1').addClass('line1');
   $('#line3').addClass('line3');
@@ -46,10 +77,15 @@ $(document).ready(function() {
     $('#line2').addClass('line2');
     $('#line1').removeClass('line1');
     $('.Screenshot').show();
-    $('.image_view').append(div);
+    if(!div=="")
+    {
+      $('.image_view').append(div);
+    }
+    div="";
     $('.Unit').hide();
     $('.ul_catch_2').css('display', 'none');
     $('.ul_catch_3').css('display', 'none');
+    $('.ul_catch_'+selected).css('display', 'flex');
   });
   $('.icon1').click(function() {
     $('.icon1')
@@ -65,6 +101,7 @@ $(document).ready(function() {
     $('.ul_catch_2').css('display', 'none');
     $('.ul_catch_3').css('display', 'none');
     $('.ul_catch_1').css('display', 'flex');
+    selected=1;
     $('.ul_catch_1').addClass('ul_catch_1');
     $('.tab_li1').addClass('tab_li1_hover').removeClass('tab_li1');
     $('.tab_li2_hover').addClass('tab_li2').removeClass('tab_li2_hover');
@@ -76,7 +113,8 @@ $(document).ready(function() {
   $('.tab_li2').click(function() {
     $('.ul_catch_1').css('display', 'none');
     $('.ul_catch_3').css('display', 'none');
-    $('.ul_catch_2').css('display', 'block');
+    $('.ul_catch_2').css('display', 'flex');
+    selected=2;
     $('.ul_catch_2').addClass('ul_catch_2');
     $('.tab_li2').addClass('tab_li2_hover').removeClass('tab_li2');
     $('.tab_li1_hover').addClass('tab_li1').removeClass('tab_li1_hover');
@@ -90,12 +128,19 @@ $(document).ready(function() {
       .addClass('icon1')
       .addClass('glyphicon glyphicon-search')
       .removeClass('icon2');
+      if(!newDiv=="")
+      {
+        $('.img_view_new').append(newDiv);
+      }
+      newDiv="";
+      
   });
   $('.tab_li3').click(function() {
     $('.ul_catch_1').css('display', 'none');
     $('.ul_catch_2').css('display', 'none');
-    $('.ul_catch_3').css('display', 'block');
+    $('.ul_catch_3').css('display', 'flex');
     $('.ul_catch_3').addClass('ul_catch_3');
+    selected=3;
     $('.tab_li3').addClass('tab_li3_hover').removeClass('tab_li3');
     $('.tab_li1_hover').addClass('tab_li1').removeClass('tab_li1_hover');
     $('.tab_li2_hover').addClass('tab_li2').removeClass('tab_li2_hover');
@@ -108,6 +153,11 @@ $(document).ready(function() {
       .addClass('icon1')
       .addClass('glyphicon glyphicon-search')
       .removeClass('icon2');
+      if(!errDiv=="")
+      {
+        $('.img_view_err').append(errDiv);
+      }
+      errDiv="";
   });
 
   $('.inp').on('focus', function() {
@@ -142,18 +192,17 @@ $(document).ready(function() {
       $(this).children().addClass('arrow_up').removeClass('arrow');
       var name = $(this).text().trim();
       var image_view =
-        '<div class="img_div_hide" ><span class="span"><span class="title" >Original Image</span><img class="scr_img" src="./../../../../screenShots/my_ui_reference/' +
+        '<div class="img_div_hide" ><span class="span"><span class="title" >Original Image</span><img class="scr_img" src="./../screenShots/my_ui_reference/' +
         name +
-        '.png"></img></span><span class="span"> <span class="title" >Tested Image</span><img class="scr_img" src="./../../../../screenShots/my_ui_test/' +
+        '.png"></img></span><span class="span"> <span class="title" >Tested Image</span><img class="scr_img" src="./../screenShots/my_ui_test/' +
         name +
-        '.png"></img></span><span class="span" > <span class="title">Difference Image</span><img class="scr_img" src="./../../../../screenShots/my_ui_diff/' +
+        '.png"></img></span><span class="span" > <span class="title">Difference Image</span><img class="scr_img" src="./../screenShots/my_ui_diff/' +
         name +
         '.png"></img></span><span class="refer span"><h4>Referencedby</h4><ul class="refer_ul"></ul><span class="message"></span></span></div>';
       $(this).after(image_view);
       $('.img_div_hide').addClass('img_div');
-      var referenceBy = mdata[name].referencedby;
+      var referenceBy = smdata[name].referencedby;
       var li = '';
-      alert(mdataa);
       if (!referenceBy.length == 0) {
         for (var i = referenceBy.length - 1; i >= 0; i--) {
           li += '<li>' + referenceBy[i] + '</li>';
