@@ -116,6 +116,33 @@ var testMode = function() {
     function() {
       server.close();
       wMid.close();
+      var result = spawn.sync(
+        'cp',
+        [
+          '-r',
+          path.join(__dirname, '..', '..', 'screenshotreport', 'css'),
+          path.join(appPath, 'screenShots')
+        ],
+        { stdio: 'inherit' }
+      );
+      var result = spawn.sync(
+        'cp',
+        [
+          '-r',
+          path.join(__dirname, '..', '..', 'screenshotreport', 'js'),
+          path.join(appPath, 'screenShots')
+        ],
+        { stdio: 'inherit' }
+      );
+      var result = spawn.sync(
+        'cp',
+        [
+          '-r',
+          path.join(__dirname, '..', '..', 'screenshotreport', 'index.html'),
+          path.join(appPath, 'screenShots')
+        ],
+        { stdio: 'inherit' }
+      );
     }
   );
 };

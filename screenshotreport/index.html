@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>REACT AUTOMATION</title>
+		<link rel="stylesheet" href="./css/react.css">
+		<script src="./js/react.js"></script>
+		<script src="./detail.js"></script>
+
+	</head>
+	<body onload="changeImage()">
+		<div class="w100 header"> Screenshot testing</div>
+		<div class="mC mcCheight" id="list">
+
+		</div>
+		<div class="iC mcCheight">
+			<div  class="fl ComponentC">
+
+				<div class="diffComp">
+					<div class="componentT">Live Build Component </div>
+					<div class="ImageC">
+						<img id="origin">
+					</div>
+				</div>
+
+				<div class="diffComp">
+
+					<div class="componentT">Current Build Component </div>
+					<div class="ImageC">
+						<img id="tested">
+					</div>
+				</div>
+			</div>
+
+			<div class="diffI">
+				<div class="componentT">Difference between Live and Current Component</div>
+				<div class="">
+					<img id="diff">
+				</div>
+			</div>
+		</div>
+		<div id="productImgContainer" class="popupBgLayer p0 hide" style="transform: scale(1); opacity: 1;">
+			<div id="pViewImgCont" class="pvImgCont">
+
+				<div class="pView-topbar">
+					<div id="pViewFname" class="pViewFname">
+						Difference between Original and Tested Component Image
+					</div>
+					<div id="pViewErrorName" class="pViewErrorName"></div>
+					<div class="hdr-menu-icons">
+						<div class="pvIconCont">
+							<a id="popopennewtab" target="_blank" class="lb-newtab tooltipstered" href="">
+								<i class="icon-newtab"></i>
+							</a>
+							<a onclick="closeImgContainer();" class="lb-newtab tooltipstered">
+								<i class="icon-inapp-close pointer"></i>
+							</a>
+						</div>
+					</div>
+					<div class="clboth"></div>
+				</div>
+				<div class="pvImgCont-sub" id="imgObjCont" style="width: 1280px;">
+
+					<img id="popImg" class="absl" onclick="popUpImg('this')" style="height: 758px; width: 1480px;" src="../images/m4.png">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
