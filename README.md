@@ -19,3 +19,11 @@ redux-router-middleware - once stable need to remove redux-router and react-rout
 
 # 0.0.3-beta.57
   * reports email send using nodemailer lib
+
+# 0.0.3-beta.58
+  * reportpublish issue fixed
+
+# 0.0.3-beta.59
+  * fz-react-cli global install feature
+  * report display unit test case report instead of code coverage
+  
