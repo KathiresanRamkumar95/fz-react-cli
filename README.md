@@ -34,3 +34,6 @@ fz-react-cli app <appname>
   * create new app using fz-react-cli
     fz-react-cli app <appname>
     note: appname as foldername and folder should not already exist
+
+# 0.0.3-beta.61
+  * dependencies resolve error fix - fz-react-cli global install 

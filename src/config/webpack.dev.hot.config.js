@@ -104,5 +104,17 @@ module.exports = {
         use: ['url-loader?limit=1&name=./fonts/[name].[ext]']
       }
     ]
+  },
+  resolve: {
+    modules: [
+      path.resolve(__dirname, '..', '..', 'node_modules'),
+      'node_modules'
+    ]
+  },
+  resolveLoader: {
+    modules: [
+      path.resolve(__dirname, '..', '..', 'node_modules'),
+      'node_modules'
+    ]
   }
 };
