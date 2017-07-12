@@ -89,7 +89,7 @@ ssTest.run(
     mode: 'test',
     folderPrefix: 'my_ui_',
     script:
-      'var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist'
+      'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return JSON.stringify(Objlist);'
   },
   function() {
     console.log('Current Mode call back server kill function called..!');
@@ -110,7 +110,7 @@ var referenceMode = function() {
       mode: 'reference',
       folderPrefix: 'my_ui_',
       script:
-        'var Objlist=[];for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist.push(i);}}catch(err){console.log(i,err);}}return Objlist'
+        'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return JSON.stringify(Objlist);'
     },
     function() {
       server.close();

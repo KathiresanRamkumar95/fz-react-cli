@@ -1,201 +1,195 @@
-body
-{
-	font-family: Comic sans MS;
-	margin: 0;
+body {
+  font-family: Comic sans MS;
+  margin: 0;
 }
 
-.w100
-{
-	width: 100%
+.w100 {
+  width: 100%;
 }
 
-.header
-{
-	height: 65px;
-   	background-color: #00bfff;
-   	box-sizing: border-box;
-   	color: #fff;
-   	float: left;
-   	text-align: center;
-   	padding-top: 15px;
+.header {
+  height: 65px;
+  background-color: #00bfff;
+  box-sizing: border-box;
+  color: #fff;
+  float: left;
+  text-align: center;
+  padding-top: 15px;
 }
 
-.mC
-{
-	overflow: auto;
-    width: 24%;
-    float: left;
-    box-sizing: border-box;
-    position: relative;
-    background-color: #f8f8ff;
+.mC {
+  overflow: auto;
+  width: 24%;
+  float: left;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #f8f8ff;
 }
 
-.mcC
-{
-   	padding: 15px;
-   	cursor: pointer;
+.mcC {
+  padding: 15px;
+  cursor: pointer;
 }
 
-.iC
-{
-	width: 75%;
-	float: right;
+.iC {
+  width: 75%;
+  float: right;
 }
 
-.fl
-{
-    float: left;
+.fl {
+  float: left;
 }
 
-.fr
-{
-	float: right;
+.fr {
+  float: right;
 }
 
-.mcCsel
-{
-	background-color: #00bfff;
-	color: #fff
+.mcCsel {
+  background-color: #00bfff;
+  color: #fff;
 }
 
-.ComponentC
-{
-	width: 100%;
+.ComponentC {
+  width: 100%;
 }
 
-.mcCheight
-{
-	height: calc(100vh - 65px);
-	overflow: auto;
+.mcCheight {
+  height: calc(100vh - 65px);
+  overflow: auto;
 }
 
-.ImageC
-{
-	height: 285px;
-  	border-radius: 5px;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+.ImageC {
+  height: 285px;
+  border-radius: 5px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
-.diffI
-{
-	width: 85%;
-  	float: left;
-    padding: 10px 60px 10px 60px
+.diffI {
+  width: 85%;
+  float: left;
+  padding: 10px 60px 10px 60px;
 }
 
-.componentT
-{
-	background-color: #f8f8ff;
-	color: #ff6347;
-	height: 35px;
-	text-align: center;
-	box-sizing: border-box;
-    padding-top: 5px;
-    font-weight: bold;
+.componentT {
+  background-color: #f8f8ff;
+  color: #ff6347;
+  height: 35px;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 5px;
+  font-weight: bold;
 }
 
-.ImageC img, .diffI img
-{
-	height: 100%;
-   	width: 100%;
-    -webkit-box-shadow: 0 0 12px 0 rgb(42, 45, 54);
-   -moz-box-shadow: 0 0 12px 0 rgb(42, 45, 54);
-    box-shadow: 0 0 12px 0 rgb(42, 45, 54);
+.ImageC img, .diffI img {
+  height: 100%;
+  width: 100%;
+  -webkit-box-shadow: 0 0 12px 0 rgb(42, 45, 54);
+  -moz-box-shadow: 0 0 12px 0 rgb(42, 45, 54);
+  box-shadow: 0 0 12px 0 rgb(42, 45, 54);
 }
 
-.p0
-{
-	padding: 0px
+.p0 {
+  padding: 0px;
 }
 
-.popupBgLayer
-{
-	background-color: rgba(42, 45, 54, 0.1);
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: fixed;
-    z-index: 9999999;
-    padding: 10px 0;
-    -moz-transition: 500ms;
-    -ms-transition: 500ms;
-    -o-transition: 500ms;
-    -webkit-transition: 500ms;
-    transition: 500ms;
-    -moz-transform: scale(0.5);
-    -webkit-transform: scale(0.5);
-    -o-transform: scale(0.5);
-    transform: scale(0.5);
-    -ms-transform: scale(0.5);
-    opacity: 0;
+.popupBgLayer {
+  background-color: rgba(42, 45, 54, 0.1);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 9999999;
+  padding: 10px 0;
+  -moz-transition: 500ms;
+  -ms-transition: 500ms;
+  -o-transition: 500ms;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  -moz-transform: scale(0.5);
+  -webkit-transform: scale(0.5);
+  -o-transform: scale(0.5);
+  transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  opacity: 0;
 }
 
-.pvImgCont
-{
-    width: 100%;
-    height: 100%;
-    background-color: rgba(42, 45, 54, 0.94);
-    float: left;
+.pvImgCont {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(42, 45, 54, 0.94);
+  float: left;
 }
 
-.pView-topbar
-{
-    background: #000;
-    height: 50px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
+.pView-topbar {
+  background: #000;
+  height: 50px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-.pvImgCont-sub
-{
-    width: calc(100% - 86px);
-    height: calc(100% - 120px);
-    margin: auto;
-    position: relative;
-    top: 5%;
+.pvImgCont-sub {
+  width: calc(100% - 86px);
+  height: calc(100% - 120px);
+  margin: auto;
+  position: relative;
+  top: 5%;
 }
 
-.absl
-{
-	position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+.absl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
-.pvImgCont-sub img
-{
-	position: absolute;
-    -webkit-box-shadow: 0 0 12px 0 rgb(254, 255, 221);
-    -moz-box-shadow: 0 0 12px 0 rgb(254, 255, 221);
-    box-shadow: 0 0 12px 0 rgb(254, 255, 221);
+.pvImgCont-sub img {
+  position: absolute;
+  -webkit-box-shadow: 0 0 12px 0 rgb(254, 255, 221);
+  -moz-box-shadow: 0 0 12px 0 rgb(254, 255, 221);
+  box-shadow: 0 0 12px 0 rgb(254, 255, 221);
 }
 
-.hide
-{
-	display: none;
+.hide {
+  display: none;
 }
 
-.pViewFname
-{
-	display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
-    float: left;
-    width: 50%;
-    padding: 15px 20px;
-    font-family: Comic sans MS;
-    font-style: normal;
-    color: #fff;
+.pViewFname {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  float: left;
+  width: 50%;
+  padding: 15px 20px;
+  font-family: Comic sans MS;
+  font-style: normal;
+  color: #fff;
 }
 
-.diffComp{
-	width: 45%;
-	float: left;
-	padding: 0px 25px 0px 25px;
+.diffComp {
+  width: 45%;
+  float: left;
+  padding: 0px 25px 0px 25px;
+}
+
+.refer {
+  padding: 5px;
+  box-shadow: 0px 0px 2px #888888;
+  overflow-y: scroll;
+  height: 200px;
+  margin: 1px 10px;
+}
+.ul_span {
+  height: 100%;
+}
+span {
+  width: 33%;
+  display: inline-block;
+}
+h5 {
+  color: red;
 }

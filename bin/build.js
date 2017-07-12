@@ -16,6 +16,14 @@ var babel = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'babel')
   : 'babel';
 switch (script) {
+  case 'app':
+    var result = spawn.sync(
+      'cp',
+      ['-r', path.join(__dirname, '..', 'blueprint')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
   case 'start':
     var result = spawn.sync(
       'node',
