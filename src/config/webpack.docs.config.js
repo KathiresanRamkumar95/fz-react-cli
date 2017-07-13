@@ -92,6 +92,9 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    ZC: '$ZC'
+  },
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {

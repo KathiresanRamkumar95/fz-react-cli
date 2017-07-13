@@ -15,6 +15,10 @@ var crossEnv = !isNodeModuleUnderAppFolder
 var babel = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'babel')
   : 'babel';
+var propertyToJson = !isNodeModuleUnderAppFolder
+  ? path.join(__dirname, '..', 'node_modules', '.bin', 'propertyToJson')
+  : 'propertyToJson';
+
 switch (script) {
   case 'app':
     var result = spawn.sync(
@@ -24,6 +28,20 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+  case 'propertyToJson':
+    var result = spawn.sync(
+      propertyToJson,
+      args.map(arg => {
+        return path.join(appPath, arg);
+      }),
+      {
+        stdio: 'inherit'
+      }
+    );
+    console.log(result.error);
+    process.exit(result.status);
+    break;
+
   case 'start':
     var result = spawn.sync(
       'node',

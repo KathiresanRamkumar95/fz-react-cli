@@ -40,3 +40,8 @@ fz-react-cli app <appname>
 
 # 0.0.3-beta.62
     * Screenshot report issue fix
+
+# 0.0.3-beta.63
+    * docs all component temp try
+    * propertyToJson from fz-react-cli command line
+    * zoho chart global variable

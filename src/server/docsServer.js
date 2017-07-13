@@ -39,7 +39,9 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.get('/docs/component.html', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'docs', 'component.html'));
 });
-
+app.get('/docs/all.html', function(req, res) {
+  res.sendFile(path.join(__dirname, '..', '..', 'docs', 'all.html'));
+});
 app.get('/docs/*', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'docs', 'index.html'));
 });

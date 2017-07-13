@@ -105,6 +105,9 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    ZC: '$ZC'
+  },
   resolve: {
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
