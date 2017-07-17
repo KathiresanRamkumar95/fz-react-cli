@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  #wmsPayload{
+    resize: none;
+     overflow: auto;
+     width: 500px;
+     height: 500px;
+ }
+ #send{
+   vertical-align: top;
+ }
+ </style>
+</head>
+  <body>
+      <textarea id="wmsPayload">{
+        "msg":"Text"
+}</textarea>
+      <button id="send" onClick="cal()">Send</button>
+      <script>
+      function cal() {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // Typical action to be performed when the document is ready:
+    }
+  };
+  xhttp.open('POST', '/wmsmockapi', true);
+  xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  var a = document.getElementById('wmsPayload').value;
+  var obj = JSON.parse(a);
+  console.log(obj);
+  xhttp.send(JSON.stringify(obj));
+}
+</script>
+  </body>
+</htm>

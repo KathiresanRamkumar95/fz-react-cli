@@ -25,6 +25,7 @@ module.exports = {
   entry: {
     main: [
       'babel-polyfill',
+      require.resolve('../wmsClient'),
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
     ]
   },

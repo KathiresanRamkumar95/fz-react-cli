@@ -8,7 +8,7 @@ export default class Text__default extends Component {
   render() {
     return (
       <Text
-        text="vimal"
+        content="vimal"
         onClick={val => {
           console.log('value', val);
         }}

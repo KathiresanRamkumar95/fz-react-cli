@@ -39,9 +39,17 @@ fz-react-cli app <appname>
   * dependencies resolve error fix - fz-react-cli global install
 
 # 0.0.3-beta.62
-    * Screenshot report issue fix
+  * Screenshot report issue fix
 
 # 0.0.3-beta.63
-    * docs all component temp try
-    * propertyToJson from fz-react-cli command line
-    * zoho chart global variable
+  * docs all component temp try
+  * propertyToJson from fz-react-cli command line
+  * zoho chart global variable
+
+# 0.0.3-beta.64
+  * wms for development - implement Collaboration.handleCustomMessage for handle
+   message
+  * All docs component into one html -  create docs/all.html file under app
+  * restricted name for app - docs and mockapi
+  * blueprint updated
+  

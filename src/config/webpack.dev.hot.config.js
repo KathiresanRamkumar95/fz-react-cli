@@ -26,6 +26,7 @@ module.exports = {
     main: [
       require.resolve('../hmrClient'),
       'babel-polyfill',
+      require.resolve('../wmsClient'),
       require.resolve('react-error-overlay'),
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
     ]

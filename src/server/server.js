@@ -5,12 +5,21 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
+const WebSocket = require('ws');
+var bodyParser = require('body-parser');
 var getIP = require('../utils/ipaddress');
 var prodFlag = process.env.npm_config_server_prod || false;
 var hotReload = process.env.npm_config_dev_hot || false;
 var context = process.env.npm_config_server_context || 'app';
 var https = require('https');
 var app = express();
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(
+  bodyParser.urlencoded({
+    // to support URL-encoded bodies
+    extended: true
+  })
+);
 var config;
 if (prodFlag) {
   config = require('../config/webpack.prod.config');
@@ -63,37 +72,67 @@ app
 
 app.use('/' + context, express.static(context));
 app.use('/' + context + '/*', express.static(context));
-
+app.use('/wms/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '..', '..', 'wms', 'index.html'));
+});
 //app.use('/app', express.static('app'));
 //app.use('/app/i18n', express.static('app/i18n'));
 
-https
-  .createServer(
-    {
-      key: fs.readFileSync(path.join(__dirname, '../../cert/key1.pem')),
-      cert: fs.readFileSync(path.join(__dirname, '../../cert/cert1.pem')),
-      passphrase: 'AbcAbc$2017'
-    },
-    app
-  )
-  .listen(port, function(err) {
-    if (err) {
-      // custom console
-      console.log(err);
-      return;
-    }
-
-    if (
-      !process.env.npm_config_server_host &&
-      !process.env.npm_config_server_port
-    ) {
-      // custom console
-      console.log('you can change hostname and port using following command');
-      // custom console
-      console.log(
-        'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true} --dev:hot={true}'
-      );
-    }
-    // custom console
-    console.log('Listening at ' + url);
+var server = https.createServer(
+  {
+    key: fs.readFileSync(path.join(__dirname, '../../cert/key1.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert1.pem')),
+    passphrase: 'AbcAbc$2017'
+  },
+  app
+);
+const wss = new WebSocket.Server({ server });
+console.log(wss);
+var wsPool = [];
+wss.on('connection', function connection(ws, req) {
+  console.log(ws);
+  wsPool.push(ws);
+  //const location = url.parse(req.url, true);
+  // You might use location.query.access_token to authenticate or share sessions
+  // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+  ws.on('close', function close() {
+    wsPool = wsPool.filter(ws1 => ws1 != ws);
   });
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('something');
+});
+app.post('/wmsmockapi', function(req, res) {
+  wsPool.forEach(ws => {
+    try {
+      ws.send(JSON.stringify(req.body));
+    } catch (e) {
+      console.log(e, req.body);
+    }
+  });
+
+  res.send('success');
+});
+server.listen(port, function(err) {
+  if (err) {
+    // custom console
+    console.log(err);
+    return;
+  }
+
+  if (
+    !process.env.npm_config_server_host &&
+    !process.env.npm_config_server_port
+  ) {
+    // custom console
+    console.log('you can change hostname and port using following command');
+    // custom console
+    console.log(
+      'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true} --dev:hot={true}'
+    );
+  }
+  // custom console
+  console.log('Listening at ' + url);
+});

@@ -40,8 +40,12 @@ app.get('/docs/component.html', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'docs', 'component.html'));
 });
 app.get('/docs/all.html', function(req, res) {
-  res.sendFile(path.join(__dirname, '..', '..', 'docs', 'all.html'));
+  res.sendFile(
+    path.join(appPath, 'docs', 'all.html') ||
+      path.join(__dirname, '..', '..', 'docs', 'all.html')
+  );
 });
+
 app.get('/docs/*', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'docs', 'index.html'));
 });
