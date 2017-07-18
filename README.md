@@ -52,4 +52,10 @@ fz-react-cli app <appname>
   * All docs component into one html -  create docs/all.html file under app
   * restricted name for app - docs and mockapi
   * blueprint updated
-  
+
+# 0.0.3-beta.65
+  * production configuration --css:unique=false for portal theme build
+   customization support
+  * unit test case - result.js code for loop to foreach
+  * dev log updated
+  * hot refresh stop - keep refresh issue

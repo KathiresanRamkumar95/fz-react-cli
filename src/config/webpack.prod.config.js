@@ -3,8 +3,10 @@ var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var folder = process.env.npm_config_output_folder || 'build';
 var appFolder = process.env.npm_config_app_folder || 'src';
+var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var mig = process.env.npm_config_react_mig || false;
-
+var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
+console.log(cssUnique, process.env.npm_config_css1_unique);
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
 
@@ -80,10 +82,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]'
-        ]
+        use: ['style-loader', `css-loader?modules&localIdentName=${className}`]
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$/,

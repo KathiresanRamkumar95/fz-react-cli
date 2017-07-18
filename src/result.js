@@ -11,20 +11,21 @@ const result = function(inp) {
   var testPathRegex = new RegExp(testPathPattern);
   var testResults = inp.testResults;
   var testFilesArr = [];
-  for (var i = 0; i < testResults.length; i++) {
-    var filePath = testResults[i].testFilePath;
+  //  for (var i = 0; i < testResults.length; i++) {
+  testResults.forEach((testResult, i) => {
+    var filePath = testResult.testFilePath;
     if (!testPathRegex.test(filePath)) {
-      continue;
+      return;
     }
     filePath = filePath.replace('.spec', '');
     filePath = filePath.replace('/__tests__', '');
     var fileJson = {};
-    fileJson.testPath = testResults[i].testFilePath;
+    fileJson.testPath = testResult.testFilePath;
     fileJson.sourcePath = filePath;
-    fileJson.data = testResults[i];
+    fileJson.data = testResult;
     testFilesArr.push(fileJson);
-    testResults[i].testResults &&
-      testResults[i].testResults
+    testResult.testResults &&
+      testResult.testResults
         .filter(t => {
           return t.status == 'failed';
         })
@@ -32,10 +33,10 @@ const result = function(inp) {
           unitTestReport.push({
             title: t.title,
             fullName: t.fullName,
-            filePath: testResults[i].testFilePath
+            filePath: testResult.testFilePath
           });
         });
-  }
+  });
 
   var coverageSummary = fs
     .readFileSync('./coverage/coverage-summary.json')

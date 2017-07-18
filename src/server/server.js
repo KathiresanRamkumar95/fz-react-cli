@@ -87,10 +87,8 @@ var server = https.createServer(
   app
 );
 const wss = new WebSocket.Server({ server });
-console.log(wss);
 var wsPool = [];
 wss.on('connection', function connection(ws, req) {
-  console.log(ws);
   wsPool.push(ws);
   //const location = url.parse(req.url, true);
   // You might use location.query.access_token to authenticate or share sessions
@@ -134,5 +132,5 @@ server.listen(port, function(err) {
     );
   }
   // custom console
-  console.log('Listening at ' + url);
+  console.log('Listening at ' + url + '/' + context);
 });
