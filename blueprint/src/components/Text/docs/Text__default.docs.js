@@ -6,14 +6,7 @@ export default class Text__default extends Component {
     super(props);
   }
   render() {
-    return (
-      <Text
-        content="vimal"
-        onClick={val => {
-          console.log('value', val);
-        }}
-      />
-    );
+    return <Text content="vimal" onClick={val => {}} />;
   }
 }
 if (__DOCS__) {

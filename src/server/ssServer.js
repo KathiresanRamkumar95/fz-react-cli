@@ -29,7 +29,7 @@ var seleniumHub =
   'htt' + 'p://zsupport-tech-1.tsi.zohocorpin.com:4444';
 var repoBranch = process.env.npm_config_repo_branch || false;
 var referBranch = process.env.npm_config_refer_branch || 'master';
-var url = 'htt' + 'p://' + host + ':9292';
+var url = 'htt' + 'p://' + host + ':' + port;
 var wMid = require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath,

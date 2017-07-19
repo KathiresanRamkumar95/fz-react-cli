@@ -2,12 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Text from './components/Text/Text';
 ReactDOM.render(
-  <Text
-    content="vimalesan"
-    onClick={v => {
-      console.log(v);
-    }}
-  />,
+  <Text content="vimalesan" onClick={v => {}} />,
   document.getElementById('react')
 );
 if (!__DEVELOPMENT__) {
