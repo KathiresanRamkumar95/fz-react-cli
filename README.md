@@ -59,3 +59,9 @@ fz-react-cli app <appname>
   * unit test case - result.js code for loop to foreach
   * dev log updated
   * hot refresh stop - keep refresh issue
+
+# 0.0.3-beta.66
+  * hot refresh issue fix
+  * redux router beta.16  move (Match component support names)
+  * unnecessary console removed
+  * for loop inside function move 

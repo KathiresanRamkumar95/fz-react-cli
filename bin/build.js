@@ -38,7 +38,6 @@ switch (script) {
         stdio: 'inherit'
       }
     );
-    console.log(result.error);
     process.exit(result.status);
     break;
 
@@ -76,7 +75,6 @@ switch (script) {
     process.exit(result.status);
     break;
   case 'build:component':
-    console.log(crossEnv);
     var result = spawn.sync(
       crossEnv,
       [

@@ -42,7 +42,7 @@ function hmrMiddleware(compiler, opts) {
     if (latestStats) {
       // Explicitly not passing in `log` fn as we don't want to log again on
       // the server
-      publishStats('sync', latestStats, eventStream);
+      //  publishStats('sync', latestStats, eventStream);
     }
   };
   middleware.publish = eventStream.publish;
@@ -100,18 +100,18 @@ function publishStats(action, statsResult, eventStream, log) {
           'ms'
       );
     }
-    if (
-      //  !force &&
-      action !== 'sync' &&
-      stats &&
-      (!stats.errors || stats.errors.length === 0) &&
-      stats.assets &&
-      stats.assets.every(asset => !asset.emitted)
-    ) {
-      eventStream.publish({
-        type: 'still-ok'
-      });
-    }
+    // if (
+    //   //  !force &&
+    //   action !== 'sync' &&
+    //   stats &&
+    //   (!stats.errors || stats.errors.length === 0) &&
+    //   stats.assets &&
+    //   stats.assets.every(asset => !asset.emitted)
+    // ) {
+    //   eventStream.publish({
+    //     type: 'still-ok'
+    //   });
+    // }
     eventStream.publish({
       type: 'hash',
       data: stats.hash
@@ -127,12 +127,11 @@ function publishStats(action, statsResult, eventStream, log) {
         type: 'warnings',
         data: stats.warnings
       });
+    } else {
+      eventStream.publish({
+        type: 'content-changed'
+      });
     }
-    // else {
-    //   eventStream.publish({
-    //     type: 'ok'
-    //   });
-    // }
   });
 }
 
