@@ -39,11 +39,11 @@ function hmrMiddleware(compiler, opts) {
       return next();
     }
     eventStream.handler(req, res);
-    if (latestStats) {
-      // Explicitly not passing in `log` fn as we don't want to log again on
-      // the server
-      //  publishStats('sync', latestStats, eventStream);
-    }
+    // if (latestStats) {
+    //   // Explicitly not passing in `log` fn as we don't want to log again on
+    //   // the server
+    //   //  publishStats('sync', latestStats, eventStream);
+    // }
   };
   middleware.publish = eventStream.publish;
   return middleware;
