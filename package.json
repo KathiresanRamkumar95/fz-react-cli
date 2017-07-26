@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.66",
+  "version": "0.0.3-beta.67",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
     "fz-i18n": "1.2.0-beta.8",
-    "fz-layout": "^1.0.0",
+    "fz-layout": "^1.0.0-beta.2",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.2",
     "fz-screenshot-test": "1.0.0-beta.14",
@@ -64,6 +64,7 @@
     "react": "^15.5.0",
     "react-addons-perf": "^15.4.0",
     "react-addons-test-utils": "^15.4.0",
+    "react-docgen": "^2.17.0",
     "react-dom": "^15.5.0",
     "react-error-overlay": "^1.0.7",
     "react-redux": "^4.4.5",
@@ -91,7 +92,10 @@
     "fz-react-cli": "bin/build.js"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "serverconfig": {
     "host": "localhost",

@@ -64,4 +64,8 @@ fz-react-cli app <appname>
   * hot refresh issue fix
   * redux router beta.16  move (Match component support names)
   * unnecessary console removed
-  * for loop inside function move 
+  * for loop inside function move
+
+# 0.0.3-beta.67
+  * fz-layout - move 1.0.0-beta.2
+  * react-docgen - poc for docs object generate (using docsPropsLoader)
