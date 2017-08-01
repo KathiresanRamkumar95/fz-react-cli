@@ -13,11 +13,6 @@ var hotReload = process.env.npm_config_dev_hot || false;
 var context = process.env.npm_config_server_context || 'app';
 var https = require('https');
 var app = express();
-
-// for performance testing
-var performanceFlag = process.env.npm_config_test_performance || false;
-prodFlag = performanceFlag ? true : prodFlag;
-
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(
   bodyParser.urlencoded({
@@ -44,16 +39,13 @@ var mockFlag = process.env.npm_config_server_mock || true;
 
 var appPath = fs.realpathSync(process.cwd());
 var url = 'htt' + 'ps://' + host + ':' + port;
-
-var webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: prodFlag ? url + '/' + context : config.output.publicPath,
-  headers: { 'Access-Control-Allow-Origin': '*' }
-})
-
-global.webpackDevMiddleware = webpackDevMiddleware;
-
-app.use(webpackDevMiddleware);
+app.use(
+  require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: prodFlag ? url + '/' + context : config.output.publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' }
+  })
+);
 
 //app.use(require('webpack-hot-middleware')(compiler));
 if (hotReload) {
@@ -71,12 +63,6 @@ if (mockFlag) {
     );
   }
 }
-
-if (performanceFlag) {
-    var performanceServer = require(path.resolve(__dirname, './performanceServer.js'));
-    performanceServer(app);
-}
-
 app
   .use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -100,9 +86,6 @@ var server = https.createServer(
   },
   app
 );
-
-global.server = server;
-
 const wss = new WebSocket.Server({ server });
 var wsPool = [];
 wss.on('connection', function connection(ws, req) {
