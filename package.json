@@ -44,6 +44,7 @@
     "file-loader": "^0.10.1",
     "fz-i18n": "1.2.0-beta.8",
     "fz-layout": "^1.0.0-beta.2",
+    "fz-perf-tool": "0.0.1",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.2",
     "fz-screenshot-test": "1.0.0-beta.14",
