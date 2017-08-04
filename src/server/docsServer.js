@@ -71,7 +71,7 @@ var server = app.listen(port, function(err) {
   ) {
     console.log('you can change hostname and port using following command');
     console.log(
-      'npm start --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080 --server:componentPath=./src/components --repo:branch=branch_name'
+      'npm run docs --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080 --server:componentPath=./src/components --repo:branch=branch_name'
     );
   }
   console.log('Listening at ' + url + '/docs/');

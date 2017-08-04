@@ -193,3 +193,12 @@ span {
 h5 {
   color: red;
 }
+.brws_list
+{
+  display: inline-block;
+  width: 42.5%;
+  padding: 10px;
+  margin: auto;
+  cursor: pointer;
+  border: 1px solid #00bfff;
+}      

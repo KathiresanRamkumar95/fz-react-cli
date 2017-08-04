@@ -759,11 +759,11 @@
                                 <div>{value}</div>
                               </span>
                               <span>
-                                <div>{propsObj[value].hookType}</div>
+                                <div>{ propsObj[value] && propsObj[value].hookType}</div>
                               </span>
                               <span>
                                 <div>
-                                  {propsObj[value].isRequired ? '' : 'true'}
+                                  {propsObj[value] && propsObj[value].isRequired ? '' : 'true'}
                                 </div>
                               </span>
                               <span>

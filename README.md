@@ -69,3 +69,8 @@ fz-react-cli app <appname>
 # 0.0.3-beta.67
   * fz-layout - move 1.0.0-beta.2
   * react-docgen - poc for docs object generate (using docsPropsLoader)
+
+# 0.0.3-beta.68
+  * react-transition-group lib added for animation while mount and unmount
+  * oneOf props - html issue fix
+  * screen shot test

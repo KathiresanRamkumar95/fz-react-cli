@@ -8,10 +8,16 @@
 		<script src="./mData.js"></script>
 
 	</head>
-	<body onload="changeImage()">
+	<body onload="changeImage('Chrome')">
 		<div class="w100 header"> Screenshot testing</div>
-		<div class="mC mcCheight" id="list">
-
+		<div class="mC mcCheight" >
+		<div>
+			<div id="browser" class="brws_list" onclick="selBrowser('chrome')">Chrome</div>
+			<div id="browser" class="brws_list" onclick="selBrowser('firefox')">FireFox</div>
+			<div id="browser" class="brws_list" onclick="selBrowser('internet explorer')">Internet Explorer</div>
+			<div id="browser" class="brws_list" onclick="selBrowser('safari')">Safari</div>
+		</div>
+		<div id="list"> </div>
 		</div>
 		<div class="iC mcCheight">
 			<div  class="fl ComponentC">
