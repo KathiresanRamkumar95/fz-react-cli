@@ -39,6 +39,10 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.get('/docs/component.html', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'docs', 'component.html'));
 });
+app.get('/docs/js/babel.min.js', function(req, res) {
+  res.sendFile(path.join(__dirname, '..', '..', 'docs', 'js', 'babel.min.js'));
+});
+
 app.get('/docs/all.html', function(req, res) {
   res.sendFile(
     path.join(appPath, 'docs', 'all.html') ||

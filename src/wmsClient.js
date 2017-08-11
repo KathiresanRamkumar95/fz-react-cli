@@ -1,6 +1,7 @@
-console.log('wmsclient');
+var querystring = require('querystring');
+var options = querystring.parse(__resourceQuery.slice(1));
 window.WebSocket = window.WebSocket || window.MozWebSocket;
-var connection = new WebSocket('wss://vimal-zt58.tsi.zohocorpin.com:9090');
+var connection = new WebSocket(options.wmsPath);
 connection.onopen = function() {
   // connection is opened and ready to use
   console.log('open');

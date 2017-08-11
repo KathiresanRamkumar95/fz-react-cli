@@ -24,9 +24,9 @@ var isReact = function isReact(_ref) {
 module.exports = {
   entry: {
     main: [
-      require.resolve('../hmrClient'),
+      require.resolve('../hmrClient') + `?hmrPath=${url}`,
       'babel-polyfill',
-      require.resolve('../wmsClient'),
+      require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
       require.resolve('react-error-overlay'),
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
     ]

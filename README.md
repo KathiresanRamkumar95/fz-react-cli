@@ -74,3 +74,8 @@ fz-react-cli app <appname>
   * react-transition-group lib added for animation while mount and unmount
   * oneOf props - html issue fix
   * screen shot test
+
+# 0.0.3-beta.69
+  * wms connect url hard coded issue fix
+  * hmr connect url issue fix
+  * docs - babeljs move to local

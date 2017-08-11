@@ -9,7 +9,6 @@ var url = 'htt' + 'ps://' + host + ':' + port;
 var context = process.env.npm_config_server_context || 'app';
 var appFolder = process.env.npm_config_app_folder || 'src';
 var mig = process.env.npm_config_react_mig || false;
-
 //var srcPath=path.resolve(__dirname, 'app');
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
@@ -25,7 +24,7 @@ module.exports = {
   entry: {
     main: [
       'babel-polyfill',
-      require.resolve('../wmsClient'),
+      require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
     ]
   },

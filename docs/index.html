@@ -557,7 +557,7 @@
 				<iframe src="about:blank" id="ifm"></iframe>
 		</div>
 
-		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+		<script src="/docs/js/babel.min.js"></script>
 		<script type="text/babel">
 		window.loadDOC = function(Component, mdata) {
   var ReactDOM = Component.ReactDOM;
@@ -649,12 +649,14 @@
       } = this.state;
       let compName = location.hash != '' ? location.hash.substring(1) : null;
       let propComName = compName ? compName.split('__')[0] : '';
-      let propsObj = (Components &&
-        Components[propComName] &&
-        Components[propComName].propTypes) || {};
+      let propsObj =
+        (Components &&
+          Components[propComName] &&
+          Components[propComName].propTypes) ||
+        {};
       let currentCompProps = Object.keys(propsObj) || [];
-      let currentCompDefault = (Components[propComName] &&
-        Components[propComName].defaultProps) || {};
+      let currentCompDefault =
+        (Components[propComName] && Components[propComName].defaultProps) || {};
       return (
         <main>
           <a
@@ -756,14 +758,20 @@
                               }
                             >
                               <span>
-                                <div>{value}</div>
-                              </span>
-                              <span>
-                                <div>{ propsObj[value] && propsObj[value].hookType}</div>
+                                <div>
+                                  {value}
+                                </div>
                               </span>
                               <span>
                                 <div>
-                                  {propsObj[value] && propsObj[value].isRequired ? '' : 'true'}
+                                  {propsObj[value] && propsObj[value].hookType}
+                                </div>
+                              </span>
+                              <span>
+                                <div>
+                                  {propsObj[value] && propsObj[value].isRequired
+                                    ? ''
+                                    : 'true'}
                                 </div>
                               </span>
                               <span>
@@ -802,57 +810,57 @@
                         ReferencedBy :
                         {compName
                           ? compName.indexOf('__') > -1
-                              ? mdata[
-                                  compName.substring(0, compName.indexOf('_'))
-                                ] &&
-                                  mdata[
-                                    compName.substring(0, compName.indexOf('_'))
-                                  ].referencedby.map((val, i) => {
-                                    return (
-                                      <li key={i}>
-                                        <a className="link" href={'#' + val}>
-                                          {val}
-                                        </a>
-                                      </li>
-                                    );
-                                  })
-                              : mdata[compName].referencedby.map((val, i) => {
-                                  return (
-                                    <li key={i}>
-                                      <a className="link" href={'#' + val}>
-                                        {val}
-                                      </a>
-                                    </li>
-                                  );
-                                })
+                            ? mdata[
+                                compName.substring(0, compName.indexOf('_'))
+                              ] &&
+                              mdata[
+                                compName.substring(0, compName.indexOf('_'))
+                              ].referencedby.map((val, i) => {
+                                return (
+                                  <li key={i}>
+                                    <a className="link" href={'#' + val}>
+                                      {val}
+                                    </a>
+                                  </li>
+                                );
+                              })
+                            : mdata[compName].referencedby.map((val, i) => {
+                                return (
+                                  <li key={i}>
+                                    <a className="link" href={'#' + val}>
+                                      {val}
+                                    </a>
+                                  </li>
+                                );
+                              })
                           : null}
                         <br />
                         Refernces :
                         {compName
                           ? compName.indexOf('__') > -1
-                              ? mdata[
-                                  compName.substring(0, compName.indexOf('_'))
-                                ] &&
-                                  mdata[
-                                    compName.substring(0, compName.indexOf('_'))
-                                  ].references.map((val, i) => {
-                                    return (
-                                      <li key={i}>
-                                        <a className="link" href={'#' + val}>
-                                          {val}
-                                        </a>
-                                      </li>
-                                    );
-                                  })
-                              : mdata[compName].references.map((val, i) => {
-                                  return (
-                                    <li key={i}>
-                                      <a className="link" href={'#' + val}>
-                                        {val}
-                                      </a>
-                                    </li>
-                                  );
-                                })
+                            ? mdata[
+                                compName.substring(0, compName.indexOf('_'))
+                              ] &&
+                              mdata[
+                                compName.substring(0, compName.indexOf('_'))
+                              ].references.map((val, i) => {
+                                return (
+                                  <li key={i}>
+                                    <a className="link" href={'#' + val}>
+                                      {val}
+                                    </a>
+                                  </li>
+                                );
+                              })
+                            : mdata[compName].references.map((val, i) => {
+                                return (
+                                  <li key={i}>
+                                    <a className="link" href={'#' + val}>
+                                      {val}
+                                    </a>
+                                  </li>
+                                );
+                              })
                           : null}
                       </div>
                     </div>
@@ -860,8 +868,8 @@
                 </div>
 
                 {Component[compName] &&
-                  Component[compName].docs &&
-                  Component[compName].docs.source
+                Component[compName].docs &&
+                Component[compName].docs.source
                   ? <div
                       className={popUp == 'src' ? 'childSelect' : 'child'}
                       onClick={
@@ -918,7 +926,9 @@
                         Component[compName].docs.images.map(image => {
                           return (
                             <div className="psdDiv">
-                              <div className="psdName">{image.name}</div>
+                              <div className="psdName">
+                                {image.name}
+                              </div>
                               <img className="psd" src={image.view} />
                               <div>
                                 <a href={image.psd} target="_blank" download>
@@ -974,9 +984,7 @@
                       </span>
                     </div>
                   : null}
-
               </span>
-
             </div>
 
             {fullScreenSrc == ''
