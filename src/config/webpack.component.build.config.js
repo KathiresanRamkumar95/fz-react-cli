@@ -7,7 +7,12 @@ var fs = require('fs');
 //var host = process.env.npm_config_server_host || "localhost";
 //var port = process.env.npm_config_server_port || "9292" ;
 //var url = "htt" + "p://" + host + ":"+port;
-
+var preact = process.env.npm_config_preact_switch || false;
+var alias = {};
+if (preact) {
+  alias.react = 'preact-compat';
+  alias['react-dom'] = 'preact-compat';
+}
 var appPath = fs.realpathSync(process.cwd());
 module.exports = {
   entry: {
@@ -85,6 +90,7 @@ module.exports = {
     ]
   },
   resolve: {
+    alias: alias,
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'

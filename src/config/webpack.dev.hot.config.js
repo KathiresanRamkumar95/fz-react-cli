@@ -3,13 +3,20 @@ var path = require('path');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var getIP = require('../utils/ipaddress');
+var i18nPlugin = require('../i18nPlugin');
 var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || '9090';
 var url = 'htt' + 'ps://' + host + ':' + port;
 var context = process.env.npm_config_server_context || 'app';
 var appFolder = process.env.npm_config_app_folder || 'src';
 var mig = process.env.npm_config_react_mig || false;
+var preact = process.env.npm_config_preact_switch || false;
 
+var alias = {};
+if (preact) {
+  alias.react = 'preact-compat';
+  alias['react-dom'] = 'preact-compat';
+}
 //var srcPath=path.resolve(__dirname, 'app');
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
@@ -43,6 +50,11 @@ module.exports = {
     //write hot module plugin like webpack-dev-server  server.js    new webpack.HotModuleReplacementPlugin(),
 
     new CaseSensitivePathsPlugin(),
+
+    new i18nPlugin({
+      appPath: appPath,
+      context: context
+    }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -81,6 +93,9 @@ module.exports = {
               ],
               cacheDirectory: true
             }
+          },
+          {
+            loader: require.resolve('../i18nFilterLoader.js')
           }
         ],
         include: path.join(appPath, appFolder)
@@ -110,6 +125,7 @@ module.exports = {
     ZC: '$ZC'
   },
   resolve: {
+    alias: alias,
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'

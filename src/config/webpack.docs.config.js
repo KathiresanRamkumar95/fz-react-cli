@@ -11,7 +11,12 @@ var url = 'htt' + 'p://' + host + ':' + port;
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
 var moduleStatsPlugin = require('../moduleStatsPlugin');
-
+var preact = process.env.npm_config_preact_switch || false;
+var alias = {};
+if (preact) {
+  alias.react = 'preact-compat';
+  alias['react-dom'] = 'preact-compat';
+}
 module.exports = {
   entry: {
     main: [
@@ -107,6 +112,7 @@ module.exports = {
     ]
   },
   resolveLoader: {
+    alias: alias,
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'

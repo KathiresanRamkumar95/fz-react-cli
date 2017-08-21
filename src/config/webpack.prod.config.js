@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+var i18nPlugin = require('../i18nPlugin');
 var folder = process.env.npm_config_output_folder || 'build';
 var appFolder = process.env.npm_config_app_folder || 'src';
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
@@ -9,7 +10,12 @@ var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 console.log(cssUnique, process.env.npm_config_css1_unique);
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
-
+var preact = process.env.npm_config_preact_switch || false;
+var alias = {};
+if (preact) {
+  alias.react = 'preact-compat';
+  alias['react-dom'] = 'preact-compat';
+}
 var isVendor = function isVendor(_ref) {
   var userRequest = _ref.userRequest;
   return userRequest && userRequest.indexOf('node_modules') >= 0;
@@ -32,6 +38,10 @@ module.exports = {
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
+    new i18nPlugin({
+      appPath: appPath,
+      context: context
+    }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -76,6 +86,9 @@ module.exports = {
               plugins: [require.resolve('../removeProperties')],
               cacheDirectory: true
             }
+          },
+          {
+            loader: require.resolve('../i18nFilterLoader.js')
           }
         ],
         include: path.join(appPath, appFolder)
@@ -102,6 +115,7 @@ module.exports = {
     ZC: '$ZC'
   },
   resolve: {
+    alias: alias,
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'
