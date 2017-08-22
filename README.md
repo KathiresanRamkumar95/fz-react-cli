@@ -79,3 +79,7 @@ fz-react-cli app <appname>
   * wms connect url hard coded issue fix
   * hmr connect url issue fix
   * docs - babeljs move to local
+
+# 0.0.3-beta.70
+  * preact
+  * i18n keys find out from code - loader and plugin
