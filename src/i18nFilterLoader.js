@@ -210,7 +210,7 @@ function updateI18N(fname) {
   }
   let jsonPath = path.join(appPath, context, 'properties/i18nkeys.json');
   let obj = {};
-  if (fs.existsSync(jsonPath)) {
+  if (fs.existsSync(jsonPath) && !initialized) {
     obj = require(jsonPath);
   }
   fs.writeFileSync(
