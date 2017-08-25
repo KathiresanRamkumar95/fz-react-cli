@@ -215,7 +215,7 @@ function updateI18N(fname) {
   }
   fs.writeFileSync(
     path.join(appPath, context, 'properties/i18nkeys.json'),
-    JSON.stringify(Object.assign(obj, tempObj))
+    JSON.stringify(Object.assign(obj, tempObj), null, 2)
   );
 }
 

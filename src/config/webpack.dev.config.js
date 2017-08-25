@@ -27,10 +27,14 @@ var isReact = function isReact(_ref) {
   var userRequest = _ref.userRequest;
   return userRequest && userRequest.indexOf('node_modules/react') >= 0;
 };
+var hookEntries = ['babel-polyfill'];
+if (preact) {
+  hookEntries.push('preact/devtools');
+}
 module.exports = {
   entry: {
     main: [
-      'babel-polyfill',
+      ...hookEntries,
       require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
     ]
@@ -43,10 +47,10 @@ module.exports = {
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new i18nPlugin({
+    /*  new i18nPlugin({
       appPath: appPath,
       context: context
-    }),
+    }),*/
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -85,10 +89,10 @@ module.exports = {
               ],
               cacheDirectory: true
             }
-          },
+          } /*,
           {
             loader: require.resolve('../i18nFilterLoader.js')
-          }
+          }*/
         ],
         include: path.join(appPath, appFolder)
       },

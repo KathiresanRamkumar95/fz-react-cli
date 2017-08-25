@@ -28,11 +28,15 @@ var isReact = function isReact(_ref) {
   var userRequest = _ref.userRequest;
   return userRequest && userRequest.indexOf('node_modules/react') >= 0;
 };
+var hookEntries = ['babel-polyfill'];
+if (preact) {
+  hookEntries.push('preact/devtools');
+}
 module.exports = {
   entry: {
     main: [
       require.resolve('../hmrClient') + `?hmrPath=${url}`,
-      'babel-polyfill',
+      ...hookEntries,
       require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
       require.resolve('react-error-overlay'),
       path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')

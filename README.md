@@ -82,4 +82,10 @@ fz-react-cli app <appname>
 
 # 0.0.3-beta.70
   * preact
-  * i18n keys find out from code - loader and plugin
+  * Preact devtool hook added - https://github.com/developit/preact/pull/339
+  *  blueprint - properties folder added
+
+# 0.0.3-beta.71
+  * i18n keys find out from code - loader and plugin - pending
+  * clone repo option (i18n, font) - pending
+  * 

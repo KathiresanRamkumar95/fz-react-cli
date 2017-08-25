@@ -39,10 +39,10 @@ module.exports = {
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new i18nPlugin({
+    /*new i18nPlugin({
       appPath: appPath,
       context: context
-    }),
+    }),*/
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -87,10 +87,10 @@ module.exports = {
               plugins: [require.resolve('../removeProperties')],
               cacheDirectory: true
             }
-          },
+          } /*,
           {
             loader: require.resolve('../i18nFilterLoader.js')
-          }
+          }*/
         ],
         include: path.join(appPath, appFolder)
       },
