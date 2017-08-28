@@ -16,6 +16,13 @@ var fileList = [];
 var filename;
 let context = process.env.npm_config_server_context || 'app';
 let appPath = fs.realpathSync(process.cwd());
+let cachePath = path.join(appPath, 'node_modules', '.cache');
+if (!fs.existsSync(cachePath)){
+    fs.mkdir(cachePath);
+}
+
+let jsonPath = path.join(cachePath, 'i18nkeys.json');
+let dynamicI18nsPath = path.join(appPath, context, 'properties', 'i18nkeys.json');
 
 function isTernary(str) {
   let operator;
@@ -208,15 +215,13 @@ function updateI18N(fname) {
       tempObj[key] = key;
     });
   }
-  let jsonPath = path.join(appPath, context, 'properties/i18nkeys.json');
   let obj = {};
-  if (fs.existsSync(jsonPath) && !initialized) {
+  let dynamicI18ns = {}
+  if (fs.existsSync(jsonPath)) {
     obj = require(jsonPath);
+    dynamicI18ns = require(dynamicI18nsPath);
   }
-  fs.writeFileSync(
-    path.join(appPath, context, 'properties/i18nkeys.json'),
-    JSON.stringify(Object.assign(obj, tempObj), null, 2)
-  );
+  fs.writeFileSync(jsonPath, JSON.stringify(Object.assign(dynamicI18ns, obj, tempObj)));
 }
 
 function addI18N(i18n, filename) {
@@ -302,7 +307,6 @@ function i18NLoader(source) {
       fileList.push(filename);
     } else {
       initialized = true;
-      console.log('i18NLoader');
     }
   }
   return source;
