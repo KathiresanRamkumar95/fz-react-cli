@@ -34,7 +34,7 @@
     "body-parser": "^1.15.2",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
     "compression": "^1.6.2",
-    "cross-env": "^1.0.7",
+    "cross-env": "^1.0.8",
     "cross-spawn": "4.0.0",
     "css-loader": "^0.25.0",
     "css-modules-require-hook": "^4.0.5",
@@ -95,7 +95,10 @@
     "fz-react-cli": "bin/build.js"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "serverconfig": {
     "host": "localhost",

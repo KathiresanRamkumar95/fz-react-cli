@@ -17,13 +17,10 @@ class i18nPlugin {
           options.context,
           '/properties/ApplicationResources_en_US.properties'
         );
-    this.i18nObjPath = options.i18nObjPath
-      ? options.i18nObjPath
-      : path.join(options.appPath, options.context, 'properties/i18nkeys.json');
+    this.i18nObjPath = path.join(appPath, 'node_modules', '.cache', 'i18nkeys.json');
   }
   apply(compiler) {
     compiler.plugin('done', (compilation, callback) => {
-      console.log('i18nPlugin');
       propertytojson(
         this.i18nPropPath,
         this.targetPath,
