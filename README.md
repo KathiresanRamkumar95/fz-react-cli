@@ -86,6 +86,18 @@ fz-react-cli app <appname>
   *  blueprint - properties folder added
 
 # 0.0.3-beta.71
+  * webpack3 move
+  * babel-polyfill => babel-runtime move kindly check all browser working correctly
+  * build library:es added - add your package json - jsnext:main,module
+  * fz-i18n move to es6 module system
+
+# 0.0.3-beta.72
+  * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * clone repo option (i18n, font) - pending
-  * 
+  * webpack3 move - pending
+  * rollup try - pending
+  * webpack3 legal - already in npm, have to check legal
+  * hash changes - pending
+  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group legal verification pending
+  *

@@ -15,6 +15,7 @@ var alias = {};
 if (preact) {
   alias.react = 'preact-compat';
   alias['react-dom'] = 'preact-compat';
+  // alias['fz-i18n'] = require.resolve('../../../fz-i18n');
 }
 //var srcPath=path.resolve(__dirname, 'app');
 var fs = require('fs');
@@ -47,6 +48,7 @@ module.exports = {
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     /*  new i18nPlugin({
       appPath: appPath,
       context: context

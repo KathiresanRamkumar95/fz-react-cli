@@ -7,6 +7,7 @@ var appFolder = process.env.npm_config_app_folder || 'src';
 var context = process.env.npm_config_server_context || 'app';
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var mig = process.env.npm_config_react_mig || false;
+var hash = process.env.npm_config_hash_enable || false;
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 console.log(cssUnique, process.env.npm_config_css1_unique);
 var fs = require('fs');
@@ -28,17 +29,16 @@ var isReact = function isReact(_ref) {
 
 module.exports = {
   entry: {
-    main: [
-      'babel-polyfill',
-      path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
-    ]
+    main: [path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')]
   },
   output: {
     path: path.resolve(appPath, folder),
-    filename: 'js/[name].js'
+    filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+    chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js'
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     /*new i18nPlugin({
       appPath: appPath,
       context: context
@@ -84,7 +84,18 @@ module.exports = {
                 [require.resolve('babel-preset-es2015'), { modules: false }],
                 require.resolve('babel-preset-react')
               ],
-              plugins: [require.resolve('../removeProperties')],
+              plugins: [
+                require.resolve('../removeProperties'),
+                [
+                  require.resolve('babel-plugin-transform-runtime'),
+                  {
+                    helpers: false,
+                    polyfill: false,
+                    regenerator: true,
+                    moduleName: 'babel-runtime'
+                  }
+                ]
+              ],
               cacheDirectory: true
             }
           } /*,
@@ -100,7 +111,11 @@ module.exports = {
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$/,
-        use: ['url-loader?limit=1000&name=./images/[name].[ext]']
+        use: [
+          `url-loader?limit=1000&name=${hash
+            ? './images/[name].[hash].[ext]'
+            : './images/[name].[ext]'}`
+        ]
       },
       {
         test: /\.woff$|\.ttf$|\.eot$/,

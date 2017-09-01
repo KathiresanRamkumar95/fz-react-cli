@@ -18,6 +18,8 @@ var babel = !isNodeModuleUnderAppFolder
 var propertyToJson = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'propertyToJson')
   : 'propertyToJson';
+var presetEs2015 = require.resolve('babel-preset-es2015');
+var presetReact = require.resolve('babel-preset-react');
 
 switch (script) {
   case 'app':
@@ -83,7 +85,26 @@ switch (script) {
         'src',
         '--out-dir',
         'lib',
-        '--presets=babel-preset-es2015/lib/index.js,babel-preset-react/lib/index.js',
+        '--presets=' + presetEs2015 + ',' + presetReact,
+        '--copy-files'
+      ].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+
+    break;
+  case 'build:library:es':
+    var result = spawn.sync(
+      crossEnv,
+      [
+        babel,
+        'src',
+        '--out-dir',
+        'es',
+        '--presets=' +
+          require.resolve('../lib/babelPresetModule') +
+          ',' +
+          presetReact,
         '--copy-files'
       ].concat(args),
       { stdio: 'inherit' }
@@ -131,6 +152,14 @@ switch (script) {
     process.exit(result.status);
     break;
   default:
-    console.log('Unknown script "' + script + '".');
+    console.log('fz-react-cli > Unknown script "' + script + '".');
+    console.log('fz-react-cli app <appName>');
+    console.log('fz-react-cli start');
+    console.log('fz-react-cli build');
+    console.log('fz-react-cli sstest');
+    console.log('fz-react-cli test');
+    console.log('fz-react-cli publish:report');
+    console.log('fz-react-cli build:library:es');
+
     break;
 }
