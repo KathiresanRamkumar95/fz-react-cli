@@ -4,9 +4,9 @@ export default {
     [
       'transform-runtime',
       {
-        helpers: false,
-        polyfill: false,
-        regenerator: true,
+        helpers: true,
+        polyfill: true,
+        regenerator: false,
         moduleName: 'babel-runtime'
       }
     ]

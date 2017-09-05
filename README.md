@@ -92,6 +92,10 @@ fz-react-cli app <appname>
   * fz-i18n move to es6 module system
 
 # 0.0.3-beta.72
+  * babel-polyfill breakage lib fix
+  * redux-router-middleware, simple-normalizr, fz-i18n es6 support
+  
+# 0.0.3-beta.73
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * clone repo option (i18n, font) - pending
