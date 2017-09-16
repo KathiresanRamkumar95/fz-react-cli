@@ -1,9 +1,8 @@
-'use strict';
-
 var path = require('path');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var fs = require('fs');
+console.log(process.env.npm_package_umdVar);
 //var host = process.env.npm_config_server_host || "localhost";
 //var port = process.env.npm_config_server_port || "9292" ;
 //var url = "htt" + "p://" + host + ":"+port;
@@ -16,21 +15,17 @@ if (preact) {
 var appPath = fs.realpathSync(process.cwd());
 module.exports = {
   entry: {
-    main: ['babel-polyfill', path.join(appPath, 'src', 'index.js')],
-    vendor: ['react', 'react-dom']
+    main: path.join(appPath, 'src', 'index.js')
+    // vendor: ['react', 'react-dom']
   },
   output: {
-    path: path.resolve(appPath, 'dir'),
+    path: path.resolve(appPath, 'dist'),
     filename: '[name].js',
-    library: 'Component',
+    library: process.argv[3] || 'Component',
     libraryTarget: 'umd'
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.js'
-    }),
     new webpack.DefinePlugin({
       __TEST__: false,
       __DEVELOPMENT__: true,
@@ -61,6 +56,17 @@ module.exports = {
               presets: [
                 [require.resolve('babel-preset-es2015'), { modules: false }],
                 require.resolve('babel-preset-react')
+              ],
+              plugins: [
+                [
+                  require.resolve('babel-plugin-transform-runtime'),
+                  {
+                    helpers: true,
+                    polyfill: true,
+                    regenerator: false,
+                    moduleName: 'babel-runtime'
+                  }
+                ]
               ],
               cacheDirectory: true
             }

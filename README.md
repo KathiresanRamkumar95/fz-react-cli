@@ -99,12 +99,15 @@ fz-react-cli app <appname>
   * production configuration breaking changes for polyfill fix
 
 # 0.0.3-beta.74
+  * libary blueprint added
+  * app blueprint updated - .gitignore
+  * fz-react-cli library <libraryname>
+
+# 0.0.3-beta.75
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * clone repo option (i18n, font) - pending
-  * webpack3 move - pending
   * rollup try - pending
   * webpack3 legal - already in npm, have to check legal
   * hash changes - pending
   * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group legal verification pending
-  *

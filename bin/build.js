@@ -30,6 +30,14 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+  case 'library':
+    var result = spawn.sync(
+      'cp',
+      ['-r', path.join(__dirname, '..', 'library')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
   case 'propertyToJson':
     var result = spawn.sync(
       propertyToJson,

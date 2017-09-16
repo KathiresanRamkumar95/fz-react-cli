@@ -1,0 +1,28 @@
+{
+  "name": "library",
+  "umdVar": "Library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vimalceg/fz-dnd.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vimalceg/fz-dnd/issues"
+  },
+  "homepage": "https://github.com/vimalceg/fz-dnd#readme",
+  "scripts": {
+    "clean": "fz-react-cli clean lib coverage",
+    "build:umd": "fz-react-cli build:component:umd",
+    "build": "npm run clean && fz-react-cli build:component",
+    "build:es": "fz-react-cli build:library:es",
+    "prepublish": "npm run build && npm run build:es && npm run build:umd"
+  },
+  "tags": ["react", "redux"],
+  "keywords": ["react", "redux", "router"]
+}
