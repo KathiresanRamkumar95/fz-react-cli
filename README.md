@@ -104,9 +104,14 @@ fz-react-cli app <appname>
   * fz-react-cli library <libraryname>
 
 # 0.0.3-beta.75
+  * window path issue fix
+  * clone repo option
+  * clone repo option font try
+  
+# 0.0.3-beta.76
+  * clone repo option i18n pending
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
-  * clone repo option (i18n, font) - pending
   * rollup try - pending
   * webpack3 legal - already in npm, have to check legal
   * hash changes - pending

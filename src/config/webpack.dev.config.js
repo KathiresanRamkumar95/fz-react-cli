@@ -26,7 +26,9 @@ var isVendor = function isVendor(_ref) {
 };
 var isReact = function isReact(_ref) {
   var userRequest = _ref.userRequest;
-  return userRequest && userRequest.indexOf('node_modules/react') >= 0;
+  return (
+    userRequest && userRequest.indexOf('node_modules' + path.sep + 'react') >= 0
+  );
 };
 var hookEntries = ['babel-polyfill'];
 if (preact) {

@@ -22,6 +22,36 @@ var presetEs2015 = require.resolve('babel-preset-es2015');
 var presetReact = require.resolve('babel-preset-react');
 
 switch (script) {
+  case 'copy':
+    src = path.join(appPath, args[0]);
+    dest = path.join(appPath, args[1]);
+    var result = spawn.sync('cp', ['-vr', src, dest], {
+      stdio: 'inherit'
+    });
+    process.exit(result.status);
+    break;
+  case 'gitclone':
+    args[args.length - 1] = path.join(appPath, args[args.length - 1]);
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/clean'), args[args.length - 1]],
+      { stdio: 'inherit' }
+    );
+    var result = spawn.sync('git', ['clone'].concat(args), {
+      stdio: 'inherit'
+    });
+    process.exit(result.status);
+    break;
+  case 'hgclone':
+    args[args.length - 1] = path.join(appPath, args[args.length - 1]);
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/clean'), args[args.length - 1]],
+      { stdio: 'inherit' }
+    );
+    var result = spawn.sync('hg', ['clone'].concat(args), { stdio: 'inherit' });
+    process.exit(result.status);
+    break;
   case 'app':
     var result = spawn.sync(
       'cp',
@@ -162,12 +192,15 @@ switch (script) {
   default:
     console.log('fz-react-cli > Unknown script "' + script + '".');
     console.log('fz-react-cli app <appName>');
+    console.log('fz-react-cli library <libraryName>');
     console.log('fz-react-cli start');
     console.log('fz-react-cli build');
     console.log('fz-react-cli sstest');
     console.log('fz-react-cli test');
     console.log('fz-react-cli publish:report');
     console.log('fz-react-cli build:library:es');
+    console.log('fz-react-cli gitclone <last argument clone folder>');
+    console.log('fz-react-cli hgclone <last argument clone folder>');
 
     break;
 }
