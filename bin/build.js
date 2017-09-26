@@ -20,7 +20,6 @@ var propertyToJson = !isNodeModuleUnderAppFolder
   : 'propertyToJson';
 var presetEs2015 = require.resolve('babel-preset-es2015');
 var presetReact = require.resolve('babel-preset-react');
-
 switch (script) {
   case 'copy':
     src = path.join(appPath, args[0]);
@@ -80,7 +79,22 @@ switch (script) {
     );
     process.exit(result.status);
     break;
-
+  case 'help':
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/server/helpServer')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
+    case 'html':
+      var result = spawn.sync(
+        'node',
+        [require.resolve('../lib/server/htmlServer')].concat(args),
+        { stdio: 'inherit' }
+      );
+      process.exit(result.status);
+      break;
   case 'start':
     var result = spawn.sync(
       'node',
@@ -131,6 +145,22 @@ switch (script) {
     process.exit(result.status);
 
     break;
+  case 'build:component:server':
+    var result = spawn.sync(
+      crossEnv,
+      [
+        'BABEL_ENV=server',
+        babel,
+        'app',
+        '--out-dir',
+        'lib',
+        '--copy-files'
+      ].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+
+    break;
   case 'build:library:es':
     var result = spawn.sync(
       crossEnv,
@@ -156,7 +186,7 @@ switch (script) {
       [
         '--config',
         require.resolve('../lib/config/webpack.component.build.config.js')
-      ].concat(args),
+      ],
       { stdio: 'inherit' }
     );
     process.exit(result.status);

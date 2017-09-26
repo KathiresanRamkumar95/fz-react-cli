@@ -107,6 +107,12 @@ fz-react-cli app <appname>
   * window path issue fix
   * clone repo option
   * clone repo option font try
+
+# 0.0.3-beta.76
+  * help page
+  * html app
+  * docs component is not link before it is clickable. that was removed
+  * umd issue fix
   
 # 0.0.3-beta.76
   * clone repo option i18n pending

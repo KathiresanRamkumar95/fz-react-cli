@@ -122,15 +122,18 @@
 			.dir,.file,.dir .dir{
 				color: #a7a7a7;
 				font-weight: bold;
-				cursor: pointer;
+				/*cursor: pointer;*/
 				font: 13px 'ProximaNovaRegular',Arial,Helvetica,sans-serif;
 			}
 			.file{
 				margin-left: 27px;
-				cursor: pointer;
+				/*cursor: pointer;*/
 			}
 			.dir,.dir .dir,.dir .file,.file{
 				margin-top:8px;
+			}
+			.dir{
+				cursor: pointer;
 			}
 			.dir .dir{
 				margin-left: 10px;
@@ -682,6 +685,7 @@
                 type="Global"
                 components={this.filter(global, search)}
                 selectedComponent={selectedComponent}
+								isRootClickDisable={false}
               />
               <ComponentList
                 type="Atom"
@@ -707,6 +711,7 @@
                 type="Page"
                 components={this.filter(pages, search)}
                 selectedComponent={selectedComponent}
+								isRootClickDisable={false}
               />
             </div>
           </menu>
@@ -1043,7 +1048,7 @@
       this.setState({ toggle: !this.state.toggle });
     }
     render() {
-      const { components, type } = this.props;
+      const { components, type,isRootClickDisable=true } = this.props;
       return (
         <div className={type}>
           <div className="dir" onClick={this.toggleFolder}>
@@ -1061,7 +1066,16 @@
                   className={docsComp == -1 ? 'file' : 'fileNameDoc'}
                   key={'component' + i}
                 >
-                  <a
+                  {docsComp == -1 && isRootClickDisable? <div
+
+                    className={
+                      this.props.selectedComponent == '#' + component
+                        ? 'active'
+                        : ''
+                    }
+                  >
+                    {docsComp == -1 ? component : component.split('__')[1]}
+                  </div>:<a
                     href={'#' + component}
                     className={
                       this.props.selectedComponent == '#' + component
@@ -1071,6 +1085,7 @@
                   >
                     {docsComp == -1 ? component : component.split('__')[1]}
                   </a>
+								}
                 </div>
               );
             })}
