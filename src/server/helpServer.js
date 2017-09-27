@@ -5,7 +5,7 @@ var host = 'localhost';
 var port = process.env.npm_config_server_port || '3000';
 var url = 'htt' + 'p://' + host + ':' + port;
 
-app.use('/help', express.static('help'));
+app.use('/help', express.static(path.join(__dirname,'..','..','help')));
 
 var server = app.listen(port, function(err) {
   if (err) {

@@ -11,6 +11,11 @@
   body {
       position: relative;
   }
+
+script {
+  display: block;
+}
+
   #introduction {padding-top:50px;height:650px; }
   #section2 {padding-top:50px;height:650px;}
   #section3 {padding-top:50px;height:650px;}
@@ -34,7 +39,8 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#introduction">Introduction</a></li>
-          <li><a href="#section2">Section 2</a></li>
+          <li><a href="#es6">ES2015/ES6</a></li>
+          <li><a href="#react">React</a></li>
           <li><a href="#section3">Section 3</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -60,13 +66,160 @@
 	<h3>Create Library</h3>
 	<p>fz-react-cli library &lt;library&gt;</p>
 
-
-
+  <h3>Learn</h3>
+  <ul>
+    <li>ES2015/ES6</li>
+    <li>React</li>
+    <li>Redux</li>
+    <li>React-Redux</li>
+    <li>simple-normalizer</li>
+    <li>redux-router-middle</li>
+    <li>css-modules</li>
+    <li>fz-i18n</li>
+    <li>fz-propertytojson</li>
+  </ul>
+  <p>Learn all topic in deep. I will explain basic in the following section</p>
 </div>
-<div id="section2" class="container-fluid">
-  <h1>Section 2</h1>
-  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+<div id="es6" class="container-fluid">
+
+  <h1>Javascript</h1>
+  <h3>Object methods</h3>
+  <h3>Array methods</h3>
+  <h1>ES2015/ES6</h1>
+  <h3>Arrow Function</h3>
+  <h3>Class</h3>
+  <h3>template string</h3>
+  
+</div>
+<div id="react" class="container-fluid">
+  <h1>React </h1>
+
+  <h3>JSX</h3>
+
+    <ol>
+      <li>
+      How to create element
+      <pre>
+        <script type="text/plain">
+      var element=<div id="test">test</div>
+
+      equalenent js
+
+        React.createElement('div',{id:"test"},"test");
+      </script>
+    </pre>
+  </li>
+  <li>
+    JSX Condition
+      <pre>
+        <script type="text/plain">
+      var element=(<div>
+        {
+          a==true ? <div>A</div> : <div>Else</div>
+        }
+        </div>)
+      </script>
+    </pre>
+  </li>
+  <li>
+    JSX Loop
+      <pre>
+        <script type="text/plain">
+        var arr=[1,2,3]
+      var element=(<div>
+        {
+          arr.map((no)=>{
+            <div>{no}</div>
+          }) //no semicolon
+        }
+        </div>)
+      </script>
+    </pre>
+  </li>
+    <li>
+      How to create functional Component
+      <pre>
+        <script type="text/plain">
+      var Text=(props)=>{
+        <div>Text</div>
+      }
+      </script>
+    </pre>
+    </li>
+    <li>
+      How to create Stateless es6 Component
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component{
+          render(){
+            <div>Text</div>
+          }
+        }
+      </script>
+    </pre>
+    </li>
+
+    <li>
+      How to create Stateful es6 Component
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component{
+          constructor(props){
+            super(props);
+            this.state={
+              count:0
+            }
+          }
+          render(){
+            <div>Text {this.state.count}</div>
+          }
+        }
+      </script>
+    </pre>
+    </li>
+    <li>
+      Component Lifecycle
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component{
+          constructor(props){
+            super(props);
+            this.state={
+              count:0
+            }
+          }
+          componentWillMount(){
+
+          }
+          componentWillReceiveProps(nextProps){
+
+          }
+          componentWillUpdate(){
+
+          }
+          componentWillUnmount(){
+
+          }
+          render(){
+            <div>Text {this.state.count}</div>
+          }
+          componentDidMount(){
+
+          }
+          componentDidUpdate(preProps,preState){
+
+          }
+          shouldComponentUpdate(nextProps,nextState){
+
+          }
+
+
+        }
+      </script>
+    </pre>
+    </li>
+  </ol>
+    <a href="facebook.github.io/react/">More</a>
 </div>
 <div id="section3" class="container-fluid">
   <h1>Section 3</h1>

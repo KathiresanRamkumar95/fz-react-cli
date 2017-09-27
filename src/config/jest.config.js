@@ -26,7 +26,9 @@ module.exports = function(appFolder) {
     testResultsProcessor: path.resolve(__dirname, '..', 'result.js'),
     setupFiles: [path.resolve(__dirname, '..', 'setup.js')],
     globals: {
-      __DEVELOPMENT__: true
+      __DEVELOPMENT__: true,
+      __DOCS__:false,
+      __TEST__:true
     },
     moduleDirectories: [
       path.resolve(__dirname, '..', '..', 'node_modules'),

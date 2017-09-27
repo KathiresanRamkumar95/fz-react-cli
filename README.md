@@ -113,9 +113,14 @@ fz-react-cli app <appname>
   * html app
   * docs component is not link before it is clickable. that was removed
   * umd issue fix
-  
-# 0.0.3-beta.76
+
+# 0.0.3-beta.77
+  * test config issue fix __DOCS__ fix
+  * help server load issue fix
+
+# 0.0.3-beta.78
   * clone repo option i18n pending
+  * dynamic import
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * rollup try - pending

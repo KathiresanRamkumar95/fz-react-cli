@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.76",
+  "version": "0.0.3-beta.77",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -89,7 +89,6 @@
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^1.1.1",
-    "rollup-plugin-uglify": "^2.0.1",
     "selectn": "^1.1.1",
     "simple-normalizr": "^1.2.3",
     "style-loader": "^0.13.1",
