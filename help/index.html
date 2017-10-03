@@ -125,15 +125,16 @@ script {
     JSX Loop
       <pre>
         <script type="text/plain">
-        var arr=[1,2,3]
-      var element=(<div>
-        {
-          arr.map((no)=>{
-            <div>{no}</div>
-          }) //no semicolon
-        }
-        </div>)
-      </script>
+        var arr = [1, 2, 3];
+var element = (
+  <div>
+    {arr.map(no => {
+      <div>{no}</div>;
+    }) //no semicolon
+    }
+  </div>
+);
+</script>
     </pre>
   </li>
     <li>
@@ -150,12 +151,12 @@ script {
       How to create Stateless es6 Component
       <pre>
         <script type="text/plain">
-        class Text extends React.Component{
-          render(){
-            <div>Text</div>
-          }
-        }
-      </script>
+        class Text extends React.Component {
+  render() {
+    <div>Text</div>;
+  }
+}
+</script>
     </pre>
     </li>
 
@@ -163,58 +164,53 @@ script {
       How to create Stateful es6 Component
       <pre>
         <script type="text/plain">
-        class Text extends React.Component{
-          constructor(props){
-            super(props);
-            this.state={
-              count:0
-            }
-          }
-          render(){
-            <div>Text {this.state.count}</div>
-          }
-        }
-      </script>
+        class Text extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+  render() {
+    <div>Text {this.state.count}</div>;
+  }
+}
+</script>
     </pre>
     </li>
     <li>
       Component Lifecycle
       <pre>
         <script type="text/plain">
-        class Text extends React.Component{
-          constructor(props){
-            super(props);
-            this.state={
-              count:0
-            }
-          }
-          componentWillMount(){
-
-          }
-          componentWillReceiveProps(nextProps){
-
-          }
-          componentWillUpdate(){
-
-          }
-          componentWillUnmount(){
-
-          }
-          render(){
-            <div>Text {this.state.count}</div>
-          }
-          componentDidMount(){
-
-          }
-          componentDidUpdate(preProps,preState){
-
-          }
-          shouldComponentUpdate(nextProps,nextState){
-
-          }
-
-
-        }
+        class Text extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+  componentWillMount() {}
+  componentWillReceiveProps(nextProps) {}
+  componentWillUpdate() {}
+  componentWillUnmount() {}
+  render() {
+    <div>Text {this.state.count}</div>;
+  }
+  componentDidMount() {}
+  componentDidUpdate(preProps, preState) {}
+  shouldComponentUpdate(nextProps, nextState) {}
+}
+</script>
+    </pre>
+    </li>
+    <li>
+      Note Important
+      <pre>
+        <script type="text/plain">
+        1. Component Name Caps
+        2. Parent to child should pass as props
+        3. Child to parent data should pass throw callback method. do not pass data throw event. It is hard to track and some one can
+        4.
       </script>
     </pre>
     </li>

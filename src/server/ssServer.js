@@ -84,16 +84,21 @@ var server = app.listen(port, function(err) {
 ssTest.run(
   {
     seleniumHub: seleniumHub,
-    ip: 'http://' + host + ':' + port, //http://docsserver:9292
     url: 'http://' + host + ':' + port + '/docs/component.html',
+    browserList: ['firefox', 'chrome'],
     mode: 'test',
-    folderPrefix: 'my_ui_',
     script:
-      'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return JSON.stringify(Objlist);'
+      'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return Objlist'
   },
-  function() {
-    console.log('Current Mode call back server kill function called..!');
-    referenceMode();
+  function(status) {
+    if (status !== false) {
+      console.log('Current Mode call back server kill function called..!');
+      referenceMode();
+    } else {
+      server.close();
+      wMid.close();
+      console.log('Component list undefined.');
+    }
   }
 );
 
@@ -105,12 +110,11 @@ var referenceMode = function() {
   ssTest.run(
     {
       seleniumHub: seleniumHub,
-      ip: 'http://' + host + ':' + port, //http://docsserver:9292
       url: 'http://' + host + ':' + port + '/docs/component.html',
+      browserList: ['firefox', 'chrome'],
       mode: 'reference',
-      folderPrefix: 'my_ui_',
       script:
-        'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return JSON.stringify(Objlist);'
+        'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return Objlist'
     },
     function() {
       server.close();
@@ -142,6 +146,7 @@ var referenceMode = function() {
         ],
         { stdio: 'inherit' }
       );
+      console.log('Screenshot test succesfully completed.');
     }
   );
 };

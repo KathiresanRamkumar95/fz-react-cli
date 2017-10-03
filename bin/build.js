@@ -87,14 +87,14 @@ switch (script) {
     );
     process.exit(result.status);
     break;
-    case 'html':
-      var result = spawn.sync(
-        'node',
-        [require.resolve('../lib/server/htmlServer')].concat(args),
-        { stdio: 'inherit' }
-      );
-      process.exit(result.status);
-      break;
+  case 'html':
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/server/htmlServer')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
   case 'start':
     var result = spawn.sync(
       'node',
@@ -160,6 +160,13 @@ switch (script) {
     );
     process.exit(result.status);
 
+    break;
+  case 'node:cluster:monitor':
+    var clusterInfo = JSON.parse(
+      fs.readFileSync(path.join(appPath, 'cluster.js'), 'utf8')
+    );
+
+    console.log(clusterInfo);
     break;
   case 'build:library:es':
     var result = spawn.sync(

@@ -119,8 +119,13 @@ fz-react-cli app <appname>
   * help server load issue fix
 
 # 0.0.3-beta.78
+  * screenShots test updated for firfox and chrome
+
+# 0.0.3-beta.79
   * clone repo option i18n pending
+  * server side rendering
   * dynamic import
+  * Remove proptypes in production - "babel-plugin-transform-react-remove-prop-types" not working
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * rollup try - pending
