@@ -11,6 +11,7 @@ var context = process.env.npm_config_server_context || 'app';
 var appFolder = process.env.npm_config_app_folder || 'src';
 var mig = process.env.npm_config_react_mig || false;
 var preact = process.env.npm_config_preact_switch || false;
+var widgetEnable = process.env.npm_config_widget_enable || false;
 
 var alias = {};
 if (preact) {
@@ -34,16 +35,20 @@ var hookEntries = ['babel-polyfill'];
 if (preact) {
   hookEntries.push('preact/devtools');
 }
+var entry = {
+  main: [
+    require.resolve('../hmrClient') + `?hmrPath=${url}`,
+    ...hookEntries,
+    require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
+    require.resolve('react-error-overlay'),
+    path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
+  ]
+};
+if (widgetEnable) {
+  entry.widget = path.join(appPath, appFolder, 'widget.js');
+}
 module.exports = {
-  entry: {
-    main: [
-      require.resolve('../hmrClient') + `?hmrPath=${url}`,
-      ...hookEntries,
-      require.resolve('../wmsClient') + `?wmsPath=wss://${host}:${port}`,
-      require.resolve('react-error-overlay'),
-      path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
-    ]
-  },
+  entry: entry,
   devtool: 'cheap-module-source-map',
   output: {
     path: path.resolve(appPath, 'build'),
@@ -75,7 +80,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __TEST__: false,
-      __SERVER__: true,
+      __SERVER__: false,
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true,
       __DOCS__: false
@@ -118,7 +123,7 @@ module.exports = {
         use: ['url-loader?limit=1000&name=./images/[name].[ext]']
       },
       {
-        test: /\.woff$|\.ttf$|\.eot$/,
+        test: /\.woff2|\.woff$|\.ttf$|\.eot$/,
         use: ['url-loader?limit=1000&name=./fonts/[name].[ext]']
       },
       {

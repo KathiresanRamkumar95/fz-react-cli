@@ -119,10 +119,19 @@ fz-react-cli app <appname>
   * help server load issue fix
 
 # 0.0.3-beta.78
-  * screenShots test updated for firfox and chrome
+  * screenShots test updated for firefox and chrome
 
 # 0.0.3-beta.79
+  * portal widget build configuration
+  * hash based build configuration
+  * server side rendering configuration
+  * monitor node server tool
+  * help updated
+  * woff2 font support added
+
+# 0.0.3-beta.80
   * clone repo option i18n pending
+  * webpack-md5-hash
   * server side rendering
   * dynamic import
   * Remove proptypes in production - "babel-plugin-transform-react-remove-prop-types" not working
@@ -131,4 +140,5 @@ fz-react-cli app <appname>
   * rollup try - pending
   * webpack3 legal - already in npm, have to check legal
   * hash changes - pending
-  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group legal verification pending
+  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash legal verification pending
+  * cross-spawn => child_process  move build in support

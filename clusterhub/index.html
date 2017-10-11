@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <style>
+    .node{
+      display: inline-block;
+    float: left;
+    margin:10px;
+    }
+    </style>
+    <div id="react"></div>
+    <script src="./js/react.min.js"></script>
+    <script src="./js/reactdom.min.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+    class Node extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onStart = this.onStart.bind(this);
+    this.onStop = this.onStop.bind(this);
+  }
+  onStart() {
+    this.props.onStart(this.props.ip, this.props.port);
+  }
+  onStop() {
+    this.props.onStop(this.props.ip, this.props.port);
+  }
+  render() {
+    const { ip, port, hash, isStart } = this.props;
+    return (
+      <div className="node">
+        <div>{ip}</div>
+        <div>{port}</div>
+        <div>{hash}</div>
+        <button onClick={this.onStart} disabled={isStart}>
+          Start
+        </button>
+        <button onClick={this.onStop} disabled={!isStart}>
+          Stop
+        </button>
+      </div>
+    );
+  }
+}
+class NodeList extends React.Component {
+  render() {
+    var { nodes } = this.props;
+    return (
+      <div>
+        {nodes.map(node => {
+          return (
+            <Node
+              {...node}
+              onStart={this.props.onStart}
+              onStop={this.props.onStop}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+}
+class Deploy extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onDeploy = this.onDeploy.bind(this);
+  }
+  onDeploy() {
+    var deployJson = this.deployJson.value;
+    if (deployJson != '') {
+      var deployObj = null;
+      try {
+        deployObj = JSON.parse(deployJson);
+      } catch (e) {
+        console.log('JSON parse error');
+      }
+      if (deployObj) {
+        this.props.onDeploy(deployObj);
+      }
+    }
+  }
+  render() {
+    return (
+      <div
+        style={{
+          margin: '0 auto',
+          display: 'block',
+          width: '300px'
+        }}
+      >
+        <textarea
+          placeholder="Deploy json here...."
+          style={{
+            height: '300px',
+            width: '300px'
+          }}
+          ref={t => (this.deployJson = t)}
+        />
+        <button onClick={this.onDeploy}>Deploy</button>
+      </div>
+    );
+  }
+}
+class NodeContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nodes: []
+    };
+    this.onStart = this.onStart.bind(this);
+    this.onStop = this.onStop.bind(this);
+    this.onDeploy = this.onDeploy.bind(this);
+  }
+  componentDidMount() {
+    fetch('/clusterhub/nodes')
+      .then(res => res.json())
+      .then(res => {
+        this.setState({ nodes: res });
+        res.map(node => {
+          fetch(`http://${node.ip}:${parseInt(node.port) + 1}/node/isStart`)
+            .then(res => res.text())
+            .then(res => {
+              if (res == 'true') {
+                var newNodes = [];
+                this.state.nodes.forEach(node1 => {
+                  if (node1.ip == node.ip && node1.port == node.port) {
+                    newNodes.push(Object.assign({}, node1, { isStart: true }));
+                  } else {
+                    newNodes.push(node1);
+                  }
+                });
+                this.setState({ nodes: newNodes });
+              } else {
+                var newNodes = [];
+                this.state.nodes.forEach(node1 => {
+                  if (node1.ip == node.ip && node1.port == node.port) {
+                    newNodes.push(Object.assign({}, node1, { isStart: false }));
+                  } else {
+                    newNodes.push(node1);
+                  }
+                });
+                this.setState({ nodes: newNodes });
+              }
+            });
+        });
+      });
+  }
+  onStop(ip, port) {
+    fetch(`http://${ip}:${parseInt(port) + 1}/node/stop`)
+      .then(res => res.text())
+      .then(res => {
+        var newNodes = [];
+        this.state.nodes.forEach(node => {
+          console.log(res);
+          if (node.ip == ip && node.port == port && res == 'Stopped') {
+            newNodes.push(Object.assign({}, node, { isStart: false }));
+          } else {
+            newNodes.push(node);
+          }
+        });
+        this.setState({ nodes: newNodes });
+      });
+  }
+  onStart(ip, port) {
+    fetch(`http://${ip}:${parseInt(port) + 1}/node/start`)
+      .then(res => res.text())
+      .then(res => {
+        var newNodes = [];
+        this.state.nodes.forEach(node => {
+          console.log(res);
+          if (node.ip == ip && node.port == port && res == 'Server start') {
+            newNodes.push(Object.assign({}, node, { isStart: true }));
+          } else {
+            newNodes.push(node);
+          }
+        });
+        this.setState({ nodes: newNodes });
+      });
+  }
+  onDeploy(obj) {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    if (this.state.nodes.length > 1) {
+      var first = fetch(
+        `http://${this.state.nodes[0].ip}:${parseInt(this.state.nodes[0].port) +
+          1}/node/deploy`,
+        {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(obj)
+        }
+      ).then(res => res.text());
+      var remainingNodes = this.state.nodes.slice(1);
+      console.log(this.state.nodes, remainingNodes);
+      remainingNodes.reduce((pre, next) => {
+        return pre.then(res => {
+          return fetch(
+            `http://${next.ip}:${parseInt(next.port) + 1}/node/deploy`,
+            {
+              method: 'POST',
+              headers: myHeaders,
+              body: JSON.stringify(obj)
+            }
+          ).then(res => res.text());
+        });
+      }, first);
+    }
+  }
+  render() {
+    var { nodes } = this.state;
+    return (
+      <div>
+        <Deploy onDeploy={this.onDeploy} />
+        <NodeList nodes={nodes} onStart={this.onStart} onStop={this.onStop} />
+      </div>
+    );
+  }
+}
+ReactDOM.render(<NodeContainer />, document.getElementById('react'));
+</script>
+  </body>
+
+</html>

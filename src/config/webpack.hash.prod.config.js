@@ -1,6 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
+var cp = require('child_process');
+var WebpackMd5Hash = require('webpack-md5-hash');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+var ChunkManifestPlugin = require('../ChunkManifestPlugin');
 var i18nPlugin = require('../i18nPlugin');
 var folder = process.env.npm_config_output_folder || 'build';
 var appFolder = process.env.npm_config_app_folder || 'src';
@@ -8,9 +11,8 @@ var context = process.env.npm_config_server_context || 'app';
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var mig = process.env.npm_config_react_mig || false;
 var hash = process.env.npm_config_hash_enable || false;
-var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var widgetEnable = process.env.npm_config_widget_enable || false;
-console.log(cssUnique, process.env.npm_config_css1_unique);
+var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
 var preact = process.env.npm_config_preact_switch || false;
@@ -29,6 +31,16 @@ var isReact = function isReact(_ref) {
     userRequest && userRequest.indexOf('node_modules' + path.sep + 'react') >= 0
   );
 };
+var result = cp.spawnSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' });
+var gitHash = result.stdout.replace(/(\r\n|\n|\r)/gm, '');
+result = cp.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+  encoding: 'utf8'
+});
+var gitBranch = result.stdout.replace(/(\r\n|\n|\r)/gm, '');
+result = cp.spawnSync('git', ['remote', 'get-url', 'origin'], {
+  encoding: 'utf8'
+});
+var gitRepoUrl = result.stdout.replace(/(\r\n|\n|\r)/gm, '');
 var entry = {
   main: [path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')]
 };
@@ -68,6 +80,18 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       },
       __SERVER__: false
+    }),
+    new WebpackMd5Hash(),
+    new ChunkManifestPlugin({
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest' + context,
+      extra: {
+        repoInfo: {
+          repoUrl: gitRepoUrl || '',
+          branch: gitBranch || '',
+          hash: gitHash || ''
+        }
+      }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

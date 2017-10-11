@@ -16,9 +16,10 @@ script {
   display: block;
 }
 
-  #introduction {padding-top:50px;height:650px; }
-  #section2 {padding-top:50px;height:650px;}
-  #section3 {padding-top:50px;height:650px;}
+  #introduction {padding-top:50px;min-height:650px; }
+  #es6 {padding-top:50px;min-height:650px;}
+  #react {padding-top:50px;min-height:650px;}
+  #redux {padding-top:50px;height:650px;}
   #section41 {padding-top:50px;height:650px;}
   #section42 {padding-top:50px;height:650px;}
   </style>
@@ -41,7 +42,7 @@ script {
           <li><a href="#introduction">Introduction</a></li>
           <li><a href="#es6">ES2015/ES6</a></li>
           <li><a href="#react">React</a></li>
-          <li><a href="#section3">Section 3</a></li>
+          <li><a href="#redux">Redux</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#section41">Section 4-1</a></li>
@@ -58,13 +59,44 @@ script {
   <h1>Introduction</h1>
   <p>FZ-REACT-CLI is a cli tool to create and build react project and js library </p>
   <h3>Installation</h3>
-	<p>npm install fz-react-cli -g</p>
+	<pre>npm install fz-react-cli -g</pre>
 	<h3>Create App</h3>
-	<p>fz-react-cli app &lt;appname&gt;</p>
-	<p>start app using npm run start</p>
+	<pre>fz-react-cli app &lt;appname&gt;</pre>
+	<h3>start app</h3>
+  <pre>npm run start</pre>
+  <p>default running port 9090</p>
+
+  <h3>start docs </h3>
+  <pre>npm run docs --server:componentPath=./src/components/</pre>
+  <p>default running port 9292</p>
+  <p>If src folder name changed to appfolder then  </p>
+  <pre>npm run docs --server:componentPath=./&lt;appfolder&gt;/components/</pre>
 
 	<h3>Create Library</h3>
-	<p>fz-react-cli library &lt;library&gt;</p>
+	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
+  <h3>Advanced</h3>
+  <h3>Node Cluster Monitor</h3>
+	<pre>fz-react-cli cluster:monitor</pre>
+  <p>cluster config object </p>
+  <pre>
+    {
+      "cluster":[
+      {
+        "ip": "localhost",
+        "port": "4040"
+      },
+      {
+        "ip": "localhost",
+        "port": "4050"
+      }
+    ]
+    }
+
+  </pre>
+
+  <h3>Node</h3>
+	<pre>fz-react-cli node &lt;host&gt; &lt;port&gt; &lt;branch&gt; </pre>
+
 
   <h3>Learn</h3>
   <ul>
@@ -74,9 +106,13 @@ script {
     <li>React-Redux</li>
     <li>simple-normalizer</li>
     <li>redux-router-middle</li>
-    <li>css-modules</li>
     <li>fz-i18n</li>
     <li>fz-propertytojson</li>
+    <li>fz-dnd</li>
+    <li>fz-permission</li>
+    <li>fz-layout</li>
+    <li>css-modules</li>
+    <li>webpack</li>
   </ul>
   <p>Learn all topic in deep. I will explain basic in the following section</p>
 </div>
@@ -84,12 +120,140 @@ script {
 
   <h1>Javascript</h1>
   <h3>Object methods</h3>
+    <pre>
+      var target = Object.assign(target,source1,source2,...);
+    </pre>
+    <p>The Object.assign() method is used to copy the values of all properties from source objects to a target object. It will return the target object.</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/aw7NfYhR5rc" frameborder="0" allowfullscreen></iframe>
   <h3>Array methods</h3>
+    <h4>Map</h4>
+    <p>Map function used to map value to correponding array element</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.map(function(val){
+          return val*2;
+        })
+        a1=[1,2,3] a2=[2,4,6]
+    </pre>
+    <h4>Filter</h4>
+    <p>Filter function used to filter values from give array</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.filter(function(val){
+          val%2;
+        })
+        a1=[1,2,3] a2=[1,3]
+    </pre>
+    <h4>Reduce</h4>
+    <p>Reduce function used to reduce one dimention array to single value.</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.reduce(function(result,next){
+          return result+next;
+        },0)
+        a1=[1,2,3] a2=6
+    </pre>
+    <p> Try these examples
+      <a href="http://reactivex.io/learnrx/">Link</a>
+    </p>
+
   <h1>ES2015/ES6</h1>
   <h3>Arrow Function</h3>
-  <h3>Class</h3>
-  <h3>template string</h3>
+  <pre>
+      function test(a,b){
+        return a+b
+      }
 
+      var test = (a,b) => {
+        return a+b
+      }
+
+      only return directly return no need curly braces
+      var test = (a,b) => a+b
+
+      Single argument no need function of parentheses
+      var test = a => a+10;
+
+      function test(){
+        return {
+          a:1
+        }
+      }
+
+      object return using arrow function
+
+      var test = () => ({a:1})
+  </pre>
+  <h3>Class</h3>
+  <pre>
+      class Test{
+
+      }
+
+      class Test{
+        constructor(){
+          super();
+        }
+      }
+      class Test{
+        constructor(){
+
+        }
+        get(){
+          //instance method
+        }
+      }
+      Test.method=function(){
+        //static method
+      }
+      Test.obj={}
+      //Static member
+
+  </pre>
+  <h3>Template string</h3>
+  <pre>
+    var str1="Hello"
+    var str2="World"
+    var newString=str1+", "+str2;
+
+    var newString =`${str1}, ${str2}`
+  </pre>
+  <h3>Promise</h3>
+  <pre>
+    Callback hell...
+    function test(cb){
+      code...
+      may throw error
+      cb();
+
+    }
+    function test1(cb){
+      code...
+      may throw error
+      test()
+    }
+
+    horizontal Flattern callback hell using promise
+
+    var promise =new Promise((resolve,reject)=>{
+      task...
+      taskSuccess call resolve()
+      taskFailure call reject
+
+    })
+    promise.then(()=>{
+      return "pass next then"
+    },(e)=>{
+      //error handling
+    }).then((prePass)=>{
+      return
+    }).catch((e)=>{
+      error handling...
+    })
+
+    Vertical flattern/Normal flow using async function
+    async function feature comes in ES7
+  </pre>
 </div>
 <div id="react" class="container-fluid">
   <h1>React </h1>
@@ -217,8 +381,8 @@ var element = (
   </ol>
     <a href="facebook.github.io/react/">More</a>
 </div>
-<div id="section3" class="container-fluid">
-  <h1>Section 3</h1>
+<div id="redux" class="container-fluid">
+  <h1>Redux</h1>
   <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
   <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
 </div>

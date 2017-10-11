@@ -20,6 +20,7 @@ var propertyToJson = !isNodeModuleUnderAppFolder
   : 'propertyToJson';
 var presetEs2015 = require.resolve('babel-preset-es2015');
 var presetReact = require.resolve('babel-preset-react');
+var hash = process.env.npm_config_hash_enable || false;
 switch (script) {
   case 'copy':
     src = path.join(appPath, args[0]);
@@ -146,27 +147,45 @@ switch (script) {
 
     break;
   case 'build:component:server':
+    // var result = spawn.sync(
+    //   crossEnv,
+    //   [
+    //     'BABEL_ENV=server',
+    //     babel,
+    //     'app',
+    //     '--out-dir',
+    //     'lib',
+    //     '--presets=' + presetEs2015 + ',' + presetReact,
+    //     '--copy-files'
+    //   ].concat(args),
+    //   { stdio: 'inherit' }
+    // );
+    // process.exit(result.status);
     var result = spawn.sync(
-      crossEnv,
-      [
-        'BABEL_ENV=server',
-        babel,
-        'app',
-        '--out-dir',
-        'lib',
-        '--copy-files'
-      ].concat(args),
+      webpack,
+      ['--config', require.resolve('../lib/config/webpack.server.config.js')],
+      { stdio: 'inherit' }
+    );
+    console.log('result');
+    process.exit(result.status);
+    break;
+  case 'cluster:monitor':
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/server/clusterHubServer')].concat(args),
       { stdio: 'inherit' }
     );
     process.exit(result.status);
 
     break;
-  case 'node:cluster:monitor':
-    var clusterInfo = JSON.parse(
-      fs.readFileSync(path.join(appPath, 'cluster.js'), 'utf8')
+  case 'node':
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/server/NodeServer')].concat(args),
+      { stdio: 'inherit' }
     );
+    process.exit(result.status);
 
-    console.log(clusterInfo);
     break;
   case 'build:library:es':
     var result = spawn.sync(
@@ -199,16 +218,29 @@ switch (script) {
     process.exit(result.status);
     break;
   case 'build':
-    var result = spawn.sync(
-      webpack,
-      [
-        '--config',
-        require.resolve('../lib/config/webpack.prod.config.js')
-      ].concat(args),
-      { stdio: 'inherit' }
-    );
+    if (hash) {
+      var result = spawn.sync(
+        webpack,
+        [
+          '--config',
+          require.resolve('../lib/config/webpack.hash.prod.config.js')
+        ].concat(args),
+        { stdio: 'inherit' }
+      );
 
-    process.exit(result.status);
+      process.exit(result.status);
+    } else {
+      var result = spawn.sync(
+        webpack,
+        [
+          '--config',
+          require.resolve('../lib/config/webpack.prod.config.js')
+        ].concat(args),
+        { stdio: 'inherit' }
+      );
+
+      process.exit(result.status);
+    }
     break;
   case 'test':
     var result = spawn.sync(

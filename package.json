@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.78",
+  "version": "0.0.3-beta.79",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -96,6 +96,7 @@
     "webpack": "^3.5.4",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0",
+    "webpack-md5-hash": "0.0.5",
     "ws": "^3.0.0",
     "xhr2": "^0.1.3"
   },
