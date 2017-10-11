@@ -130,6 +130,9 @@ fz-react-cli app <appname>
   * woff2 font support added
 
 # 0.0.3-beta.80
+  * moment 2.19.0 issue - https://github.com/moment/moment/issues/4228 rollback to 2.18.1
+
+# 0.0.3-beta.81
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
