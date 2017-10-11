@@ -133,6 +133,9 @@ fz-react-cli app <appname>
   * moment 2.19.0 issue - https://github.com/moment/moment/issues/4228 rollback to 2.18.1
 
 # 0.0.3-beta.81
+  * screenShot server error fix
+
+# 0.0.3-beta.82
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
