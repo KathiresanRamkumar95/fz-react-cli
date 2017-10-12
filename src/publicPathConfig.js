@@ -5,6 +5,6 @@ if (!__DEVELOPMENT__) {
   global.publicPath = function(chunkId) {
     __webpack_public_path__ = `${global.staticDomain[options.jsSubdomain]}`;
   };
-  __webpack_public_path__ = ${global.staticDomain};
+  __webpack_public_path__ = `${global.staticDomain[options.jsSubdomain]}`;
   // __webpack_public_path__ = '//js.' + global.staticDomain;
 }
