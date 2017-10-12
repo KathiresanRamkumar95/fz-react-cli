@@ -23,7 +23,7 @@ app.use(
 var config;
 if (prodFlag) {
   config = require('../config/webpack.prod.config');
-  config.output.publicPath = '/' + context;
+  //config.output.publicPath = '/' + context;
   var compression = require('compression');
   app.use(compression());
 } else if (hotReload) {

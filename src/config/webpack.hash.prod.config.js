@@ -12,6 +12,11 @@ var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var mig = process.env.npm_config_react_mig || false;
 var hash = process.env.npm_config_hash_enable || false;
 var widgetEnable = process.env.npm_config_widget_enable || false;
+var RuntimePublicPath = require('../RuntimePublicPath').RuntimePublicPath;
+var jsSubdomain = process.env.npm_config_jsserver_subdomain || 'js';
+var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'img';
+var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'font';
+
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
@@ -23,7 +28,11 @@ if (preact) {
 }
 var isVendor = function isVendor(_ref) {
   var userRequest = _ref.userRequest;
-  return userRequest && userRequest.indexOf('node_modules') >= 0;
+  return (
+    userRequest &&
+    userRequest.indexOf('node_modules') >= 0 &&
+    userRequest.indexOf('.css') == -1
+  );
 };
 var isReact = function isReact(_ref) {
   var userRequest = _ref.userRequest;
@@ -42,7 +51,10 @@ result = cp.spawnSync('git', ['remote', 'get-url', 'origin'], {
 });
 var gitRepoUrl = result.stdout.replace(/(\r\n|\n|\r)/gm, '');
 var entry = {
-  main: [path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')]
+  main: [
+    require.resolve('../publicPathConfig.js') + '?jsSubdomain=' + jsSubdomain,
+    path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
+  ]
 };
 if (widgetEnable) {
   entry.widget = path.join(appPath, appFolder, 'widget.js');
@@ -55,6 +67,7 @@ module.exports = {
     chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js'
   },
   plugins: [
+    new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),
     new CaseSensitivePathsPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin(),
     /*new i18nPlugin({
@@ -143,18 +156,65 @@ module.exports = {
       {
         test: /\.jpe?g$|\.gif$|\.png$/,
         use: [
-          `url-loader?limit=1000&name=${hash
-            ? './images/[name].[hash].[ext]'
-            : './images/[name].[ext]'}`
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: hash
+                ? './images/[name].[hash].[ext]'
+                : './images/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  imgSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
         ]
       },
       {
         test: /\.woff2|\.woff$|\.ttf$|\.eot$/,
-        use: ['url-loader?limit=1000&name=./fonts/[name].[ext]']
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: hash
+                ? './fonts/[name].[hash].[ext]'
+                : './fonts/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  fontSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
+        ]
       },
       {
         test: /\.svg$/,
-        use: ['url-loader?limit=1&name=./fonts/[name].[ext]']
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1,
+              name: hash
+                ? './fonts/[name].[hash].[ext]'
+                : './fonts/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  fontSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
+        ]
       }
     ]
   },

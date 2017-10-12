@@ -134,6 +134,7 @@ fz-react-cli app <appname>
 
 # 0.0.3-beta.81
   * screenShot server error fix
+  * js, image, font, static domain handling (staticDomain ) multiple app different static domain problem
 
 # 0.0.3-beta.82
   * clone repo option i18n pending
