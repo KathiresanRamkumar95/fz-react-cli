@@ -52,11 +52,12 @@ module.exports = {
   output: {
     path: path.resolve(appPath, 'build'),
     filename: '[name].js',
+    chunkFilename: '[name].js',
     publicPath: [url, context, 'js'].join('/')
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    // new webpack.optimize.ModuleConcatenationPlugin(),
     /*  new i18nPlugin({
       appPath: appPath,
       context: context
@@ -109,8 +110,14 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]' //fz__[hash:base64:5]
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          }
         ]
       },
       {

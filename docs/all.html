@@ -52,7 +52,14 @@
 		<script src="https://localjs.zohostatic.com/ze/v69/js/i18n/en/ze_sa.min.js"></script>
 	</head>
 	<body>
-		<div id="react"></div>
+		<div class="main">
+			<div class="left">
+				<div id="generalMenu"></div>
+				<div id="componentMenu"></div>
+			</div>
+			<div class="right"></div>
+		</div>
+
 
 		<script src="/docs/js/vendor.js" ></script>
 		<script src="/docs/js/main.js" ></script>
@@ -95,21 +102,42 @@ var ReactDOMServer = Component.ReactDOMServer;
 //   }
 // }
 
-var html = Object.keys(Component).reduce((res, cName) => {
-  return `${res} <div><div id="${cName}"></div><div>${cName}</div></div>`;
-});
-document.getElementById('react').innerHTML = html;
-Object.keys(Component).forEach(cName => {
-  if (cName == 'React' || cName == 'ReactDOM') {
-    return;
-  }
-  var C = Component[cName];
-  try {
-    ReactDOM.render(<C />, document.getElementById(cName));
-  } catch (e) {
-    console.log('Error render', cName);
-  }
-});
+var baseComponent = Object.keys(Component)
+  .filter(c => {
+    var componentObj = Component[c];
+    return (
+      componentObj.docs &&
+      componentObj.docs.external &&
+      c.indexOf('__') == -1 &&
+      (componentObj.docs.componentGroup == 'Atom' ||
+        componentObj.docs.componentGroup == 'Molecule' ||
+        componentObj.docs.componentGroup == 'Organism')
+    );
+  })
+  .reduce((res, next) => {
+    res[next] = Component[next];
+    return res;
+  }, {});
+
+var str = Object.keys(baseComponent).reduce((result, componentKey) => {
+  return `${result}<a href="#${componentKey}" class="menuItem">${componentKey}</a>`;
+}, '');
+document.getElementById('componentMenu').innerHTML = str;
+// var html = Object.keys(Component).reduce((res, cName) => {
+//   return `${res} <div><div id="${cName}"></div><div>${cName}</div></div>`;
+// });
+// document.getElementById('react').innerHTML = html;
+// Object.keys(Component).forEach(cName => {
+//   if (cName == 'React' || cName == 'ReactDOM') {
+//     return;
+//   }
+//   var C = Component[cName];
+//   try {
+//     ReactDOM.render(<C />, document.getElementById(cName));
+//   } catch (e) {
+//     console.log('Error render', cName);
+//   }
+// });
 </script>
 
 

@@ -133,10 +133,20 @@ fz-react-cli app <appname>
   * moment 2.19.0 issue - https://github.com/moment/moment/issues/4228 rollback to 2.18.1
 
 # 0.0.3-beta.81
+  * publish miss
+
+# 0.0.3-beta.82
   * screenShot server error fix
   * js, image, font, static domain handling (staticDomain ) multiple app different static domain problem
 
-# 0.0.3-beta.82
+# 0.0.3-beta.83
+  * chunk name instead of chunk id in the manifest json
+  * production css minification
+  * external docs
+  * moduleconcatenationplugin error after recompile not correctly. dev restart server something went wrong. unpredictable error
+  * isomorphic-style-loader@4.0.0, xmlhttprequest@1.8.0  library added for server side rendering
+
+# 0.0.3-beta.84 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
@@ -147,5 +157,5 @@ fz-react-cli app <appname>
   * rollup try - pending
   * webpack3 legal - already in npm, have to check legal
   * hash changes - pending
-  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash legal verification pending
+  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash,isomorphic-style-loader,xmlhttprequest legal verification pending
   * cross-spawn => child_process  move build in support

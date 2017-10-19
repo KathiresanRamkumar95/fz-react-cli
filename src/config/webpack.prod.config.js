@@ -147,7 +147,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', `css-loader?modules&localIdentName=${className}`]
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: `${className}`,
+              minimize: true
+            }
+          }
+        ]
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$/,

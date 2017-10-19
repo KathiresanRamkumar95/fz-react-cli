@@ -17,7 +17,7 @@ script {
 }
 
   #introduction {padding-top:50px;min-height:650px; }
-  #es6 {padding-top:50px;min-height:650px;}
+  #es6,#serverside {padding-top:50px;min-height:650px;}
   #react {padding-top:50px;min-height:650px;}
   #redux {padding-top:50px;height:650px;}
   #section41 {padding-top:50px;height:650px;}
@@ -43,6 +43,8 @@ script {
           <li><a href="#es6">ES2015/ES6</a></li>
           <li><a href="#react">React</a></li>
           <li><a href="#redux">Redux</a></li>
+          <li><a href="#serverside">Server Side render</a></li>
+
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#section41">Section 4-1</a></li>
@@ -113,6 +115,7 @@ script {
     <li>fz-layout</li>
     <li>css-modules</li>
     <li>webpack</li>
+    <li>Server Side Rendering</li>
   </ul>
   <p>Learn all topic in deep. I will explain basic in the following section</p>
 </div>
@@ -383,8 +386,51 @@ var element = (
 </div>
 <div id="redux" class="container-fluid">
   <h1>Redux</h1>
+  <p></p>
   <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+<div id="serverside" class="container-fluid">
+  <h1>Server side rendering</h1>
+  <p> Notice:
+    1. Not access document/window/global variable inside render method
+    2. * browser time zone string (ip based)
+     4. xmlhttprequest - both support node, browser library
+     5. Initial data portalInfo hard coded (change to api call)
+     6. * editor js loading handling
+     7. build deploy and rollback. node server start and stop
+     8. node build update
+     9. flow of request server side rendering
+               Header customization
+               1. request->tomcat filter -> jsp -> http connect to node (if auth cookie) -> (do all api calls with or without cookie)-> generate html using that state and return to jsp -> jsp append html response -> client response
+              2. request ->  node -> call apis with request cookies -> return html -> client response
+      10. threshold
+
+     Advantage
+     reduce api call round trip
+     fast rendering (html once parse done render)
+     SEO easy to parse (no need client rendering from seo)
+
+
+     server side rendering css modules.
+     server side rendering code splitting
+https://github.com/kriasoft/isomorphic-style-loader
+https://github.com/lyft/universal-async-component
+     hash changing ={
+
+     }
+     Node cluster Manager
+          git:””,hash:”"
+          node:[{“ip”,”port”},{“ip”,”port”}];
+          node information - {ip:””, port:””}
+               port free?
+               git clone succes?
+               git hard clone
+          List of Cluster
+          node verification
+     https://stackoverflow.com/questions/16525617/how-to-detect-users-timezone/16526897#16526897
+     https://github.com/aickin/react-dom-stream
+     https://medium.com/@aickin/whats-new-with-server-side-rendering-in-react-16-9b0d78585d67
+   </p>
 </div>
 <div id="section41" class="container-fluid">
   <h1>Section 4 Submenu 1</h1>
