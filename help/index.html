@@ -16,12 +16,10 @@ script {
   display: block;
 }
 
-  #introduction {padding-top:50px;min-height:650px; }
-  #es6,#serverside {padding-top:50px;min-height:650px;}
-  #react {padding-top:50px;min-height:650px;}
-  #redux {padding-top:50px;height:650px;}
-  #section41 {padding-top:50px;height:650px;}
-  #section42 {padding-top:50px;height:650px;}
+  #introduction,#es6,#serverside,#react,#redux,#section41,#section42,#functional{
+    padding-top:50px;min-height:650px;
+  }
+
   </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
@@ -41,6 +39,7 @@ script {
         <ul class="nav navbar-nav">
           <li><a href="#introduction">Introduction</a></li>
           <li><a href="#es6">ES2015/ES6</a></li>
+          <li><a href="#functional">Functional Programming</a></li>
           <li><a href="#react">React</a></li>
           <li><a href="#redux">Redux</a></li>
           <li><a href="#serverside">Server Side render</a></li>
@@ -258,6 +257,42 @@ script {
     async function feature comes in ES7
   </pre>
 </div>
+<div id="functional" class="container-fluid">
+  <h3>Functional Programming</h3>
+  <p><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch1.html">book</a></p>
+  <h3>Pure Function</h3>
+  <h4>What is pure function?</h4>
+  <p>A pure function is a function which given the same input, will always return the same output and also not produces any side effects.</p>
+  <pre>
+    function add(a,b){
+      return a+b;
+    }
+  </pre>
+
+  <pre>
+    Not pure function
+    function add(){
+      var a=document.getElementById("a").value;//access dom object
+      var b=document.getElementById("b").value;
+      return a+b;
+    }
+    function add(a,b){
+      updateIntoDisk(a+b);
+      return a+b;
+    }
+    function add(obj){
+      obj.c=obj.a+obj.b;
+      return obj;
+    }
+  </pre>
+  <h4>What is side effect?</h4>
+  <p>modification of some kind of state</p>
+  
+  <h4>Advantages of purefunction</h4>
+  <p>
+    Code easy to testable. easy to debug.
+  </p>
+</div>
 <div id="react" class="container-fluid">
   <h1>React </h1>
 
@@ -386,8 +421,76 @@ var element = (
 </div>
 <div id="redux" class="container-fluid">
   <h1>Redux</h1>
-  <p></p>
-  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+
+  <p>Redux is a state management library. You can get more information from redux <a href="http://redux.js.org/docs/introduction/">docs</a>. Here we going to discuss about basic idea of state management</p>
+  <h4>What is State?</h4>
+  <p>State means data and It can be changed based on action/time,etc.<br />
+    Example switch has two state one is "ON" another one is "OFF".
+    You can "ON" or "OFF" switch based on action.
+  </p>
+  <img src="./img/switch.jpg" height="200" width="200"/>
+  <pre>
+    function switch(state="OFF"){
+        return state;
+    }
+    switch ();
+  </pre>
+  <p>
+    I just define pure function. It is going to handle switch state.
+    If you call switch function, you get the switch state.
+    Now it is always return "OFF" state. because we didn't handle any action. <br />My action is going to press switch button.
+    We slightly modify above function which handle our actions
+  </p>
+  <pre>
+    function switch(state="OFF",action){
+    if(action=="PRESS"){
+        if(state=="ON"){
+          state="OFF";
+        }
+        else{
+           state="ON";
+        }
+    }
+    return state;
+    }
+
+    var previousSwitchState="ON";
+    var  currentSwitchState= switch(previousSwitchState, "PRESS");
+    console.log(currentSwitchState)
+  </pre>
+  <p>Anybody feels problem in the above action. <br />Some problem in the above action.
+    Assume switch is already "ON" state I press switch for "ON". But It toggle it's state.
+    So action and some more information needed. So instead of action as string we pass it as object.
+  </p>
+  <p>
+    {type:"ACTION_TYPE",data:{information about action}}
+  </p>
+  <pre>
+    var Off = {type:"PRESS",data:"up"}
+    var On = {type:"PRESS",data:"down"}
+
+    function switch(state="OFF",action){
+      if(action.type=="PRESS"){
+          if(action.data =="up"){
+            state="OFF";
+          }
+          else if(action.data =="down"){
+             state="ON";
+          }
+      }
+      return state;
+    }
+    var state1 =switch(previousState,on);
+    var state2 = switch(state1,off);
+  </pre>
+
+
+  <p>switch was connected to bulb. Whenever switch ON bulb gets glow</p>
+
+
+
+
+  <p>state data nothing but your api data. switch and bulb are your html when ever data changes you have to update the UI</p>
 </div>
 <div id="serverside" class="container-fluid">
   <h1>Server side rendering</h1>
