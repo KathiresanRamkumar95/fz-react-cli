@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bootstrap Example</title>
+  <title>fz-react-cli docs</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/b.min.css">
@@ -58,16 +58,69 @@ script {
 
 <div id="introduction" class="container-fluid">
   <h1>Introduction</h1>
-  <p>FZ-REACT-CLI is a cli tool to create and build react project and js library </p>
+  <p>FZ-REACT-CLI is a node cli tool to create and build our react project and JS library.<br />
+  Before installation kindly check your node version is v6.10.0 and above (node -v). <a href="https://nodejs.org/en/download/" target="_blank">Node Download</a><br />
+And also check git installed your machine (git --version).</p>
   <h3>Installation</h3>
-	<pre>npm install fz-react-cli -g</pre>
-	<h3>Create App</h3>
-	<pre>fz-react-cli app &lt;appname&gt;</pre>
-	<h3>start app</h3>
-  <pre>npm run start</pre>
-  <p>default running port 9090</p>
+	<pre>
+    node -v
+    git --version
+    npm install fz-react-cli -g</pre>
+	<h3>Create React Application and Start</h3>
+	<pre>
+    fz-react-cli app &lt;appname&gt;
+    &gt; cd &lt;appname&gt;
+    npm run start</pre>
+  <p>default running port 9090. You can change your running port using --server:port=8080.<br />
+    Some useful options
+      <ul>
+        <li>--server:port=9090</li>
+        <li>--server:context=support || app (default)</li>
+        <li>--dev:hot=true ( to enable hot reloading )</li>
+        <li>--server:prod=true ( to check like production build )</li>
+      </ul>
+  </p>
+  <h3>Folder structure</h3>
+  <pre>
+      -&lt;appname&gt;
+          -src
+              -components
+                  -&lt;componentnameasfoldername&gt;
+                      -__tests__
+                          * &lt;componentname&gt;.spec.js
+                      -docs
+                          * &lt;componentname&gt;__&lt;state1&gt;.docs.js
+                          * &lt;componentname&gt;__&lt;state2&gt;.docs.js
+                      * &lt;componentname&gt;.js
+                      * &lt;componentname&gt;.css
 
-  <h3>start docs </h3>
+                  * index.js ( component export )
+                  * docs.js  ( docs export )
+              -containers
+                  -&lt;containercomponent&gt;
+                      *&lt;containercomponent&gt;.js
+                      *&lt;containercomponent&gt;.css
+              * index.js
+          -mockapi
+              * index.js
+          -app
+              * index.html
+          -docs (optional)
+              * all.html (optional)
+          * package.json
+          * .gitignore
+          * README.md
+
+
+Note:
+      - folder
+      * file
+      -&lt;&gt; userfolder
+      *&lt;&gt; userfile
+  </pre>
+
+
+  <h3>start component docs </h3>
   <pre>npm run docs --server:componentPath=./src/components/</pre>
   <p>default running port 9292</p>
   <p>If src folder name changed to appfolder then  </p>
@@ -75,6 +128,11 @@ script {
 
 	<h3>Create Library</h3>
 	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
+  <h3>Property file to json</h3>
+  <pre>fz-react-cli propertyToJson &lt;propertyfolder&gt; &lt;jsonfolder&gt; &lt;defaultpropertyfile&gt; &lt;usedpropertyasfile&gt;
+Example
+fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/properties/ApplicationResources_en_US.properties ./support/properties/JSResources.properties
+  </pre>
   <h3>Advanced</h3>
   <h3>Node Cluster Monitor</h3>
 	<pre>fz-react-cli cluster:monitor</pre>
@@ -96,7 +154,7 @@ script {
   </pre>
 
   <h3>Node</h3>
-	<pre>fz-react-cli node &lt;host&gt; &lt;port&gt; &lt;branch&gt; </pre>
+	<pre>fz-react-cli node &lt;host&gt; &lt;port&gt; &lt;repourl&gt; &lt;branch&gt; </pre>
 
 
   <h3>Learn</h3>
@@ -287,7 +345,7 @@ script {
   </pre>
   <h4>What is side effect?</h4>
   <p>modification of some kind of state</p>
-  
+
   <h4>Advantages of purefunction</h4>
   <p>
     Code easy to testable. easy to debug.
