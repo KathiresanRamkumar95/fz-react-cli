@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="./css/b.min.css">
   <script src="./js/j.min.js"></script>
   <script src="./js/b.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-with-addons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script> -->
   <style>
   body {
       position: relative;
@@ -15,8 +17,10 @@
 script {
   display: block;
 }
-
-  #introduction,#es6,#serverside,#react,#redux,#section41,#section42,#functional{
+p{
+  width:500px;
+}
+  #introduction,#es6,#serverside,#react,#redux,#section41,#section42,#functional,#router{
     padding-top:50px;min-height:650px;
   }
 
@@ -38,10 +42,11 @@ script {
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#introduction">Introduction</a></li>
-          <li><a href="#es6">ES2015/ES6</a></li>
+          <li><a href="#es6">JS/ES2015</a></li>
           <li><a href="#functional">Functional Programming</a></li>
           <li><a href="#react">React</a></li>
           <li><a href="#redux">Redux</a></li>
+          <li><a href="#router">Router</a></li>
           <li><a href="#serverside">Server Side render</a></li>
 
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
@@ -58,20 +63,20 @@ script {
 
 <div id="introduction" class="container-fluid">
   <h1>Introduction</h1>
-  <p>FZ-REACT-CLI is a node cli tool to create and build our react project and JS library.<br />
-  Before installation kindly check your node version is v6.10.0 and above (node -v). <a href="https://nodejs.org/en/download/" target="_blank">Node Download</a><br />
+  <p>FZ-REACT-CLI is a node cli tool to create and build our react project and also JS library.<br />
+  Before installation kindly check your node version is v6.10.0 and above(node -v). <a href="https://nodejs.org/en/download/" target="_blank">Node Download</a><br />
 And also check git installed your machine (git --version).</p>
   <h3>Installation</h3>
 	<pre>
-    node -v
-    git --version
-    npm install fz-react-cli -g</pre>
+    &gt; node -v
+    &gt; git --version
+    &gt; npm install fz-react-cli -g</pre>
 	<h3>Create React Application and Start</h3>
 	<pre>
-    fz-react-cli app &lt;appname&gt;
+    &gt; fz-react-cli app &lt;appname&gt;
     &gt; cd &lt;appname&gt;
-    npm run start</pre>
-  <p>default running port 9090. You can change your running port using --server:port=8080.<br />
+    &gt; npm run start</pre>
+  <p>Once start the application using the above command. It starts running in the default port 9090. You can change your running port by passing argument --server:port=8080.<br />
     Some useful options
       <ul>
         <li>--server:port=9090</li>
@@ -81,6 +86,7 @@ And also check git installed your machine (git --version).</p>
       </ul>
   </p>
   <h3>Folder structure</h3>
+  <p>Let us look into the react app folder structure</p>
   <pre>
       -&lt;appname&gt;
           -src
@@ -118,6 +124,33 @@ Note:
       -&lt;&gt; userfolder
       *&lt;&gt; userfile
   </pre>
+
+  <h3>What is Component?</h3>
+  <p>Components are small and reusable building blocks in your application. Example Button is a component.
+  We can use same button throught our application. These components are going to be there in components folder.</p>
+  <pre>
+      Simple Contact component.
+      var Contact =({name,onClick}) => &lt;div className="contact--default" onClick={onClick}&gt;{name}&lt;/div&gt;;
+  </pre>
+  <h3>How to create component?</h3>
+  <p>Inside components folder create new folder and rename the folder as component name. Create Component css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later.
+    <pre>
+      class TicketListContainer extends React.Component{
+        constructor(props){
+          super(props);
+          this.state={
+            tickets:[]
+          }
+        }
+        render(){
+          return <div>
+            {this.state.}
+          </div>
+        }
+      }
+    </pre>
+  <h3>What is Container?</h3>
+  <p>Container is also component. But It's main responsibility to fetch data using api and maintaining state and pass the state to it's children.</p>
 
 
   <h3>start component docs </h3>
@@ -484,7 +517,7 @@ var element = (
   <h4>What is State?</h4>
   <p>State means data and It can be changed based on action/time,etc.<br />
     Example switch has two state one is "ON" another one is "OFF".
-    You can "ON" or "OFF" switch based on action.
+    You can "ON" or "OFF" a switch based on action.
   </p>
   <img src="./img/switch.jpg" height="200" width="200"/>
   <pre>
@@ -543,12 +576,15 @@ var element = (
   </pre>
 
 
-  <p>switch was connected to bulb. Whenever switch ON bulb gets glow</p>
+  <p>switch was connected to bulb. Whenever switch state changes bulb going to react glow or not glow. <br /> I call it s </p>
 
 
 
 
   <p>state data nothing but your api data. switch and bulb are your html when ever data changes you have to update the UI</p>
+</div>
+<div id="router" class="container-fluid">
+  Redux router middleware
 </div>
 <div id="serverside" class="container-fluid">
   <h1>Server side rendering</h1>
