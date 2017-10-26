@@ -128,30 +128,42 @@ Note:
   <h3>What is Component?</h3>
   <p>Components are small and reusable building blocks in your application. Example Button is a component.
   We can use same button throught our application. These components are going to be there in components folder.</p>
-  <pre>
-      Simple Contact component.
-      var Contact =({name,onClick}) => &lt;div className="contact--default" onClick={onClick}&gt;{name}&lt;/div&gt;;
-  </pre>
+
   <h3>How to create component?</h3>
   <p>Inside components folder create new folder and rename the folder as component name. Create Component css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later.
     <pre>
-      class TicketListContainer extends React.Component{
-        constructor(props){
-          super(props);
-          this.state={
-            tickets:[]
-          }
-        }
-        render(){
-          return <div>
-            {this.state.}
-          </div>
-        }
-      }
+        Simple Contact component.
+        var Contact =({name,onClick}) => &lt;div className="contact--default" onClick={onClick}&gt;{name}&lt;/div&gt;;
     </pre>
+
   <h3>What is Container?</h3>
   <p>Container is also component. But It's main responsibility to fetch data using api and maintaining state and pass the state to it's children.</p>
+  <pre>
+    class ContactListContainer extends React.Component{
+      constructor(props){
+        super(props);
+        this.state={
+          contacts:[]
+        }
+      }
+      render(){
+        return &lt;div&gt;
+          {
+            this.state.contacts.map((contact)=>{
+              return &lt;Contact name={contact.name} onClick={()=>{console.log(contact.id)} /&gt;
+            })
+        }
+        &lt;/div&gt;
+      }
+    }
+    componentDidMount(){
+      fetch('/api/v1/contacts').then(res=>res.json()).then(res)=>{
+        this.setState({contacts:res})
+      })
+    }
+  }
 
+  </pre>
 
   <h3>start component docs </h3>
   <pre>npm run docs --server:componentPath=./src/components/</pre>
