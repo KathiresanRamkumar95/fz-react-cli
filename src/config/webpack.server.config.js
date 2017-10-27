@@ -63,9 +63,9 @@ module.exports = {
       __TEST__: false,
       __DEVELOPMENT__: true,
       __DOCS__: false,
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      },
+      // 'process.env': {
+      //   NODE_ENV: JSON.stringify('production')
+      // },
       __SERVER__: true
     }),
     new WebpackMd5Hash(),

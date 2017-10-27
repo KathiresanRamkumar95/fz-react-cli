@@ -7,6 +7,11 @@ var getIP = require('../utils/ipaddress');
 var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || '9292';
 var componentPath = process.env.npm_config_server_componentPath || null;
+var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
+var className = cssUnique
+  ? '[name]__[local]__[hash:base64:5]'
+  : '[name]__[local]';
+
 var url = 'htt' + 'p://' + host + ':' + port;
 var fs = require('fs');
 var appPath = fs.realpathSync(process.cwd());
@@ -78,10 +83,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]'
-        ]
+        use: ['style-loader', 'css-loader?modules&localIdentName=' + className]
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$/,

@@ -53,7 +53,8 @@ module.exports = {
     path: path.resolve(appPath, 'build'),
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: [url, context, 'js'].join('/')
+    publicPath: [url, context, 'js'].join('/'),
+    jsonpFunction: 'jsonp' + context
   },
   plugins: [
     new CaseSensitivePathsPlugin(),

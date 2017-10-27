@@ -19,8 +19,12 @@ script {
 }
 p{
   width:500px;
+  text-indent: 50px;
 }
-  #introduction,#es6,#serverside,#react,#redux,#section41,#section42,#functional,#router{
+.noIntend{
+  text-indent: 0px;
+}
+  #introduction,#basic,#serverside,#react,#redux,#section41,#section42,#router{
     padding-top:50px;min-height:650px;
   }
 
@@ -42,8 +46,7 @@ p{
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#introduction">Introduction</a></li>
-          <li><a href="#es6">JS/ES2015</a></li>
-          <li><a href="#functional">Functional Programming</a></li>
+          <li><a href="#basic">Basic</a></li>
           <li><a href="#react">React</a></li>
           <li><a href="#redux">Redux</a></li>
           <li><a href="#router">Router</a></li>
@@ -63,30 +66,35 @@ p{
 
 <div id="introduction" class="container-fluid">
   <h1>Introduction</h1>
-  <p>FZ-REACT-CLI is a node cli tool to create and build our react project and also JS library.<br />
-  Before installation kindly check your node version is v6.10.0 and above(node -v). <a href="https://nodejs.org/en/download/" target="_blank">Node Download</a><br />
-And also check git installed your machine (git --version).</p>
+  <p>fz-react-cli is a node cli tool to create and build our react project and also JS library.
+  Before installation kindly check your node version is v6.10.0 or above (node -v)
+and also check git installed your machine (git --version).<br />
+Node - <a href="https://nodejs.org/en/download/" target="_blank">Download</a></p>
   <h3>Installation</h3>
 	<pre>
     &gt; node -v
     &gt; git --version
     &gt; npm install fz-react-cli -g</pre>
-	<h3>Create React Application and Start</h3>
-	<pre>
+
+	<h3>How to create react application and how to start the application?</h3>
+  <p>You can start the application using the above command. It starts running in the default port 9090.
+    You may change your running port by passing argument --server:port=8080.<br />
+    <pre>
     &gt; fz-react-cli app &lt;appname&gt;
     &gt; cd &lt;appname&gt;
     &gt; npm run start</pre>
-  <p>Once start the application using the above command. It starts running in the default port 9090. You can change your running port by passing argument --server:port=8080.<br />
-    Some useful options
+
+    Some useful arguments
       <ul>
-        <li>--server:port=9090</li>
-        <li>--server:context=support || app (default)</li>
-        <li>--dev:hot=true ( to enable hot reloading )</li>
-        <li>--server:prod=true ( to check like production build )</li>
+        <li>--server:port=9090 <br />(for changing port)</li>
+        <li>--server:context=support || portal <br />(for changing context)</li>
+        <li>--dev:hot=true <br />(for hot reloading while development)</li>
+        <li>--server:prod=true <br />(for checking like production build )</li>
       </ul>
   </p>
-  <h3>Folder structure</h3>
-  <p>Let us look into the react app folder structure</p>
+
+  <h3>React application folder structure look like below.</h3>
+
   <pre>
       -&lt;appname&gt;
           -src
@@ -127,17 +135,23 @@ Note:
 
   <h3>What is Component?</h3>
   <p>Components are small and reusable building blocks in your application. Example Button is a component.
-  We can use same button throught our application. These components are going to be there in components folder.</p>
+  We can use same button throught our application. These components are creating under components folder.</p>
 
   <h3>How to create component?</h3>
-  <p>Inside components folder create new folder and rename the folder as component name. Create Component css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later.
-    <pre>
-        Simple Contact component.
-        var Contact =({name,onClick}) => &lt;div className="contact--default" onClick={onClick}&gt;{name}&lt;/div&gt;;
-    </pre>
+  <p>Inside components folder create new folder and rename the folder as component name. Create Component css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later. Simple Contact component below.
+  <pre>
+function Contact(props){
+  var { name, onClick } = props;
+  return (
+    &lt;div className="contact--default" onClick={onClick}&gt;
+      &lt;span&gt;{name}&lt;/span&gt;
+    &lt;/div&gt;;
+  )
+} </pre>
+<p class="noIntend">Don't worry if you not understanding this example. I will explain later</p>
 
   <h3>What is Container?</h3>
-  <p>Container is also component. But It's main responsibility to fetch data using api and maintaining state and pass the state to it's children.</p>
+  <p>Container is also component. But It's main responsibility to fetch data using api and maintaining state and pass the state to it's children. Creating container component is similar like component. It also has react lifecycle method</p>
   <pre>
     class ContactListContainer extends React.Component{
       constructor(props){
@@ -164,12 +178,32 @@ Note:
   }
 
   </pre>
+<p  class="noIntend">Don't worry if you not understanding this example. I will explain later</p>
 
-  <h3>start component docs </h3>
+  <h3>What is component documentation?</h3>
+  <p> Once components grow, It is hard to find out available component and it is possible UI state of the component.
+    So You need a documentation for your components. Each components has docs folder and you can define different UI state of your component.
+    this will display your component documentation</p>
+
+  <h3>How can i view my components as documentation?</h3>
+  <p>you can run the below command to start your document server. It runs in the default port 9292. You may change your running port using --server:port={port}  </p>
   <pre>npm run docs --server:componentPath=./src/components/</pre>
-  <p>default running port 9292</p>
-  <p>If src folder name changed to appfolder then  </p>
-  <pre>npm run docs --server:componentPath=./&lt;appfolder&gt;/components/</pre>
+
+  <h3>What is it means --server:componentPath?</h3>
+  <p>
+    It means you can mention your components library location in your application folder. Default location under src/components
+  </p>
+
+  <h3>Should i maintain component library inside application repository?</h3>
+  <p> No. Not necessary. You may create separate repository for your component library</p>
+
+  <h3>How to create separate component library?</h3>
+  <pre>
+    >
+  </pre>
+  <pre>
+npm run docs</pre>
+
 
 	<h3>Create Library</h3>
 	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
@@ -221,7 +255,7 @@ fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/prope
   </ul>
   <p>Learn all topic in deep. I will explain basic in the following section</p>
 </div>
-<div id="es6" class="container-fluid">
+<div id="basic" class="container-fluid">
 
   <h1>Javascript</h1>
   <h3>Object methods</h3>
@@ -359,8 +393,6 @@ fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/prope
     Vertical flattern/Normal flow using async function
     async function feature comes in ES7
   </pre>
-</div>
-<div id="functional" class="container-fluid">
   <h3>Functional Programming</h3>
   <p><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch1.html">book</a></p>
   <h3>Pure Function</h3>

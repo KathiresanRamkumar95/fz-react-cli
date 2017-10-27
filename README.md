@@ -146,7 +146,17 @@ fz-react-cli app <appname>
   * moduleconcatenationplugin error after recompile not correctly. dev restart server something went wrong. unpredictable error
   * isomorphic-style-loader@4.0.0, xmlhttprequest@1.8.0  library added for server side rendering
 
-# 0.0.3-beta.84 pending
+# 0.0.3-beta.84
+  * fz-layout move to 1.0.0-beta.3
+  * external docs html
+  * cluster node issue json.stringify issue fix
+  * webpack server config production issue fix
+  * production issue jsonpfunction issue fixed. two webpack app load issue. (dev, dev hot also changed)
+  * docs css unique check added
+  * html-loader for html docs try
+
+# 0.0.3-beta.85 pending
+
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
@@ -157,5 +167,5 @@ fz-react-cli app <appname>
   * rollup try - pending
   * webpack3 legal - already in npm, have to check legal
   * hash changes - pending
-  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash,isomorphic-style-loader,xmlhttprequest legal verification pending
+  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash,isomorphic-style-loader,xmlhttprequest, html-loader legal verification pending
   * cross-spawn => child_process  move build in support

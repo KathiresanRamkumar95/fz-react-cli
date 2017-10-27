@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.83",
+  "version": "0.0.3-beta.84",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -46,12 +46,13 @@
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
     "fz-i18n": "1.2.0-beta.10",
-    "fz-layout": "^1.0.0-beta.2",
+    "fz-layout": "^1.0.0-beta.3",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
     "fz-screenshot-test": "1.0.0-beta.16",
     "history": "^4.0.0",
     "hoist-non-react-statics": "^1.2.0",
+    "html-loader": "^0.5.1",
     "identity-obj-proxy": "^3.0.0",
     "isomorphic-style-loader": "4.0.0",
     "jest": "^17.0.2",

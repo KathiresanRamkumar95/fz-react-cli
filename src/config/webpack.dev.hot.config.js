@@ -55,17 +55,18 @@ module.exports = {
     filename: '[name].js',
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath),
-    publicPath: [url, context, 'js'].join('/')
+    publicPath: [url, context, 'js'].join('/'),
+    jsonpFunction: 'jsonp' + context
   },
   plugins: [
     //write hot module plugin like webpack-dev-server  server.js    new webpack.HotModuleReplacementPlugin(),
 
     new CaseSensitivePathsPlugin(),
 
-    new i18nPlugin({
-      appPath: appPath,
-      context: context
-    }),
+    // new i18nPlugin({
+    //   appPath: appPath,
+    //   context: context
+    // }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

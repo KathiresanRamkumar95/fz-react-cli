@@ -162,7 +162,7 @@ app.post('/node/deploy', (req, res) => {
           'serverrender',
           '--server:port=' + port,
           '--',
-          JSON.stringify(deployObj.initialJS)
+          JSON.stringify(JSON.stringify(deployObj))
         ],
         {
           encoding: 'utf8',
