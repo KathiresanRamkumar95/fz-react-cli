@@ -77,7 +77,7 @@ Node - <a href="https://nodejs.org/en/download/" target="_blank">Download</a></p
     &gt; npm install fz-react-cli -g</pre>
 
 	<h3>How to create react application and how to start the application?</h3>
-  <p>You can start the application using the above command. It starts running in the default port 9090.
+  <p>You can create and start the application using the following command. It starts running in the default port 9090.
     You may change your running port by passing argument --server:port=8080.<br />
     <pre>
     &gt; fz-react-cli app &lt;appname&gt;
@@ -135,10 +135,11 @@ Note:
 
   <h3>What is Component?</h3>
   <p>Components are small and reusable building blocks in your application. Example Button is a component.
-  We can use same button throught our application. These components are creating under components folder.</p>
+  We can use same button throught our application. These components are created under components folder.</p>
 
   <h3>How to create component?</h3>
-  <p>Inside components folder create new folder and rename the folder as component name. Create Component css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later. Simple Contact component below.
+  <p>Inside components folder create new folder and rename into component name.
+    Create Component name dot css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later. Simple Contact component below.
   <pre>
 function Contact(props){
   var { name, onClick } = props;
@@ -182,30 +183,67 @@ function Contact(props){
 
   <h3>What is component documentation?</h3>
   <p> Once components grow, It is hard to find out available component and it is possible UI state of the component.
-    So You need a documentation for your components. Each components has docs folder and you can define different UI state of your component.
-    this will display your component documentation</p>
+    So You need a documentation for your components. Each component has docs folder and you can define different UI state of your component.
+    This will display your component documentation</p>
 
   <h3>How can i view my components as documentation?</h3>
-  <p>you can run the below command to start your document server. It runs in the default port 9292. You may change your running port using --server:port={port}  </p>
+  <p>you can run the below command to start your document server. It runs in the default port 9292.
+     You may change your running port using --server:port={port}  </p>
   <pre>npm run docs --server:componentPath=./src/components/</pre>
 
   <h3>What is it means --server:componentPath?</h3>
   <p>
-    It means you can mention your components library location in your application folder. Default location under src/components
+    It means you can mention your components library location in your application folder.
+    Default location under src/components
   </p>
 
   <h3>Should i maintain component library inside application repository?</h3>
-  <p> No. Not necessary. You may create separate repository for your component library</p>
+  <p> No. Not necessary. You may create separate repository for your component library.
+     You can publish your component library and use inside your application</p>
 
   <h3>How to create separate component library?</h3>
+  <p>You can create library using below component</p>
+  <pre>fz-react-cli library &lt;libraryname&gt;</pre>
+
+  <h3>What about folder structure of component library?</h3>
+  <p>It is similar to app folder structure. You can create your component directly under src folder.
+  No need to create under components folder. Remove some unwanted folder like container, app folder,etc.
+  your component folder structure ready. see below for sample
+</P>
   <pre>
-    >
+      -&lt;componentLibrary&gt;
+          -src
+              -&lt;componentnameasfoldername&gt;
+                  -__tests__
+                      * &lt;componentname&gt;.spec.js
+                  -docs
+                      * &lt;componentname&gt;__&lt;state1&gt;.docs.js
+                      * &lt;componentname&gt;__&lt;state2&gt;.docs.js
+                  * &lt;componentname&gt;.js
+                  * &lt;componentname&gt;.css
+
+              * index.js ( component export )
+              * docs.js  ( docs export )
+          -docs (optional)
+              * all.html (optional)
+          * package.json
+          * .gitignore
+          * README.md
+
+Note:
+      - folder
+      * file
+      -&lt;&gt; userfolder
+      *&lt;&gt; userfile
   </pre>
-  <pre>
-npm run docs</pre>
 
-
-	<h3>Create Library</h3>
+  <h3>How to publish your component library?</h3>
+  <p>It is out of the scope of this library. It is based on your registry configuration.
+  If you configure npm registry using below component to use publish.
+  you can get more information from this video tutorial (<a href="https://egghead.io/lessons/javascript-publishing-to-npm" target="_blank">Link</a>)</p>
+  <pre>npm publish</pre>
+	<h3>How to create other than component library like redux,etc?</h3>
+  <p> Other than component library also you can use the same command.
 	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
   <h3>Property file to json</h3>
   <pre>fz-react-cli propertyToJson &lt;propertyfolder&gt; &lt;jsonfolder&gt; &lt;defaultpropertyfile&gt; &lt;usedpropertyasfile&gt;
