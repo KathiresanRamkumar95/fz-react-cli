@@ -96,6 +96,16 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['url-loader?limit=1&name=./fonts/[name].[ext]']
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: [':data-src'],
+            interpolate: 'require'
+          }
+        }
       }
     ]
   },

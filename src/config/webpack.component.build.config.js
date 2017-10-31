@@ -6,6 +6,9 @@ console.log(process.env.npm_package_umdVar);
 //var host = process.env.npm_config_server_host || "localhost";
 //var port = process.env.npm_config_server_port || "9292" ;
 //var url = "htt" + "p://" + host + ":"+port;
+var runHtml = process.env.npm_config_run_html || false;
+var folder = process.env.npm_config_output_folder || 'build';
+var watchMode = process.env.npm_config_watch_mode || false;
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var preact = process.env.npm_config_preact_switch || false;
@@ -16,22 +19,27 @@ if (preact) {
 }
 var appPath = fs.realpathSync(process.cwd());
 module.exports = {
+  watch: watchMode === 'true',
   entry: {
-    main: path.join(appPath, 'src', 'index.js')
+    main: path.join(appPath, 'src', runHtml ? 'html.js' : 'index.js')
     // vendor: ['react', 'react-dom']
   },
   output: {
-    path: path.resolve(appPath, 'dist'),
+    path: path.resolve(appPath, folder || 'dist'),
     filename: '[name].js',
-    library: process.argv[4] || 'Component',
+    library: process.argv[4] || process.env.npm_package_umdVar || 'Component',
     libraryTarget: 'umd'
   },
   plugins: [
     new CaseSensitivePathsPlugin(),
     new webpack.DefinePlugin({
       __TEST__: false,
-      __DEVELOPMENT__: true,
-      __DOCS__: true
+      __DEVELOPMENT__: false,
+      __DOCS__: false,
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      },
+      __SERVER__: false
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

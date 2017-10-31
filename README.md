@@ -156,6 +156,8 @@ fz-react-cli app <appname>
   * html-loader for html docs try
 
 # 0.0.3-beta.85 pending
+  * docs changes
+  * umd library config changes
 
   * clone repo option i18n pending
   * webpack-md5-hash

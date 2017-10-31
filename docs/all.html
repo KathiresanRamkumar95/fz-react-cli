@@ -195,8 +195,32 @@ var componentInfo = Object.keys(baseComponent)
 	  <p>
 	    ${baseComponent[componentKey].docs.description || 'No description'}
 	  </p>
-		<p>State</p>
+		<h4>PropTypes</h4>
+		<table  class="table table-striped">
+		<tr><th>PropsName</th><th>type</th><th>isRequired</th></th>
+		${Object.keys(baseComponent[componentKey].propTypes).sort()
+      .map(pKey => {
+        var pObj = baseComponent[componentKey].propTypes[pKey];
+        return `<tr>
+			<td>
+					${pKey}
+				</td>
+
+			<td>
+
+					${pObj.hookType}
+
+			</td><td>
+
+					${pObj.isRequired ? '' : 'true'}
+
+			</td></tr>`;
+      })
+      .join('')}
+			</table>
+		<h4>State</h4>
 		${getComponentState(componentKey)}
+		${baseComponent[componentKey].docs.additionDescription ? `<h4>More Information about component</h4><p>${baseComponent[componentKey].docs.additionDescription}</p>`:""}
 
 	</div>`;
   }, '');
