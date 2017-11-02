@@ -242,14 +242,19 @@ Note:
   If you configure npm registry using below component to use publish.
   you can get more information from this video tutorial (<a href="https://egghead.io/lessons/javascript-publishing-to-npm" target="_blank">Link</a>)</p>
   <pre>npm publish</pre>
-	<h3>How to create other than component library like redux,etc?</h3>
-  <p> Other than component library also you can use the same command.
+	
+  <h3>Can we create other than component library like redux,etc?</h3>
+  <p> Yes. you can use the same command to create js library too like redux.
 	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
-  <h3>Property file to json</h3>
+
+  
+  <h3>Any other feature available in the build tool?</h3>
+  <p> Yes. Properties to json conversion and clone repo option. copy folder option. cluster monitoring while server side render</p>
   <pre>fz-react-cli propertyToJson &lt;propertyfolder&gt; &lt;jsonfolder&gt; &lt;defaultpropertyfile&gt; &lt;usedpropertyasfile&gt;
 Example
 fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/properties/ApplicationResources_en_US.properties ./support/properties/JSResources.properties
   </pre>
+
   <h3>Advanced</h3>
   <h3>Node Cluster Monitor</h3>
 	<pre>fz-react-cli cluster:monitor</pre>
@@ -294,14 +299,35 @@ fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/prope
   <p>Learn all topic in deep. I will explain basic in the following section</p>
 </div>
 <div id="basic" class="container-fluid">
+   <h1>Basic</h1>
+   <p>Before going to write application we are going to learn some basic. Those things only going to use most of the places. 
+  <h2>Javascript</h2>
+    <P>In javascript, We are going to see following methods
+    <ul>
+      <li>Object.assign</li>
+      <li>Object.keys methods</li>
+      <li>Array.map</li>
+      <li>Array.filter</li>
+      <li>Array.reduce</li>
+      <li>Function.apply</li>
+      <li>Function.call</li>
+      <li>Function.bind</li>
+    </ul>
+    After that ES2015 feature
+     <ul>
+      <li>arrow function</li>
+      <li>class </li>
+      <li>string template</li>
+      <li>Promise</li>
+    </ul>
+</P>
 
-  <h1>Javascript</h1>
-  <h3>Object methods</h3>
-    <pre>
-      var target = Object.assign(target,source1,source2,...);
-    </pre>
+  <h3>Object.assign</h3>
+  <pre>
+  var target = Object.assign(target,source1,source2,...);</pre>
     <p>The Object.assign() method is used to copy the values of all properties from source objects to a target object. It will return the target object.</p>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/aw7NfYhR5rc" frameborder="0" allowfullscreen></iframe>
+
   <h3>Array methods</h3>
     <h4>Map</h4>
     <p>Map function used to map value to correponding array element</p>
@@ -430,6 +456,8 @@ fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/prope
 
     Vertical flattern/Normal flow using async function
     async function feature comes in ES7
+
+    Some of the feature not supported all browser. We are using babel to transpile es2015 code into es5 code. We will see babel in feature
   </pre>
   <h3>Functional Programming</h3>
   <p><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch1.html">book</a></p>
@@ -658,7 +686,32 @@ var element = (
   </pre>
 
 
-  <p>switch was connected to bulb. Whenever switch state changes bulb going to react glow or not glow. <br /> I call it s </p>
+  <p>Switch was connected to bulb. Whenever switch state changes bulb going to glow or not glow. 
+   </p>
+   <pre>
+    bulb(switchState){
+      if(switchState=="ON"){
+        return "glow"
+      }
+      else{
+      return "not glow"
+      }
+    }
+    var previousState;
+    dispatch(action){
+      var nextState=switch(previousState,action);
+      console.log(bulb(nextState));
+      previousState=nextState;
+      return action;
+    }
+
+    var Off = {type:"PRESS",data:"up"}
+    var On = {type:"PRESS",data:"down"}
+
+    dispatch(On);
+    dispatch(Off);
+
+   </pre>
 
 
 
