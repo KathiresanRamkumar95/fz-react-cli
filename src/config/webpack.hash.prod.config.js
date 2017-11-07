@@ -64,7 +64,8 @@ module.exports = {
   output: {
     path: path.resolve(appPath, folder),
     filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-    chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js'
+    chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+    jsonpFunction: 'jsonp' + context
   },
   plugins: [
     new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),

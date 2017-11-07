@@ -155,10 +155,14 @@ fz-react-cli app <appname>
   * docs css unique check added
   * html-loader for html docs try
 
-# 0.0.3-beta.85 pending
+# 0.0.3-beta.85
   * docs changes
   * umd library config changes
+  * webpack-md5-hash, isomorphic-style-loader
+  * babel-plugin-css-modules-transform removed unused package        xmlhttprequest,html-loader,react-addons-css-transition-group,webpack3, babel-runtime,rollup,rollup-plugin-babel,rollup-plugin-node-resolve, rollup-plugin-replace,rollup-plugin-uglify,babel-plugin-transform-runtime(available in our npm registry)
 
+
+# 0.0.3-beta.86
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
@@ -167,7 +171,7 @@ fz-react-cli app <appname>
   * moment huge size - need alternate library
   * i18n keys find out from code - loader and plugin - pending
   * rollup try - pending
-  * webpack3 legal - already in npm, have to check legal
   * hash changes - pending
-  * babel-plugin-transform-runtime, babel-runtime,rollup, rollup-plugin-babel, rollup-plugin-node-resolve, rollup-plugin-replace, rollup-plugin-uglify, webpack3,react-addons-css-transition-group, webpack-md5-hash,isomorphic-style-loader,xmlhttprequest, html-loader legal verification pending
   * cross-spawn => child_process  move build in support
+  * fbjs remove ?
+  * object-assign remove ?
