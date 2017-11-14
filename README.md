@@ -163,6 +163,10 @@ fz-react-cli app <appname>
 
 
 # 0.0.3-beta.86
+  * webpack-core library missing it break hash based build generate
+
+# 0.0.3-beta.87 pending
+
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering

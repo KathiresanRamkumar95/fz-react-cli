@@ -132,7 +132,12 @@ Note:
       -&lt;&gt; userfolder
       *&lt;&gt; userfile
   </pre>
+  <p>
+    <b>Information:</b> You may create some folder under "components" folder. We can call it as group.
+    Under group folder, we create component then it is specific to that group not generic component.
+     It is under "components" then more generic component. Similarly rule for containers also.
 
+  </p>
   <h3>What is Component?</h3>
   <p>Components are small and reusable building blocks in your application. Example Button is a component.
   We can use same button throught our application. These components are created under components folder.</p>
@@ -187,13 +192,13 @@ function Contact(props){
     This will display your component documentation</p>
 
   <h3>How can i view my components as documentation?</h3>
-  <p>you can run the below command to start your document server. It runs in the default port 9292.
+  <p>You can run the below command to start your document server. It runs in the default port 9292.
      You may change your running port using --server:port={port}  </p>
   <pre>npm run docs --server:componentPath=./src/components/</pre>
 
   <h3>What is it means --server:componentPath?</h3>
   <p>
-    It means you can mention your components library location in your application folder.
+    It means, You can mention your components library location in your application folder.
     Default location under src/components
   </p>
 
@@ -204,11 +209,17 @@ function Contact(props){
   <h3>How to create separate component library?</h3>
   <p>You can create library using below component</p>
   <pre>fz-react-cli library &lt;libraryname&gt;</pre>
+  <div>open package.json file and add below code into scripts </div>
+  <pre>"scripts":{
+    "docs":"fz-react-cli docs",
+    ...
+  }</pre>
+
 
   <h3>What about folder structure of component library?</h3>
   <p>It is similar to app folder structure. You can create your component directly under src folder.
   No need to create under components folder. Remove some unwanted folder like container, app folder,etc.
-  your component folder structure ready. see below for sample
+  see below for sample
 </P>
   <pre>
       -&lt;componentLibrary&gt;
@@ -237,14 +248,42 @@ Note:
       *&lt;&gt; userfile
   </pre>
 
-  <h3>How to publish your component library?</h3>
+  <h3>How to build my component library?</h3>
+  <p>You can build your component library using below command. It builds your component library into different module system common js and
+     es6. Understand different module system (AMD,Commonjs,umd) (<a href="https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/">link</a>) </p>
+  <pre>npm run build:component
+npm run build:es
+  </pre>
+
+  <h3>Can I get single js for my component library?(UMD)</h3>
+  <p>You may build as single js. but I am not prefer becuase component library has images and fonts and css and other resources.
+    Build support bundle css inside js. there is no problem it is plain Css. If it use images fonts then we need to provide
+    proper domain to download images and fonts. My opinion is to install as a dependencies and require you app and use it.
+  </p>
+
+  <h3>How to publish my component library?</h3>
   <p>It is out of the scope of this library. It is based on your registry configuration.
   If you configure npm registry using below component to use publish.
   you can get more information from this video tutorial (<a href="https://egghead.io/lessons/javascript-publishing-to-npm" target="_blank">Link</a>)</p>
   <pre>npm publish</pre>
-	<h3>How to create other than component library like redux,etc?</h3>
-  <p> Other than component library also you can use the same command.
-	<pre>fz-react-cli library &lt;libraryname&gt;</pre>
+
+	<h3>How to create other than component library (like redux) only js not css/images/fonts ?</h3>
+  <p> you can use the same command. Update your package json information. </p>
+  <pre>fz-react-cli library &lt;libraryname&gt;</pre>
+
+  <h3>Can i get single js for my library?(UMD file)</h3>
+  <p>Yes. You can get your library as single umd js file. You can use the below command to create your umd js.
+  Once build success, It is created under dist folder. you can also build your library in commonjs and es6 modules</p>
+  <pre>npm run build:umd</pre>
+  <pre>npm run build:component
+npm run build:es
+  </pre>
+
+  <h3>How can i change my umd global variable?</h3>
+  <p>In package json file, you can see the variable "umdVar". You can change your globally export variable there.</p>
+
+
+
   <h3>Property file to json</h3>
   <pre>fz-react-cli propertyToJson &lt;propertyfolder&gt; &lt;jsonfolder&gt; &lt;defaultpropertyfile&gt; &lt;usedpropertyasfile&gt;
 Example
