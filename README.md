@@ -165,8 +165,10 @@ fz-react-cli app <appname>
 # 0.0.3-beta.86
   * webpack-core library missing it break hash based build generate
 
-# 0.0.3-beta.87 pending
+# 0.0.3-beta.87
+  * chunk name issue fixed in Chunk manifest plugin !important
 
+# 0.0.3-beta.88
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
