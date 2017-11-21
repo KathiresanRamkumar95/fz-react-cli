@@ -9,6 +9,7 @@ var folder = process.env.npm_config_output_folder || 'lib';
 var appFolder = process.env.npm_config_app_folder || 'src';
 var context = process.env.npm_config_server_context || 'app';
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
+var watch = !!process.env.npm_config_watch_mode || false;
 // var mig = process.env.npm_config_react_mig || false;
 var hash = process.env.npm_config_hash_enable || false;
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
@@ -41,6 +42,7 @@ module.exports = {
     filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
     chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js'
   },
+  watch: watch,
   plugins: [
     new CaseSensitivePathsPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -68,12 +70,12 @@ module.exports = {
       // },
       __SERVER__: true
     }),
-    new WebpackMd5Hash(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    })
+    new WebpackMd5Hash()
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compressor: {
+    //     warnings: false
+    //   }
+    // })
   ],
   module: {
     rules: [

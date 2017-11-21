@@ -169,6 +169,9 @@ fz-react-cli app <appname>
   * chunk name issue fixed in Chunk manifest plugin !important
 
 # 0.0.3-beta.88
+  * dev server support http and https - chrome audit issue http only support
+
+# 0.0.3-beta.89 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
@@ -181,3 +184,5 @@ fz-react-cli app <appname>
   * cross-spawn => child_process  move build in support
   * fbjs remove ?
   * object-assign remove ?
+  * nodemon, serialize-javascript - for server side rendering
+  *

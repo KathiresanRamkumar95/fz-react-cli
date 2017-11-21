@@ -134,3 +134,27 @@ server.listen(port, function(err) {
   // custom console
   console.log('Listening at ' + url + '/' + context);
 });
+var httpPort = parseInt(port) + 1;
+app.listen(httpPort, function(err) {
+  if (err) {
+    // custom console
+    console.log(err);
+    return;
+  }
+
+  if (
+    !process.env.npm_config_server_host &&
+    !process.env.npm_config_server_port
+  ) {
+    // custom console
+    console.log('you can change hostname and port using following command');
+    // custom console
+    console.log(
+      'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true} --dev:hot={true}'
+    );
+  }
+  // custom console
+  console.log(
+    'Listening at ' + 'htt' + 'p://' + host + ':' + httpPort + '/' + context
+  );
+});
