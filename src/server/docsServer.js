@@ -36,6 +36,10 @@ app.use(
 
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(
+  '/docs/external',
+  express.static(path.join(appPath, 'docs', 'external'))
+);
+app.use(
   '/docs/js',
   express.static(path.join(__dirname, '..', '..', 'docs', 'js'))
 );

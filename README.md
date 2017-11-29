@@ -171,7 +171,10 @@ fz-react-cli app <appname>
 # 0.0.3-beta.88
   * dev server support http and https - chrome audit issue http only support
 
-# 0.0.3-beta.89 pending
+# 0.0.3-beta.89
+  * external docs support
+
+# 0.0.3-beta.90 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
