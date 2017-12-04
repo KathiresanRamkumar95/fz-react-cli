@@ -31,7 +31,8 @@ var isVendor = function isVendor(_ref) {
   return (
     userRequest &&
     userRequest.indexOf('node_modules') >= 0 &&
-    userRequest.indexOf('.css') == -1
+    userRequest.indexOf('.css') == -1 &&
+    userRequest.indexOf('publicPathConfig.js') == -1
   );
 };
 var isReact = function isReact(_ref) {

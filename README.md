@@ -174,7 +174,10 @@ fz-react-cli app <appname>
 # 0.0.3-beta.89
   * external docs support
 
-# 0.0.3-beta.90 pending
+# 0.0.3-beta.90
+  * public path variable move to vendor js avoid
+
+# 0.0.3-beta.91
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
