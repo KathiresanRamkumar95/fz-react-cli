@@ -178,6 +178,9 @@ fz-react-cli app <appname>
   * public path variable move to vendor js avoid
 
 # 0.0.3-beta.91
+    * screen shot test move 17 compare to imagecompare and some issue fix
+
+# 0.0.3-beta.92 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
