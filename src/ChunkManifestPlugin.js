@@ -25,7 +25,7 @@ ChunkManifestPlugin.prototype.apply = function(compiler) {
       var initialJS = {};
       if (filename) {
         chunkManifest = [chunk].reduce(function registerChunk(manifest, c) {
-          if (c.name in manifest) {
+          if (c.id in manifest) {
             return manifest;
           }
           var hasRuntime =
@@ -33,7 +33,7 @@ ChunkManifestPlugin.prototype.apply = function(compiler) {
 
           if (hasRuntime && !c.isInitial()) {
             //c.isInital issue existing plugin
-            manifest[c.name] = undefined;
+            manifest[c.id] = undefined;
           } else {
             var filePath = mainTemplate.applyPluginsWaterfall(
               'asset-path',
@@ -44,9 +44,9 @@ ChunkManifestPlugin.prototype.apply = function(compiler) {
               }
             );
             if (c.isInitial()) {
-              initialJS[c.name] = filePath;
+              initialJS[c.name || c.id] = filePath;
             }
-            manifest[c.name] = filePath;
+            manifest[c.id] = filePath;
           }
           return c.chunks.reduce(registerChunk, manifest);
         }, {});

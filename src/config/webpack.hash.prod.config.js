@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var cp = require('child_process');
-var WebpackMd5Hash = require('webpack-md5-hash');
+//var WebpackMd5Hash = require('webpack-md5-hash');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var ChunkManifestPlugin = require('../ChunkManifestPlugin');
 var i18nPlugin = require('../i18nPlugin');
@@ -14,8 +14,8 @@ var hash = process.env.npm_config_hash_enable || false;
 var widgetEnable = process.env.npm_config_widget_enable || false;
 var RuntimePublicPath = require('../RuntimePublicPath').RuntimePublicPath;
 var jsSubdomain = process.env.npm_config_jsserver_subdomain || 'js';
-var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'img';
-var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'font';
+var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'images';
+var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'fonts';
 
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var fs = require('fs');
@@ -62,11 +62,13 @@ if (widgetEnable) {
 }
 module.exports = {
   entry: entry,
+  devtool: 'hidden-source-map',
   output: {
     path: path.resolve(appPath, folder),
-    filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-    chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-    jsonpFunction: 'jsonp' + context
+    filename: hash ? 'js/[name].[chunkhash:20].js' : 'js/[name].js',
+    chunkFilename: hash ? 'js/[name].[chunkhash:20].js' : 'js/[name].js',
+    jsonpFunction: 'jsonp' + context,
+    sourceMapFilename: 'smap/[name].[chunkhash:20].map'
   },
   plugins: [
     new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),
@@ -96,7 +98,7 @@ module.exports = {
       },
       __SERVER__: false
     }),
-    new WebpackMd5Hash(),
+    // new WebpackMd5Hash(),
     new ChunkManifestPlugin({
       filename: 'manifest.json',
       manifestVariable: 'webpackManifest' + context,
@@ -111,7 +113,8 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
-      }
+      },
+      sourceMap: true
     })
   ],
   module: {
@@ -173,7 +176,7 @@ module.exports = {
             options: {
               limit: 1000,
               name: hash
-                ? './images/[name].[hash].[ext]'
+                ? './images/[name].[hash:20].[ext]'
                 : './images/[name].[ext]',
               publicPath: url => {
                 return `staticDomain[${JSON.stringify(
@@ -194,7 +197,7 @@ module.exports = {
             options: {
               limit: 1000,
               name: hash
-                ? './fonts/[name].[hash].[ext]'
+                ? './fonts/[name].[hash:20].[ext]'
                 : './fonts/[name].[ext]',
               publicPath: url => {
                 return `staticDomain[${JSON.stringify(
@@ -215,7 +218,7 @@ module.exports = {
             options: {
               limit: 1,
               name: hash
-                ? './fonts/[name].[hash].[ext]'
+                ? './fonts/[name].[hash:20].[ext]'
                 : './fonts/[name].[ext]',
               publicPath: url => {
                 return `staticDomain[${JSON.stringify(

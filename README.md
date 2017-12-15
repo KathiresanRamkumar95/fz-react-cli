@@ -180,7 +180,14 @@ fz-react-cli app <appname>
 # 0.0.3-beta.91
     * screen shot test move 17 compare to imagecompare and some issue fix
 
-# 0.0.3-beta.92 pending
+# 0.0.3-beta.92
+    * ssl support both certificate support
+    * WebpackMd5Hash root file cache makes Problem. fix to remove
+    * prod, hash source map added - smap prefix file url but it is hidden in source - load manually sourcemap
+    * hash - all content with 20 digit hash
+    * docs - jsx parse issue outside componentPath - fixed
+
+# 0.0.3-beta.93 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering

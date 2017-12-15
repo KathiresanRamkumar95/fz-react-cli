@@ -7,8 +7,8 @@ var appFolder = process.env.npm_config_app_folder || 'src';
 var context = process.env.npm_config_server_context || 'app';
 
 var jsSubdomain = process.env.npm_config_jsserver_subdomain || 'js';
-var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'img';
-var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'font';
+var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'images';
+var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'fonts';
 
 // if (jsSubdomain != '.') {
 //   jsSubdomain = jsSubdomain + '.';
@@ -70,11 +70,13 @@ if (widgetEnable) {
 }
 module.exports = {
   entry: entry,
+  devtool: 'hidden-source-map',
   output: {
     path: path.resolve(appPath, folder),
     filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
     chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-    jsonpFunction: 'jsonp' + context
+    jsonpFunction: 'jsonp' + context,
+    sourceMapFilename: 'smap/[name].map'
   },
   plugins: [
     new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),
@@ -107,7 +109,8 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
-      }
+      },
+      sourceMap: true
     })
   ],
   module: {

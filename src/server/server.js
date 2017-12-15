@@ -80,9 +80,9 @@ app.use('/wms/*', function(req, res) {
 
 var server = https.createServer(
   {
-    key: fs.readFileSync(path.join(__dirname, '../../cert/key1.pem')),
-    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert1.pem')),
-    passphrase: 'AbcAbc$2017'
+    key: fs.readFileSync(path.join(__dirname, '../../cert/key2.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert2.pem')),
+    passphrase: 'zddqa1585f82' //cert1 - AbcAbc$2017
   },
   app
 );
