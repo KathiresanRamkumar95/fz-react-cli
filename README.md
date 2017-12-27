@@ -187,7 +187,10 @@ fz-react-cli app <appname>
     * hash - all content with 20 digit hash
     * docs - jsx parse issue outside componentPath - fixed
 
-# 0.0.3-beta.93 pending
+# 0.0.3-beta.93
+  * redux-router-middleware - 1.0.0-beta.18 - initial dispatch query object missing issue fix
+
+# 0.0.3-beta.94 pending
   * clone repo option i18n pending
   * webpack-md5-hash
   * server side rendering
