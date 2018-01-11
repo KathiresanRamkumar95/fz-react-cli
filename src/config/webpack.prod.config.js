@@ -66,7 +66,10 @@ var entry = {
   ]
 };
 if (widgetEnable) {
-  entry.widget = path.join(appPath, appFolder, 'widget.js');
+  entry.widget = [
+    require.resolve('../publicPathConfig.js') + '?jsSubdomain=' + jsSubdomain,
+    path.join(appPath, appFolder, 'widget.js')
+  ];
 }
 module.exports = {
   entry: entry,
