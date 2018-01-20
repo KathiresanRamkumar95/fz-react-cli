@@ -11,6 +11,11 @@ var getIP = require('../utils/ipaddress');
 var prodFlag = process.env.npm_config_server_prod || false;
 var hotReload = process.env.npm_config_dev_hot || false;
 var context = process.env.npm_config_server_context || 'app';
+var isDisableContextURL = process.env.npm_config_disable_contexturl || false;
+var contextURL = '/' + context;
+if (isDisableContextURL) {
+  contextURL = '';
+}
 var https = require('https');
 var app = express();
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -42,7 +47,7 @@ var url = 'htt' + 'ps://' + host + ':' + port;
 app.use(
   require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: prodFlag ? url + '/' + context : config.output.publicPath,
+    publicPath: prodFlag ? url + '/' + contextURL : config.output.publicPath,
     headers: { 'Access-Control-Allow-Origin': '*' }
   })
 );
@@ -68,10 +73,10 @@ app
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
   })
-  .use('/' + context + '/fonts', express.static(context + '/fonts'));
+  .use(contextURL + '/fonts', express.static(context + '/fonts'));
 
-app.use('/' + context, express.static(context));
-app.use('/' + context + '/*', express.static(context));
+//app.use('/' + context, express.static(context));
+
 app.use('/wms/*', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '..', 'wms', 'index.html'));
 });
@@ -113,6 +118,12 @@ app.post('/wmsmockapi', function(req, res) {
 
   res.send('success');
 });
+if (contextURL) {
+  app.use(contextURL + '/*', express.static(context));
+} else {
+  app.use(express.static(context));
+  app.use('/*', express.static(context));
+}
 server.listen(port, function(err) {
   if (err) {
     // custom console
@@ -132,7 +143,7 @@ server.listen(port, function(err) {
     );
   }
   // custom console
-  console.log('Listening at ' + url + '/' + context);
+  console.log('Listening at ' + url + contextURL + '/');
 });
 var httpPort = parseInt(port) + 1;
 app.listen(httpPort, function(err) {
@@ -150,11 +161,11 @@ app.listen(httpPort, function(err) {
     console.log('you can change hostname and port using following command');
     // custom console
     console.log(
-      'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --react:mig={true} --dev:hot={true}'
+      'npm start --server:host={hostname} --server:port={port} --app:folder={app} --server:prod={true} --server:mock={false} --server:context={app} --disable:contexturl=true --react:mig={true} --dev:hot={true}'
     );
   }
   // custom console
   console.log(
-    'Listening at ' + 'htt' + 'p://' + host + ':' + httpPort + '/' + context
+    'Listening at ' + 'htt' + 'p://' + host + ':' + httpPort + contextURL + '/'
   );
 });

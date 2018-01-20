@@ -234,7 +234,11 @@ fz-react-cli app <appname>
 * widget public path config missed issue fixed
 * ws auto update ^ some breaking changes fix
 
-# 0.0.3-beta.95 pending
+# 0.0.3-beta.95
+
+* remove context in urls
+
+# 0.0.3-beta.96 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash

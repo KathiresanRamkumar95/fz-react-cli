@@ -12,7 +12,11 @@ var appFolder = process.env.npm_config_app_folder || 'src';
 var mig = process.env.npm_config_react_mig || false;
 var preact = process.env.npm_config_preact_switch || false;
 var widgetEnable = process.env.npm_config_widget_enable || false;
-
+var isDisableContextURL = process.env.npm_config_disable_contexturl || false;
+var contextURL = context;
+if (isDisableContextURL) {
+  contextURL = '';
+}
 var alias = {};
 if (preact) {
   alias.react = 'preact-compat';
@@ -55,7 +59,7 @@ module.exports = {
     filename: '[name].js',
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath),
-    publicPath: [url, context, 'js'].join('/'),
+    publicPath: [url, contextURL, 'js'].filter(a => a).join('/'),
     jsonpFunction: 'jsonp' + context
   },
   plugins: [
