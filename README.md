@@ -238,7 +238,11 @@ fz-react-cli app <appname>
 
 * remove context in urls
 
-# 0.0.3-beta.96 pending
+# 0.0.3-beta.96
+
+* style loader update for latest version. For style tag create under shadow dom
+
+# 0.0.3-beta.97 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
