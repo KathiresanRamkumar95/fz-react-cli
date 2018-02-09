@@ -13,6 +13,8 @@ var mig = process.env.npm_config_react_mig || false;
 var preact = process.env.npm_config_preact_switch || false;
 var widgetEnable = process.env.npm_config_widget_enable || false;
 var isDisableContextURL = process.env.npm_config_disable_contexturl || false;
+var insertInto = process.env.npm_config_insert_into || false;
+var isShadowRoot = process.env.npm_config_shadow_root || false;
 var contextURL = context;
 if (isDisableContextURL) {
   contextURL = '';
@@ -119,7 +121,17 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+            {   loader: 'style-loader',
+                options: {
+                    insertInto: ()=>{
+                        if (insertInto){
+                            let element = document.getElementById(insertInto);
+                            return isShadowRoot ? element.shadowRoot : element;
+                        }
+                        return document.head;
+                    }
+                }
+            },
           'css-loader?modules&localIdentName=[name]__[local]__[hash:base64:5]'
         ]
       },

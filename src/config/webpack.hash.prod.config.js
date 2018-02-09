@@ -16,6 +16,8 @@ var RuntimePublicPath = require('../RuntimePublicPath').RuntimePublicPath;
 var jsSubdomain = process.env.npm_config_jsserver_subdomain || 'js';
 var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'images';
 var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'fonts';
+var insertInto = process.env.npm_config_insert_into || false;
+var isShadowRoot = process.env.npm_config_shadow_root || false;
 
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var fs = require('fs');
@@ -160,7 +162,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
+            { loader: 'style-loader', options: {
+                insertInto: ()=>{
+                    if (insertInto){
+                        let element = document.getElementById(insertInto);
+                        return isShadowRoot ? element.shadowRoot : element;
+                    }
+                    return document.head;
+                }
+            }
+            },
           {
             loader: 'css-loader',
             options: {
