@@ -246,7 +246,11 @@ fz-react-cli app <appname>
 
 * copy - flatten feature added - for third party lib folder copy
 
-# 0.0.3-beta.98 pending
+# 0.0.3-beta.98
+
+* style-loader - style tag created under shadow dom option feature support build tool 
+
+# 0.0.3-beta.99 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
