@@ -242,7 +242,11 @@ fz-react-cli app <appname>
 
 * style loader update for latest version. For style tag create under shadow dom
 
-# 0.0.3-beta.97 pending
+# 0.0.3-beta.97
+
+* copy - flatten feature added - for third party lib folder copy
+
+# 0.0.3-beta.98 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
