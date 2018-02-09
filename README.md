@@ -248,9 +248,13 @@ fz-react-cli app <appname>
 
 # 0.0.3-beta.98
 
-* style-loader - style tag created under shadow dom option feature support build tool 
+* style-loader - style tag created under shadow dom option feature support build tool
 
-# 0.0.3-beta.99 pending
+# 0.0.3-beta.99
+
+* loading context folder issue fix - asap
+
+# 0.0.3-beta.100 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
