@@ -47,7 +47,9 @@ var url = 'htt' + 'ps://' + host + ':' + port;
 app.use(
   require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: prodFlag ? url + '/' + contextURL : config.output.publicPath,
+    publicPath: prodFlag
+      ? contextURL == '' ? url + '/' + contextURL : url + contextURL
+      : config.output.publicPath,
     headers: { 'Access-Control-Allow-Origin': '*' }
   })
 );

@@ -254,7 +254,11 @@ fz-react-cli app <appname>
 
 * loading context folder issue fix - asap
 
-# 0.0.3-beta.100 pending
+# 0.0.3-beta.100
+
+* redux-router-middleware batch update support added - hasBatchDisaptch
+
+# 0.0.3-beta.101 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
@@ -264,7 +268,6 @@ fz-react-cli app <appname>
 * moment huge size - need alternate library
 * i18n keys find out from code - loader and plugin - pending
 * rollup try - pending
-* hash changes - pending
 * cross-spawn => child_process move build in support
 * fbjs remove ?
 * object-assign remove ?
