@@ -258,7 +258,11 @@ fz-react-cli app <appname>
 
 * redux-router-middleware batch update support added - hasBatchDisaptch
 
-# 0.0.3-beta.101 pending
+# 0.0.3-beta.101
+
+* redux-router-middleware batch update issue fixed
+
+# 0.0.3-beta.102 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
