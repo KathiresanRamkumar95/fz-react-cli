@@ -1,0 +1,152 @@
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
+import webpack from 'webpack';
+import bodyParser from 'body-parser';
+import express from 'express';
+import WebSocket from 'ws';
+import compression from 'compression';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import reactErrorOverlay from 'react-error-overlay/middleware';
+
+import HMRMiddleware from '../middlewares/HMRMiddleware';
+import { getOptions, requireOptions, getServerURL, log } from '../utils';
+import defaultOptions from '../defaultOptions';
+
+let userOptions = requireOptions();
+let options = getOptions(defaultOptions, userOptions);
+let { server, app: appInfo, disableContextURL } = options;
+let { host, port, locale, mode, hotReload, hasMock } = server;
+let { context, folder } = appInfo;
+
+let contextURL = disableContextURL ? '' : context;
+let serverUrl = getServerURL('htt' + 'ps', server);
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(
+	bodyParser.urlencoded({
+		extended: true
+	})
+);
+
+let config;
+if (mode === 'production') {
+	config = require('../configs/webpack.prod.config');
+	app.use(compression());
+} else if (hotReload) {
+	config = require('../configs/webpack.prod.config');
+} else {
+	config = require('../configs/webpack.dev.config');
+}
+
+let compiler = webpack(config);
+let appPath = process.cwd();
+
+app.use(webpackDevMiddleware(compiler), {
+	noInfo: true,
+	publicPath:
+		mode === 'production'
+			? disableContextURL ? serverUrl : serverUrl + '/' + context
+			: config.output.publicPath,
+	headers: { 'Access-Control-Allow-Origin': '*' }
+});
+
+if (hotReload) {
+	app.use(reactErrorOverlay());
+}
+
+app.use(HMRMiddleware(compiler, { path: '/sockjs-node/info' }));
+
+if (hasMock) {
+	let mockServerPath = path.join(appPath, 'mockapi', 'index.js');
+	if (fs.existsSync(mockServerPath)) {
+		let mockServer = require(mockServerPath);
+		mockServer(app);
+	} else {
+		log(
+			'You must export a function from mockapi folder by only we can provide mock api feature'
+		);
+	}
+}
+
+app
+	.use(function(req, res, next) {
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		next();
+	})
+	.use(contextURL + '/fonts', express.static(context + '/fonts'));
+
+app.use('/wms/*', function(req, res) {
+	res.sendFile(
+		path.join(__dirname, '..', '..', 'templates', 'wms', 'index.html')
+	);
+});
+
+const httpsServer = https.createServer(
+	{
+		key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
+		cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
+		passphrase: 'zddqa1585f82'
+	},
+	app
+);
+
+const wss = new WebSocket.Server({ server });
+let wsPool = [];
+
+wss.on('connection', (ws, req) => {
+	wsPool.push(ws);
+
+	ws.on('close', () => {
+		wsPool = wsPool.filter(ws1 => ws1 != ws);
+	});
+
+	ws.on('message', message => {
+		log('received: %s', message);
+	});
+
+	ws.send('something');
+});
+
+app.post('/wmsmockapi', (req, res) => {
+	wsPool.forEach(ws => {
+		let { body } = req;
+		try {
+			ws.send(JSON.stringify(body));
+		} catch (e) {
+			log(e, body);
+		}
+	});
+
+	res.send('success');
+});
+
+if (contextURL) {
+	app.use(contextURL, express.static(context));
+	app.use(contextURL + '/*', express.static(context));
+} else {
+	app.use(express.static(context));
+	app.use('/*', express.static(context));
+}
+
+httpsServer.listen(port, err => {
+	if (err) {
+		throw err;
+	}
+	log('Listening at ' + serverUrl);
+});
+
+let httpPort = Number(port) + 1;
+
+app.listen(httpPort, err => {
+	if (err) {
+		throw err;
+	}
+	log(
+		'Listening at ' +
+			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) +
+			`/${contextURL}/`
+	);
+});

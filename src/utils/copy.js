@@ -1,5 +1,8 @@
-let path = require('path');
-let fs = require('fs');
+import path from 'path';
+import fs from 'fs';
+
+import { log } from './index';
+
 let args = process.argv.slice(2);
 let appPath = fs.realpathSync(process.cwd());
 
@@ -86,7 +89,7 @@ let copy = (srcPath, targetPath, isCopy, exts, flatten) => {
 	if (!isCopy) {
 		removeDirectory(srcPath);
 	}
-	console.log(isCopy ? 'Folder/file are copied!' : 'Folder/file are moved!');
+	log(isCopy ? 'Folder/file are copied!' : 'Folder/file are moved!');
 };
 
 copy(srcPath, targetPath, isCopy, exts, flatten);
