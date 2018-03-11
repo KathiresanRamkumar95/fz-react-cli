@@ -1,5 +1,9 @@
 import querystring from 'querystring';
-import { log } from '../utils';
+
+let log = (...args)=>{
+	let print = console;
+	print.log(...args);
+}
 
 let options = querystring.parse(__resourceQuery.slice(1));
 window.WebSocket = window.WebSocket || window.MozWebSocket;
@@ -7,7 +11,7 @@ let connection = new WebSocket(options.wmsPath);
 
 connection.onopen = () => {
 	// connection is opened and ready to use
-	console.log('open');
+	log('open');
 };
 
 connection.onerror = error => {

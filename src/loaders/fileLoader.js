@@ -1,16 +1,17 @@
 import path from 'path';
 import loaderUtils from 'loader-utils';
 
-module.exports = content => {
+module.exports = function(content) {
 	this.cacheable && this.cacheable();
 	if (!this.emitFile)
 		throw new Error('emitFile is required from module system');
 
-	let query = loaderUtils.parseQuery(this.query) || {};
+	let options = loaderUtils.getOptions(this) || {};
+	let query = this.resourceQuery
+		? loaderUtils.parseQuery(this.resourceQuery)
+		: {};
 
-	let configKey = query.config || 'fileLoader';
-
-	let options = this.options[configKey] || {};
+	// let configKey = query.config || 'fileLoader';
 
 	let config = {
 		publicPath: false,
@@ -29,7 +30,7 @@ module.exports = content => {
 		config[attr] = query[attr];
 	});
 
-	let context = config.context || this.options.context;
+	let context = config.context || options.context;
 	let url = loaderUtils.interpolateName(this, config.name, {
 		context: context,
 		content: content,

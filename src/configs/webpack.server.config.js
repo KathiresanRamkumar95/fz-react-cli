@@ -16,7 +16,7 @@ module.exports = {
 	entry: {
 		main: path.join(appPath, folder, 'server.js')
 	},
-	devtool: options.needSourceMap ? 'source-map' : 'hidden-source-map',
+	devtool: 'source-map',
 	mode: 'none',
 	target: 'node',
 	output: {

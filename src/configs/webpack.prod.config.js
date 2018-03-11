@@ -16,19 +16,26 @@ let { folder, context } = app;
 let appPath = process.cwd();
 let { js, images, fonts } = staticDomain;
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
+let { isDevelopment = false } = process;
+
+needChunkHash = !isDevelopment && needChunkHash;
 
 module.exports = {
 	entry: getEntries(options, 'production'),
-	devtool: options.needSourceMap ? 'source-map' : 'hidden-source-map',
+	devtool: isDevelopment ? 'source-map' : 'hidden-source-map',
 	mode: 'none',
 	output: {
 		path: path.resolve(appPath, outputFolder),
-		filename: needChunkHash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+		filename: needChunkHash
+			? 'js/[name].[chunkhash:20].js'
+			: 'js/[name].js',
 		chunkFilename: needChunkHash
-			? 'js/[name].[chunkhash].js'
+			? 'js/[name].[chunkhash:20].js'
 			: 'js/[name].js',
 		jsonpFunction: context + 'Jsonp',
-		sourceMapFilename: 'smap/[name].map'
+		sourceMapFilename: needChunkHash
+			? 'smap/[name].[chunkhash:20].map'
+			: 'smap/[name].map'
 	},
 	optimization: {
 		splitChunks,
@@ -99,14 +106,20 @@ module.exports = {
 						options: {
 							limit: 1000,
 							name: needChunkHash
-								? './images/[name].[hash].[ext]'
+								? './images/[name].[hash:20].[ext]'
 								: './images/[name].[ext]',
 							publicPath: url => {
 								return `staticDomain[${JSON.stringify(
 									images
 								)}] + ${JSON.stringify(url)}`;
 							},
-							publicPathStringify: false
+							publicPathStringify: false,
+							fallback: path.join(
+								__dirname,
+								'..',
+								'loaders',
+								'fileLoader.js'
+							)
 						}
 					}
 				]
@@ -119,14 +132,20 @@ module.exports = {
 						options: {
 							limit: 1000,
 							name: needChunkHash
-								? './fonts/[name].[hash].[ext]'
+								? './fonts/[name].[hash:20].[ext]'
 								: './fonts/[name].[ext]',
 							publicPath: url => {
 								return `staticDomain[${JSON.stringify(
 									fonts
 								)}] + ${JSON.stringify(url)}`;
 							},
-							publicPathStringify: false
+							publicPathStringify: false,
+							fallback: path.join(
+								__dirname,
+								'..',
+								'loaders',
+								'fileLoader.js'
+							)
 						}
 					}
 				]
@@ -139,14 +158,20 @@ module.exports = {
 						options: {
 							limit: 1,
 							name: needChunkHash
-								? './fonts/[name].[hash].[ext]'
+								? './fonts/[name].[hash:20].[ext]'
 								: './fonts/[name].[ext]',
 							publicPath: url => {
 								return `staticDomain[${JSON.stringify(
 									fonts
 								)}] + ${JSON.stringify(url)}`;
 							},
-							publicPathStringify: false
+							publicPathStringify: false,
+							fallback: path.join(
+								__dirname,
+								'..',
+								'loaders',
+								'fileLoader.js'
+							)
 						}
 					}
 				]

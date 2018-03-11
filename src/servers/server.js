@@ -18,7 +18,7 @@ let { server, app: appInfo, disableContextURL } = options;
 let { host, port, locale, mode, hotReload, hasMock } = server;
 let { context, folder } = appInfo;
 
-let contextURL = disableContextURL ? '' : context;
+let contextURL = disableContextURL ? '' : '/' + context;
 let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
@@ -32,6 +32,7 @@ app.use(
 
 let config;
 if (mode === 'production') {
+	process.isDevelopment = true;
 	config = require('../configs/webpack.prod.config');
 } else if (hotReload || mode === 'development') {
 	config = require('../configs/webpack.dev.config');
@@ -47,9 +48,9 @@ app.use(
 		noInfo: true,
 		publicPath:
 			mode === 'production'
-				? disableContextURL
-					? serverUrl
-					: serverUrl + '/' + context + '/'
+				? contextURL == ''
+					? serverUrl + '/' + contextURL
+					: serverUrl + contextURL
 				: config.output.publicPath,
 		headers: { 'Access-Control-Allow-Origin': '*' },
 		compress: mode === 'production'
@@ -127,14 +128,11 @@ app.post('/wmsmockapi', (req, res) => {
 });
 
 if (contextURL) {
-	app.use('/' + contextURL, express.static(path.join(appPath, context)));
-	app.use(
-		'/' + contextURL + '/*',
-		express.static(path.join(appPath, context))
-	);
+	app.use(contextURL, express.static(context));
+	app.use(contextURL + '/*', express.static(context));
 } else {
-	app.use(express.static());
-	app.use('/*', express.static(path.join(appPath, context)));
+	app.use(express.static(context));
+	app.use('/*', express.static(context));
 }
 
 httpsServer.listen(port, err => {

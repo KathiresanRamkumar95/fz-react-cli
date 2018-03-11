@@ -9,6 +9,9 @@ let setN = (object, paths, value) => {
 		}
 
 		if (length - 1 === index) {
+			if (value === 'false' || value === 'true'){
+				value = JSON.parse(value);
+			}
 			target[path] = value;
 		}
 		return target[path];
@@ -33,7 +36,11 @@ let requireOptions = () => {
 				process.env[key]
 			);
 		} else {
-			options[flag] = userOptions[key];
+			let value = process.env[key];
+			if (value === 'false' || value === 'true'){
+				value = JSON.parse(value);
+			}
+			options[flag] = value;
 		}
 		return options;
 	}, {});

@@ -54,6 +54,7 @@
 		"jest": "^17.0.2",
 		"jsdom": "^9.8.3",
 		"json-loader": "^0.5.7",
+		"loader-utils": "^1.1.0",
 		"moment": "2.18.1",
 		"moment-timezone": "^0.5.10",
 		"nock": "^9.0.2",
@@ -108,6 +109,9 @@
 		"fz-react-cli": "bin/cli.js"
 	},
 	"babel": {
-		"presets": ["env", "react"]
+		"presets": [
+			"env",
+			"react"
+		]
 	}
 }

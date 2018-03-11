@@ -24,10 +24,14 @@ let getProdPlugins = options => {
 		}),
 		new RuntimePublicPathPlgin({
 			publicPathCallback: 'window.setPublicPath'
+		}),
+		new ChunkManifestReplacePlugin({
+			replacer: options.manifestReplacer,
+			fileName: options.manifestFileName
 		})
 	];
 
-	if (!options.needSourceMap) {
+	if (!process.isDevelopment) {
 		plugins.push(
 			new SourceMapHookPlugin({
 				optimize: options.optimize
@@ -43,14 +47,6 @@ let getProdPlugins = options => {
 		);
 	}
 
-	if (options.manifestReplacer) {
-		plugins.push(
-			new ChunkManifestReplacePlugin({
-				replacer: options.manifestReplacer,
-				fileName: options.manifestFileName
-			})
-		);
-	}
 	return plugins;
 };
 

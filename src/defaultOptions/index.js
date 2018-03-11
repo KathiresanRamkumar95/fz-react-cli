@@ -59,7 +59,6 @@ export default {
 	bundleAnalyze: false,
 	manifestReplacer: false,
 	manifestFileName: 'manifest.json',
-	needSourceMap: false,
 	hasMock: false,
 	componentFolder: 'src',
 	libraryVariable: 'Component',

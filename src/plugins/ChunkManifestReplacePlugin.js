@@ -1,4 +1,5 @@
-import { RawSource } from 'webpack-sources';
+import { writeFile } from '../utils';
+import path from 'path';
 
 class ChunkManifestReplacePlugin {
 	constructor(options) {
@@ -13,39 +14,34 @@ class ChunkManifestReplacePlugin {
 			compilation => {
 				let { mainTemplate } = compilation;
 				let { output } = compilation.compiler.options;
-				let initialJS,
-					chunkManifest = {};
+				let chunkManifest = {};
+				let initialJS = {};
 				let { fileName, replacer } = this.options;
 				mainTemplate.hooks.requireEnsure.tap(
 					'ChunkManifestReplacePlugin',
 					(source, rootChunk) => {
-						originalChunkFileName = output.chunkFilename;
-						output.chunkFilename = '__CHUNK_MANIFEST__';
+						if (replacer) {
+							originalChunkFileName = output.chunkFilename;
+							output.chunkFilename = '__CHUNK_MANIFEST__';
+						}
 
-						let iterateChunks = chunks => {
-							chunks.forEach(chunk => {
-								let { name, id } = chunk;
-								chunkManifest[id] = name + '.js';
-								if (chunk.isInitial()) {
-									initialJS[name || id] = name + '.js';
-								}
-								if (chunk.chunks.length) {
-									iterateChunks(chunk.chunks);
-								}
-							});
-						};
+						compilation.chunks.forEach(chunk => {
+							let { name, renderedHash, id } = chunk;
+							let fullName = name + '.' + renderedHash + '.js';
+							chunkManifest[id] = fullName;
+							if (chunk.canBeInitial()) {
+								initialJS[name || id] = fullName;
+							}
+						});
 
-						iterateChunks(rootChunk.chunks);
-
-						compilation.chunks[fileName] = new RawSource(
+						writeFile(
+							path.join(output.path, fileName),
 							JSON.stringify({
 								manifestVariable: replacer,
 								manifest: chunkManifest,
 								initialJS
 							})
 						);
-
-						rootChunk.files.push(fileName);
 
 						return source;
 					}
@@ -62,13 +58,16 @@ class ChunkManifestReplacePlugin {
 					'ChunkManifestReplacePlugin',
 					(source, chunk, hash, chunkIdVar) => {
 						let { replacer } = this.options;
-						let { output } = compilation.compiler.options;
-						output.chunkFilename = originalChunkFileName;
-						let regex = new RegExp('"__CHUNK_MANIFEST__"', 'g');
-						return source.replace(
-							regex,
-							replacer + '[' + chunkIdVar + ']'
-						);
+						if (replacer) {
+							let { output } = compilation.compiler.options;
+							output.chunkFilename = originalChunkFileName;
+							let regex = /\"__CHUNK_MANIFEST__\"/g;
+							return source.replace(
+								regex,
+								replacer + '[' + chunkIdVar + ']'
+							);
+						}
+						return source;
 					}
 				);
 			}
