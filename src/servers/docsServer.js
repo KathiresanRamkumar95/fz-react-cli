@@ -34,11 +34,13 @@ app.use(
 
 let compiler = webpack(docsConfig);
 
-app.use(webpackDevMiddleware(compiler), {
-	noInfo: true,
-	publicPath: docsConfig.output.publicPath,
-	headers: { 'Access-Control-Allow-Origin': '*' }
-});
+app.use(
+	webpackDevMiddleware(compiler, {
+		noInfo: true,
+		publicPath: docsConfig.output.publicPath,
+		headers: { 'Access-Control-Allow-Origin': '*' }
+	})
+);
 
 app.use(require('webpack-hot-middleware')(compiler));
 

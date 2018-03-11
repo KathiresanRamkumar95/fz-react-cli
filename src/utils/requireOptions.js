@@ -1,5 +1,6 @@
 let setN = (object, paths, value) => {
-	let target = (result = object);
+	let target = object;
+	let result = target;
 	let { length } = paths;
 
 	paths.reduce((target, path, index) => {

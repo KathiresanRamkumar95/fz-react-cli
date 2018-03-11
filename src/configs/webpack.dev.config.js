@@ -20,9 +20,9 @@ let serverUrl = getServerURL('htt' + 'ps', server);
 
 let output = {
 	path: path.join(appPath, 'build'),
-	filename: '[name].js',
-	chunkFilename: '[name].js',
-	publicPath: [serverUrl, contextURL, 'js'].filter(a => a).join('/'),
+	filename: 'js/[name].js',
+	chunkFilename: 'js/[name].js',
+	publicPath: [serverUrl, contextURL].filter(a => a).join('/') + '/',
 	jsonpFunction: context + 'Jsonp'
 };
 
@@ -41,18 +41,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.json$/,
-				use: ['json-loader']
-			},
-			{
 				test: /\.js$/,
 				use: [
 					{
 						loader: 'babel-loader',
 						options: {
 							presets: [
-								['babel-preset-env', { modules: false }],
-								'babel-preset-react'
+								[
+									require.resolve('babel-preset-env'),
+									{ modules: false }
+								],
+								require.resolve('babel-preset-react')
 							],
 							plugins: [
 								[

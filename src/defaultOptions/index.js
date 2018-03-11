@@ -1,3 +1,5 @@
+import { hostname } from 'os';
+
 export default {
 	app: {
 		context: 'app',
@@ -7,7 +9,7 @@ export default {
 		host: hostname(),
 		port: 9090,
 		locale: null,
-		mode: 'develpoment',
+		mode: 'development',
 		hotReload: false
 	},
 	docsServer: {
@@ -56,10 +58,11 @@ export default {
 	cssUniqueness: true,
 	bundleAnalyze: false,
 	manifestReplacer: false,
+	manifestFileName: 'manifest.json',
 	needSourceMap: false,
 	hasMock: false,
-	publicPathCallback: 'setPublicPath',
 	componentFolder: 'src',
 	libraryVariable: 'Component',
-	watchMode: false
+	watchMode: false,
+	optimize: false
 };

@@ -29,18 +29,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.json$/,
-				use: ['json-loader']
-			},
-			{
 				test: /\.js$/,
 				use: [
 					{
 						loader: 'babel-loader',
 						options: {
 							presets: [
-								['babel-preset-env', { modules: false }],
-								'babel-preset-react'
+								[
+									require.resolve('babel-preset-env'),
+									{ modules: false }
+								],
+								require.resolve('babel-preset-react')
 							],
 							plugins: [
 								[

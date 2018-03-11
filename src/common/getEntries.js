@@ -1,6 +1,16 @@
+import path from 'path';
+
 let getEntries = (options, mode) => {
 	let appPath = process.cwd();
-	let { isPreactMig, hasWidget, server, publicPathCallback } = options;
+	let {
+		isPreactMig,
+		isReactMig,
+		hasWidget,
+		server,
+		app,
+		staticDomain
+	} = options;
+	let { js } = staticDomain;
 
 	let mainJs = [];
 	let entry = { main: mainJs };
@@ -10,8 +20,8 @@ let getEntries = (options, mode) => {
 
 		isPreactMig && mainJs.push('preact/devtools');
 		mainJs.push(
-			path.join(__dirname, '..', 'wmsClient') +
-				`wmsPath=wss://${host}:${port}`
+			path.join(__dirname, '..', 'templates', 'WMSTemplate') +
+				`?wmsPath=wss://${host}:${port}`
 		);
 
 		if (hotReload) {
@@ -22,10 +32,11 @@ let getEntries = (options, mode) => {
 		}
 	} else if (mode === 'production') {
 		mainJs.push(
-			require.resolve('../templates/publicPathTemplate.js') +
-				`?js=${js}publicPathCallback=${publicPathCallback}`
+			require.resolve('../templates/publicPathTemplate.js') + `?js=${js}`
 		);
 	}
+
+	let { folder } = app;
 
 	mainJs.push(
 		path.join(appPath, folder, isReactMig ? 'migration.js' : 'index.js')
@@ -36,7 +47,7 @@ let getEntries = (options, mode) => {
 		if (mode === 'production') {
 			entry.widget.push(
 				require.resolve('../templates/publicPathTemplate.js') +
-					`?js=${js}publicPathCallback=${publicPathCallback}`
+					`?js=${js}`
 			);
 		}
 		entry.widget.push(path.join(appPath, folder, 'widget.js'));

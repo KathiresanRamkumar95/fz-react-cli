@@ -11,7 +11,7 @@ import { getProdPlugins } from '../pluginUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { app, cssUniqueness, needChunkHash, outputFolder } = options;
+let { app, cssUniqueness, needChunkHash, outputFolder, staticDomain } = options;
 let { folder, context } = app;
 let appPath = process.cwd();
 let { js, images, fonts } = staticDomain;
@@ -22,9 +22,11 @@ module.exports = {
 	devtool: options.needSourceMap ? 'source-map' : 'hidden-source-map',
 	mode: 'none',
 	output: {
-		path: path.resolve(appPath, outputFolder, 'js'),
-		filename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
-		chunkFilename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
+		path: path.resolve(appPath, outputFolder),
+		filename: needChunkHash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+		chunkFilename: needChunkHash
+			? 'js/[name].[chunkhash].js'
+			: 'js/[name].js',
 		jsonpFunction: context + 'Jsonp',
 		sourceMapFilename: 'smap/[name].map'
 	},
@@ -36,18 +38,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.json$/,
-				use: ['json-loader']
-			},
-			{
 				test: /\.js$/,
 				use: [
 					{
 						loader: 'babel-loader',
 						options: {
 							presets: [
-								['babel-preset-env', { modules: false }],
-								'babel-preset-react'
+								[
+									require.resolve('babel-preset-env'),
+									{ modules: false }
+								],
+								require.resolve('babel-preset-react')
 							],
 							plugins: [
 								require.resolve('../utils/removeTestIds'),
@@ -105,12 +106,6 @@ module.exports = {
 									images
 								)}] + ${JSON.stringify(url)}`;
 							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'loaders',
-								'fileLoader.js'
-							),
 							publicPathStringify: false
 						}
 					}
@@ -131,12 +126,6 @@ module.exports = {
 									fonts
 								)}] + ${JSON.stringify(url)}`;
 							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'loaders',
-								'fileLoader.js'
-							),
 							publicPathStringify: false
 						}
 					}
@@ -157,12 +146,6 @@ module.exports = {
 									fonts
 								)}] + ${JSON.stringify(url)}`;
 							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'loaders',
-								'fileLoader.js'
-							),
 							publicPathStringify: false
 						}
 					}

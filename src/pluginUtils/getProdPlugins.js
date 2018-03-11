@@ -1,7 +1,11 @@
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import { RuntimePublicPathPlgin, ChunkManifestReplacePlugin } from '../plugins';
+import {
+	RuntimePublicPathPlgin,
+	ChunkManifestReplacePlugin,
+	SourceMapHookPlugin
+} from '../plugins';
 
 let getProdPlugins = options => {
 	let plugins = [
@@ -19,9 +23,18 @@ let getProdPlugins = options => {
 			__DOCS__: false
 		}),
 		new RuntimePublicPathPlgin({
-			publicPathCallback: options.publicPathCallback
+			publicPathCallback: 'window.setPublicPath'
 		})
 	];
+
+	if (!options.needSourceMap) {
+		plugins.push(
+			new SourceMapHookPlugin({
+				optimize: options.optimize
+			})
+		);
+	}
+
 	if (options.bundleAnalyze) {
 		plugins.push(
 			new BundleAnalyzerPlugin({
@@ -29,10 +42,12 @@ let getProdPlugins = options => {
 			})
 		);
 	}
+
 	if (options.manifestReplacer) {
 		plugins.push(
 			new ChunkManifestReplacePlugin({
-				replacer: options.manifestReplacer
+				replacer: options.manifestReplacer,
+				fileName: options.manifestFileName
 			})
 		);
 	}

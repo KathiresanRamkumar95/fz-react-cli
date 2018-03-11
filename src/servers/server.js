@@ -5,7 +5,6 @@ import webpack from 'webpack';
 import bodyParser from 'body-parser';
 import express from 'express';
 import WebSocket from 'ws';
-import compression from 'compression';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import reactErrorOverlay from 'react-error-overlay/middleware';
 
@@ -34,24 +33,28 @@ app.use(
 let config;
 if (mode === 'production') {
 	config = require('../configs/webpack.prod.config');
-	app.use(compression());
-} else if (hotReload) {
-	config = require('../configs/webpack.prod.config');
-} else {
+} else if (hotReload || mode === 'development') {
 	config = require('../configs/webpack.dev.config');
+} else {
+	throw new Error('You must configure valid option in mode');
 }
 
 let compiler = webpack(config);
 let appPath = process.cwd();
 
-app.use(webpackDevMiddleware(compiler), {
-	noInfo: true,
-	publicPath:
-		mode === 'production'
-			? disableContextURL ? serverUrl : serverUrl + '/' + context
-			: config.output.publicPath,
-	headers: { 'Access-Control-Allow-Origin': '*' }
-});
+app.use(
+	webpackDevMiddleware(compiler, {
+		noInfo: true,
+		publicPath:
+			mode === 'production'
+				? disableContextURL
+					? serverUrl
+					: serverUrl + '/' + context + '/'
+				: config.output.publicPath,
+		headers: { 'Access-Control-Allow-Origin': '*' },
+		compress: mode === 'production'
+	})
+);
 
 if (hotReload) {
 	app.use(reactErrorOverlay());
@@ -93,7 +96,7 @@ const httpsServer = https.createServer(
 	app
 );
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server: httpsServer });
 let wsPool = [];
 
 wss.on('connection', (ws, req) => {
@@ -124,18 +127,21 @@ app.post('/wmsmockapi', (req, res) => {
 });
 
 if (contextURL) {
-	app.use(contextURL, express.static(context));
-	app.use(contextURL + '/*', express.static(context));
+	app.use('/' + contextURL, express.static(path.join(appPath, context)));
+	app.use(
+		'/' + contextURL + '/*',
+		express.static(path.join(appPath, context))
+	);
 } else {
-	app.use(express.static(context));
-	app.use('/*', express.static(context));
+	app.use(express.static());
+	app.use('/*', express.static(path.join(appPath, context)));
 }
 
 httpsServer.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl);
+	log('Listening at ' + serverUrl + `/${contextURL}/`);
 });
 
 let httpPort = Number(port) + 1;
