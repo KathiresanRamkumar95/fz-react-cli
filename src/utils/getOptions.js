@@ -1,7 +1,7 @@
 let iterateOptions = (defaultOptions, userOptions) => {
 	return Object.keys(defaultOptions).reduce((options, key) => {
 		let option = defaultOptions[key];
-		if (option && typeof option === 'object') {
+		if (option && typeof option === 'object' && !Array.isArray(option)) {
 			options[key] = iterateOptions(option, userOptions[key] || {});
 		} else {
 			options[key] = userOptions[key] || defaultOptions[key];

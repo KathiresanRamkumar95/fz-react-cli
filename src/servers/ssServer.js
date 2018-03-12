@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import webpack from 'webpack';
-import bodyParser from 'body-parser';
 import express from 'express';
 import spawn from 'cross-spawn';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -26,9 +25,9 @@ let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(
-	bodyParser.urlencoded({
+	express.urlencoded({
 		extended: true
 	})
 );

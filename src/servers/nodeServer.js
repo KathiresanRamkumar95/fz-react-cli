@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import express from 'express';
 import spawn from 'cross-spawn';
-import bodyParser from 'body-parser';
 
 import {
 	getOptions,
@@ -45,7 +44,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get('/node/getInfo', (req, res) => {
 	res.send(JSON.stringify({ repoUrl, host, port, branch }));

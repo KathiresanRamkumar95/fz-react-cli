@@ -30,7 +30,6 @@
 		"babel-preset-jest": "^17.0.2",
 		"babel-preset-react": "^6.24.1",
 		"babel-runtime": "^6.26.0",
-		"body-parser": "^1.15.2",
 		"case-sensitive-paths-webpack-plugin": "^1.1.4",
 		"compression": "^1.6.2",
 		"cross-env": "^1.0.8",
@@ -53,7 +52,6 @@
 		"isomorphic-style-loader": "4.0.0",
 		"jest": "^17.0.2",
 		"jsdom": "^9.8.3",
-		"json-loader": "^0.5.7",
 		"loader-utils": "^1.1.0",
 		"moment": "2.18.1",
 		"moment-timezone": "^0.5.10",
@@ -109,9 +107,6 @@
 		"fz-react-cli": "bin/cli.js"
 	},
 	"babel": {
-		"presets": [
-			"env",
-			"react"
-		]
+		"presets": ["env", "react"]
 	}
 }

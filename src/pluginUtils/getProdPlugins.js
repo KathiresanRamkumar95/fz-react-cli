@@ -39,7 +39,7 @@ let getProdPlugins = options => {
 		);
 	}
 
-	if (options.bundleAnalyze) {
+	if (options.bundleAnalyze && !process.isDevelopment) {
 		plugins.push(
 			new BundleAnalyzerPlugin({
 				analyzerMode: 'static'

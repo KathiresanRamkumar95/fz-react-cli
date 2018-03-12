@@ -1,5 +1,7 @@
+import path from 'path';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import webpack from 'webpack';
+import { UnusedFilesFindPlugin } from '../plugins';
 
 let getDevPlugins = options => {
 	let plugins = [
@@ -14,6 +16,19 @@ let getDevPlugins = options => {
 			__DOCS__: false
 		})
 	];
+
+	let { app, findUnusedFiles } = options;
+
+	if (findUnusedFiles.active) {
+		plugins.push(
+			new UnusedFilesFindPlugin(
+				Object.assign(findUnusedFiles, {
+					origin: path.join(process.cwd(), app.folder)
+				})
+			)
+		);
+	}
+
 	return plugins;
 };
 
