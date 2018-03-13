@@ -266,7 +266,11 @@ fz-react-cli app <appname>
 
 * fz-layout new component box, container and ref support
 
-# 0.0.3-beta.103 pending
+# 0.0.3-beta.103
+
+* fz-layout export issue fix
+
+# 0.0.3-beta.104 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
@@ -281,6 +285,10 @@ fz-react-cli app <appname>
 * object-assign remove ?
 * nodemon, serialize-javascript - for server side rendering
 * unused className find - https://github.com/webpack-contrib/purifycss-webpack#usage-with-css-modules
+  https://github.com/atfzl/eslint-plugin-css-modules
 * unused component files list plugin - https://github.com/MatthieuLemoine/unused-webpack-plugin
 * docs - import file - refer docs display like Accordion**View.docs => Accordion**View
 * react 16 move
+* Prettier feature - for consistent align project
+* codemod feature - helpful for migrating code new version
+* lint for js and css

@@ -2,7 +2,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-// const UnusedWebpackPlugin = require('unused-webpack-plugin');
+const UnusedWebpackPlugin = require('unused-webpack-plugin');
 var getIP = require('../utils/ipaddress');
 var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || '9090';
@@ -52,6 +52,7 @@ var entry = {
 if (widgetEnable) {
   entry.widget = path.join(appPath, appFolder, 'widget.js');
 }
+entry.docs = path.join(appPath, appFolder, 'components', 'index.js');
 module.exports = {
   entry: entry,
   devtool: 'eval',
@@ -87,6 +88,14 @@ module.exports = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true,
       __DOCS__: false
+    }),
+    new UnusedWebpackPlugin({
+      // Source directories
+      directories: [path.join(appPath, 'src')],
+      // Exclude patterns
+      exclude: ['*.docs.js', '*.spec.js', '*.test.js'],
+      // Root directory (optional)
+      root: __dirname
     })
   ],
   module: {
