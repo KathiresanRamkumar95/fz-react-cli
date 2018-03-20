@@ -270,7 +270,11 @@ fz-react-cli app <appname>
 
 * fz-layout export issue fix
 
-# 0.0.3-beta.104 pending
+# 0.0.3-beta.104
+
+* fz-layout - box, container - hidden and className support
+
+# 0.0.3-beta.105 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
