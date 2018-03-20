@@ -3,7 +3,7 @@ import path from 'path';
 import https from 'https';
 import webpack from 'webpack';
 import express from 'express';
-import spawn from 'cross-spawn';
+import { spawnSync } from 'child_process';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
@@ -14,12 +14,11 @@ import docsConfig from '../configs/webpack.docs.config';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { docsServer: server, app: appInfo, disableContextURL } = options;
+let { docsServer: server, app: appInfo } = options;
 let { host, port, locale, branch } = server;
 let { context, folder } = appInfo;
 
 let appPath = process.cwd();
-let contextURL = disableContextURL ? '' : context;
 let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
@@ -35,7 +34,7 @@ let compiler = webpack(docsConfig);
 
 app.use(
 	webpackDevMiddleware(compiler, {
-		noInfo: true,
+		logLevel: 'error',
 		publicPath: docsConfig.output.publicPath,
 		headers: { 'Access-Control-Allow-Origin': '*' }
 	})
@@ -55,7 +54,7 @@ if (branch) {
 	app.post('/repo/merge', function(req, res) {
 		var { ref } = req.body;
 		if (ref && ref.endsWith(branch)) {
-			var results = spawn.sync('git', ['pull', 'origin', branch], {
+			var results = spawnSync('git', ['pull', 'origin', branch], {
 				stdio: 'inherit'
 			});
 		}

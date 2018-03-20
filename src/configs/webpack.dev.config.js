@@ -33,7 +33,7 @@ if (hotReload) {
 
 module.exports = {
 	entry: getEntries(options, 'development'),
-	devtool: hotReload ? 'cheap-module-source-map' : 'source-map',
+	devtool: hotReload ? 'cheap-module-source-map' : 'eval',
 	mode: 'none',
 	output,
 	optimization: { splitChunks },

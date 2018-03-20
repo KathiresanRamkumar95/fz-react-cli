@@ -44,7 +44,7 @@ let appPath = process.cwd();
 
 app.use(
 	webpackDevMiddleware(compiler, {
-		noInfo: true,
+		logLevel: 'error',
 		publicPath:
 			mode === 'production'
 				? contextURL == ''
@@ -138,7 +138,7 @@ httpsServer.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl + `/${contextURL}/`);
+	log('Listening at ' + serverUrl + `${contextURL}/`);
 });
 
 let httpPort = Number(port) + 1;
@@ -150,6 +150,6 @@ app.listen(httpPort, err => {
 	log(
 		'Listening at ' +
 			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) +
-			`/${contextURL}/`
+			`${contextURL}/`
 	);
 });

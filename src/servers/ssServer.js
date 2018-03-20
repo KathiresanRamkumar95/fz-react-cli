@@ -3,7 +3,7 @@ import path from 'path';
 import https from 'https';
 import webpack from 'webpack';
 import express from 'express';
-import spawn from 'cross-spawn';
+import { spawnSync } from 'child_process';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import ssTest from 'fz-screenshot-test';
@@ -36,7 +36,7 @@ let compiler = webpack(docsConfig);
 
 app.use(
 	webpackDevMiddleware(compiler, {
-		noInfo: true,
+		logLevel: 'error',
 		publicPath: docsConfig.output.publicPath,
 		headers: { 'Access-Control-Allow-Origin': '*' }
 	})
@@ -54,7 +54,7 @@ if (branch) {
 	app.post('/repo/merge', function(req, res) {
 		var { ref } = req.body;
 		if (ref && ref.endsWith(branch)) {
-			var results = spawn.sync('git', ['pull', 'origin', branch], {
+			var results = spawnSync('git', ['pull', 'origin', branch], {
 				stdio: 'inherit'
 			});
 		}
@@ -113,7 +113,7 @@ ssTest.run(
 );
 
 let referenceMode = () => {
-	spawn.sync('git', ['checkout', referBranch], { encoding: 'utf8' });
+	spawnSync('git', ['checkout', referBranch], { encoding: 'utf8' });
 
 	log('Reference Branch test mode test called..!');
 
@@ -129,7 +129,7 @@ let referenceMode = () => {
 		() => {
 			server.close();
 			wMid.close();
-			let result = spawn.sync(
+			let result = spawnSync(
 				'cp',
 				[
 					'-r',

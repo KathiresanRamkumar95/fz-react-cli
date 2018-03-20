@@ -8,6 +8,13 @@ import {
 } from '../plugins';
 
 let getProdPlugins = options => {
+	let {
+		needChunkHash,
+		manifestReplacer,
+		manifestFileName,
+		bundleAnalyze
+	} = options;
+
 	let plugins = [
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CaseSensitivePathsPlugin(),
@@ -24,10 +31,6 @@ let getProdPlugins = options => {
 		}),
 		new RuntimePublicPathPlgin({
 			publicPathCallback: 'window.setPublicPath'
-		}),
-		new ChunkManifestReplacePlugin({
-			replacer: options.manifestReplacer,
-			fileName: options.manifestFileName
 		})
 	];
 
@@ -37,14 +40,22 @@ let getProdPlugins = options => {
 				optimize: options.optimize
 			})
 		);
-	}
 
-	if (options.bundleAnalyze && !process.isDevelopment) {
 		plugins.push(
-			new BundleAnalyzerPlugin({
-				analyzerMode: 'static'
+			new ChunkManifestReplacePlugin({
+				replacer: manifestReplacer,
+				fileName: manifestFileName,
+				needChunkHash
 			})
 		);
+
+		if (bundleAnalyze) {
+			plugins.push(
+				new BundleAnalyzerPlugin({
+					analyzerMode: 'static'
+				})
+			);
+		}
 	}
 
 	return plugins;

@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
-import spawn from 'cross-spawn';
+import { spawnSync } from 'child_process';
 
 import {
 	getOptions,
@@ -53,20 +53,20 @@ app.get('/node/getInfo', (req, res) => {
 app.get('/node/heartbeat', streamObj.handler);
 
 app.get('/node/clone', (req, res) => {
-	let output = spawn.sync('rm', ['-R', branch], {
+	let output = spawnSync('rm', ['-R', branch], {
 		encoding: 'utf8'
 	});
 
-	output = spawn.sync('git', ['clone', repoUrl, '-b', branch, branch], {
+	output = spawnSync('git', ['clone', repoUrl, '-b', branch, branch], {
 		encoding: 'utf8'
 	});
-	output = spawn.sync('npm', ['install'], {
+	output = spawnSync('npm', ['install'], {
 		encoding: 'utf8',
 		shell: true,
 		cwd: path.join(appPath, branch, clientAppPath)
 	});
 
-	let test = spawn.sync('npm', ['run', 'build:component:server'], {
+	let test = spawnSync('npm', ['run', 'build:component:server'], {
 		encoding: 'utf8',
 		shell: true,
 		cwd: path.join(appPath, branch, clientAppPath)
@@ -87,13 +87,13 @@ app.get('/node/isStart', (req, res) => {
 app.get('/node/start', (req, res) => {
 	if (!serverProcess) {
 		log(path.join(appPath, branch, clientAppPath));
-		let test = spawn.sync('npm', ['run', 'build:component:server'], {
+		let test = spawnSync('npm', ['run', 'build:component:server'], {
 			encoding: 'utf8',
 			shell: true,
 			cwd: path.join(appPath, branch, clientAppPath)
 		});
 		log(test.stdout);
-		serverProcess = spawn.sync(
+		serverProcess = spawnSync(
 			'npm',
 			['run', 'serverrender', '--server:port=' + port],
 			{
@@ -137,14 +137,14 @@ app.post('/node/deploy', (req, res) => {
 		serverProcess.stdin.pause();
 		if (serverProcess.kill('SIGTERM')) {
 			serverProcess = null;
-			let test = spawn.sync('git', ['pull'], {
+			let test = spawnSync('git', ['pull'], {
 				encoding: 'utf8',
 				shell: true,
 				cwd: path.join(appPath, branch, clientAppPath)
 			});
 			log('pull:', test.stdout);
 			let deployObj = req.body;
-			test = spawn.sync(
+			test = spawnSync(
 				'git',
 				['reset', '--hard', deployObj.repoInfo.hash],
 				{
@@ -155,19 +155,19 @@ app.post('/node/deploy', (req, res) => {
 			);
 			log('reset commit hash', test.stdout);
 			commitHash = deployObj.repoInfo.hash;
-			// test = spawn.sync('npm', ['install'], {
+			// test = spawnSync('npm', ['install'], {
 			//   encoding: 'utf8',
 			//   shell: true,
 			//   cwd: path.join(appPath, branch, clientAppPath)
 			// });
 			// console.log('install', test.stdout);
-			test = spawn.sync('npm', ['run', 'build:component:server'], {
+			test = spawnSync('npm', ['run', 'build:component:server'], {
 				encoding: 'utf8',
 				shell: true,
 				cwd: path.join(appPath, branch, clientAppPath)
 			});
 			log('server build', test.stdout);
-			serverProcess = spawn.sync(
+			serverProcess = spawnSync(
 				'npm',
 				[
 					'run',
@@ -199,33 +199,33 @@ app.post('/node/deploy', (req, res) => {
 			res.send('Not able to stop');
 		}
 	} else {
-		let test = spawn.sync('git', ['pull'], {
+		let test = spawnSync('git', ['pull'], {
 			encoding: 'utf8',
 			shell: true,
 			cwd: path.join(appPath, branch, clientAppPath)
 		});
 		log('pull:', test.stdout);
 		let deployObj = req.body;
-		test = spawn.sync('git', ['reset', '--hard', deployObj.repoInfo.hash], {
+		test = spawnSync('git', ['reset', '--hard', deployObj.repoInfo.hash], {
 			encoding: 'utf8',
 			shell: true,
 			cwd: path.join(appPath, branch, clientAppPath)
 		});
 		log('reset commit hash', test.stdout);
 		commitHash = deployObj.repoInfo.hash;
-		// test = spawn.sync('npm', ['install'], {
+		// test = spawnSync('npm', ['install'], {
 		//   encoding: 'utf8',
 		//   shell: true,
 		//   cwd: path.join(appPath, branch, clientAppPath)
 		// });
 		// console.log('install', test.stdout);
-		test = spawn.sync('npm', ['run', 'build:component:server'], {
+		test = spawnSync('npm', ['run', 'build:component:server'], {
 			encoding: 'utf8',
 			shell: true,
 			cwd: path.join(appPath, branch, clientAppPath)
 		});
 		log('server build', test.stdout);
-		serverProcess = spawn.sync(
+		serverProcess = spawnSync(
 			'npm',
 			[
 				'run',

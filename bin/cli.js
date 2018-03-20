@@ -2,7 +2,8 @@
 
 let fs = require('fs');
 let path = require('path');
-let spawn = require('cross-spawn');
+let os = require('os');
+let { spawnSync } = require('child_process');
 
 let { log } = require('../lib/utils');
 
@@ -10,6 +11,8 @@ let presets = {
 	env: require.resolve('babel-preset-env'),
 	react: require.resolve('babel-preset-react')
 };
+
+let isWindows = os.platform().toLowerCase() === 'win32';
 
 let option = process.argv[2];
 let args = process.argv.slice(3);
@@ -33,10 +36,17 @@ let propertyToJson = !isNodeModuleUnderAppFolder
 	? path.join(__dirname, '..', 'node_modules', '.bin', 'propertyToJson')
 	: 'propertyToJson';
 
+if (isWindows){
+	webpack += '.cmd';
+	crossEnv += '.cmd';
+	babel += '.cmd';
+	propertyToJson += '.cmd';
+}
+
 let result;
 switch (option) {
 	case 'copy':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/utils/copy')].concat(args),
 			{ stdio: 'inherit' }
@@ -44,7 +54,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'move':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/utils/copy')].concat(args.concat(false)),
 			{ stdio: 'inherit' }
@@ -53,32 +63,32 @@ switch (option) {
 		break;
 	case 'gitclone':
 		args[args.length - 1] = path.join(appPath, args[args.length - 1]);
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/utils/clean'), args[args.length - 1]],
 			{ stdio: 'inherit' }
 		);
 		process.exit(result.status);
-		result = spawn.sync('git', ['clone'].concat(args), {
+		result = spawnSync('git', ['clone'].concat(args), {
 			stdio: 'inherit'
 		});
 		process.exit(result.status);
 		break;
 	case 'hgclone':
 		args[args.length - 1] = path.join(appPath, args[args.length - 1]);
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/utils/clean'), args[args.length - 1]],
 			{ stdio: 'inherit' }
 		);
 		process.exit(result.status);
-		result = spawn.sync('hg', ['clone'].concat(args), {
+		result = spawnSync('hg', ['clone'].concat(args), {
 			stdio: 'inherit'
 		});
 		process.exit(result.status);
 		break;
 	case 'app':
-		result = spawn.sync(
+		result = spawnSync(
 			'cp',
 			['-r', path.join(__dirname, '..', 'templates', 'app')].concat(args),
 			{ stdio: 'inherit' }
@@ -86,7 +96,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'library':
-		result = spawn.sync(
+		result = spawnSync(
 			'cp',
 			['-r', path.join(__dirname, '..', 'library')].concat(args),
 			{ stdio: 'inherit' }
@@ -94,7 +104,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'propertyToJson':
-		result = spawn.sync(
+		result = spawnSync(
 			propertyToJson,
 			args.map(arg => {
 				return path.join(appPath, arg);
@@ -106,7 +116,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'help':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/helpServer')].concat(args),
 			{ stdio: 'inherit' }
@@ -114,7 +124,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'start':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/server')].concat(args),
 			{ stdio: 'inherit' }
@@ -123,7 +133,7 @@ switch (option) {
 		break;
 	case 'clean':
 		args = args.map(arg => path.join(appPath, arg));
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/utils/clean')].concat(args),
 			{ stdio: 'inherit' }
@@ -131,7 +141,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'docs':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/docsServer')].concat(args),
 			{ stdio: 'inherit' }
@@ -139,7 +149,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'sstest':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/ssServer')].concat(args),
 			{ stdio: 'inherit' }
@@ -147,7 +157,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'build:component':
-		result = spawn.sync(
+		result = spawnSync(
 			crossEnv,
 			[
 				'BABEL_ENV=commonjs',
@@ -164,7 +174,7 @@ switch (option) {
 
 		break;
 	case 'build:component:server':
-		result = spawn.sync(
+		result = spawnSync(
 			webpack,
 			[
 				'--config',
@@ -175,7 +185,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'cluster:monitor':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/clusterHubServer')].concat(args),
 			{ stdio: 'inherit' }
@@ -183,7 +193,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'node':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/servers/nodeServer')].concat(args),
 			{ stdio: 'inherit' }
@@ -192,7 +202,7 @@ switch (option) {
 
 		break;
 	case 'build:library:es':
-		result = spawn.sync(
+		result = spawnSync(
 			crossEnv,
 			[
 				babel,
@@ -211,7 +221,7 @@ switch (option) {
 
 		break;
 	case 'build:library:umd':
-		result = spawn.sync(
+		result = spawnSync(
 			webpack,
 			[
 				'--config',
@@ -224,7 +234,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'build':
-		result = spawn.sync(
+		result = spawnSync(
 			webpack,
 			[
 				'--config',
@@ -236,7 +246,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'test':
-		result = spawn.sync(
+		result = spawnSync(
 			'node',
 			[require.resolve('../lib/jest/run.js')].concat(args),
 			{ stdio: 'inherit' }
@@ -244,7 +254,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	case 'publish:report':
-		result = spawn.sync(
+		result = spawnSync(
 			'sh',
 			[
 				path.join(__dirname, '..', 'lib', 'sh', 'reportPublish.sh')

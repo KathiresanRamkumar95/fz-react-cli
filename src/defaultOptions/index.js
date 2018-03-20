@@ -64,7 +64,6 @@ export default {
 	libraryVariable: 'Component',
 	watchMode: false,
 	optimize: false,
-	findUnusedFiles: false,
 	findUnusedFiles: {
 		usedFilesExcludes: ['node_modules'],
 		allFilesExcludes: ['.docs.js$'],
