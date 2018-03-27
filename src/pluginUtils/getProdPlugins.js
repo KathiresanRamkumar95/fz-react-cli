@@ -22,6 +22,7 @@ let getProdPlugins = options => {
 		new webpack.DefinePlugin({
 			__TEST__: false,
 			__DEVELOPMENT__: false,
+			__LOCAL_PRODUCTION__: process.isDevelopment,
 			__DOCS__: false,
 			'process.env': {
 				NODE_ENV: JSON.stringify('production')

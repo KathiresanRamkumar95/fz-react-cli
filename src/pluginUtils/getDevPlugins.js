@@ -12,6 +12,7 @@ let getDevPlugins = options => {
 			__TEST__: false,
 			__SERVER__: false,
 			__DEVELOPMENT__: true,
+			__LOCAL_PRODUCTION__: false,
 			__DEVTOOLS__: true,
 			__DOCS__: false
 		})
