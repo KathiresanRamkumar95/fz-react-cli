@@ -1,7 +1,7 @@
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import webpack from 'webpack';
 
-let getLibraryPlugins = options => {
+let getLibraryPlugins = () => {
 	let plugins = [
 		new CaseSensitivePathsPlugin(),
 		new webpack.DefinePlugin({

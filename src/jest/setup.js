@@ -2,15 +2,16 @@
 import { jsdom } from 'jsdom';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import XMLHttpRequest from 'xhr2';
-import nock from 'nock';
 import { log } from '../utils';
 
 let mockDomain = 'htt' + 'p://zoho.com';
 global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
+
 global.localStorage = global.sessionStorage = {
 	getItem: function(key) {
 		return this[key];
@@ -33,6 +34,7 @@ global.localStorage = global.sessionStorage = {
 		}
 	}
 };
+
 global.ZE_Init = {};
 global.String.prototype.contains = function(text) {
 	return this.indexOf(text) != -1;
@@ -53,7 +55,7 @@ window.XMLHttpRequest = function() {
 };
 
 TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
-	let componentList = TestUtils.findAllInRenderedTree(dom, function(i, j) {
+	let componentList = TestUtils.findAllInRenderedTree(dom, function(i) {
 		if (TestUtils.isDOMComponent(i)) {
 			let val = i.getAttribute('data-testid');
 			if (typeof val != 'undefined' && val == name) {
@@ -120,18 +122,21 @@ global.setup = function(Component, props, state) {
 
 function higherComponent(ActualComponent, context) {
 	if (context) {
-		let HigherComponent = React.createClass({
-			getChildContext: function() {
+		class HigherComponent extends React.Component {
+			getChildContext() {
 				return context;
-			},
-			render: function() {
-				return <ActualComponent {...this.props} />;
-			},
-			childContextTypes: {
-				router: React.PropTypes.any,
-				store: React.PropTypes.any
 			}
-		});
+
+			render() {
+				return <ActualComponent {...this.props} />;
+			}
+		}
+
+		HigherComponent.childContextTypes = {
+			router: PropTypes.any,
+			store: PropTypes.any
+		};
+
 		return HigherComponent;
 	} else {
 		return ActualComponent;
@@ -139,6 +144,7 @@ function higherComponent(ActualComponent, context) {
 }
 
 global.renderHTML = function(comp) {
+	// eslint-disable-next-line react/no-find-dom-node
 	let a = ReactDOM.findDOMNode(comp);
 	log(a.innerHTML);
 };

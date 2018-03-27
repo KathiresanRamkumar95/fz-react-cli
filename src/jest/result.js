@@ -14,7 +14,7 @@ const result = function(inp) {
 	let testResults = inp.testResults;
 	let testFilesArr = [];
 
-	testResults.forEach((testResult, i) => {
+	testResults.forEach(testResult => {
 		let filePath = testResult.testFilePath;
 		if (!testPathRegex.test(filePath)) {
 			return;
@@ -51,13 +51,13 @@ const result = function(inp) {
 	let functionPercent = 0;
 	let statementPerment = 0;
 	let branchesPercent = 0;
-	for (let i = 0; i < testFilesArr.length; i++) {
-		let curFileObj = testFilesArr[i];
+	let i;
+	for (i = 0; i < testFilesArr.length; i++) {
 		let curSourceFile = testFilesArr[i].sourcePath;
 		let coverageData = coverageJson[curSourceFile];
 		if (coverageData == undefined) {
 			log(
-				"Can't able to find source for " +
+				'Can"t able to find source for ' +
 					testFilesArr[i].testPath +
 					'\n Please check the file name and the path is correct for test file'
 			);
@@ -71,6 +71,7 @@ const result = function(inp) {
 	let totalLinesPercent = linesPercent / (i * 100) * 100;
 	let totalFunctionPercent = functionPercent / (i * 100) * 100;
 	let totalStatementPercent = statementPerment / (i * 100) * 100;
+	// eslint-disable-next-line no-unused-vars
 	let totalBranchesPercent = branchesPercent / (i * 100) * 100;
 	let totalPercentage =
 		totalLinesPercent +

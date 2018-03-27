@@ -27,8 +27,7 @@ let getProdPlugins = options => {
 			'process.env': {
 				NODE_ENV: JSON.stringify('production')
 			},
-			__SERVER__: false,
-			__DOCS__: false
+			__SERVER__: false
 		}),
 		new RuntimePublicPathPlgin({
 			publicPathCallback: 'window.setPublicPath'

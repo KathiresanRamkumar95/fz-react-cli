@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-let fs = require('fs');
 let path = require('path');
 let os = require('os');
 let { spawnSync } = require('child_process');
@@ -264,7 +263,7 @@ switch (option) {
 		process.exit(result.status);
 		break;
 	default:
-		log('fz-react-cli > Unknown script "' + script + '".');
+		log('fz-react-cli > Unknown option "' + option + '".');
 		log('fz-react-cli app <appName>');
 		log('fz-react-cli library <libraryName>');
 		log('fz-react-cli start');

@@ -19,7 +19,7 @@ class ChunkManifestReplacePlugin {
 				let { fileName, replacer, needChunkHash } = this.options;
 				mainTemplate.hooks.requireEnsure.tap(
 					'ChunkManifestReplacePlugin',
-					(source, rootChunk) => {
+					(source) => {
 						if (replacer) {
 							originalChunkFileName = output.chunkFilename;
 							output.chunkFilename = '__CHUNK_MANIFEST__';
@@ -53,7 +53,6 @@ class ChunkManifestReplacePlugin {
 			'ChunkManifestReplacePlugin',
 			compilation => {
 				let { mainTemplate } = compilation;
-				let { output } = compilation.compiler.options;
 				mainTemplate.hooks.requireEnsure.tap(
 					'ChunkManifestReplacePlugin',
 					(source, chunk, hash, chunkIdVar) => {
@@ -61,7 +60,7 @@ class ChunkManifestReplacePlugin {
 						if (replacer) {
 							let { output } = compilation.compiler.options;
 							output.chunkFilename = originalChunkFileName;
-							let regex = /\"__CHUNK_MANIFEST__\"/g;
+							let regex = /"__CHUNK_MANIFEST__"/g;
 							return source.replace(
 								regex,
 								`window.${replacer}[${chunkIdVar}]`

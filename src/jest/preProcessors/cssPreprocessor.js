@@ -1,10 +1,11 @@
 import postCss from 'postcss';
 import plugin from 'postcss-hash-classname';
+import fs from 'fs';
 
 let count = 0;
 
 module.exports = {
-	process: function(src, filename) {
+	process: function(src) {
 		count++;
 		let opts = { hashType: 'md5', digestType: 'base32' };
 		opts.maxLength = 6;

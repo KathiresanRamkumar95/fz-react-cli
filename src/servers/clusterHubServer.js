@@ -21,7 +21,7 @@ if (fs.existsSync(clusterConfigPath)) {
 	config = require(clusterConfigPath);
 } else {
 	throw new Error(
-		"clusterConfig.js doen't exist under following path - " + clusterConfig
+		'clusterConfig.js doen\'t exist under following path - ' + clusterConfigPath
 	);
 }
 

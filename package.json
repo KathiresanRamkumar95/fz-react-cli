@@ -5,7 +5,8 @@
 	"scripts": {
 		"clean": "rimraf lib coverage",
 		"build": "babel src -d lib",
-		"prepublish": "npm run clean && npm run build"
+		"prepublish": "npm run lint && npm run clean && npm run build",
+		"lint": "eslint ./src ./bin"
 	},
 	"engines": {
 		"node": "<=6.10.0"
@@ -104,9 +105,10 @@
 		"fz-react-cli": "bin/cli.js"
 	},
 	"babel": {
-		"presets": [
-			"env",
-			"react"
-		]
+		"presets": ["env", "react"]
+	},
+	"devDependencies": {
+		"eslint": "^4.19.1",
+		"eslint-plugin-react": "^7.7.0"
 	}
 }

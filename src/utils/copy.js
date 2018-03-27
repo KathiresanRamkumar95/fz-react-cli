@@ -32,13 +32,12 @@ let copyFile = (srcPath, targetPath, isCopy = true) => {
 	let readStream = fs.createReadStream(srcPath);
 	let writeStream = fs.createWriteStream(targetPath);
 	readStream.pipe(writeStream);
-	if (!isCopy) {
-		try {
-			fs.unlinkSync(fileOrDir);
-		} catch (err) {
-			process.stdout.write(err);
+
+	writeStream.on('finish', () => {
+		if (!isCopy) {
+			fs.unlinkSync(srcPath);
 		}
-	}
+	});
 };
 
 let iterateDirectory = (srcPath, targetPath, isCopy, extensions, flatten) => {
@@ -59,10 +58,10 @@ let iterateDirectory = (srcPath, targetPath, isCopy, extensions, flatten) => {
 			if (extensions) {
 				let { ext } = path.parse(fromPath);
 				if (extensions.indexOf(ext) !== -1) {
-					copyFile(fromPath, toPath, isCopy);
+					copyFile(fromPath, toPath);
 				}
 			} else {
-				copyFile(fromPath, toPath, isCopy);
+				copyFile(fromPath, toPath);
 			}
 		}
 	});

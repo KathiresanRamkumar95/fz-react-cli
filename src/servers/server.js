@@ -15,7 +15,7 @@ let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
 let { server, app: appInfo, disableContextURL } = options;
 let { host, port, locale, mode, hotReload, hasMock } = server;
-let { context, folder } = appInfo;
+let { context } = appInfo;
 
 let contextURL = disableContextURL ? '' : '/' + context;
 let serverUrl = getServerURL('htt' + 'ps', server);
@@ -99,7 +99,7 @@ const httpsServer = https.createServer(
 const wss = new WebSocket.Server({ server: httpsServer });
 let wsPool = [];
 
-wss.on('connection', (ws, req) => {
+wss.on('connection', ws => {
 	wsPool.push(ws);
 
 	ws.on('close', () => {

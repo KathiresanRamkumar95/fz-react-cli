@@ -19,7 +19,8 @@ class ModuleStatsPlugin {
 				let moduleDetails = {};
 				let references = '';
 				let referencedBy = '';
-				let normalizedData = '';
+				// let normalizedData = '';
+				let dre;
 
 				for (let i in modules) {
 					moduleName = modules[i].name;
@@ -122,7 +123,7 @@ class ModuleStatsPlugin {
 							referencedby: rReferencedByArray
 						};
 
-						let dre = '';
+						dre = '';
 
 						data.results.push(moduleDetails);
 						moduleDetails = {};
@@ -133,9 +134,9 @@ class ModuleStatsPlugin {
 
 						data.results.forEach(mod => {
 							dre +=
-								"'" +
+								'\'' +
 								mod.name +
-								"':" +
+								'\':' +
 								JSON.stringify(mod) +
 								',';
 						});

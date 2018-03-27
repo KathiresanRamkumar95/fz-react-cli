@@ -11,6 +11,7 @@ let args = process.argv.slice(2).filter(arg => {
 
 if (help || args.length === 0) {
 	// If they didn't ask for help, then this is not a "success"
+	// eslint-disable-next-line no-console
 	let log = help ? console.log : console.error;
 	log('Usage: rimraf <path> [<path> ...]');
 	log('');

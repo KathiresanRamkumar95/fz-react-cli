@@ -32,8 +32,6 @@ let setArray = (object, paths, value) => {
 	let target = object;
 	let result = target;
 
-	let prePath;
-
 	paths.reduce((target, path, index) => {
 		if (index === length - 1) {
 			if (value === 'false' || value === 'true') {

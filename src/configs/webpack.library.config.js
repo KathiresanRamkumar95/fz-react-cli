@@ -1,12 +1,12 @@
 import path from 'path';
 import { getOptions, requireOptions } from '../utils';
 import defaultOptions from '../defaultOptions';
-import { getEntries, getAlias, getInsertIntoFunction } from '../common';
+import { getAlias } from '../common';
 import { getLibraryPlugins } from '../pluginUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { cssUniqueness, outputFolder, watchMode, app, libraryVariable } = options;
+let { cssUniqueness, outputFolder, app, libraryVariable } = options;
 let { folder } = app;
 let appPath = process.cwd();
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';

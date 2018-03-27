@@ -25,6 +25,7 @@ let getEntries = (options, mode) => {
 		);
 
 		if (hotReload) {
+			let url = `ht${'tps:'}//${host}:${port}`;
 			mainJs.push([
 				require.resolve('../templates/HMRTemplate') + `?hmrPath=${url}`,
 				require.resolve('react-error-overlay')

@@ -11,8 +11,8 @@ function pathMatch(url, path) {
 
 export default function HMRMiddleware(compiler, opts) {
 	opts = opts || {};
-	opts.log =
-		typeof opts.log == 'undefined' ? console.log.bind(console) : opts.log;
+	// eslint-disable-next-line no-console
+	opts.log = typeof opts.log == 'undefined' ? console.log.bind(console) : opts.log;
 	opts.path = opts.path || '/__webpack_hmr';
 	opts.heartbeat = opts.heartbeat || 10 * 1000;
 
@@ -150,10 +150,10 @@ function extractBundles(stats) {
 	return [stats];
 }
 
-function buildModuleMap(modules) {
-	let map = {};
-	modules.forEach(function(module) {
-		map[module.id] = module.name;
-	});
-	return map;
-}
+// function buildModuleMap(modules) {
+// 	let map = {};
+// 	modules.forEach(function(module) {
+// 		map[module.id] = module.name;
+// 	});
+// 	return map;
+// }

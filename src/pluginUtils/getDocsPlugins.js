@@ -3,7 +3,7 @@ import webpack from 'webpack';
 
 import ModuleStatsPlugin from '../plugins/ModuleStatsPlugin';
 
-let getDocsPlugins = options => {
+let getDocsPlugins = () => {
 	let plugins = [
 		new CaseSensitivePathsPlugin(),
 		new webpack.ProvidePlugin({

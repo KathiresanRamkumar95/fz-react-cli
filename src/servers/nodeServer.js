@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs';
 import express from 'express';
 import { spawnSync } from 'child_process';
 
@@ -14,12 +13,10 @@ import defaultOptions from '../defaultOptions';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { nodeServer: server, app: appInfo, disableContextURL } = options;
+let { nodeServer: server } = options;
 let { host, port, repoUrl, branch, clientAppPath } = server;
-let { context, folder } = appInfo;
 
 let appPath = process.cwd();
-let contextURL = disableContextURL ? '' : context;
 let serverUrl = getServerURL('ht' + 'tp', server);
 
 const app = express();
@@ -50,7 +47,7 @@ app.get('/node/getInfo', (req, res) => {
 	res.send(JSON.stringify({ repoUrl, host, port, branch }));
 });
 
-app.get('/node/heartbeat', streamObj.handler);
+app.get('/node/heartbeat', stream.handler);
 
 app.get('/node/clone', (req, res) => {
 	let output = spawnSync('rm', ['-R', branch], {

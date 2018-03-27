@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import queryString from 'querystring';
 
 let options = queryString.parse(__resourceQuery.slice(1));

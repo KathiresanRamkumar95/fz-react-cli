@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 
 module.exports = function(appFolder) {

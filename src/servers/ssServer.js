@@ -5,22 +5,18 @@ import webpack from 'webpack';
 import express from 'express';
 import { spawnSync } from 'child_process';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 import ssTest from 'fz-screenshot-test';
 
-import HMRMiddleware from '../middlewares/HMRMiddleware';
 import { getOptions, requireOptions, getServerURL, log } from '../utils';
 import defaultOptions from '../defaultOptions';
 import docsConfig from '../configs/webpack.docs.config';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { ssServer: server, app: appInfo, disableContextURL } = options;
+let { ssServer: server } = options;
 let { host, port, locale, seleniumHub, remoteBranch, referBranch } = server;
-let { context, folder } = appInfo;
 
 let appPath = process.cwd();
-let contextURL = disableContextURL ? '' : context;
 let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
@@ -50,11 +46,11 @@ app.use('/docs/*', function(req, res) {
 	res.sendFile(path.join(__dirname, '..', '..', 'docs', 'index.html'));
 });
 
-if (branch) {
+if (remoteBranch) {
 	app.post('/repo/merge', function(req, res) {
 		var { ref } = req.body;
-		if (ref && ref.endsWith(branch)) {
-			var results = spawnSync('git', ['pull', 'origin', branch], {
+		if (ref && ref.endsWith(remoteBranch)) {
+			spawnSync('git', ['pull', 'origin', remoteBranch], {
 				stdio: 'inherit'
 			});
 		}
@@ -106,7 +102,7 @@ ssTest.run(
 			referenceMode();
 		} else {
 			server.close();
-			wMid.close();
+			webpackDevMiddleware.close();
 			log('Component list undefined.');
 		}
 	}
@@ -128,8 +124,8 @@ let referenceMode = () => {
 		},
 		() => {
 			server.close();
-			wMid.close();
-			let result = spawnSync(
+			webpackDevMiddleware.close();
+			spawnSync(
 				'cp',
 				[
 					'-r',

@@ -5,18 +5,15 @@ import webpack from 'webpack';
 import express from 'express';
 import { spawnSync } from 'child_process';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import HMRMiddleware from '../middlewares/HMRMiddleware';
 import { getOptions, requireOptions, getServerURL, log } from '../utils';
 import defaultOptions from '../defaultOptions';
 import docsConfig from '../configs/webpack.docs.config';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { docsServer: server, app: appInfo } = options;
+let { docsServer: server } = options;
 let { host, port, locale, branch } = server;
-let { context, folder } = appInfo;
 
 let appPath = process.cwd();
 let serverUrl = getServerURL('htt' + 'ps', server);
@@ -54,7 +51,7 @@ if (branch) {
 	app.post('/repo/merge', function(req, res) {
 		var { ref } = req.body;
 		if (ref && ref.endsWith(branch)) {
-			var results = spawnSync('git', ['pull', 'origin', branch], {
+			spawnSync('git', ['pull', 'origin', branch], {
 				stdio: 'inherit'
 			});
 		}

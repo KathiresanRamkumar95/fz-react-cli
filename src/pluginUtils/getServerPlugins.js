@@ -1,9 +1,7 @@
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import { RuntimePublicPathPlgin, ChunkManifestReplacePlugin } from '../plugins';
 
-let getProdPlugins = options => {
+let getProdPlugins = () => {
 	let plugins = [
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CaseSensitivePathsPlugin(),

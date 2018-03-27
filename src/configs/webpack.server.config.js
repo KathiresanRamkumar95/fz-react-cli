@@ -1,15 +1,14 @@
 import path from 'path';
 import { getOptions, requireOptions } from '../utils';
 import defaultOptions from '../defaultOptions';
-import { getEntries, getAlias, getInsertIntoFunction } from '../common';
-import { getProdPlugins } from '../pluginUtils';
+import { getAlias } from '../common';
+import { getServerPlugins } from '../pluginUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
 let { app, cssUniqueness, needChunkHash, outputFolder, watchMode } = options;
 let { folder, context } = app;
 let appPath = process.cwd();
-let { js, images, fonts } = staticDomain;
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 
 module.exports = {
@@ -86,7 +85,7 @@ module.exports = {
 				test: /\.jpe?g$|\.gif$|\.png$/,
 				use: [
 					`url-loader?limit=1000&name=${
-						hash
+						needChunkHash
 							? './images/[name].[hash].[ext]'
 							: './images/[name].[ext]'
 					}`

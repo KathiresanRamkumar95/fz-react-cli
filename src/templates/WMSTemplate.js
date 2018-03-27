@@ -1,10 +1,11 @@
 import querystring from 'querystring';
 
-let log = (...args)=>{
+let log = (...args) => {
 	let print = console;
 	print.log(...args);
-}
+};
 
+// eslint-disable-next-line no-undef
 let options = querystring.parse(__resourceQuery.slice(1));
 window.WebSocket = window.WebSocket || window.MozWebSocket;
 let connection = new WebSocket(options.wmsPath);
@@ -16,6 +17,7 @@ connection.onopen = () => {
 
 connection.onerror = error => {
 	// an error occurred when sending/receiving data
+	throw error;
 };
 
 connection.onmessage = message => {
@@ -23,9 +25,10 @@ connection.onmessage = message => {
 	// from server is json)
 	try {
 		let json = JSON.parse(message.data);
+		// eslint-disable-next-line no-undef
 		Collaboration.handleCustomMessage(json);
 	} catch (e) {
-		log("This doesn't look like a valid JSON: ", message.data);
+		log('This doesn\'t look like a valid JSON: ', message.data);
 		return;
 	}
 	// handle incoming message

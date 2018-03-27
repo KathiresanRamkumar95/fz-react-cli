@@ -14,7 +14,7 @@ let options = getOptions(defaultOptions, userOptions);
 let { app, cssUniqueness, needChunkHash, outputFolder, staticDomain } = options;
 let { folder, context } = app;
 let appPath = process.cwd();
-let { js, images, fonts } = staticDomain;
+let { images, fonts } = staticDomain;
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 let { isDevelopment = false } = process;
 

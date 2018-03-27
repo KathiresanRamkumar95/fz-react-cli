@@ -22,9 +22,13 @@ export let writeFile = (outputPath, src, isPath = false) => {
 			inStr.push(null);
 		}
 		let outStr = fs.createWriteStream(outputPath);
-		outStr.on('finish', function() {
+		outStr.on('error', () => {
+			reject();
+		});
+		outStr.on('finish', () => {
 			resolve();
 		});
+
 		inStr.pipe(outStr);
 	});
 };

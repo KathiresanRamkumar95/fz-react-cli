@@ -1,12 +1,12 @@
 import docgen from 'react-docgen';
-import loaderUtils from 'loader-utils';
+// import loaderUtils from 'loader-utils';
 import path from 'path';
 
 import { log } from '../utils';
 
 module.exports = source => {
 	this.cacheable && this.cacheable();
-	let query = loaderUtils.parseQuery(this.query);
+	// let query = loaderUtils.parseQuery(this.query);
 
 	let value = {};
 	try {
