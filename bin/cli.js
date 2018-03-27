@@ -3,6 +3,8 @@
 let path = require('path');
 let os = require('os');
 let { spawnSync } = require('child_process');
+let { getOptions, requireOptions } = require('../lib/utils/index.js');
+let { default: defaultOptions } = require('../lib/defaultOptions/index.js');
 
 let { log } = require('../lib/utils');
 
@@ -10,6 +12,12 @@ let presets = {
 	env: require.resolve('babel-preset-env'),
 	react: require.resolve('babel-preset-react')
 };
+
+let userOptions = requireOptions();
+let options = getOptions(defaultOptions, userOptions);
+
+let { esLint: esLintOptions } = options;
+let { ignoreFilePath: esLintIgnorePath } = esLintOptions;
 
 let isWindows = os.platform().toLowerCase() === 'win32';
 
@@ -35,11 +43,16 @@ let propertyToJson = !isNodeModuleUnderAppFolder
 	? path.join(__dirname, '..', 'node_modules', '.bin', 'propertyToJson')
 	: 'propertyToJson';
 
-if (isWindows){
+let esLint = !isNodeModuleUnderAppFolder
+	? path.join(__dirname, '..', 'node_modules', '.bin', 'eslint')
+	: 'eslint';
+
+if (isWindows) {
 	webpack += '.cmd';
 	crossEnv += '.cmd';
 	babel += '.cmd';
 	propertyToJson += '.cmd';
+	esLint += '.cmd';
 }
 
 let result;
@@ -261,6 +274,26 @@ switch (option) {
 			{ stdio: 'inherit' }
 		);
 		process.exit(result.status);
+		break;
+	case 'lint':
+		result = spawnSync(
+			esLint,
+			[
+				'-c',
+				path.join(__dirname, '..', '.eslintrc.js'),
+				'--ignore-path',
+				esLintIgnorePath
+					? path.join(appPath, esLintIgnorePath)
+					: path.join(__dirname, '..', '.eslintignore')
+			].concat(
+				args.map(arg => {
+					return path.join(appPath, arg);
+				})
+			),
+			{
+				stdio: 'inherit'
+			}
+		);
 		break;
 	default:
 		log('fz-react-cli > Unknown option "' + option + '".');

@@ -4,7 +4,14 @@ let iterateOptions = (defaultOptions, userOptions) => {
 		if (option && typeof option === 'object' && !Array.isArray(option)) {
 			options[key] = iterateOptions(option, userOptions[key] || {});
 		} else {
-			options[key] = userOptions[key] || defaultOptions[key];
+			if (typeof userOptions[key] === 'boolean') {
+				options[key] =
+					userOptions[key] !== undefined
+						? userOptions[key]
+						: defaultOptions[key];
+			} else {
+				options[key] = userOptions[key] || defaultOptions[key];
+			}
 		}
 		return options;
 	}, {});

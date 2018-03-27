@@ -8,10 +8,11 @@ import {
 	getInsertIntoFunction
 } from '../common';
 import { getDevPlugins } from '../pluginUtils';
+import { getDevJsLoaders } from '../loaderUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { server, app, disableContextURL, styleTarget } = options;
+let { server, app, disableContextURL, styleTarget, needEslinting } = options;
 let { folder, context } = app;
 let { hotReload } = server;
 let appPath = process.cwd();
@@ -42,34 +43,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.js$/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: [
-								[
-									require.resolve('babel-preset-env'),
-									{ modules: false }
-								],
-								require.resolve('babel-preset-react')
-							],
-							plugins: [
-								[
-									require.resolve(
-										'babel-plugin-transform-runtime'
-									),
-									{
-										helpers: true,
-										polyfill: true,
-										regenerator: false,
-										moduleName: 'babel-runtime'
-									}
-								]
-							],
-							cacheDirectory: true
-						}
-					}
-				],
+				use: getDevJsLoaders(needEslinting),
 				include: path.join(appPath, folder)
 			},
 			{

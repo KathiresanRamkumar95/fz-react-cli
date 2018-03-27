@@ -70,5 +70,9 @@ export default {
 		delete: false,
 		active: false,
 		outputFileName: false
+	},
+	esLint: {
+		needEslinting: true,
+		ignoreFilePath: false
 	}
 };
