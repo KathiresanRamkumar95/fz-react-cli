@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.104",
+  "version": "0.0.3-beta.105",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "express": "^4.13.4",
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
-    "fz-i18n": "1.2.0-beta.10",
+    "fz-i18n": "1.2.0-beta.11",
     "fz-layout": "^1.0.0-beta.7",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
@@ -57,7 +57,7 @@
     "jest": "^17.0.2",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
-    "moment": "2.18.1",
+    "moment": "2.19.3",
     "moment-timezone": "^0.5.10",
     "nock": "^9.0.2",
     "nodemailer": "^4.0.1",
