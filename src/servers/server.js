@@ -34,6 +34,7 @@ if (mode === 'production') {
 	process.isDevelopment = true;
 	config = require('../configs/webpack.prod.config');
 } else if (hotReload || mode === 'development') {
+	process.isDevelopment = true;
 	config = require('../configs/webpack.dev.config');
 } else {
 	throw new Error('You must configure valid option in mode');
@@ -47,7 +48,7 @@ app.use(
 		logLevel: 'error',
 		publicPath:
 			mode === 'production'
-				? contextURL == ''
+				? contextURL === ''
 					? serverUrl + '/' + contextURL
 					: serverUrl + contextURL
 				: config.output.publicPath,
@@ -75,13 +76,13 @@ if (hasMock) {
 }
 
 app
-	.use(function(req, res, next) {
+	.use((req, res, next) => {
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		next();
 	})
 	.use(contextURL + '/fonts', express.static(context + '/fonts'));
 
-app.use('/wms/*', function(req, res) {
+app.use('/wms/*', (req, res) => {
 	res.sendFile(
 		path.join(__dirname, '..', '..', 'templates', 'wms', 'index.html')
 	);
@@ -103,7 +104,7 @@ wss.on('connection', ws => {
 	wsPool.push(ws);
 
 	ws.on('close', () => {
-		wsPool = wsPool.filter(ws1 => ws1 != ws);
+		wsPool = wsPool.filter(ws1 => ws1 !== ws);
 	});
 
 	ws.on('message', message => {

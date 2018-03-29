@@ -13,19 +13,19 @@ global.window = document.defaultView;
 global.navigator = global.window.navigator;
 
 global.localStorage = global.sessionStorage = {
-	getItem: function(key) {
+	getItem: function (key) {
 		return this[key];
 	},
-	setItem: function(key, value) {
+	setItem: function (key, value) {
 		if (value.length > 100) {
 			throw new Error('Data size is too exceeded');
 		}
 		this[key] = value;
 	},
-	removeItem: function(key) {
+	removeItem: function (key) {
 		delete this[key];
 	},
-	clear: function() {
+	clear: function () {
 		let keys = ['getItem', 'setItem', 'removeItem', 'clear'];
 		for (let key in this) {
 			if (keys.indexOf(key) === -1) {
@@ -35,18 +35,19 @@ global.localStorage = global.sessionStorage = {
 	}
 };
 
+// eslint-disable-next-line camelcase
 global.ZE_Init = {};
-global.String.prototype.contains = function(text) {
-	return this.indexOf(text) != -1;
+global.String.prototype.contains = function (text) {
+	return this.indexOf(text) !== -1;
 };
 global.TestUtils = TestUtils;
 let xmlReq = XMLHttpRequest;
-window.XMLHttpRequest = function() {
+window.XMLHttpRequest = function () {
 	let xmlReqCopy = new xmlReq();
 	let originalOpen = xmlReqCopy.open;
-	xmlReqCopy.open = function() {
+	xmlReqCopy.open = function () {
 		log(mockDomain);
-		if (arguments[1].indexOf('http') != 0) {
+		if (arguments[1].indexOf('http') !== 0) {
 			arguments[1] = mockDomain + arguments[1];
 		}
 		return originalOpen.apply(this, arguments);
@@ -54,11 +55,11 @@ window.XMLHttpRequest = function() {
 	return xmlReqCopy;
 };
 
-TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
-	let componentList = TestUtils.findAllInRenderedTree(dom, function(i) {
+TestUtils.scryRenderedComponentsWithTestid = function (dom, name) {
+	let componentList = TestUtils.findAllInRenderedTree(dom, i => {
 		if (TestUtils.isDOMComponent(i)) {
 			let val = i.getAttribute('data-testid');
-			if (typeof val != 'undefined' && val == name) {
+			if (typeof val !== 'undefined' && val === name) {
 				return true;
 			}
 			return false;
@@ -67,7 +68,7 @@ TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
 	return componentList;
 };
 
-TestUtils.findRenderedComponentsWithTestid = function(dom, name) {
+TestUtils.findRenderedComponentsWithTestid = function (dom, name) {
 	let list = TestUtils.scryRenderedComponentsWithTestid(dom, name);
 	if (list.length !== 1) {
 		throw new Error(
@@ -81,25 +82,39 @@ TestUtils.findRenderedComponentsWithTestid = function(dom, name) {
 	return list[0];
 };
 
-global.setup = function(Component, props, state) {
+global.setup = function (Component, props, state) {
 	let router = {
 		router: {
-			push: function() {},
-			createHref: function(ob) {
-				return ob.pathname;
-			},
-			isActive: function() {
+			push: function () {
 				return true;
 			},
-			replace: function() {},
-			go: function() {},
-			goBack: function() {},
-			goForward: function() {},
-			setRouteLeaveHook: function() {},
-			getState: function() {}
+			createHref: function (ob) {
+				return ob.pathname;
+			},
+			isActive: function () {
+				return true;
+			},
+			replace: function () {
+				return true;
+			},
+			go: function () {
+				return true;
+			},
+			goBack: function () {
+				return true;
+			},
+			goForward: function () {
+				return true;
+			},
+			setRouteLeaveHook: function () {
+				return true;
+			},
+			getState: function () {
+				return true;
+			}
 		},
 		store: {
-			getState: function() {
+			getState: function () {
 				return state;
 			}
 		}
@@ -120,14 +135,18 @@ global.setup = function(Component, props, state) {
 	};
 };
 
-function higherComponent(ActualComponent, context) {
+function higherComponent (ActualComponent, context) {
 	if (context) {
 		class HigherComponent extends React.Component {
-			getChildContext() {
+			shouldComponentUpdate () {
+				return true;
+			}
+
+			getChildContext () {
 				return context;
 			}
 
-			render() {
+			render () {
 				return <ActualComponent {...this.props} />;
 			}
 		}
@@ -138,12 +157,11 @@ function higherComponent(ActualComponent, context) {
 		};
 
 		return HigherComponent;
-	} else {
-		return ActualComponent;
 	}
+	return ActualComponent;
 }
 
-global.renderHTML = function(comp) {
+global.renderHTML = function (comp) {
 	// eslint-disable-next-line react/no-find-dom-node
 	let a = ReactDOM.findDOMNode(comp);
 	log(a.innerHTML);
@@ -151,7 +169,7 @@ global.renderHTML = function(comp) {
 
 global.TestUtils = TestUtils;
 global.XMLHttpRequest = window.XMLHttpRequest;
-global.getI18NValue = function(inp) {
+global.getI18NValue = function (inp) {
 	return inp;
 };
 

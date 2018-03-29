@@ -41,15 +41,15 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/docs', express.static(path.join(appPath, 'docs')));
 
-app.use('/docs/*', function(req, res) {
+app.use('/docs/*', (req, res) => {
 	res.sendFile(
 		path.join(__dirname, '..', '..', 'templates', 'docs', 'index.html')
 	);
 });
 
 if (branch) {
-	app.post('/repo/merge', function(req, res) {
-		var { ref } = req.body;
+	app.post('/repo/merge', (req, res) => {
+		let { ref } = req.body;
 		if (ref && ref.endsWith(branch)) {
 			spawnSync('git', ['pull', 'origin', branch], {
 				stdio: 'inherit'

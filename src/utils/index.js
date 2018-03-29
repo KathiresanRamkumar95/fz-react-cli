@@ -17,7 +17,9 @@ export let writeFile = (outputPath, src, isPath = false) => {
 			inStr = fs.createReadStream(src);
 		} else {
 			inStr = new Readable();
-			inStr._read = () => {};
+			inStr._read = () => {
+				return true;
+			};
 			inStr.push(src);
 			inStr.push(null);
 		}

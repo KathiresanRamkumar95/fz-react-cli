@@ -6,7 +6,7 @@ import { log, writeFile, makeDir } from '../utils';
 let getRegex = regexString => regexString.map(str => new RegExp(str));
 
 class UnusedFilesFindPlugin {
-	constructor(options = {}) {
+	constructor (options = {}) {
 		this.usedFilesExcludes = getRegex(options.usedFilesExcludes);
 		this.allFilesExcludes = getRegex(options.allFilesExcludes);
 		this.origin = options.origin;
@@ -17,7 +17,7 @@ class UnusedFilesFindPlugin {
 		}
 	}
 
-	isIgnoredUsedFile(file) {
+	isIgnoredUsedFile (file) {
 		let result;
 		for (let i = 0; i < this.usedFilesExcludes.length; i++) {
 			let exclude = this.usedFilesExcludes[i];
@@ -29,7 +29,7 @@ class UnusedFilesFindPlugin {
 		return result;
 	}
 
-	isIgnoredAllFile(file) {
+	isIgnoredAllFile (file) {
 		let result;
 		for (let i = 0; i < this.allFilesExcludes.length; i++) {
 			let exclude = this.allFilesExcludes[i];
@@ -41,7 +41,7 @@ class UnusedFilesFindPlugin {
 		return result;
 	}
 
-	getAllFiles(rootPath) {
+	getAllFiles (rootPath) {
 		let allFiles = [];
 		let files = fs
 			.readdirSync(rootPath)
@@ -58,7 +58,7 @@ class UnusedFilesFindPlugin {
 		return allFiles;
 	}
 
-	apply(compiler) {
+	apply (compiler) {
 		compiler.hooks.afterEmit.tap('UnusedFilesShowPlugin', compilation => {
 			let { path: outputPath } = compilation.compiler.options.output;
 			let usedFiles = Array.from(compilation.fileDependencies).reduce(

@@ -2,11 +2,11 @@ import { writeFile } from '../utils';
 import path from 'path';
 
 class ChunkManifestReplacePlugin {
-	constructor(options) {
+	constructor (options) {
 		this.options = options;
 	}
 
-	apply(compiler) {
+	apply (compiler) {
 		let originalChunkFileName;
 
 		compiler.hooks.thisCompilation.tap(

@@ -1,7 +1,7 @@
 import path from 'path';
 
-module.exports = function(appFolder) {
-	var appPath = process.cwd();
+module.exports = function (appFolder) {
+	let appPath = process.cwd();
 	return {
 		rootDir: appPath,
 		testPathIgnorePatterns: ['/node_modules/', 'docs'],

@@ -4,11 +4,11 @@ import path from 'path';
 import { writeFile, log, makeDir } from '../utils';
 
 class SourceMapHookPlugin {
-	constructor(options = {}) {
+	constructor (options = {}) {
 		this.optimize = options.optimize;
 	}
 
-	apply(compiler) {
+	apply (compiler) {
 		compiler.hooks.afterEmit.tapAsync(
 			'SourceMapHookPlugin',
 			(compilation, callback) => {

@@ -36,7 +36,7 @@ let getDevJsLoaders = needEslinting => {
 		});
 	}
 
-    return loaders;
+	return loaders;
 };
 
 export default getDevJsLoaders;

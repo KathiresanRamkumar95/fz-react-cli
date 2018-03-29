@@ -6,11 +6,8 @@ import { log } from './index';
 let args = process.argv.slice(2);
 let appPath = fs.realpathSync(process.cwd());
 
-let srcPath = args[0];
-let targetPath = args[1];
-let exts = args[2];
-let isCopy = args[3] || true;
-let flatten = args[4] || '';
+let [srcPath, targetPath, exts, isCopy = true, flatten = ''] = args;
+
 exts = exts ? exts.split(',').map(ext => '.' + ext.trim()) : false;
 srcPath = path.join(appPath, srcPath);
 targetPath = targetPath === '."' || !targetPath ? '' : targetPath;
@@ -45,7 +42,7 @@ let iterateDirectory = (srcPath, targetPath, isCopy, extensions, flatten) => {
 		let fromPath = path.join(srcPath, fileOrDir);
 		let toPath = targetPath;
 
-		if (flatten != 'flatten' || !fs.statSync(fromPath).isDirectory()) {
+		if (flatten !== 'flatten' || !fs.statSync(fromPath).isDirectory()) {
 			toPath = path.join(targetPath, fileOrDir);
 		}
 
@@ -74,7 +71,7 @@ let copy = (srcPath, targetPath, isCopy, exts, flatten) => {
 		}
 		let { name } = path.parse(srcPath);
 		let originPath = targetPath;
-		if (flatten != 'flatten') {
+		if (flatten !== 'flatten') {
 			originPath = path.join(targetPath, name);
 			if (!fs.existsSync(originPath)) {
 				fs.mkdirSync(originPath);

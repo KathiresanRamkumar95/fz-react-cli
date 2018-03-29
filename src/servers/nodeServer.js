@@ -184,7 +184,7 @@ app.post('/node/deploy', (req, res) => {
 				res.send('Server Error');
 				serverProcess = null;
 			});
-			var flag = true;
+			let flag = true;
 			serverProcess.stdout.on('data', data => {
 				log('stdout: ' + data.toString());
 				if (flag) {

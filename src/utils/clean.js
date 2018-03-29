@@ -2,11 +2,17 @@ import rimraf from 'rimraf';
 
 let help = false;
 let dashdash = false;
+//eslint-disable-next-line array-callback-return
 let args = process.argv.slice(2).filter(arg => {
-	if (dashdash) return !!arg;
-	else if (arg === '--') dashdash = true;
-	else if (arg.match(/^(-+|\/)(h(elp)?|\?)$/)) help = true;
-	else return !!arg;
+	if (dashdash) {
+		return !!arg;
+	} else if (arg === '--') {
+		dashdash = true;
+	} else if (arg.match(/^(-+|\/)(h(elp)?|\?)$/)) {
+		help = true;
+	} else {
+		return !!arg;
+	}
 });
 
 if (help || args.length === 0) {
@@ -26,9 +32,13 @@ if (help || args.length === 0) {
 }
 
 let go = n => {
-	if (n >= args.length) return;
-	rimraf(args[n], function(er) {
-		if (er) throw er;
+	if (n >= args.length) {
+		return;
+	}
+	rimraf(args[n], er => {
+		if (er) {
+			throw er;
+		}
 		go(n + 1);
 	});
 };

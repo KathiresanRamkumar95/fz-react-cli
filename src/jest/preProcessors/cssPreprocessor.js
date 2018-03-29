@@ -5,7 +5,7 @@ import fs from 'fs';
 let count = 0;
 
 module.exports = {
-	process: function(src) {
+	process: function (src) {
 		count++;
 		let opts = { hashType: 'md5', digestType: 'base32' };
 		opts.maxLength = 6;

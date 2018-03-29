@@ -1,10 +1,11 @@
 import path from 'path';
 import loaderUtils from 'loader-utils';
 
-module.exports = function(content) {
+module.exports = function (content) {
 	this.cacheable && this.cacheable();
-	if (!this.emitFile)
-		throw new Error('emitFile is required from module system');
+	if (!this.emitFile) {
+		throw new Error('emitFile is required from module system'); 
+	}
 
 	let options = loaderUtils.getOptions(this) || {};
 	let query = this.resourceQuery
@@ -21,12 +22,12 @@ module.exports = function(content) {
 	};
 
 	// options takes precedence over config
-	Object.keys(options).forEach(function(attr) {
+	Object.keys(options).forEach((attr) => {
 		config[attr] = options[attr];
 	});
 
 	// query takes precedence over config and options
-	Object.keys(query).forEach(function(attr) {
+	Object.keys(query).forEach((attr) => {
 		config[attr] = query[attr];
 	});
 
@@ -42,9 +43,9 @@ module.exports = function(content) {
 	let filePath = this.resourcePath;
 	if (config.useRelativePath) {
 		let issuerContext =
-			(this._module &&
+			this._module &&
 				this._module.issuer &&
-				this._module.issuer.context) ||
+				this._module.issuer.context ||
 			context;
 		let relativeUrl =
 			issuerContext &&

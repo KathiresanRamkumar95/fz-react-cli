@@ -36,12 +36,12 @@ let createEventStream = (heartbeat, heartbeatInfo = null) => {
 			res.write('\n');
 			let id = clientId++;
 			clients[id] = res;
-			req.on('close', function() {
+			req.on('close', () => {
 				delete clients[id];
 			});
 		},
 		publish: payload => {
-			everyClient(function(client) {
+			everyClient((client) => {
 				client.write('data: ' + JSON.stringify(payload) + '\n\n');
 			});
 		}

@@ -3,15 +3,15 @@ import { log } from '../utils';
 
 let unitTestReport = [];
 
-const result = function(inp) {
+const result = function (inp) {
 	let testPathPattern = process.argv[process.argv.length - 1];
-	if (testPathPattern.indexOf('--') != -1) {
+	if (testPathPattern.indexOf('--') !== -1) {
 		testPathPattern = '';
 	} else {
 		testPathPattern = fs.realpathSync(process.cwd());
 	}
 	let testPathRegex = new RegExp(testPathPattern);
-	let testResults = inp.testResults;
+	let { testResults } = inp;
 	let testFilesArr = [];
 
 	testResults.forEach(testResult => {
@@ -29,7 +29,7 @@ const result = function(inp) {
 		testResult.testResults &&
 			testResult.testResults
 				.filter(t => {
-					return t.status == 'failed';
+					return t.status === 'failed';
 				})
 				.forEach(t => {
 					unitTestReport.push({
@@ -43,7 +43,7 @@ const result = function(inp) {
 	let coverageSummary = fs
 		.readFileSync('./coverage/coverage-summary.json')
 		.toString();
-	if (coverageSummary.indexOf('\\') != -1) {
+	if (coverageSummary.indexOf('\\') !== -1) {
 		coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
 	}
 	let coverageJson = JSON.parse(coverageSummary);
@@ -55,7 +55,7 @@ const result = function(inp) {
 	for (i = 0; i < testFilesArr.length; i++) {
 		let curSourceFile = testFilesArr[i].sourcePath;
 		let coverageData = coverageJson[curSourceFile];
-		if (coverageData == undefined) {
+		if (coverageData === undefined) {
 			log(
 				'Can"t able to find source for ' +
 					testFilesArr[i].testPath +
@@ -113,18 +113,16 @@ const result = function(inp) {
 				<th>Test Case Path</th>
 			</tr>
 			${unitTestReport.map(t => {
-				return `<tr>
+		return `<tr>
 					<td>${t.title}</td>
 					<td>${t.fullName}</td>
 					<td>${t.filePath}</td>
 				</tr>`;
-			})}
+	})}
 			</table>
 			<br/>COVERAGE <span class="${
-				coverage < 60 ? 'red' : 'green'
-			}">${coverage.toFixed(
-		2
-	)}%</span> <br/> less than 60% consider failure
+	coverage < 60 ? 'red' : 'green'
+}">${coverage.toFixed(2)}%</span> <br/> less than 60% consider failure
 		</body>
 	</html>
 		`;

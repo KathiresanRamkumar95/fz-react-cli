@@ -42,13 +42,13 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/docs', express.static(path.join(appPath, 'docs')));
 
-app.use('/docs/*', function(req, res) {
+app.use('/docs/*', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', '..', 'docs', 'index.html'));
 });
 
 if (remoteBranch) {
-	app.post('/repo/merge', function(req, res) {
-		var { ref } = req.body;
+	app.post('/repo/merge', (req, res) => {
+		let { ref } = req.body;
 		if (ref && ref.endsWith(remoteBranch)) {
 			spawnSync('git', ['pull', 'origin', remoteBranch], {
 				stdio: 'inherit'
