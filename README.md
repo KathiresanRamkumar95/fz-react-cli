@@ -279,6 +279,10 @@ fz-react-cli app <appname>
 * moment 2.18.1 has vulnerability - move to 2.19.3 - https://nvd.nist.gov/vuln/detail/CVE-2017-18214
 * fz-i18n changes readme 1.2.0-beta.11 (title, pattern)
 
+# 0.0.3-beta.106
+
+* fz-i18n pattern issue fix
+
 # 0.0.3-beta.106 pending
 
 * clone repo option i18n pending
