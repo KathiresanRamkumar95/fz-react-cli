@@ -23,8 +23,8 @@ let output = {
 	path: path.join(appPath, 'build'),
 	filename: 'js/[name].js',
 	chunkFilename: 'js/[name].js',
-	publicPath: `${[serverUrl, contextURL].filter(a => a).join('/')  }/`,
-	jsonpFunction: `${context  }Jsonp`
+	publicPath: `${[serverUrl, contextURL].filter(a => a).join('/')}/`,
+	jsonpFunction: `${context}Jsonp`
 };
 
 if (hotReload) {
