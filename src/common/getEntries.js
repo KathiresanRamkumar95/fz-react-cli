@@ -20,20 +20,20 @@ let getEntries = (options, mode) => {
 
 		isPreactMig && mainJs.push('preact/devtools');
 		mainJs.push(
-			path.join(__dirname, '..', 'templates', 'WMSTemplate') +
-				`?wmsPath=wss://${host}:${port}`
+			`${path.join(__dirname, '..', 'templates', 'WMSTemplate') 
+			}?wmsPath=wss://${host}:${port}`
 		);
 
 		if (hotReload) {
 			let url = `ht${'tps:'}//${host}:${port}`;
 			mainJs.push([
-				require.resolve('../templates/HMRTemplate') + `?hmrPath=${url}`,
+				`${require.resolve('../templates/HMRTemplate')  }?hmrPath=${url}`,
 				require.resolve('react-error-overlay')
 			]);
 		}
 	} else if (mode === 'production') {
 		mainJs.push(
-			require.resolve('../templates/publicPathTemplate.js') + `?js=${js}`
+			`${require.resolve('../templates/publicPathTemplate.js')  }?js=${js}`
 		);
 	}
 
@@ -47,8 +47,8 @@ let getEntries = (options, mode) => {
 		entry.widget = [];
 		if (mode === 'production') {
 			entry.widget.push(
-				require.resolve('../templates/publicPathTemplate.js') +
-					`?js=${js}`
+				`${require.resolve('../templates/publicPathTemplate.js') 
+				}?js=${js}`
 			);
 		}
 		entry.widget.push(path.join(appPath, folder, 'widget.js'));

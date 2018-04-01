@@ -6,5 +6,5 @@ module.exports = source => {
 	let comName = comNameAry[comNameAry.length - 1];
 	let name = comName.substring(0, comName.lastIndexOf('.'));
 	let src = fs.readFileSync(this.resourcePath).toString();
-	return source + ';' + name + '.source=' + JSON.stringify(src);
+	return `${source  };${  name  }.source=${  JSON.stringify(src)}`;
 };

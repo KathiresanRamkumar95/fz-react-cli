@@ -22,12 +22,12 @@ module.exports = function (content) {
 	};
 
 	// options takes precedence over config
-	Object.keys(options).forEach((attr) => {
+	Object.keys(options).forEach(attr => {
 		config[attr] = options[attr];
 	});
 
 	// query takes precedence over config and options
-	Object.keys(query).forEach((attr) => {
+	Object.keys(query).forEach(attr => {
 		config[attr] = query[attr];
 	});
 
@@ -53,7 +53,7 @@ module.exports = function (content) {
 				.relative(issuerContext, filePath)
 				.split(path.sep)
 				.join('/');
-		let relativePath = relativeUrl && path.dirname(relativeUrl) + '/';
+		let relativePath = relativeUrl && `${path.dirname(relativeUrl)  }/`;
 		if (~relativePath.indexOf('../')) {
 			outputPath = path.posix.join(outputPath, relativePath, url);
 		} else {
@@ -71,7 +71,7 @@ module.exports = function (content) {
 		outputPath = url;
 	}
 
-	let publicPath = '__webpack_public_path__ + ' + JSON.stringify(url);
+	let publicPath = `__webpack_public_path__ + ${  JSON.stringify(url)}`;
 	if (config.publicPath !== false) {
 		// support functions as publicPath to generate them dynamically
 		if (config.publicPathStringify) {
@@ -92,7 +92,7 @@ module.exports = function (content) {
 		this.emitFile(outputPath, content);
 	}
 
-	return 'module.exports = ' + publicPath + ';';
+	return `module.exports = ${  publicPath  };`;
 };
 
 module.exports.raw = true;

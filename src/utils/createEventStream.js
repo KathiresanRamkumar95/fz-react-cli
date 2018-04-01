@@ -10,16 +10,16 @@ let createEventStream = (heartbeat, heartbeatInfo = null) => {
 		everyClient(client => {
 			if (heartbeatInfo) {
 				client.write(
-					'data: ' +
+					`data: ${ 
 						JSON.stringify({
 							type: 'heartbeat',
 							info: heartbeatInfo()
-						}) +
-						'\n\n'
+						}) 
+					}\n\n`
 				);
 			} else {
 				client.write(
-					'data: ' + JSON.stringify({ type: 'heartbeat' }) + '\n\n'
+					`data: ${  JSON.stringify({ type: 'heartbeat' })  }\n\n`
 				);
 			}
 		});
@@ -41,8 +41,8 @@ let createEventStream = (heartbeat, heartbeatInfo = null) => {
 			});
 		},
 		publish: payload => {
-			everyClient((client) => {
-				client.write('data: ' + JSON.stringify(payload) + '\n\n');
+			everyClient(client => {
+				client.write(`data: ${  JSON.stringify(payload)  }\n\n`);
 			});
 		}
 	};

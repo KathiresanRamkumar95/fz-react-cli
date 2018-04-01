@@ -42,15 +42,15 @@ global.String.prototype.contains = function (text) {
 };
 global.TestUtils = TestUtils;
 let xmlReq = XMLHttpRequest;
-window.XMLHttpRequest = function () {
+window.XMLHttpRequest = function (...args) {
 	let xmlReqCopy = new xmlReq();
 	let originalOpen = xmlReqCopy.open;
 	xmlReqCopy.open = function () {
 		log(mockDomain);
-		if (arguments[1].indexOf('http') !== 0) {
-			arguments[1] = mockDomain + arguments[1];
+		if (args[1].indexOf('http') !== 0) {
+			args[1] = mockDomain + args[1];
 		}
-		return originalOpen.apply(this, arguments);
+		return originalOpen.apply(this, args);
 	};
 	return xmlReqCopy;
 };
@@ -72,11 +72,8 @@ TestUtils.findRenderedComponentsWithTestid = function (dom, name) {
 	let list = TestUtils.scryRenderedComponentsWithTestid(dom, name);
 	if (list.length !== 1) {
 		throw new Error(
-			'Did not find exactly one match (found: ' +
-				list.length +
-				') ' +
-				'for data-testid:' +
-				name
+			`Did not find exactly one match (found: ${list.length}) ` +
+				`for data-testid:${name}`
 		);
 	}
 	return list[0];
@@ -125,10 +122,8 @@ global.setup = function (Component, props, state) {
 	// 	}
 	// }
 	let HOComponent = higherComponent(Component, router);
-	const renderedDOM = TestUtils.renderIntoDocument(
-		<HOComponent {...props} />,
-		router
-	);
+	let comp = <HOComponent {...props} />;
+	const renderedDOM = TestUtils.renderIntoDocument(comp, router);
 	return {
 		props,
 		renderedDOM

@@ -21,5 +21,5 @@ app.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl + '/help/');
+	log(`Listening at ${  serverUrl  }/help/`);
 });

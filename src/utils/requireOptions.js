@@ -10,6 +10,7 @@ let setN = (object, paths, value) => {
 
 		if (length - 1 === index) {
 			if (value === 'false' || value === 'true') {
+				//eslint-disable-next-line
 				value = JSON.parse(value);
 			}
 			target[path] = value;
@@ -24,6 +25,7 @@ let setArray = (object, paths, value) => {
 	let { length } = paths;
 	if (length === 1) {
 		if (!object) {
+			//eslint-disable-next-line
 			object = [];
 		}
 		object[Number(paths[0])] = value;
@@ -35,6 +37,7 @@ let setArray = (object, paths, value) => {
 	paths.reduce((target, path, index) => {
 		if (index === length - 1) {
 			if (value === 'false' || value === 'true') {
+				//eslint-disable-next-line
 				value = JSON.parse(value);
 			}
 			target[Number(path)] = value;
@@ -54,9 +57,9 @@ let setArray = (object, paths, value) => {
 };
 
 let requireOptions = () => {
-	let userOptions = Object.keys(process.env).filter(key => {
-		return key.indexOf('npm_package_fz_react_cli_') >= 0;
-	});
+	let userOptions = Object.keys(process.env).filter(
+		key => key.indexOf('npm_package_fz_react_cli_') >= 0
+	);
 
 	return userOptions.reduce((options, key) => {
 		let flag = key.replace(/npm_package_fz_react_cli_/i, '');

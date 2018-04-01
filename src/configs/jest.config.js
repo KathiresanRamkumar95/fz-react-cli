@@ -6,7 +6,7 @@ module.exports = function (appFolder) {
 		rootDir: appPath,
 		testPathIgnorePatterns: ['/node_modules/', 'docs'],
 		unmockedModulePathPatterns: ['__tests__', 'node_modules', '.*'],
-		testPathDirs: ['<rootDir>/' + appFolder + '/'],
+		testPathDirs: [`<rootDir>/${  appFolder  }/`],
 		collectCoverage: true,
 		coverageReporters: ['json', 'html', 'json-summary', 'text'],
 		moduleFileExtensions: ['js'],

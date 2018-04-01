@@ -19,7 +19,7 @@ class ChunkManifestReplacePlugin {
 				let { fileName, replacer, needChunkHash } = this.options;
 				mainTemplate.hooks.requireEnsure.tap(
 					'ChunkManifestReplacePlugin',
-					(source) => {
+					source => {
 						if (replacer) {
 							originalChunkFileName = output.chunkFilename;
 							output.chunkFilename = '__CHUNK_MANIFEST__';
@@ -27,7 +27,7 @@ class ChunkManifestReplacePlugin {
 
 						compilation.chunks.forEach(chunk => {
 							let { name, renderedHash, id } = chunk;
-							let fullName = name + (needChunkHash ? '.' +  renderedHash : '') + '.js';
+							let fullName = `${name + (needChunkHash ? `.${   renderedHash}` : '')  }.js`;
 							chunkManifest[id] = fullName;
 							if (chunk.canBeInitial()) {
 								initialJS[name || id] = fullName;

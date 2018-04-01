@@ -17,7 +17,7 @@ let { server, app: appInfo, disableContextURL } = options;
 let { host, port, locale, mode, hotReload, hasMock } = server;
 let { context } = appInfo;
 
-let contextURL = disableContextURL ? '' : '/' + context;
+let contextURL = disableContextURL ? '' : `/${  context}`;
 let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
@@ -49,7 +49,7 @@ app.use(
 		publicPath:
 			mode === 'production'
 				? contextURL === ''
-					? serverUrl + '/' + contextURL
+					? `${serverUrl  }/${  contextURL}`
 					: serverUrl + contextURL
 				: config.output.publicPath,
 		headers: { 'Access-Control-Allow-Origin': '*' },
@@ -80,7 +80,7 @@ app
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		next();
 	})
-	.use(contextURL + '/fonts', express.static(context + '/fonts'));
+	.use(`${contextURL  }/fonts`, express.static(`${context  }/fonts`));
 
 app.use('/wms/*', (req, res) => {
 	res.sendFile(
@@ -129,7 +129,7 @@ app.post('/wmsmockapi', (req, res) => {
 
 if (contextURL) {
 	app.use(contextURL, express.static(context));
-	app.use(contextURL + '/*', express.static(context));
+	app.use(`${contextURL  }/*`, express.static(context));
 } else {
 	app.use(express.static(context));
 	app.use('/*', express.static(context));
@@ -139,7 +139,7 @@ httpsServer.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl + `${contextURL}/`);
+	log(`Listening at ${  serverUrl  }${contextURL}/`);
 });
 
 let httpPort = Number(port) + 1;
@@ -149,8 +149,8 @@ app.listen(httpPort, err => {
 		throw err;
 	}
 	log(
-		'Listening at ' +
-			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) +
-			`${contextURL}/`
+		`Listening at ${ 
+			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) 
+		}${contextURL}/`
 	);
 });

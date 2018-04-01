@@ -10,16 +10,14 @@ export let log = (...info) => {
 	print.log(...info);
 };
 
-export let writeFile = (outputPath, src, isPath = false) => {
-	return new Promise((resolve, reject) => {
+export let writeFile = (outputPath, src, isPath = false) =>
+	new Promise((resolve, reject) => {
 		let inStr;
 		if (isPath) {
 			inStr = fs.createReadStream(src);
 		} else {
 			inStr = new Readable();
-			inStr._read = () => {
-				return true;
-			};
+			inStr._read = () => true;
 			inStr.push(src);
 			inStr.push(null);
 		}
@@ -33,10 +31,10 @@ export let writeFile = (outputPath, src, isPath = false) => {
 
 		inStr.pipe(outStr);
 	});
-};
 
 export let makeDir = paths => {
 	if (typeof paths === 'string') {
+		//eslint-disable-next-line
 		paths = [paths];
 	}
 	paths.forEach(path => {

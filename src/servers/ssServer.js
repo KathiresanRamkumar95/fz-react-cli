@@ -71,7 +71,7 @@ httpsServer.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl);
+	log(`Listening at ${  serverUrl}`);
 });
 
 let httpPort = Number(port) + 1;
@@ -81,16 +81,16 @@ app.listen(httpPort, err => {
 		throw err;
 	}
 	log(
-		'Listening at ' +
-			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) +
-			'/docs/'
+		`Listening at ${ 
+			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) 
+		}/docs/`
 	);
 });
 
 ssTest.run(
 	{
 		seleniumHub: seleniumHub,
-		url: 'http://' + host + ':' + port + '/docs/component.html',
+		url: `http://${  host  }:${  port  }/docs/component.html`,
 		browserList: ['firefox', 'chrome'],
 		mode: 'test',
 		script:
@@ -116,7 +116,7 @@ let referenceMode = () => {
 	ssTest.run(
 		{
 			seleniumHub: seleniumHub,
-			url: 'http://' + host + ':' + port + '/docs/component.html',
+			url: `http://${  host  }:${  port  }/docs/component.html`,
 			browserList: ['firefox', 'chrome'],
 			mode: 'reference',
 			script:

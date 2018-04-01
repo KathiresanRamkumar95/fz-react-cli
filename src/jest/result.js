@@ -27,17 +27,13 @@ const result = function (inp) {
 		fileJson.data = testResult;
 		testFilesArr.push(fileJson);
 		testResult.testResults &&
-			testResult.testResults
-				.filter(t => {
-					return t.status === 'failed';
-				})
-				.forEach(t => {
-					unitTestReport.push({
-						title: t.title,
-						fullName: t.fullName,
-						filePath: testResult.testFilePath
-					});
+			testResult.testResults.filter(t => t.status === 'failed').forEach(t => {
+				unitTestReport.push({
+					title: t.title,
+					fullName: t.fullName,
+					filePath: testResult.testFilePath
 				});
+			});
 	});
 
 	let coverageSummary = fs
@@ -57,9 +53,9 @@ const result = function (inp) {
 		let coverageData = coverageJson[curSourceFile];
 		if (coverageData === undefined) {
 			log(
-				'Can"t able to find source for ' +
-					testFilesArr[i].testPath +
-					'\n Please check the file name and the path is correct for test file'
+				`Can"t able to find source for ${
+					testFilesArr[i].testPath
+				}\n Please check the file name and the path is correct for test file`
 			);
 			continue;
 		}
@@ -79,7 +75,7 @@ const result = function (inp) {
 		totalStatementPercent +
 		totalStatementPercent;
 	let coverage = totalPercentage / 4;
-	log('COVERAGE ' + coverage.toFixed(2) + '%');
+	log(`COVERAGE ${coverage.toFixed(2)}%`);
 
 	let html = `<html>
 	<head>
@@ -112,13 +108,13 @@ const result = function (inp) {
 				<th>FullName</th>
 				<th>Test Case Path</th>
 			</tr>
-			${unitTestReport.map(t => {
-		return `<tr>
+			${unitTestReport.map(
+		t => `<tr>
 					<td>${t.title}</td>
 					<td>${t.fullName}</td>
 					<td>${t.filePath}</td>
-				</tr>`;
-	})}
+				</tr>`
+	)}
 			</table>
 			<br/>COVERAGE <span class="${
 	coverage < 60 ? 'red' : 'green'

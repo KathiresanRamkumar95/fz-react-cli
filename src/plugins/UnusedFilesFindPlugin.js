@@ -85,9 +85,9 @@ class UnusedFilesFindPlugin {
 			} else {
 				if (this.outputFileName) {
 					log(
-						'You can see unused files info from ' +
-							path.join(outputPath, this.outputFileName) +
-							' path'
+						`You can see unused files info from ${ 
+							path.join(outputPath, this.outputFileName) 
+						} path`
 					);
 					makeDir(outputPath);
 					writeFile(
@@ -100,7 +100,7 @@ class UnusedFilesFindPlugin {
 			if (this.delete) {
 				unusedFiles.forEach(file => {
 					fs.unlinkSync(file);
-					log('Deleted - ' + file);
+					log(`Deleted - ${  file}`);
 				});
 			}
 		});

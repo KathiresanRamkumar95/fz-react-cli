@@ -32,7 +32,7 @@ module.exports = {
 		chunkFilename: needChunkHash
 			? 'js/[name].[chunkhash:20].js'
 			: 'js/[name].js',
-		jsonpFunction: context + 'Jsonp',
+		jsonpFunction: `${context  }Jsonp`,
 		sourceMapFilename: needChunkHash
 			? 'smap/[name].[chunkhash:20].map'
 			: 'smap/[name].map'
@@ -108,11 +108,9 @@ module.exports = {
 							name: needChunkHash
 								? './images/[name].[hash:20].[ext]'
 								: './images/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									images
-								)}] + ${JSON.stringify(url)}`;
-							},
+							publicPath: url => `staticDomain[${JSON.stringify(
+								images
+							)}] + ${JSON.stringify(url)}`,
 							publicPathStringify: false,
 							fallback: path.join(
 								__dirname,
@@ -134,11 +132,9 @@ module.exports = {
 							name: needChunkHash
 								? './fonts/[name].[hash:20].[ext]'
 								: './fonts/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									fonts
-								)}] + ${JSON.stringify(url)}`;
-							},
+							publicPath: url => `staticDomain[${JSON.stringify(
+								fonts
+							)}] + ${JSON.stringify(url)}`,
 							publicPathStringify: false,
 							fallback: path.join(
 								__dirname,
@@ -160,11 +156,9 @@ module.exports = {
 							name: needChunkHash
 								? './fonts/[name].[hash:20].[ext]'
 								: './fonts/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									fonts
-								)}] + ${JSON.stringify(url)}`;
-							},
+							publicPath: url => `staticDomain[${JSON.stringify(
+								fonts
+							)}] + ${JSON.stringify(url)}`,
 							publicPathStringify: false,
 							fallback: path.join(
 								__dirname,

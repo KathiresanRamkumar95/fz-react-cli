@@ -22,7 +22,7 @@ module.exports = {
 		path: path.resolve(appPath, outputFolder, 'js'),
 		filename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
 		chunkFilename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
-		jsonpFunction: context + 'Jsonp',
+		jsonpFunction: `${context  }Jsonp`,
 		sourceMapFilename: 'smap/[name].map'
 	},
 	watch: watchMode,

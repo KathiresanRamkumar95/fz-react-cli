@@ -118,9 +118,7 @@ case 'library':
 case 'propertyToJson':
 	result = spawnSync(
 		propertyToJson,
-		args.map(arg => {
-			return path.join(appPath, arg);
-		}),
+		args.map(arg => path.join(appPath, arg)),
 		{
 			stdio: 'inherit'
 		}
@@ -177,7 +175,7 @@ case 'build:component':
 			'src',
 			'--out-dir',
 			'lib',
-			'--presets=' + presets.env + ',' + presets.react,
+			`--presets=${presets.env},${presets.react}`,
 			'--copy-files'
 		].concat(args),
 		{ stdio: 'inherit' }
@@ -218,10 +216,9 @@ case 'build:library:es':
 			'src',
 			'--out-dir',
 			'es',
-			'--presets=' +
-					require.resolve('../lib/utils/babelPresets') +
-					',' +
-					presets.react,
+			`--presets=${require.resolve('../lib/utils/babelPresets')},${
+				presets.react
+			}`,
 			'--copy-files'
 		].concat(args),
 		{ stdio: 'inherit' }
@@ -280,18 +277,14 @@ case 'lint':
 			esLintIgnorePath
 				? path.join(appPath, esLintIgnorePath)
 				: path.join(__dirname, '..', '.eslintignore')
-		].concat(
-			args.map(arg => {
-				return path.join(appPath, arg);
-			})
-		),
+		].concat(args.map(arg => path.join(appPath, arg))),
 		{
 			stdio: 'inherit'
 		}
 	);
 	break;
 default:
-	log('fz-react-cli > Unknown option "' + option + '".');
+	log(`fz-react-cli > Unknown option "${option}".`);
 	log('fz-react-cli app <appName>');
 	log('fz-react-cli library <libraryName>');
 	log('fz-react-cli start');

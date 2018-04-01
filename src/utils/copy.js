@@ -8,18 +8,18 @@ let appPath = fs.realpathSync(process.cwd());
 
 let [srcPath, targetPath, exts, isCopy = true, flatten = ''] = args;
 
-exts = exts ? exts.split(',').map(ext => '.' + ext.trim()) : false;
+exts = exts ? exts.split(',').map(ext => `.${ext.trim()}`) : false;
 srcPath = path.join(appPath, srcPath);
 targetPath = targetPath === '."' || !targetPath ? '' : targetPath;
 targetPath = path.join(appPath, targetPath);
 
 let removeDirectory = dirPath => {
 	fs.readdirSync(dirPath).forEach(fileOrDir => {
-		fileOrDir = path.join(dirPath, fileOrDir);
-		if (fs.statSync(fileOrDir).isDirectory()) {
-			removeDirectory(fileOrDir);
+		let fileOrDirPath = path.join(dirPath, fileOrDir);
+		if (fs.statSync(fileOrDirPath).isDirectory()) {
+			removeDirectory(fileOrDirPath);
 		} else {
-			fs.unlinkSync(fileOrDir);
+			fs.unlinkSync(fileOrDirPath);
 		}
 	});
 	fs.rmdirSync(dirPath);

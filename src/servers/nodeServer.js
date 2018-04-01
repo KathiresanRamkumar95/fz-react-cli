@@ -24,9 +24,7 @@ const app = express();
 let commitHash = '';
 let serverProcess;
 
-let stream = createEventStream(5000, () => {
-	return { branch, commitHash, isStart: serverProcess ? true : false };
-});
+let stream = createEventStream(5000, () => ({ branch, commitHash, isStart: serverProcess ? true : false }));
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -92,7 +90,7 @@ app.get('/node/start', (req, res) => {
 		log(test.stdout);
 		serverProcess = spawnSync(
 			'npm',
-			['run', 'serverrender', '--server:port=' + port],
+			['run', 'serverrender', `--server:port=${  port}`],
 			{
 				encoding: 'utf8',
 				shell: true,
@@ -100,13 +98,13 @@ app.get('/node/start', (req, res) => {
 			}
 		);
 		serverProcess.on('error', err => {
-			log('Oh noez, teh errurz: ' + err);
+			log(`Oh noez, teh errurz: ${  err}`);
 			res.send('Server Error');
 			serverProcess = null;
 		});
 		let flag = true;
 		serverProcess.stdout.on('data', data => {
-			log('stdout: ' + data.toString());
+			log(`stdout: ${  data.toString()}`);
 			if (flag) {
 				res.send('Server start');
 				flag = false;
@@ -169,7 +167,7 @@ app.post('/node/deploy', (req, res) => {
 				[
 					'run',
 					'serverrender',
-					'--server:port=' + port,
+					`--server:port=${  port}`,
 					'--',
 					JSON.stringify(JSON.stringify(deployObj))
 				],
@@ -180,13 +178,13 @@ app.post('/node/deploy', (req, res) => {
 				}
 			);
 			serverProcess.on('error', err => {
-				log('Oh noez, teh errurz: ' + err);
+				log(`Oh noez, teh errurz: ${  err}`);
 				res.send('Server Error');
 				serverProcess = null;
 			});
 			let flag = true;
 			serverProcess.stdout.on('data', data => {
-				log('stdout: ' + data.toString());
+				log(`stdout: ${  data.toString()}`);
 				if (flag) {
 					res.send('Server start');
 					flag = false;
@@ -227,7 +225,7 @@ app.post('/node/deploy', (req, res) => {
 			[
 				'run',
 				'serverrender',
-				'--server:port=' + port,
+				`--server:port=${  port}`,
 				'--',
 				JSON.stringify(JSON.stringify(deployObj))
 			],
@@ -238,13 +236,13 @@ app.post('/node/deploy', (req, res) => {
 			}
 		);
 		serverProcess.on('error', err => {
-			log('Oh noez, teh errurz: ' + err);
+			log(`Oh noez, teh errurz: ${  err}`);
 			res.send('Server Error');
 			serverProcess = null;
 		});
 		let flag = true;
 		serverProcess.stdout.on('data', data => {
-			log('stdout: ' + data.toString());
+			log(`stdout: ${  data.toString()}`);
 			if (flag) {
 				res.send('Server start');
 				flag = false;
@@ -257,5 +255,5 @@ app.listen(port + 1, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl + '/node/');
+	log(`Listening at ${  serverUrl  }/node/`);
 });

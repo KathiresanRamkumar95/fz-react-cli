@@ -9,8 +9,7 @@ function pathMatch (url, path) {
 	return url.substring(0, q) === path;
 }
 
-export default function HMRMiddleware (compiler, opts) {
-	opts = opts || {};
+export default function HMRMiddleware (compiler, opts = {}) {
 	opts.log =
 		// eslint-disable-next-line no-console
 		typeof opts.log === 'undefined' ? console.log.bind(console) : opts.log;
@@ -58,7 +57,7 @@ function createEventStream (heartbeat) {
 	}
 	setInterval(() => {
 		everyClient(client => {
-			client.write('data: ' + JSON.stringify({ type: 'heartbeat' }) + '\n\n');
+			client.write(`data: ${JSON.stringify({ type: 'heartbeat' })}\n\n`);
 		});
 	}, heartbeat).unref();
 	return {
@@ -79,7 +78,7 @@ function createEventStream (heartbeat) {
 		},
 		publish: function (payload) {
 			everyClient(client => {
-				client.write('data: ' + JSON.stringify(payload) + '\n\n');
+				client.write(`data: ${JSON.stringify(payload)}\n\n`);
 			});
 		}
 	};
@@ -91,12 +90,9 @@ function publishStats (action, statsResult, eventStream, log) {
 	bundles.forEach(stats => {
 		if (log) {
 			log(
-				'webpack built ' +
-					(stats.name ? stats.name + ' ' : '') +
-					stats.hash +
-					' in ' +
-					stats.time +
-					'ms'
+				`webpack built ${stats.name ? `${stats.name} ` : ''}${stats.hash} in ${
+					stats.time
+				}ms`
 			);
 		}
 		// if (

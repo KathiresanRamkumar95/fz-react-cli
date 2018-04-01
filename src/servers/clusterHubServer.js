@@ -21,7 +21,7 @@ if (fs.existsSync(clusterConfigPath)) {
 	config = require(clusterConfigPath);
 } else {
 	throw new Error(
-		'clusterConfig.js doen\'t exist under following path - ' + clusterConfigPath
+		`clusterConfig.js doen't exist under following path - ${  clusterConfigPath}`
 	);
 }
 
@@ -38,5 +38,5 @@ app.listen(port, err => {
 	if (err) {
 		throw err;
 	}
-	log('Listening at ' + serverUrl + '/clusterhub/');
+	log(`Listening at ${  serverUrl  }/clusterhub/`);
 });

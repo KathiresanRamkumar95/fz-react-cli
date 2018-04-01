@@ -90,9 +90,7 @@ class ModuleStatsPlugin {
 					}
 
 					rReferencesArray = rReferencesArray.filter(
-						(item, index, inputArray) => {
-							return inputArray.indexOf(item) === index;
-						}
+						(item, index, inputArray) => inputArray.indexOf(item) === index
 					);
 
 					moduleDetails = {
@@ -110,14 +108,15 @@ class ModuleStatsPlugin {
 					referencedBy = '';
 					references = '';
 
+					//eslint-disable-next-line no-loop-func
 					data.results.forEach(mod => {
-						dre += '\'' + mod.name + '\':' + JSON.stringify(mod) + ',';
+						dre += `'${mod.name}':${JSON.stringify(mod)},`;
 					});
 				}
 			}
 
-			let dataResult = '{' + dre + '}';
-			let mResult = 'let mdata = ' + dataResult;
+			let dataResult = `{${dre}}`;
+			let mResult = `let mdata = ${dataResult}`;
 
 			compilation.assets[this.options.filename] = {
 				source: function () {
