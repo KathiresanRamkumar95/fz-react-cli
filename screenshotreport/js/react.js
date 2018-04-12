@@ -1,3 +1,5 @@
+//react.js
+
 var browser = 'chrome';
 
 var selBrowser = function(getBrowser) {
@@ -17,7 +19,7 @@ function onClick() {
     .getElementsByClassName('mcCsel')[0]
     .innerText.split('.')[0];
   if (name.indexOf('__') !== -1) {
-    var name = name.split('__')[0];
+    var name = name.split('__')[1];
     var list = mdata[name].referencedby;
   } else {
     var list = mdata[name].referencedby;
@@ -45,17 +47,24 @@ function onClick() {
 
 function changeImage() {
   document.getElementById('list').innerHTML = '';
-  for (var i = fileObj.diff.length - 1; i >= 0; i--) {
-    var node = document.createElement('div');
-    if (fileObj.diff[i].indexOf(browser) !== -1) {
-      var textnode = document.createTextNode(fileObj.diff[i]);
-      node.appendChild(textnode);
-      document.getElementById('list').appendChild(node).className = 'mcC';
-      node.onclick = onClick;
-
-      if (i == 0) {
-        node.onclick(node);
+  if (fileObj.diff.length > 0) {
+    for (var i = fileObj.diff.length - 1; i >= 0; i--) {
+      var node = document.createElement('div');
+      if (fileObj.diff[i].indexOf(browser) !== -1) {
+        var textnode = document.createTextNode(fileObj.diff[i]);
+        node.appendChild(textnode);
+        document.getElementById('list').appendChild(node).className = 'mcC';
+        node.onclick = onClick;
+        if (i == 0) {
+          node.onclick(node);
+        }
       }
     }
+  } else {
+    var eleList = document.getElementsByClassName('mcCheight');
+    for (var i = eleList.length - 1; i >= 0; i--) {
+      eleList[i].style.display = 'none';
+    }
+    document.getElementById('empty').style.display = 'block';
   }
 }

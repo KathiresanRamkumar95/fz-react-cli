@@ -8,7 +8,7 @@ cp -r ./node_modules/fz-react-cli/reports/ ./reports
 tar -czvf $publishFolder.tar.gz coverage screenShots unittest reports
 curl -i -F name=file -F file=@$publishFolder.tar.gz $1
 #node mailSender.js <from> <pass> <to> <subject> <text>
-replace=$publishFolder'/reports'
+replace=$publishFolder
 reportUrl=${url//cgi-bin\/upload.py/$replace}
 subject="Build report - $publishFolder"
 msg="<p><b>report url - <a href='$reportUrl'>Link</a></b></p>
