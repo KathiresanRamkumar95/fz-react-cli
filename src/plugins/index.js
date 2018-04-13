@@ -1,5 +1,5 @@
 export {
-	default as ChunkManifestReplacePlugin
+  default as ChunkManifestReplacePlugin
 } from './ChunkManifestReplacePlugin';
 export { default as RuntimePublicPathPlgin } from './RuntimePublicPathPlugin';
 export { default as ModuleStatsPlugin } from './ModuleStatsPlugin';

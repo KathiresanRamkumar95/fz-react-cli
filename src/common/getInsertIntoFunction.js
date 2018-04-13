@@ -1,6 +1,6 @@
 let getInsertIntoFunction = styleTarget =>
-	// eslint-disable-next-line no-eval
-	eval(`function insertIntoFunction (){
+  // eslint-disable-next-line no-eval
+  eval(`function insertIntoFunction (){
 		var styleTarget = ${JSON.stringify(styleTarget)};
         if (styleTarget !== 'false') {
             var element = document.getElementById(styleTarget);

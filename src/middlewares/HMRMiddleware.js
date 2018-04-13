@@ -1,148 +1,148 @@
 function pathMatch (url, path) {
-	if (url === path) {
-		return true;
-	}
-	let q = url.indexOf('?');
-	if (q === -1) {
-		return false;
-	}
-	return url.substring(0, q) === path;
+  if (url === path) {
+    return true;
+  }
+  let q = url.indexOf('?');
+  if (q === -1) {
+    return false;
+  }
+  return url.substring(0, q) === path;
 }
 
 export default function HMRMiddleware (compiler, opts = {}) {
-	opts.log =
+  opts.log =
 		// eslint-disable-next-line no-console
 		typeof opts.log === 'undefined' ? console.log.bind(console) : opts.log;
-	opts.path = opts.path || '/__webpack_hmr';
-	opts.heartbeat = opts.heartbeat || 10 * 1000;
+  opts.path = opts.path || '/__webpack_hmr';
+  opts.heartbeat = opts.heartbeat || 10 * 1000;
 
-	let eventStream = createEventStream(opts.heartbeat);
-	let latestStats = null;
+  let eventStream = createEventStream(opts.heartbeat);
+  let latestStats = null;
 
-	compiler.plugin('compile', () => {
-		latestStats = null;
-		if (opts.log) {
-			opts.log('webpack building...');
-		}
-		eventStream.publish({ type: 'building' });
-	});
-	compiler.plugin('done', statsResult => {
-		// Keep hold of latest stats so they can be propagated to new clients
-		latestStats = statsResult;
+  compiler.plugin('compile', () => {
+    latestStats = null;
+    if (opts.log) {
+      opts.log('webpack building...');
+    }
+    eventStream.publish({ type: 'building' });
+  });
+  compiler.plugin('done', statsResult => {
+    // Keep hold of latest stats so they can be propagated to new clients
+    latestStats = statsResult;
 
-		publishStats('built', latestStats, eventStream, opts.log);
-	});
-	let middleware = function (req, res, next) {
-		if (!pathMatch(req.url, opts.path)) {
-			return next();
-		}
-		eventStream.handler(req, res);
-		// if (latestStats) {
-		//   // Explicitly not passing in `log` fn as we don't want to log again on
-		//   // the server
-		//   //  publishStats('sync', latestStats, eventStream);
-		// }
-	};
-	middleware.publish = eventStream.publish;
-	return middleware;
+    publishStats('built', latestStats, eventStream, opts.log);
+  });
+  let middleware = function (req, res, next) {
+    if (!pathMatch(req.url, opts.path)) {
+      return next();
+    }
+    eventStream.handler(req, res);
+    // if (latestStats) {
+    //   // Explicitly not passing in `log` fn as we don't want to log again on
+    //   // the server
+    //   //  publishStats('sync', latestStats, eventStream);
+    // }
+  };
+  middleware.publish = eventStream.publish;
+  return middleware;
 }
 
 function createEventStream (heartbeat) {
-	let clientId = 0;
-	let clients = {};
-	function everyClient (fn) {
-		Object.keys(clients).forEach(id => {
-			fn(clients[id]);
-		});
-	}
-	setInterval(() => {
-		everyClient(client => {
-			client.write(`data: ${JSON.stringify({ type: 'heartbeat' })}\n\n`);
-		});
-	}, heartbeat).unref();
-	return {
-		handler: function (req, res) {
-			req.socket.setKeepAlive(true);
-			res.writeHead(200, {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'text/event-stream;charset=utf-8',
-				'Cache-Control': 'no-cache, no-transform',
-				Connection: 'keep-alive'
-			});
-			res.write('\n');
-			let id = clientId++;
-			clients[id] = res;
-			req.on('close', () => {
-				delete clients[id];
-			});
-		},
-		publish: function (payload) {
-			everyClient(client => {
-				client.write(`data: ${JSON.stringify(payload)}\n\n`);
-			});
-		}
-	};
+  let clientId = 0;
+  let clients = {};
+  function everyClient (fn) {
+    Object.keys(clients).forEach(id => {
+      fn(clients[id]);
+    });
+  }
+  setInterval(() => {
+    everyClient(client => {
+      client.write(`data: ${JSON.stringify({ type: 'heartbeat' })}\n\n`);
+    });
+  }, heartbeat).unref();
+  return {
+    handler: function (req, res) {
+      req.socket.setKeepAlive(true);
+      res.writeHead(200, {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'text/event-stream;charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive'
+      });
+      res.write('\n');
+      let id = clientId++;
+      clients[id] = res;
+      req.on('close', () => {
+        delete clients[id];
+      });
+    },
+    publish: function (payload) {
+      everyClient(client => {
+        client.write(`data: ${JSON.stringify(payload)}\n\n`);
+      });
+    }
+  };
 }
 
 function publishStats (action, statsResult, eventStream, log) {
-	// For multi-compiler, stats will be an object with a 'children' array of stats
-	let bundles = extractBundles(statsResult.toJson({ errorDetails: false }));
-	bundles.forEach(stats => {
-		if (log) {
-			log(
-				`webpack built ${stats.name ? `${stats.name} ` : ''}${stats.hash} in ${
-					stats.time
-				}ms`
-			);
-		}
-		// if (
-		//   //  !force &&
-		//   action !== 'sync' &&
-		//   stats &&
-		//   (!stats.errors || stats.errors.length === 0) &&
-		//   stats.assets &&
-		//   stats.assets.every(asset => !asset.emitted)
-		// ) {
-		//   eventStream.publish({
-		//     type: 'still-ok'
-		//   });
-		// }
-		eventStream.publish({
-			type: 'hash',
-			data: stats.hash
-		});
+  // For multi-compiler, stats will be an object with a 'children' array of stats
+  let bundles = extractBundles(statsResult.toJson({ errorDetails: false }));
+  bundles.forEach(stats => {
+    if (log) {
+      log(
+        `webpack built ${stats.name ? `${stats.name} ` : ''}${stats.hash} in ${
+          stats.time
+        }ms`
+      );
+    }
+    // if (
+    //   //  !force &&
+    //   action !== 'sync' &&
+    //   stats &&
+    //   (!stats.errors || stats.errors.length === 0) &&
+    //   stats.assets &&
+    //   stats.assets.every(asset => !asset.emitted)
+    // ) {
+    //   eventStream.publish({
+    //     type: 'still-ok'
+    //   });
+    // }
+    eventStream.publish({
+      type: 'hash',
+      data: stats.hash
+    });
 
-		if (stats.errors.length > 0) {
-			eventStream.publish({
-				type: 'errors',
-				data: stats.errors
-			});
-		} else if (stats.warnings.length > 0) {
-			eventStream.publish({
-				type: 'warnings',
-				data: stats.warnings
-			});
-		} else {
-			eventStream.publish({
-				type: 'content-changed'
-			});
-		}
-	});
+    if (stats.errors.length > 0) {
+      eventStream.publish({
+        type: 'errors',
+        data: stats.errors
+      });
+    } else if (stats.warnings.length > 0) {
+      eventStream.publish({
+        type: 'warnings',
+        data: stats.warnings
+      });
+    } else {
+      eventStream.publish({
+        type: 'content-changed'
+      });
+    }
+  });
 }
 
 function extractBundles (stats) {
-	// Stats has modules, single bundle
-	if (stats.modules) {
-		return [stats];
-	}
+  // Stats has modules, single bundle
+  if (stats.modules) {
+    return [stats];
+  }
 
-	// Stats has children, multiple bundles
-	if (stats.children && stats.children.length) {
-		return stats.children;
-	}
+  // Stats has children, multiple bundles
+  if (stats.children && stats.children.length) {
+    return stats.children;
+  }
 
-	// Not sure, assume single
-	return [stats];
+  // Not sure, assume single
+  return [stats];
 }
 
 // function buildModuleMap(modules) {

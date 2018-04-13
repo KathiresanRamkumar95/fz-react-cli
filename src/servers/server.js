@@ -17,140 +17,181 @@ let { server, app: appInfo, disableContextURL } = options;
 let { host, port, locale, mode, hotReload, hasMock } = server;
 let { context } = appInfo;
 
-let contextURL = disableContextURL ? '' : `/${  context}`;
+let isCompatableHttp2 = Number(process.version.substr(1)) >= 8;
+
+let contextURL = disableContextURL ? '' : `/${context}`;
 let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
 
 app.use(express.json());
 app.use(
-	express.urlencoded({
-		extended: true
-	})
+  express.urlencoded({
+    extended: true
+  })
 );
 
 let config;
 if (mode === 'production') {
-	process.isDevelopment = true;
-	config = require('../configs/webpack.prod.config');
+  process.isDevelopment = true;
+  config = require('../configs/webpack.prod.config');
 } else if (hotReload || mode === 'development') {
-	process.isDevelopment = true;
-	config = require('../configs/webpack.dev.config');
+  process.isDevelopment = true;
+  config = require('../configs/webpack.dev.config');
 } else {
-	throw new Error('You must configure valid option in mode');
+  throw new Error('You must configure valid option in mode');
 }
 
 let compiler = webpack(config);
 let appPath = process.cwd();
 
 app.use(
-	webpackDevMiddleware(compiler, {
-		logLevel: 'error',
-		publicPath:
-			mode === 'production'
-				? contextURL === ''
-					? `${serverUrl  }/${  contextURL}`
-					: serverUrl + contextURL
-				: config.output.publicPath,
-		headers: { 'Access-Control-Allow-Origin': '*' },
-		compress: mode === 'production'
-	})
+  webpackDevMiddleware(compiler, {
+    logLevel: 'error',
+    publicPath:
+      mode === 'production'
+        ? contextURL === ''
+          ? `${serverUrl}/${contextURL}`
+          : serverUrl + contextURL
+        : config.output.publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    compress: mode === 'production'
+  })
 );
 
 if (hotReload) {
-	app.use(reactErrorOverlay());
+  app.use(reactErrorOverlay());
 }
 
 app.use(HMRMiddleware(compiler, { path: '/sockjs-node/info' }));
 
 if (hasMock) {
-	let mockServerPath = path.join(appPath, 'mockapi', 'index.js');
-	if (fs.existsSync(mockServerPath)) {
-		let mockServer = require(mockServerPath);
-		mockServer(app);
-	} else {
-		log(
-			'You must export a function from mockapi folder by only we can provide mock api feature'
-		);
-	}
+  let mockServerPath = path.join(appPath, 'mockapi', 'index.js');
+  if (fs.existsSync(mockServerPath)) {
+    let mockServer = require(mockServerPath);
+    mockServer(app);
+  } else {
+    log(
+      'You must export a function from mockapi folder by only we can provide mock api feature'
+    );
+  }
 }
 
 app
-	.use((req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		next();
-	})
-	.use(`${contextURL  }/fonts`, express.static(`${context  }/fonts`));
+  .use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  })
+  .use(`${contextURL}/fonts`, express.static(`${context}/fonts`));
 
 app.use('/wms/*', (req, res) => {
-	res.sendFile(
-		path.join(__dirname, '..', '..', 'templates', 'wms', 'index.html')
-	);
+  res.sendFile(
+    path.join(__dirname, '..', '..', 'templates', 'wms', 'index.html')
+  );
 });
 
 const httpsServer = https.createServer(
-	{
-		key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
-		cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
-		passphrase: 'zddqa1585f82'
-	},
-	app
+  {
+    key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
+    passphrase: 'zddqa1585f82'
+  },
+  app
 );
+
+if (isCompatableHttp2) {
+  const http2 = require('http2');
+  const http2Server = http2.createSecureServer({
+    key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
+    passphrase: 'zddqa1585f82'
+  });
+
+  //eslint-disable-next-line
+  http2Server.on('stream', (stream, headers) => {
+    stream.respond({
+      'content-type': 'text/html',
+      ':status': 200
+    });
+    stream.end('<h1>Hello World <br>Working with http2</h1>');
+  });
+
+  let http2Port = Number(port) + 1;
+
+  http2Server.listen(http2Port, err => {
+    if (err) {
+      throw err;
+    }
+    log(
+      `Listening at ${getServerURL('ht' + 'tps', {
+        host,
+        locale,
+        port: http2Port
+      })}${contextURL}/`
+    );
+  });
+} else {
+  log(
+    'Your node version didn\'t adopted http2 support. Kindly update that to 8 LTS or above you can engage the http2'
+  );
+}
 
 const wss = new WebSocket.Server({ server: httpsServer });
 let wsPool = [];
 
 wss.on('connection', ws => {
-	wsPool.push(ws);
+  wsPool.push(ws);
 
-	ws.on('close', () => {
-		wsPool = wsPool.filter(ws1 => ws1 !== ws);
-	});
+  ws.on('close', () => {
+    wsPool = wsPool.filter(ws1 => ws1 !== ws);
+  });
 
-	ws.on('message', message => {
-		log('received: %s', message);
-	});
+  ws.on('message', message => {
+    log('received: %s', message);
+  });
 
-	ws.send('something');
+  ws.send('something');
 });
 
 app.post('/wmsmockapi', (req, res) => {
-	wsPool.forEach(ws => {
-		let { body } = req;
-		try {
-			ws.send(JSON.stringify(body));
-		} catch (e) {
-			log(e, body);
-		}
-	});
+  wsPool.forEach(ws => {
+    let { body } = req;
+    try {
+      ws.send(JSON.stringify(body));
+    } catch (e) {
+      log(e, body);
+    }
+  });
 
-	res.send('success');
+  res.send('success');
 });
 
 if (contextURL) {
-	app.use(contextURL, express.static(context));
-	app.use(`${contextURL  }/*`, express.static(context));
+  app.use(contextURL, express.static(context));
+  app.use(`${contextURL}/*`, express.static(context));
 } else {
-	app.use(express.static(context));
-	app.use('/*', express.static(context));
+  app.use(express.static(context));
+  app.use('/*', express.static(context));
 }
 
 httpsServer.listen(port, err => {
-	if (err) {
-		throw err;
-	}
-	log(`Listening at ${  serverUrl  }${contextURL}/`);
+  if (err) {
+    throw err;
+  }
+  log(`Listening at ${serverUrl}${contextURL}/`);
 });
 
-let httpPort = Number(port) + 1;
+let httpPort = port + (isCompatableHttp2 ? 2 : 1);
 
 app.listen(httpPort, err => {
-	if (err) {
-		throw err;
-	}
-	log(
-		`Listening at ${ 
-			getServerURL('ht' + 'tp', { host, locale, port: httpPort }) 
-		}${contextURL}/`
-	);
+  if (err) {
+    throw err;
+  }
+  log(
+    `Listening at ${getServerURL('ht' + 'tp', {
+      host,
+      locale,
+      port: httpPort
+    })}${contextURL}/`
+  );
 });
