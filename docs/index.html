@@ -149,7 +149,7 @@
 			}
 			.menu {
 			    position: fixed;
-			    right: 0px;
+			    right: 150px;
 			    top: 0px;
 			    background: black;
 			    color: #cacaca;
@@ -538,6 +538,28 @@
 				display: inline-block;
 				text-decoration: none;
 			}
+			.rtlChkDis
+			{
+				position: absolute;
+			    right: 30px;
+			    top: 2px;
+			    padding: 3px 10px;
+			    background-color: #065a57;
+			    font-size: 13px;
+			    color: #fff;
+			    cursor: pointer;
+			}
+			.rtlChkSel
+			{
+				position: absolute;
+			    right: 30px;
+			    top: 2px;
+			    padding: 3px 10px;
+			    background-color: #07610a;
+			    font-size: 13px;
+			    color: #fff;
+			    cursor: pointer;
+			}
 
 	</style>
 	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Lemonada|Lora|Open+Sans+Condensed:300|PT+Sans+Narrow|Slabo+27px|Source+Sans+Pro" rel="stylesheet">
@@ -546,6 +568,8 @@
 	<title>React-Components</title>
 	</head>
 	<body>
+		<div class="rtlChkDis" onClick='onRtlView(this)' id="rtl"> Enable RTL </div>
+
 		<div class="menu">
 			<span onClick="iframeSize('mobile')">Mobile</span>
 			<span onClick="iframeSize('tab')">Tab</span>
@@ -563,6 +587,7 @@
 		<script src="/docs/js/babel.min.js"></script>
 		<script type="text/babel">
 		window.loadDOC = function(Component, mdata) {
+  window.RTLmode = false;
   var ReactDOM = Component.ReactDOM;
   var React = Component.React;
   class Doc extends React.Component {
@@ -685,7 +710,7 @@
                 type="Global"
                 components={this.filter(global, search)}
                 selectedComponent={selectedComponent}
-								isRootClickDisable={false}
+                isRootClickDisable={false}
               />
               <ComponentList
                 type="Atom"
@@ -711,7 +736,7 @@
                 type="Page"
                 components={this.filter(pages, search)}
                 selectedComponent={selectedComponent}
-								isRootClickDisable={false}
+                isRootClickDisable={false}
               />
             </div>
           </menu>
@@ -763,9 +788,7 @@
                               }
                             >
                               <span>
-                                <div>
-                                  {value}
-                                </div>
+                                <div>{value}</div>
                               </span>
                               <span>
                                 <div>
@@ -874,41 +897,39 @@
 
                 {Component[compName] &&
                 Component[compName].docs &&
-                Component[compName].docs.source
-                  ? <div
-                      className={popUp == 'src' ? 'childSelect' : 'child'}
-                      onClick={
-                        popUp == 'src'
-                          ? null
-                          : this.popupToggle.bind(this, 'src')
-                      }
-                    >
-                      <div className="cur">Doc Source</div>
-                      <span className={popUp == 'src' ? 'popUp' : 'popUpHide'}>
-                        <div
-                          className="popUpClose"
-                          onClick={this.popupToggle.bind(this, '')}
-                        >
-                          x
-                        </div>
-                        <div
-                          className="fullScreenClick"
-                          onClick={this.fullScreenSrcToggle.bind(
-                            this,
-                            'docSrcFull'
-                          )}
-                        >
-                          Full screen
-                        </div>
-                        <textarea
-                          className="srcCode"
-                          onClick={this.removeClose}
-                          value={Component[compName].docs.source}
-                          readOnly={true}
-                        />
-                      </span>
-                    </div>
-                  : null}
+                Component[compName].docs.source ? (
+                  <div
+                    className={popUp == 'src' ? 'childSelect' : 'child'}
+                    onClick={
+                      popUp == 'src' ? null : this.popupToggle.bind(this, 'src')
+                    }
+                  >
+                    <div className="cur">Doc Source</div>
+                    <span className={popUp == 'src' ? 'popUp' : 'popUpHide'}>
+                      <div
+                        className="popUpClose"
+                        onClick={this.popupToggle.bind(this, '')}
+                      >
+                        x
+                      </div>
+                      <div
+                        className="fullScreenClick"
+                        onClick={this.fullScreenSrcToggle.bind(
+                          this,
+                          'docSrcFull'
+                        )}
+                      >
+                        Full screen
+                      </div>
+                      <textarea
+                        className="srcCode"
+                        onClick={this.removeClose}
+                        value={Component[compName].docs.source}
+                        readOnly={true}
+                      />
+                    </span>
+                  </div>
+                ) : null}
 
                 <div
                   className={popUp == 'psd' ? 'childSelect' : 'child'}
@@ -931,9 +952,7 @@
                         Component[compName].docs.images.map(image => {
                           return (
                             <div className="psdDiv">
-                              <div className="psdName">
-                                {image.name}
-                              </div>
+                              <div className="psdName">{image.name}</div>
                               <img className="psd" src={image.view} />
                               <div>
                                 <a href={image.psd} target="_blank" download>
@@ -952,73 +971,68 @@
                   </span>
                 </div>
 
-                {Component[compName] && Component[compName].source
-                  ? <div
-                      className={popUp == 'comSrc' ? 'childSelect' : 'child'}
-                      onClick={
-                        popUp == 'comSrc'
-                          ? null
-                          : this.popupToggle.bind(this, 'comSrc')
-                      }
-                    >
-                      <div className="cur">Source</div>
-                      <span
-                        className={popUp == 'comSrc' ? 'popUp' : 'popUpHide'}
-                      >
-                        <div
-                          className="popUpClose"
-                          onClick={this.popupToggle.bind(this, '')}
-                        >
-                          x
-                        </div>
-                        <div
-                          className="fullScreenClick"
-                          onClick={this.fullScreenSrcToggle.bind(
-                            this,
-                            'srcFull'
-                          )}
-                        >
-                          Full screen
-                        </div>
-                        <textarea
-                          className="srcCode"
-                          onClick={this.removeClose}
-                          value={Component[compName].source}
-                          readOnly={true}
-                        />
-                      </span>
-                    </div>
-                  : null}
-              </span>
-            </div>
-
-            {fullScreenSrc == ''
-              ? null
-              : <div className="blurDiv">
+                {Component[compName] && Component[compName].source ? (
                   <div
-                    className="closeFullSrc"
-                    onClick={this.fullScreenSrcToggle.bind(this, '')}
+                    className={popUp == 'comSrc' ? 'childSelect' : 'child'}
+                    onClick={
+                      popUp == 'comSrc'
+                        ? null
+                        : this.popupToggle.bind(this, 'comSrc')
+                    }
                   >
-                    X
-                  </div>
-                  {fullScreenSrc == 'srcFull'
-                    ? <textarea
+                    <div className="cur">Source</div>
+                    <span className={popUp == 'comSrc' ? 'popUp' : 'popUpHide'}>
+                      <div
+                        className="popUpClose"
+                        onClick={this.popupToggle.bind(this, '')}
+                      >
+                        x
+                      </div>
+                      <div
+                        className="fullScreenClick"
+                        onClick={this.fullScreenSrcToggle.bind(this, 'srcFull')}
+                      >
+                        Full screen
+                      </div>
+                      <textarea
                         className="srcCode"
                         onClick={this.removeClose}
                         value={Component[compName].source}
                         readOnly={true}
                       />
-                    : null}
+                    </span>
+                  </div>
+                ) : null}
+              </span>
+            </div>
 
-                  {fullScreenSrc == 'docSrcFull'
-                    ? <textarea
-                        className="srcCode"
-                        onClick={this.removeClose}
-                        value={Component[compName].docs.source}
-                        readOnly={true}
-                      />
-                    : null}
-                </div>}
+            {fullScreenSrc == '' ? null : (
+              <div className="blurDiv">
+                <div
+                  className="closeFullSrc"
+                  onClick={this.fullScreenSrcToggle.bind(this, '')}
+                >
+                  X
+                </div>
+                {fullScreenSrc == 'srcFull' ? (
+                  <textarea
+                    className="srcCode"
+                    onClick={this.removeClose}
+                    value={Component[compName].source}
+                    readOnly={true}
+                  />
+                ) : null}
+
+                {fullScreenSrc == 'docSrcFull' ? (
+                  <textarea
+                    className="srcCode"
+                    onClick={this.removeClose}
+                    value={Component[compName].docs.source}
+                    readOnly={true}
+                  />
+                ) : null}
+              </div>
+            )}
           </container>
         </main>
       );
@@ -1048,14 +1062,10 @@
       this.setState({ toggle: !this.state.toggle });
     }
     render() {
-      const { components, type,isRootClickDisable=true } = this.props;
+      const { components, type, isRootClickDisable = true } = this.props;
       return (
         <div className={type}>
           <div className="dir" onClick={this.toggleFolder}>
-            <img
-              className="folderIcon"
-              src="http://www.clker.com/cliparts/f/7/2/7/13480026211392627789Open%20White%20Folder%20Icon.svg.hi.png"
-            />
             {type}
           </div>
           <div className={this.state.toggle ? 'folderOpen' : 'folderClose'}>
@@ -1066,26 +1076,28 @@
                   className={docsComp == -1 ? 'file' : 'fileNameDoc'}
                   key={'component' + i}
                 >
-                  {docsComp == -1 && isRootClickDisable? <div
-
-                    className={
-                      this.props.selectedComponent == '#' + component
-                        ? 'active'
-                        : ''
-                    }
-                  >
-                    {docsComp == -1 ? component : component.split('__')[1]}
-                  </div>:<a
-                    href={'#' + component}
-                    className={
-                      this.props.selectedComponent == '#' + component
-                        ? 'active'
-                        : ''
-                    }
-                  >
-                    {docsComp == -1 ? component : component.split('__')[1]}
-                  </a>
-								}
+                  {docsComp == -1 && isRootClickDisable ? (
+                    <div
+                      className={
+                        this.props.selectedComponent == '#' + component
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      {docsComp == -1 ? component : component.split('__')[1]}
+                    </div>
+                  ) : (
+                    <a
+                      href={'#' + component}
+                      className={
+                        this.props.selectedComponent == '#' + component
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      {docsComp == -1 ? component : component.split('__')[1]}
+                    </a>
+                  )}
                 </div>
               );
             })}
@@ -1162,7 +1174,7 @@
 </script>
 <script type="text/javascript">
 var html =
-  "<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
+  "<body><script src='/docs/js/vendor.js'></script><script src='/docs/js/main.js'></script><script src='/docs/js/moduleStats.js'></script> <script> parent.loadDOC(Component, mdata)  </script> </body>";
 var iframe = document.getElementById('ifm');
 var frameDoc = iframe.document;
 if (iframe.contentWindow) {
@@ -1493,6 +1505,21 @@ function iframeSize(type) {
     leftpanel.className = 'menuHideLeft';
     container.className = 'fullContainer';
     leftToggle.className = 'showToggleLeft';
+  }
+}
+
+function onRtlView(ele, e) {
+  let iframeEle = document.getElementById('componentIframe');
+  if (ele.classList.length == 1) {
+    ele.classList.add('rtlChkSel');
+    ele.innerHTML = 'Disable RTL';
+    window.RTLmode = true;
+    iframeEle.contentDocument.documentElement.setAttribute('dir', 'rtl');
+  } else {
+    ele.classList.remove('rtlChkSel');
+    ele.innerHTML = 'Enable RTL';
+    iframeEle.contentDocument.documentElement.setAttribute('dir', 'ltl');
+    window.RTLmode = false;
   }
 }
 </script>
