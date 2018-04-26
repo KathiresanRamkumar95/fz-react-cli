@@ -287,7 +287,10 @@ fz-react-cli app <appname>
 
 * sstest changes
 
-# 0.0.3-beta.108 pending
+# 0.0.3-beta.108
+  rtl changes and report publish replace issue fix
+  
+# 0.0.3-beta.109 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
