@@ -29,7 +29,7 @@ export default {
   ssServer: {
     host: hostname(),
     port: 8282,
-    seleniumHub: 'ht' + 'tp://zsupport-tech-1.tsi.zohocorpin.com:4444',
+    seleniumHub: 'ht' + 'tp://desk-react.tsi.zohocorpin.com:4444',
     remoteBranch: false,
     referBranch: 'master'
   },

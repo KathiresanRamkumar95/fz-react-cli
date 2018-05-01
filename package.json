@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.106",
+  "version": "0.0.3-beta.108",
   "description": "Command line tool for client side applications",
   "scripts": {
     "clean": "rimraf lib coverage",
@@ -41,9 +41,8 @@
     "express": "^4.13.4",
     "fbjs": "^0.8.8",
     "file-loader": "^1.1.11",
-    "fz-custom-scrollbar": "file:../fz-custom-scrollbar",
     "fz-i18n": "1.2.0-beta.12",
-    "fz-layout": "^1.0.0-beta.7",
+    "fz-layout": "^1.0.0-beta.8",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
     "fz-screenshot-test": "1.0.0-beta.17",

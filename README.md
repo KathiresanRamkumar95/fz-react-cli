@@ -283,7 +283,19 @@ fz-react-cli app <appname>
 
 * fz-i18n pattern issue fix
 
-# 0.0.3-beta.106 pending
+# 0.0.3-beta.107
+
+* sstest changes
+
+# 0.0.3-beta.108
+
+rtl changes and report publish replace issue fix
+
+# 0.0.3-beta.109
+
+es6 modules support and webpack4 move
+
+# 0.0.3-beta.110 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash

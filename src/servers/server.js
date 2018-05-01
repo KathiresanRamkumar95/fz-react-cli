@@ -99,42 +99,42 @@ const httpsServer = https.createServer(
   app
 );
 
-if (isCompatableHttp2) {
-  const http2 = require('http2');
-  const http2Server = http2.createSecureServer({
-    key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
-    passphrase: 'zddqa1585f82'
-  });
+// if (isCompatableHttp2) {
+//   const http2 = require('http2');
+//   const http2Server = http2.createSecureServer({
+//     key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
+//     cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
+//     passphrase: 'zddqa1585f82'
+//   });
+//
+//   //eslint-disable-next-line
+//   http2Server.on('stream', (stream, headers) => {
+//     stream.respond({
+//       'content-type': 'text/html',
+//       ':status': 200
+//     });
+//     stream.end('<h1>Hello World <br>Working with http2</h1>');
+//   });
 
-  //eslint-disable-next-line
-  http2Server.on('stream', (stream, headers) => {
-    stream.respond({
-      'content-type': 'text/html',
-      ':status': 200
-    });
-    stream.end('<h1>Hello World <br>Working with http2</h1>');
-  });
-
-  let http2Port = Number(port) + 1;
-
-  http2Server.listen(http2Port, err => {
-    if (err) {
-      throw err;
-    }
-    log(
-      `Listening at ${getServerURL('ht' + 'tps', {
-        host,
-        locale,
-        port: http2Port
-      })}${contextURL}/`
-    );
-  });
-} else {
-  log(
-    'Your node version didn\'t adopted http2 support. Kindly update that to 8 LTS or above you can engage the http2'
-  );
-}
+//   let http2Port = Number(port) + 1;
+//
+//   http2Server.listen(http2Port, err => {
+//     if (err) {
+//       throw err;
+//     }
+//     log(
+//       `Listening at ${getServerURL('ht' + 'tps', {
+//         host,
+//         locale,
+//         port: http2Port
+//       })}${contextURL}/`
+//     );
+//   });
+// } else {
+//   log(
+//     'Your node version didn\'t adopted http2 support. Kindly update that to 8 LTS or above you can engage the http2'
+//   );
+// }
 
 const wss = new WebSocket.Server({ server: httpsServer });
 let wsPool = [];
@@ -181,7 +181,7 @@ httpsServer.listen(port, err => {
   log(`Listening at ${serverUrl}${contextURL}/`);
 });
 
-let httpPort = port + (isCompatableHttp2 ? 2 : 1);
+let httpPort = Number(port) + (isCompatableHttp2 ? 2 : 1);
 
 app.listen(httpPort, err => {
   if (err) {

@@ -6,7 +6,8 @@ import { getDocsPlugins } from '../pluginUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { docsServer, cssUniqueness, componentFolder } = options;
+let { docsServer, cssUniqueness, componentFolder, app } = options;
+let { folder } = app;
 let appPath = process.cwd();
 let serverUrl = getServerURL('htt' + 'ps', docsServer);
 
@@ -54,7 +55,7 @@ module.exports = {
             }
           }
         ],
-        include: path.join(appPath, componentFolder)
+        include: path.join(appPath, folder)
       },
       {
         test: /\.docs\.js$/,

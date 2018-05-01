@@ -14,6 +14,17 @@ let args = process.argv.slice(2).filter(arg => {
     return !!arg;
   }
 });
+let go = n => {
+  if (n >= args.length) {
+    return;
+  }
+  rimraf(args[n], er => {
+    if (er) {
+      throw er;
+    }
+    go(n + 1);
+  });
+};
 
 if (help || args.length === 0) {
   // If they didn't ask for help, then this is not a "success"
@@ -30,15 +41,3 @@ if (help || args.length === 0) {
 } else {
   go(0);
 }
-
-let go = n => {
-  if (n >= args.length) {
-    return;
-  }
-  rimraf(args[n], er => {
-    if (er) {
-      throw er;
-    }
-    go(n + 1);
-  });
-};

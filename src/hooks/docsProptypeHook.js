@@ -16,4 +16,4 @@ PropTypes.object.isRequired.hookType = 'object';
 PropTypes.string.isRequired.hookType = 'string';
 PropTypes.symbol.isRequired.hookType = 'symbol';
 
-module.exports = PropTypes;
+export default PropTypes;

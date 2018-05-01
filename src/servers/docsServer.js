@@ -38,8 +38,14 @@ app.use(
 );
 
 app.use(require('webpack-hot-middleware')(compiler));
-
-app.use('/docs', express.static(path.join(appPath, 'docs')));
+app.use(
+  '/docs/external',
+  express.static(path.join(appPath, 'docs', 'external'))
+);
+app.use(
+  '/docs',
+  express.static(path.join(__dirname, '..', '..', 'templates', 'docs'))
+);
 
 app.use('/docs/*', (req, res) => {
   res.sendFile(
@@ -72,7 +78,7 @@ httpsServer.listen(port, err => {
   if (err) {
     throw err;
   }
-  log(`Listening at ${  serverUrl}`);
+  log(`Listening at ${serverUrl}/docs/`);
 });
 
 let httpPort = Number(port) + 1;
@@ -82,8 +88,10 @@ app.listen(httpPort, err => {
     throw err;
   }
   log(
-    `Listening at ${ 
-      getServerURL('ht' + 'tp', { host, locale, port: httpPort }) 
-    }/docs/`
+    `Listening at ${getServerURL('ht' + 'tp', {
+      host,
+      locale,
+      port: httpPort
+    })}/docs/`
   );
 });

@@ -5,7 +5,7 @@ class ModuleStatsPlugin {
   }
 
   apply (compiler) {
-    compiler.hooks.emit.tap('ModuleStatsPlugin', (compilation, callback) => {
+    compiler.hooks.emit.tap('ModuleStatsPlugin', compilation => {
       let stats = compilation.getStats().toJson();
 
       let { modules } = stats;
@@ -25,8 +25,8 @@ class ModuleStatsPlugin {
         moduleName = modules[i].name;
         if (
           moduleName.startsWith('./src') &&
-					!(moduleName.indexOf('index.js') > -1) &&
-					!moduleName.endsWith('css')
+          !(moduleName.indexOf('index.js') > -1) &&
+          !moduleName.endsWith('css')
         ) {
           rModuleName = moduleName.substring(
             moduleName.lastIndexOf('/') + 1,
@@ -69,12 +69,12 @@ class ModuleStatsPlugin {
               for (let reason in modules[module].reasons) {
                 if (
                   moduleName === modules[module].reasons[reason].moduleName &&
-									!(modules[module].name.indexOf('css') > -1)
+                  !(modules[module].name.indexOf('css') > -1)
                 ) {
                   if (
                     !modules[module].name.endsWith('react.js') &&
-										!(modules[module].name.indexOf('react-dom') > -1) &&
-										!modules[module].name.endsWith('.png')
+                    !(modules[module].name.indexOf('react-dom') > -1) &&
+                    !modules[module].name.endsWith('.png')
                   ) {
                     references = modules[module].name;
                     rReferencesArray.push(
@@ -126,7 +126,6 @@ class ModuleStatsPlugin {
           return mResult.length;
         }
       };
-      callback();
     });
   }
 }
