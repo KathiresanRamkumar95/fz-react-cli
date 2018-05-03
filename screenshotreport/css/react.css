@@ -1,6 +1,7 @@
 body {
-  font-family: Comic sans MS;
+  font-family: Verdana;
   margin: 0;
+  overflow: hidden;
 }
 
 .w100 {
@@ -8,19 +9,21 @@ body {
 }
 
 .header {
-  height: 65px;
-  background-color: #00bfff;
+  height: 55px;
+  background-color: #000;
   box-sizing: border-box;
   color: #fff;
   float: left;
   text-align: center;
   padding-top: 15px;
+  width: 100%;
 }
 
 .mC {
   overflow: auto;
-  width: 24%;
+  width: 20%;
   float: left;
+  height: 100%;
   box-sizing: border-box;
   position: relative;
   background-color: #f8f8ff;
@@ -29,11 +32,18 @@ body {
 .mcC {
   padding: 15px;
   cursor: pointer;
+  font-size: 13px;
+  word-wrap: normal;
+  max-width: 90%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .iC {
-  width: 75%;
+  width: 80%;
+  height: 100%; 
   float: right;
+  overflow: auto;
 }
 
 .fl {
@@ -44,18 +54,14 @@ body {
   float: right;
 }
 
-.mcCsel {
-  background-color: #00bfff;
-  color: #fff;
-}
+
 
 .ComponentC {
   width: 100%;
 }
 
 .mcCheight {
-  height: calc(100vh - 65px);
-  overflow: auto;
+  height: calc(100vh - 50px);
 }
 
 .ImageC {
@@ -72,12 +78,12 @@ body {
 
 .componentT {
   background-color: #f8f8ff;
-  color: #ff6347;
   height: 35px;
   text-align: center;
   box-sizing: border-box;
   padding-top: 5px;
   font-weight: bold;
+  font-size: 12px;
 }
 
 .ImageC img, .diffI img {
@@ -179,9 +185,14 @@ body {
 .refer {
   padding: 5px;
   box-shadow: 0px 0px 2px #888888;
-  overflow-y: scroll;
-  height: 200px;
-  margin: 1px 10px;
+  right: 0px;
+  width: 65%;
+  float: right;
+  top: 55px;
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #fff;
+  z-index: 100;
 }
 .ul_span {
   height: 100%;
@@ -196,9 +207,47 @@ h5 {
 .brws_list
 {
   display: inline-block;
-  width: 42.5%;
+  width: 100%;
   padding: 10px;
   margin: auto;
   cursor: pointer;
-  border: 1px solid #00bfff;
+  box-sizing: border-box;
 }      
+
+.mcC:hover ,.mcCsel{
+  list-style: none;
+  background-color: #383a3a;
+  color: #fff;
+}
+
+#Atom div, #Molecule div, #Organism div, #Page div, #Global div
+{
+  padding:5px;
+  font-size: 13px;
+}
+
+.freezer {
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    position: fixed;
+    margin-left: 0;
+    margin-top: 0;
+    left: 0;
+    top: 50px;
+    opacity: .7;
+    background-color: #000;
+}
+.info{
+  background-image: url("../images/information.png");
+  height: 55px;
+  width: 25px;
+  float: right;
+  position: absolute;
+  background-position: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  right: 10px;
+  top: 0px;
+  cursor: pointer;
+}

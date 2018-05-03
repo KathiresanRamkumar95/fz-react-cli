@@ -288,12 +288,18 @@ fz-react-cli app <appname>
 * sstest changes
 
 # 0.0.3-beta.108
-  rtl changes and report publish replace issue fix
+
+rtl changes and report publish replace issue fix
 
 # 0.0.3-beta.109
+
 * docs iframe string create issue fix
 
 # 0.0.3-beta.110
+
+* sstest ui changes and issue fixed
+
+# 0.0.3-beta.111
 
 * clone repo option i18n pending
 * webpack-md5-hash

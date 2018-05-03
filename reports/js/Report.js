@@ -1,22 +1,6 @@
 $(document).ready(function() {
   var This;
 
-  // var fileObj ={
-  //     diff : ['desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png','desk3.png'],
-  //     test :['desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png','desk2.png'],
-  //     reference :['desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png','desk1.png']
-  // }
-
-  var div = '';
-
-  for (var i = fileObj.diff.length - 1; i >= 0; i--) {
-    var content =
-      '<li class="image_li"><span class="glyphicon glyphicon-chevron-down arrow"> </span><span>' +
-      fileObj.diff[i].split('.')[0] +
-      '</span> </li>';
-    div += content;
-  }
-
   $('#line1').addClass('line1');
   $('#line3').addClass('line3');
   $(window).scroll(function() {

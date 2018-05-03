@@ -1,4 +1,3 @@
-/* Index.html*/
 <!DOCTYPE html>
 <html>
 	<head>
@@ -7,20 +6,18 @@
 		<script src="./js/react.js"></script>
 		<script src="./detail.js"></script>
 		<script src="./mData.js"></script>
-
 	</head>
 	<body onload="changeImage('Chrome')">
-		<div class="w100 header"> Screenshot testing</div>
-		<div class="mC mcCheight" >
+		<div class="freezer" id="freezer" style="display: none;"></div>
+			<div  class="header"> Screenshot testing<i class="info" onclick="info(1)"></i></div>
+		<div class="mcCheight">
+		<div class="mC" >
 		<div>
 			<div id="browser" class="brws_list" onclick="selBrowser('chrome')">Chrome</div>
-			<div id="browser" class="brws_list" onclick="selBrowser('firefox')">FireFox</div>
-			<div id="browser" class="brws_list" onclick="selBrowser('internet explorer')">Internet Explorer</div>
-			<div id="browser" class="brws_list" onclick="selBrowser('safari')">Safari</div>
 		</div>
 		<div id="list"> </div>
 		</div>
-		<div class="iC mcCheight">
+		<div class="iC">
 			<div  class="fl ComponentC">
 
 				<div class="diffComp">
@@ -45,9 +42,9 @@
 					<img id="diff">
 				</div>
 			</div>
-			<span class="refer span">
+			<div class="refer span mcCheight" id="refer" style="display: none;" >
 
-					<h1>Used in :- </h1>
+					<h3>Used in :- </h3>
 					<div id="message"></div>
 					<div id="clear">
 						<h5>Pages :</h5>
@@ -63,7 +60,8 @@
 						<h5>Template :</h5>
 						<div id="Template"></div>
 					</div>
-				</span>
+				</div>
+		</div>
 		</div>
 
 		<div id="productImgContainer" class="popupBgLayer p0 hide" style="transform: scale(1); opacity: 1;">

@@ -192,6 +192,15 @@ var referenceMode = function referenceMode() {
         'cp',
         [
           '-r',
+          path.join(__dirname, '..', '..', 'screenshotreport', 'images'),
+          path.join(appPath, 'screenShots')
+        ],
+        { stdio: 'inherit' }
+      );
+      var result = spawn.sync(
+        'cp',
+        [
+          '-r',
           path.join(__dirname, '..', '..', 'screenshotreport', 'index.html'),
           path.join(appPath, 'screenShots')
         ],

@@ -1,5 +1,3 @@
-//react.js
-
 var browser = 'chrome';
 
 var selBrowser = function(getBrowser) {
@@ -68,3 +66,28 @@ function changeImage() {
     document.getElementById('empty').style.display = 'block';
   }
 }
+
+function info(toggle) {
+  var freezer = document.getElementById('freezer');
+  if (freezer.style.display == 'block') {
+    document.getElementById('freezer').style.display = 'none';
+    document.getElementById('refer').style.display = 'none';
+  } else {
+    document.getElementById('freezer').style.display = 'block';
+    document.getElementById('refer').style.display = 'block';
+  }
+}
+
+document.onkeydown = function(evt) {
+  evt = evt || window.event;
+  var isEscape = false;
+  if ('key' in evt) {
+    isEscape = evt.key == 'Escape' || evt.key == 'Esc';
+  } else {
+    isEscape = evt.keyCode == 27;
+  }
+  if (isEscape) {
+    document.getElementById('freezer').style.display = 'none';
+    document.getElementById('refer').style.display = 'none';
+  }
+};
