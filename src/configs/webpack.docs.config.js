@@ -15,7 +15,10 @@ let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 
 module.exports = {
   entry: {
-    main: path.join(appPath, componentFolder, 'index.js'),
+    main: [
+      path.resolve(__dirname, '..', 'hooks', 'docsProptypeHook.js'),
+      path.join(appPath, componentFolder, 'index.js')
+    ],
     vendor: ['react', 'react-dom', 'redux', 'react-redux']
   },
   devtool: 'eval',
@@ -105,14 +108,7 @@ module.exports = {
     ZC: '$ZC'
   },
   resolve: {
-    alias: Object.assign(getAlias(options), {
-      'prop-types$': path.resolve(
-        __dirname,
-        '..',
-        'hooks',
-        'docsProptypeHook.js'
-      )
-    }),
+    alias: getAlias(options),
     modules: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'

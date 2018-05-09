@@ -88,14 +88,11 @@ case 'gitclone':
   break;
 case 'hgclone':
   args[args.length - 1] = path.join(appPath, args[args.length - 1]);
-  console.log(args)
   result = spawnSync(
     'node',
     [require.resolve('../lib/utils/clean'), args[args.length - 1]],
     { encoding: 'utf-8' }
   );
-  console.log(result.output);
-  process.exit(result.status);
   result = spawnSync('hg', ['clone'].concat(args), {
     stdio: 'inherit'
   });
