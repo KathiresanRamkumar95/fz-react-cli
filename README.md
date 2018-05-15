@@ -303,7 +303,11 @@ rtl changes and report publish replace issue fix
 
 * css umd build changes && file-loader parseQuery => getOptions deprecated
 
-# 0.0.3-beta.112 pending
+# 0.0.3-beta.112
+
+* rollback to parseQuery need to update all loaders and webpack. will take it later
+
+# 0.0.3-beta.113 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
@@ -325,3 +329,4 @@ rtl changes and report publish replace issue fix
 * Prettier feature - for consistent align project
 * codemod feature - helpful for migrating code new version
 * lint for js and css
+* parseQuery => getOptions
