@@ -301,6 +301,10 @@ rtl changes and report publish replace issue fix
 
 # 0.0.3-beta.111
 
+* css umd build changes && file-loader parseQuery => getOptions deprecated
+
+# 0.0.3-beta.112 pending
+
 * clone repo option i18n pending
 * webpack-md5-hash
 * server side rendering
