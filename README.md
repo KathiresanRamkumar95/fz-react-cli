@@ -307,7 +307,12 @@ rtl changes and report publish replace issue fix
 
 * rollback to parseQuery need to update all loaders and webpack. will take it later
 
-# 0.0.3-beta.113 pending
+# 0.0.3-beta.113
+
+* internal docs changes with custom group name
+* css build public path changes
+
+# 0.0.3-beta.114 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
