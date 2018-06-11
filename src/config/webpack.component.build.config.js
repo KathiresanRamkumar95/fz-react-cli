@@ -9,6 +9,7 @@ console.log(process.env.npm_package_umdVar);
 var runHtml = process.env.npm_config_run_html || false;
 var folder = process.env.npm_config_output_folder || 'build';
 var watchMode = process.env.npm_config_watch_mode || false;
+var isDocs = process.env.npm_config_is_docs || false;
 var cssUnique = process.env.npm_config_css_unique == '' ? false : true;
 var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var preact = process.env.npm_config_preact_switch || false;
@@ -18,6 +19,11 @@ if (preact) {
   alias['react-dom'] = 'preact-compat';
 }
 var appPath = fs.realpathSync(process.cwd());
+var publicPath =
+  (process.env.npm_config_public_path ||
+    '//js.zohostatic.com/support/zohodeskcomponent' +
+      '@' +
+      process.env.npm_package_version) + '/dist/';
 module.exports = {
   watch: watchMode === 'true',
   entry: {
@@ -35,7 +41,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __TEST__: false,
       __DEVELOPMENT__: false,
-      __DOCS__: false,
+      __DOCS__: isDocs ? true : false,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       },
@@ -88,6 +94,13 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader?modules&localIdentName=' + className]
       },
+      isDocs
+        ? {
+            test: /\.docs\.jsx$|\.docs\.js$/,
+            use: require.resolve('../docsLoader.js'),
+            exclude: /node_modules/
+          }
+        : {},
       {
         test: /\.jpe?g$|\.gif$|\.png$/,
         use: ['url-loader?limit=10000&name=./images/[name].[ext]']

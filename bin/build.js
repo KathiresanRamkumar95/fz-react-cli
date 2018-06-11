@@ -291,6 +291,6 @@ switch (script) {
     console.log('fz-react-cli build:library:es');
     console.log('fz-react-cli gitclone <last argument clone folder>');
     console.log('fz-react-cli hgclone <last argument clone folder>');
-
+    process.exit(0);
     break;
 }

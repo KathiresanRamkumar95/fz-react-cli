@@ -12,7 +12,7 @@ var className = cssUnique ? 'fz__[hash:base64:5]' : '[name]__[local]';
 var preact = process.env.npm_config_preact_switch || false;
 
 var publicPath =
-  (process.env.npm_config__public_path ||
+  (process.env.npm_config_public_path ||
     '//js.zohostatic.com/support/zohodeskcomponent' +
       '@' +
       process.env.npm_package_version) + '/dist/';

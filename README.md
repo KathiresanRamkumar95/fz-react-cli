@@ -312,7 +312,11 @@ rtl changes and report publish replace issue fix
 * internal docs changes with custom group name
 * css build public path changes
 
-# 0.0.3-beta.114 pending
+# 0.0.3-beta.114
+
+* external docs changes
+
+# 0.0.3-beta.115 pending
 
 * clone repo option i18n pending
 * webpack-md5-hash
