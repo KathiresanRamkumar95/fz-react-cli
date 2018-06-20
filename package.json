@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.114",
+  "version": "0.0.3-beta.115",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -109,7 +109,10 @@
     "fz-react-cli": "bin/build.js"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "serverconfig": {
     "host": "localhost",

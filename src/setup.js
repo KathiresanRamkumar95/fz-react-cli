@@ -54,7 +54,7 @@ window.XMLHttpRequest = function() {
 TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
   let componentList = TestUtils.findAllInRenderedTree(dom, function(i, j) {
     if (TestUtils.isDOMComponent(i)) {
-      var val = i.getAttribute('data-testid');
+      var val = i.getAttribute('data-id');
       if (typeof val != 'undefined' && val == name) {
         return true;
       }
@@ -71,7 +71,7 @@ TestUtils.findRenderedComponentsWithTestid = function(dom, name) {
       'Did not find exactly one match (found: ' +
         list.length +
         ') ' +
-        'for data-testid:' +
+        'for data-id:' +
         name
     );
   }
@@ -136,7 +136,15 @@ function higherComponent(ActualComponent, context) {
     return ActualComponent;
   }
 }
-
+global.window.matchMedia =
+  window.matchMedia ||
+  function() {
+    return {
+      matches: false,
+      addListener: function() {},
+      removeListener: function() {}
+    };
+  };
 global.renderHTML = function(comp) {
   let a = ReactDOM.findDOMNode(comp);
   console.log(a.innerHTML);
