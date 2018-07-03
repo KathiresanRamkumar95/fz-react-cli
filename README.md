@@ -325,7 +325,12 @@ rtl changes and report publish replace issue fix
 
 - sstest changes and report folder move to outside server
 
-# 0.0.3-beta.117 pending
+# 0.0.3-beta.117
+
+- redux-router-middleware reject support. you can cancel your current url change
+- docs - lib to src pointing docs loader changes
+
+# 0.0.3-beta.118 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
