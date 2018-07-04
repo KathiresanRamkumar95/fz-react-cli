@@ -13,6 +13,31 @@ var mig = process.env.npm_config_react_mig || false;
 var preact = process.env.npm_config_preact_switch || false;
 var widgetEnable = process.env.npm_config_widget_enable || false;
 var isDisableContextURL = process.env.npm_config_disable_contexturl || false;
+var useInsertInto = process.env.npm_config_use_insertInto || false;
+var useInsertAt = process.env.npm_config_use_insertAt || false;
+
+if (useInsertInto && useInsertAt) {
+  throw new Error(
+    `You can't use style loader's insertInto and insertAt at a same time; Please refer this PR to get more info - https://github.com/webpack-contrib/style-loader/pull/325`
+  );
+}
+
+var styleLoaderOption = {};
+
+if (useInsertInto) {
+  styleLoaderOption.insertInto = () => {
+    if (window.styleTarget) {
+      let element = document.getElementById(window.styleTarget);
+      return element.shadowRoot ? element.shadowRoot : element;
+    }
+    return document.head;
+  };
+} else if (useInsertAt) {
+  var getInsertAt = require('../utils/getInsertAt');
+  var insertAt = getInsertAt();
+  styleLoaderOption.insertAt = insertAt;
+}
+
 var contextURL = context;
 if (isDisableContextURL) {
   contextURL = '';
@@ -119,15 +144,7 @@ module.exports = {
         use: [
           {
             loader: 'style-loader',
-            options: {
-              insertInto: () => {
-                if (window.styleTarget) {
-                  let element = document.getElementById(window.styleTarget);
-                  return element.shadowRoot ? element.shadowRoot : element;
-                }
-                return document.head;
-              }
-            }
+            options: styleLoaderOption
           },
           {
             loader: 'css-loader',

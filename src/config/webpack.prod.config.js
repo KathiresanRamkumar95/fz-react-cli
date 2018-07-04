@@ -10,6 +10,31 @@ var jsSubdomain = process.env.npm_config_jsserver_subdomain || 'js';
 var imgSubdomain = process.env.npm_config_imgserver_subdomain || 'images';
 var fontSubdomain = process.env.npm_config_fontserver_subdomain || 'fonts';
 
+var useInsertInto = process.env.npm_config_use_insertInto || false;
+var useInsertAt = process.env.npm_config_use_insertAt || false;
+
+if (useInsertInto && useInsertAt) {
+  throw new Error(
+    `You can't use style loader's insertInto and insertAt at a same time; Please refer this PR to get more info - https://github.com/webpack-contrib/style-loader/pull/325`
+  );
+}
+
+var styleLoaderOption = {};
+
+if (useInsertInto) {
+  styleLoaderOption.insertInto = () => {
+    if (window.styleTarget) {
+      let element = document.getElementById(window.styleTarget);
+      return element.shadowRoot ? element.shadowRoot : element;
+    }
+    return document.head;
+  };
+} else if (useInsertAt) {
+  var getInsertAt = require('../utils/getInsertAt');
+  var insertAt = getInsertAt();
+  styleLoaderOption.insertAt = insertAt;
+}
+
 // if (jsSubdomain != '.') {
 //   jsSubdomain = jsSubdomain + '.';
 // } else {
@@ -39,252 +64,218 @@ var preact = process.env.npm_config_preact_switch || false;
 var alias = {};
 
 if (preact) {
-	alias.react = 'preact-compat';
-	alias['react-dom'] = 'preact-compat';
+  alias.react = 'preact-compat';
+  alias['react-dom'] = 'preact-compat';
 }
 
 var isVendor = function isVendor(_ref) {
-	var userRequest = _ref.userRequest;
+  var userRequest = _ref.userRequest;
 
-	return (
-		userRequest &&
-		userRequest.indexOf('node_modules') >= 0 &&
-		userRequest.indexOf('.css') == -1 &&
-		userRequest.indexOf('publicPathConfig.js') == -1
-	);
+  return (
+    userRequest &&
+    userRequest.indexOf('node_modules') >= 0 &&
+    userRequest.indexOf('.css') == -1 &&
+    userRequest.indexOf('publicPathConfig.js') == -1
+  );
 };
 var isReact = function isReact(_ref) {
-	var userRequest = _ref.userRequest;
-	return (
-		userRequest &&
-		userRequest.indexOf('node_modules' + path.sep + 'react') >= 0
-	);
+  var userRequest = _ref.userRequest;
+  return (
+    userRequest && userRequest.indexOf('node_modules' + path.sep + 'react') >= 0
+  );
 };
 var entry = {
-	main: [
-		require.resolve('../publicPathConfig.js') +
-			'?jsSubdomain=' +
-			jsSubdomain,
-		path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
-	]
+  main: [
+    require.resolve('../publicPathConfig.js') + '?jsSubdomain=' + jsSubdomain,
+    path.join(appPath, appFolder, mig ? 'migration.js' : 'index.js')
+  ]
 };
 if (widgetEnable) {
-	entry.widget = [
-		require.resolve('../publicPathConfig.js') +
-			'?jsSubdomain=' +
-			jsSubdomain,
-		path.join(appPath, appFolder, 'widget.js')
-	];
+  entry.widget = [
+    require.resolve('../publicPathConfig.js') + '?jsSubdomain=' + jsSubdomain,
+    path.join(appPath, appFolder, 'widget.js')
+  ];
 }
 module.exports = {
-	entry: entry,
-	devtool: 'hidden-source-map',
-	output: {
-		path: path.resolve(appPath, folder),
-		filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-		chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-		jsonpFunction: 'jsonp' + context,
-		sourceMapFilename: 'smap/[name].map'
-	},
-	plugins: [
-		new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),
-		new CaseSensitivePathsPlugin(),
-		new webpack.optimize.ModuleConcatenationPlugin(),
-		/*new i18nPlugin({
+  entry: entry,
+  devtool: 'hidden-source-map',
+  output: {
+    path: path.resolve(appPath, folder),
+    filename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+    chunkFilename: hash ? 'js/[name].[chunkhash].js' : 'js/[name].js',
+    jsonpFunction: 'jsonp' + context,
+    sourceMapFilename: 'smap/[name].map'
+  },
+  plugins: [
+    new RuntimePublicPath({ runtimePublicPath: 'publicPath(chunkId)' }),
+    new CaseSensitivePathsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    /*new i18nPlugin({
             appPath: appPath,
             context: context
         }),*/
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vendor',
-			chunks: ['main'],
-			minChunks: isVendor
-		}),
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'react.vendor',
-			chunks: ['vendor'],
-			minChunks: isReact
-		}),
-		new webpack.DefinePlugin({
-			__TEST__: false,
-			__DEVELOPMENT__: false,
-			__DOCS__: false,
-			'process.env': {
-				NODE_ENV: JSON.stringify('production')
-			},
-			__SERVER__: false
-		}),
-		new webpack.optimize.UglifyJsPlugin({
-			compressor: {
-				warnings: false
-			},
-			sourceMap: true
-		})
-	],
-	module: {
-		rules: [
-			{
-				include: /\.json$/,
-				use: ['json-loader']
-			},
-			{
-				test: /\.jsx|\.js$/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: [
-								[
-									require.resolve('babel-preset-es2015'),
-									{ modules: false }
-								],
-								require.resolve('babel-preset-react')
-							],
-							plugins: [
-								require.resolve('../removeProperties'),
-								[
-									require.resolve(
-										'babel-plugin-transform-runtime'
-									),
-									{
-										helpers: true,
-										polyfill: true,
-										regenerator: false,
-										moduleName: 'babel-runtime'
-									}
-								]
-							],
-							cacheDirectory: true
-						}
-					} /*,
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      chunks: ['main'],
+      minChunks: isVendor
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'react.vendor',
+      chunks: ['vendor'],
+      minChunks: isReact
+    }),
+    new webpack.DefinePlugin({
+      __TEST__: false,
+      __DEVELOPMENT__: false,
+      __DOCS__: false,
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      },
+      __SERVER__: false
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      },
+      sourceMap: true
+    })
+  ],
+  module: {
+    rules: [
+      {
+        include: /\.json$/,
+        use: ['json-loader']
+      },
+      {
+        test: /\.jsx|\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [require.resolve('babel-preset-es2015'), { modules: false }],
+                require.resolve('babel-preset-react')
+              ],
+              plugins: [
+                require.resolve('../removeProperties'),
+                [
+                  require.resolve('babel-plugin-transform-runtime'),
+                  {
+                    helpers: true,
+                    polyfill: true,
+                    regenerator: false,
+                    moduleName: 'babel-runtime'
+                  }
+                ]
+              ],
+              cacheDirectory: true
+            }
+          } /*,
                     {
                         loader: require.resolve('../i18nFilterLoader.js')
                     }*/
-				],
-				include: path.join(appPath, appFolder)
-			},
-			{
-				test: /\.css$/,
-				use: [
-					{
-						loader: 'style-loader',
-						options: {
-							insertInto: () => {
-                                if (window.styleTarget) {
-									let element = document.getElementById(
-										window.styleTarget
-									);
-									return element.shadowRoot
-										? element.shadowRoot
-										: element;
-								}
-								return document.head;
-							}
-						}
-					},
-					{
-						loader: 'css-loader',
-						options: {
-							modules: true,
-							localIdentName: `${className}`,
-							minimize: true
-						}
-					}
-				]
-			},
-			{
-				test: /\.jpe?g$|\.gif$|\.png$/,
-				use: [
-					{
-						loader: 'url-loader',
-						options: {
-							limit: 1000,
-							name: hash
-								? './images/[name].[hash].[ext]'
-								: './images/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									imgSubdomain
-								)}] + ${JSON.stringify(url)}`;
-							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'fileLoader.js'
-							),
-							publicPathStringify: false
-						}
-					}
-				]
-			},
-			{
-				test: /\.woff2|\.woff$|\.ttf$|\.eot$/,
-				use: [
-					{
-						loader: 'url-loader',
-						options: {
-							limit: 1000,
-							name: hash
-								? './fonts/[name].[hash].[ext]'
-								: './fonts/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									fontSubdomain
-								)}] + ${JSON.stringify(url)}`;
-							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'fileLoader.js'
-							),
-							publicPathStringify: false
-						}
-					}
-				]
-			},
-			{
-				test: /\.svg$/,
-				use: [
-					{
-						loader: 'url-loader',
-						options: {
-							limit: 1,
-							name: hash
-								? './fonts/[name].[hash].[ext]'
-								: './fonts/[name].[ext]',
-							publicPath: url => {
-								return `staticDomain[${JSON.stringify(
-									fontSubdomain
-								)}] + ${JSON.stringify(url)}`;
-							},
-							fallback: path.resolve(
-								__dirname,
-								'..',
-								'fileLoader.js'
-							),
-							publicPathStringify: false
-						}
-					}
-				]
-			}
-		]
-	},
-	externals: {
-		ZC: '$ZC'
-	},
-	resolve: {
-		alias: alias,
-		modules: [
-			path.resolve(__dirname, '..', '..', 'node_modules'),
-			'node_modules'
-		]
-	},
-	resolveLoader: {
-		modules: [
-			path.resolve(__dirname, '..', '..', 'node_modules'),
-			'node_modules'
-		]
-	}
+        ],
+        include: path.join(appPath, appFolder)
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: styleLoaderOption
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: `${className}`,
+              minimize: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: hash
+                ? './images/[name].[hash].[ext]'
+                : './images/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  imgSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
+        ]
+      },
+      {
+        test: /\.woff2|\.woff$|\.ttf$|\.eot$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: hash
+                ? './fonts/[name].[hash].[ext]'
+                : './fonts/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  fontSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
+        ]
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1,
+              name: hash
+                ? './fonts/[name].[hash].[ext]'
+                : './fonts/[name].[ext]',
+              publicPath: url => {
+                return `staticDomain[${JSON.stringify(
+                  fontSubdomain
+                )}] + ${JSON.stringify(url)}`;
+              },
+              fallback: path.resolve(__dirname, '..', 'fileLoader.js'),
+              publicPathStringify: false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  externals: {
+    ZC: '$ZC'
+  },
+  resolve: {
+    alias: alias,
+    modules: [
+      path.resolve(__dirname, '..', '..', 'node_modules'),
+      'node_modules'
+    ]
+  },
+  resolveLoader: {
+    modules: [
+      path.resolve(__dirname, '..', '..', 'node_modules'),
+      'node_modules'
+    ]
+  }
 };
 
 /*
