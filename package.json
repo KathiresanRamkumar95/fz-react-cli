@@ -1,12 +1,12 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.117",
-  "description": "",
+  "version": "0.0.3-beta.118",
+  "description": "A CLI tool for build modern web application and libraries",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib coverage",
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "build": "npm run build:commonjs",
+    "start": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --watch",
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "prepublish": "npm run clean && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -45,7 +45,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
-    "fz-i18n": "1.2.0-beta.12",
+    "fz-i18n": "1.2.0-beta.13",
     "fz-layout": "^1.0.0-beta.7",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
