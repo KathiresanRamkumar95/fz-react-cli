@@ -330,7 +330,12 @@ rtl changes and report publish replace issue fix
 - redux-router-middleware reject support. you can cancel your current url change
 - docs - lib to src pointing docs loader changes
 
-# 0.0.3-beta.118 pending
+# 0.0.3-beta.118
+
+- insertat and insertinto style-loader changes
+- fz-i18n issue fix
+
+# 0.0.3-beta.119 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
