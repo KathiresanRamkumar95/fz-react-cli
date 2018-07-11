@@ -1,5 +1,7 @@
+//sserver.js
 /*eslint no-console: "error"*/
 'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
@@ -26,9 +28,9 @@ var host = process.env.npm_config_server_host || getIP();
 var port = process.env.npm_config_server_port || '9292';
 var seleniumHub =
   process.env.npm_config_selenium_hub ||
-  'htt' + 'p://zsupport-tech-1.tsi.zohocorpin.com:4444';
+  'htt' + 'p://desk-react.tsi.zohocorpin.com:4444';
 var repoBranch = process.env.npm_config_repo_branch || false;
-var referBranch = process.env.npm_config_refer_branch || 'master';
+var referBranch = process.env.npm_config_refer_branch || 'theme3-demo';
 var url = 'htt' + 'p://' + host + ':' + port;
 var wMid = require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -76,18 +78,19 @@ var server = app.listen(port, function(err) {
   console.log('Listening at ' + url + '/docs/');
 });
 
-// var results = spawn.sync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
-//   encoding: 'utf8'
-// });
-// var currentBranch = results.output.filter(d => d)[0];
-// currentBranch = currentBranch.replace(/(\r\n|\n|\r)/gm, '');
+var results = spawn.sync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+  encoding: 'utf8'
+});
+var currentBranch = results.output.filter(d => d)[0];
+currentBranch = currentBranch.replace(/(\r\n|\n|\r)/gm, '');
+console.log(currentBranch);
 // spawn.sync('git', ['checkout', referBranch], { encoding: 'utf8' });
 // spawn.sync('git', ['pull'], { encoding: 'utf8' });
 ssTest.run(
   {
     seleniumHub: seleniumHub,
     url: 'http://' + host + ':' + port + '/docs/component.html',
-    browserList: ['firefox', 'chrome'],
+    browserList: ['chrome'],
     mode: 'test',
     script:
       'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return Objlist'
@@ -95,6 +98,8 @@ ssTest.run(
   function(status) {
     if (status !== false) {
       console.log('Current Mode call back server kill function called..!');
+      server.close();
+      wMid.close();
       referenceMode();
     } else {
       server.close();
@@ -104,16 +109,60 @@ ssTest.run(
   }
 );
 
-var referenceMode = function() {
+var referenceMode = function referenceMode() {
   spawn.sync('git', ['checkout', referBranch], { encoding: 'utf8' });
+  var results = spawn.sync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+    encoding: 'utf8'
+  });
+  var currentBranch = results.output.filter(d => d)[0];
+  currentBranch = currentBranch.replace(/(\r\n|\n|\r)/gm, '');
+  console.log(currentBranch);
 
   console.log('Reference Branch test mode test called..!');
+
+  var wMid = require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' }
+  });
+  app.use(wMid);
+
+  app.use(require('webpack-hot-middleware')(compiler));
+
+  app.get('/docs/component.html', function(req, res) {
+    res.sendFile(path.join(__dirname, '..', '..', 'docs', 'component.html'));
+  });
+  app.get('/docs/js/babel.min.js', function(req, res) {
+    res.sendFile(
+      path.join(__dirname, '..', '..', 'docs', 'js', 'babel.min.js')
+    );
+  });
+  app.get('/docs/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '..', '..', 'docs', 'index.html'));
+  });
+
+  var server = app.listen(port, function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (
+      !process.env.npm_config_server_host &&
+      !process.env.npm_config_server_port
+    ) {
+      console.log('you can change hostname and port using following command');
+      console.log(
+        'npm start --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080'
+      );
+    }
+    console.log('Listening at ' + url + '/docs/');
+  });
 
   ssTest.run(
     {
       seleniumHub: seleniumHub,
       url: 'http://' + host + ':' + port + '/docs/component.html',
-      browserList: ['firefox', 'chrome'],
+      browserList: ['chrome'],
       mode: 'reference',
       script:
         'var Objlist={};for (i in Component){try{if(Component[i].prototype.isReactComponent){Objlist[i]=Component[i].docs.componentGroup;}}catch(err){console.log(i,err);}}; return Objlist'
@@ -121,33 +170,6 @@ var referenceMode = function() {
     function() {
       server.close();
       wMid.close();
-      var result = spawn.sync(
-        'cp',
-        [
-          '-r',
-          path.join(__dirname, '..', '..', 'screenshotreport', 'css'),
-          path.join(appPath, 'screenShots')
-        ],
-        { stdio: 'inherit' }
-      );
-      var result = spawn.sync(
-        'cp',
-        [
-          '-r',
-          path.join(__dirname, '..', '..', 'screenshotreport', 'js'),
-          path.join(appPath, 'screenShots')
-        ],
-        { stdio: 'inherit' }
-      );
-      var result = spawn.sync(
-        'cp',
-        [
-          '-r',
-          path.join(__dirname, '..', '..', 'screenshotreport', 'index.html'),
-          path.join(appPath, 'screenShots')
-        ],
-        { stdio: 'inherit' }
-      );
       console.log('Screenshot test succesfully completed.');
     }
   );
