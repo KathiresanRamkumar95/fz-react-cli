@@ -58,7 +58,7 @@ module.exports = {
   },
   mode: 'production',
   optimization: {
-    minimize: false
+    minimize: true
   },
   plugins: getUMDComponentPlugins(options),
   module: {

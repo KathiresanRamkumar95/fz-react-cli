@@ -36,6 +36,7 @@ module.exports = {
     libraryTarget: 'umd',
     publicPath
   },
+  mode: 'production',
   optimization: {
     minimize: true
   },
