@@ -4,6 +4,7 @@ export { default as getOptions } from './getOptions';
 export { default as requireOptions } from './requireOptions';
 export { default as createEventStream } from './createEventStream';
 export { default as getServerURL } from './getServerURL';
+export { default as getCurrentBranch } from './getCurrentBranch';
 
 export let log = (...info) => {
   let print = console;
@@ -35,7 +36,7 @@ export let writeFile = (outputPath, src, isPath = false) =>
 export let makeDir = paths => {
   if (typeof paths === 'string') {
     //eslint-disable-next-line
-		paths = [paths];
+    paths = [paths];
   }
   paths.forEach(path => {
     if (!fs.existsSync(path)) {

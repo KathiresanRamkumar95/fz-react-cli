@@ -14,7 +14,7 @@ import defaultOptions from '../defaultOptions';
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
 let { server, app: appInfo, disableContextURL } = options;
-let { host, port, locale, mode, hotReload, hasMock } = server;
+let { host, port, domain, mode, hotReload, hasMock } = server;
 let { context } = appInfo;
 
 let isCompatableHttp2 = Number(process.version.substr(1)) >= 8;
@@ -125,7 +125,7 @@ const httpsServer = https.createServer(
 //     log(
 //       `Listening at ${getServerURL('ht' + 'tps', {
 //         host,
-//         locale,
+//         domain,
 //         port: http2Port
 //       })}${contextURL}/`
 //     );
@@ -190,7 +190,7 @@ app.listen(httpPort, err => {
   log(
     `Listening at ${getServerURL('ht' + 'tp', {
       host,
-      locale,
+      domain,
       port: httpPort
     })}${contextURL}/`
   );

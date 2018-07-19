@@ -6,7 +6,7 @@ import { UnusedFilesFindPlugin } from '../plugins';
 let getDevPlugins = options => {
   let plugins = [
     new CaseSensitivePathsPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/^\.\/domain$/, /moment$/),
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __TEST__: false,

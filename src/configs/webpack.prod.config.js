@@ -11,7 +11,16 @@ import { getProdPlugins } from '../pluginUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { app, cssUniqueness, needChunkHash, outputFolder, staticDomain } = options;
+let {
+  app,
+  cssUniqueness,
+  needChunkHash,
+  outputFolder,
+  staticDomain,
+  useInsertInto,
+  useInsertAt,
+  styleTarget
+} = options;
 let { folder, context } = app;
 let appPath = process.cwd();
 let { images, fonts } = staticDomain;
@@ -19,6 +28,22 @@ let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 let { isDevelopment = false } = process;
 
 needChunkHash = !isDevelopment && needChunkHash;
+
+if (useInsertInto && useInsertAt) {
+  throw new Error(
+    'You can\'t use style loader\'s insertInto and insertAt at a same time; Please refer this PR to get more info - https://github.com/webpack-contrib/style-loader/pull/325'
+  );
+}
+
+let styleLoaderOption = {};
+
+if (useInsertInto) {
+  styleLoaderOption.insertInto = getInsertIntoFunction(styleTarget);
+} else if (useInsertAt) {
+  let getInsertAt = require('../common/getInsertAt');
+  let insertAt = getInsertAt();
+  styleLoaderOption.insertAt = insertAt;
+}
 
 module.exports = {
   entry: getEntries(options, 'production'),
@@ -76,9 +101,7 @@ module.exports = {
         use: [
           {
             loader: 'style-loader',
-            options: {
-              insertInto: getInsertIntoFunction(options.styleTarget)
-            }
+            options: styleLoaderOption
           },
           {
             loader: 'css-loader',

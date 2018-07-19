@@ -18,7 +18,7 @@ let getProdPlugins = options => {
   let plugins = [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CaseSensitivePathsPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/^\.\/domain$/, /moment$/),
     new webpack.DefinePlugin({
       __TEST__: false,
       __DEVELOPMENT__: false,

@@ -25,7 +25,7 @@ let getEntries = (options, mode) => {
         '..',
         'templates',
         'WMSTemplate'
-      )}?wmsPath=wss://${host}.${process.env.npm_config_server_locale}.zohocorpin.com:${port}`
+      )}?wmsPath=wss://${host}.${process.env.npm_config_server_domain}.zohocorpin.com:${port}`
     );
 
     if (hotReload) {

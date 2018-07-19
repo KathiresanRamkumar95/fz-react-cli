@@ -13,7 +13,7 @@ import docsConfig from '../configs/webpack.docs.config';
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
 let { docsServer: server } = options;
-let { host, port, locale, branch } = server;
+let { host, port, domain, branch } = server;
 
 let appPath = process.cwd();
 let serverUrl = getServerURL('htt' + 'ps', server);
@@ -39,7 +39,7 @@ app.use(
 
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(
-  '/docs/external',
+  '/docs/external/',
   express.static(path.join(appPath, 'docs', 'external'))
 );
 app.use(
@@ -90,7 +90,7 @@ app.listen(httpPort, err => {
   log(
     `Listening at ${getServerURL('ht' + 'tp', {
       host,
-      locale,
+      domain,
       port: httpPort
     })}/docs/`
   );

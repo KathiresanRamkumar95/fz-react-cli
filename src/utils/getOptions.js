@@ -20,7 +20,9 @@ let getOptions = (defaultOptions, userOptions = false) => {
   if (!userOptions) {
     return defaultOptions;
   }
-  return iterateOptions(defaultOptions, userOptions);
+  let options = iterateOptions(defaultOptions, userOptions);
+  options.packageVersion = process.env.npm_package_version;
+  return options;
 };
 
 export default getOptions;

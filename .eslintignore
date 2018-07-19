@@ -1,1 +1,2 @@
 **/*.docs.js
+/src/jest/setup.js

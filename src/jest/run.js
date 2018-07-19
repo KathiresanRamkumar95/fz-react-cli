@@ -10,7 +10,7 @@ let { folder } = app;
 
 let argv = process.argv.slice(2);
 
-let config = require('./configs/jest.config');
+let config = require('../configs/jest.config');
 
 argv.push('--config', JSON.stringify(config(folder)), '--no-cache');
 jest.run(argv);

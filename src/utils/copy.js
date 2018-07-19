@@ -65,7 +65,6 @@ let iterateDirectory = (srcPath, targetPath, isCopy, extensions, flatten) => {
 };
 
 let copy = (srcPath, targetPath, isCopy, exts, flatten) => {
-  console.log(srcPath)
   if (fs.statSync(srcPath).isDirectory()) {
     if (!fs.existsSync(targetPath)) {
       fs.mkdirSync(targetPath);

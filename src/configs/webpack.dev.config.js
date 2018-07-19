@@ -12,12 +12,36 @@ import { getDevJsLoaders } from '../loaderUtils';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
-let { server, app, disableContextURL, styleTarget, needEslinting } = options;
+let {
+  server,
+  app,
+  disableContextURL,
+  styleTarget,
+  needEslinting,
+  useInsertInto,
+  useInsertAt
+} = options;
 let { folder, context } = app;
 let { hotReload } = server;
 let appPath = process.cwd();
 let contextURL = disableContextURL ? '' : context;
 let serverUrl = getServerURL('htt' + 'ps', server);
+
+if (useInsertInto && useInsertAt) {
+  throw new Error(
+    'You can\'t use style loader\'s insertInto and insertAt at a same time; Please refer this PR to get more info - https://github.com/webpack-contrib/style-loader/pull/325'
+  );
+}
+
+let styleLoaderOption = {};
+
+if (useInsertInto) {
+  styleLoaderOption.insertInto = getInsertIntoFunction(styleTarget);
+} else if (useInsertAt) {
+  let getInsertAt = require('../common/getInsertAt');
+  let insertAt = getInsertAt();
+  styleLoaderOption.insertAt = insertAt;
+}
 
 let output = {
   path: path.join(appPath, 'build'),
@@ -51,9 +75,7 @@ module.exports = {
         use: [
           {
             loader: 'style-loader',
-            options: {
-              insertInto: getInsertIntoFunction(styleTarget)
-            }
+            options: styleLoaderOption
           },
           {
             loader: 'css-loader',

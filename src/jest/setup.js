@@ -1,33 +1,30 @@
 //$Id$//
 import { jsdom } from 'jsdom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import XMLHttpRequest from 'xhr2';
-import { log } from '../utils';
-//eslint-disable-next-line
 import nock from 'nock';
 
 let mockDomain = 'htt' + 'p://zoho.com';
 global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
-
 global.localStorage = global.sessionStorage = {
-  getItem: function (key) {
+  getItem: function(key) {
     return this[key];
   },
-  setItem: function (key, value) {
+  setItem: function(key, value) {
     if (value.length > 100) {
       throw new Error('Data size is too exceeded');
     }
     this[key] = value;
   },
-  removeItem: function (key) {
+  removeItem: function(key) {
     delete this[key];
   },
-  clear: function () {
+  clear: function() {
     let keys = ['getItem', 'setItem', 'removeItem', 'clear'];
     for (let key in this) {
       if (keys.indexOf(key) === -1) {
@@ -36,32 +33,30 @@ global.localStorage = global.sessionStorage = {
     }
   }
 };
-
-// eslint-disable-next-line camelcase
 global.ZE_Init = {};
-global.String.prototype.contains = function (text) {
-  return this.indexOf(text) !== -1;
+global.String.prototype.contains = function(text) {
+  return this.indexOf(text) != -1;
 };
 global.TestUtils = TestUtils;
 let xmlReq = XMLHttpRequest;
-window.XMLHttpRequest = function (...args) {
+window.XMLHttpRequest = function() {
   let xmlReqCopy = new xmlReq();
   let originalOpen = xmlReqCopy.open;
-  xmlReqCopy.open = function () {
-    log(mockDomain);
-    if (args[1].indexOf('http') !== 0) {
-      args[1] = mockDomain + args[1];
+  xmlReqCopy.open = function() {
+    console.log(mockDomain);
+    if (arguments[1].indexOf('http') != 0) {
+      arguments[1] = mockDomain + arguments[1];
     }
-    return originalOpen.apply(this, args);
+    return originalOpen.apply(this, arguments);
   };
   return xmlReqCopy;
 };
 
-TestUtils.scryRenderedComponentsWithTestid = function (dom, name) {
-  let componentList = TestUtils.findAllInRenderedTree(dom, i => {
+TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
+  let componentList = TestUtils.findAllInRenderedTree(dom, (i, j) => {
     if (TestUtils.isDOMComponent(i)) {
-      let val = i.getAttribute('data-testid');
-      if (typeof val !== 'undefined' && val === name) {
+      let val = i.getAttribute('data-id');
+      if (typeof val !== 'undefined' && val == name) {
         return true;
       }
       return false;
@@ -70,103 +65,95 @@ TestUtils.scryRenderedComponentsWithTestid = function (dom, name) {
   return componentList;
 };
 
-TestUtils.findRenderedComponentsWithTestid = function (dom, name) {
+TestUtils.findRenderedComponentsWithTestid = function(dom, name) {
   let list = TestUtils.scryRenderedComponentsWithTestid(dom, name);
   if (list.length !== 1) {
     throw new Error(
-      `Did not find exactly one match (found: ${list.length}) ` +
-        `for data-testid:${name}`
+      `Did not find exactly one match (found: ${
+        list.length
+      }) ` +
+        `for data-id:${
+          name}`
     );
   }
   return list[0];
 };
 
-global.setup = function (Component, props, state) {
+global.setup = function(Component, props, state) {
   let router = {
     router: {
-      push: function () {
-        return true;
-      },
-      createHref: function (ob) {
+      push: function() {},
+      createHref: function(ob) {
         return ob.pathname;
       },
-      isActive: function () {
+      isActive: function() {
         return true;
       },
-      replace: function () {
-        return true;
-      },
-      go: function () {
-        return true;
-      },
-      goBack: function () {
-        return true;
-      },
-      goForward: function () {
-        return true;
-      },
-      setRouteLeaveHook: function () {
-        return true;
-      },
-      getState: function () {
-        return true;
-      }
+      replace: function() {},
+      go: function() {},
+      goBack: function() {},
+      goForward: function() {},
+      setRouteLeaveHook: function() {},
+      getState: function() {}
     },
     store: {
-      getState: function () {
+      getState: function() {
         return state;
       }
     }
   };
-  // let store = {
+  // var store = {
   // 	store:{
   // 		getState:function(){return state;}
   // 	}
   // }
-  let HOComponent = higherComponent(Component, router);
-  let comp = <HOComponent {...props} />;
-  const renderedDOM = TestUtils.renderIntoDocument(comp, router);
+  var Component = higherComponent(Component, router);
+  const renderedDOM = TestUtils.renderIntoDocument(
+    <Component {...props} />,
+    router
+  );
   return {
     props,
     renderedDOM
   };
 };
 
-function higherComponent (ActualComponent, context) {
+function higherComponent(ActualComponent, context) {
   if (context) {
-    class HigherComponent extends React.Component {
-      shouldComponentUpdate () {
-        return true;
-      }
-
-      getChildContext () {
+    let HigherComponent = React.createClass({
+      getChildContext: function() {
         return context;
-      }
-
-      render () {
+      },
+      render: function() {
         return <ActualComponent {...this.props} />;
+      },
+      childContextTypes: {
+        router: PropTypes.any,
+        store: PropTypes.any
       }
-    }
-
-    HigherComponent.childContextTypes = {
-      router: PropTypes.any,
-      store: PropTypes.any
-    };
-
+    });
     return HigherComponent;
   }
   return ActualComponent;
-}
 
-global.renderHTML = function (comp) {
-  // eslint-disable-next-line react/no-find-dom-node
+}
+global.window.matchMedia =
+  window.matchMedia ||
+  function() {
+    return {
+      matches: false,
+      addListener: function() {},
+      removeListener: function() {}
+    };
+  };
+global.renderHTML = function(comp) {
   let a = ReactDOM.findDOMNode(comp);
-  log(a.innerHTML);
+  console.log(a.innerHTML);
 };
 
 global.TestUtils = TestUtils;
 global.XMLHttpRequest = window.XMLHttpRequest;
-global.getI18NValue = function (inp) {
+global.getI18NValue = function(inp) {
   return inp;
 };
 

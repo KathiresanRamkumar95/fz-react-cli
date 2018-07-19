@@ -8,14 +8,14 @@ export default {
   server: {
     host: hostname(),
     port: 9090,
-    locale: null,
+    domain: null,
     mode: 'development',
     hotReload: false
   },
   docsServer: {
     host: hostname(),
     port: 9292,
-    locale: null,
+    domain: null,
     branch: false
   },
   helpServer: {
@@ -31,12 +31,12 @@ export default {
     port: 8282,
     seleniumHub: 'ht' + 'tp://desk-react.tsi.zohocorpin.com:4444',
     remoteBranch: false,
-    referBranch: 'master'
+    referBranch: 'theme3-demo'
   },
   nodeServer: {
     host: hostname(),
     port: 4040,
-    locale: false,
+    domain: false,
     repoUrl:
       'https://vimalesan.a@git.csez.zohocorpin.com/zohodesk/supportportal.git',
     branch: 'theme1',
@@ -51,7 +51,12 @@ export default {
   isReactMig: false,
   isPreactMig: false,
   hasWidget: false,
+  isHtml: false,
+  watchUMDComponent: false,
+  watchUMDCss: false,
   disableContextURL: false,
+  umdVar: 'Component',
+  isDocs: false,
   styleTarget: false,
   outputFolder: 'build',
   needChunkHash: false,

@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 // import https from 'https';
 import webpack from 'webpack';
@@ -7,17 +6,22 @@ import { spawnSync } from 'child_process';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import ssTest from 'fz-screenshot-test';
 
-import { getOptions, requireOptions, getServerURL, log } from '../utils';
+import {
+  getOptions,
+  requireOptions,
+  getServerURL,
+  log,
+  getCurrentBranch
+} from '../utils';
 import defaultOptions from '../defaultOptions';
 import docsConfig from '../configs/webpack.docs.config';
 
 let userOptions = requireOptions();
 let options = getOptions(defaultOptions, userOptions);
 let { ssServer: server } = options;
-let { host, port, locale, seleniumHub, remoteBranch, referBranch } = server;
+let { host, port, domain, seleniumHub, remoteBranch, referBranch } = server;
 
 let appPath = process.cwd();
-let serverUrl = getServerURL('htt' + 'ps', server);
 
 const app = express();
 
@@ -27,6 +31,8 @@ app.use(
     extended: true
   })
 );
+
+log(getCurrentBranch(), 'Current Branch');
 
 let compiler = webpack(docsConfig);
 let wMid = webpackDevMiddleware(compiler, {
@@ -82,7 +88,7 @@ app.listen(httpPort, err => {
   log(
     `Listening at ${getServerURL('ht' + 'tp', {
       host,
-      locale,
+      domain,
       port: httpPort
     })}/docs/`
   );
@@ -115,16 +121,13 @@ ssTest.run(
 
 let referenceMode = () => {
   spawnSync('git', ['checkout', referBranch], { encoding: 'utf8' });
-  let results = spawn.sync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
-    encoding: 'utf8'
-  });
-  let currentBranch = results.output.filter(d => d)[0];
-  currentBranch = currentBranch.replace(/(\r\n|\n|\r)/gm, '');
-  console.log(currentBranch);
+
+  log(getCurrentBranch());
+
   log('Reference Branch test mode test called..!');
   let wMid = require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: config.output.publicPath,
+    publicPath: docsConfig.output.publicPath,
     headers: { 'Access-Control-Allow-Origin': '*' }
   });
   app.use(wMid);
@@ -145,19 +148,19 @@ let referenceMode = () => {
 
   let server = app.listen(port, err => {
     if (err) {
-      console.log(err);
+      log(err);
       return;
     }
-    if (
-      !process.env.npm_config_server_host &&
-      !process.env.npm_config_server_port
-    ) {
-      console.log('you can change hostname and port using following command');
-      console.log(
-        'npm start --server:host=vimal-zt58.tsi.zohocorpin.com --server:port=8080'
-      );
+    if (!host && !port) {
+      log('you can change hostname and port in your package.json');
     }
-    console.log(`Listening at ${url}/docs/`);
+    log(
+      `Listening at ${getServerURL('ht' + 'tp', {
+        host,
+        domain,
+        port: httpPort
+      })}/docs/`
+    );
   });
 
   ssTest.run(
@@ -172,15 +175,6 @@ let referenceMode = () => {
     () => {
       server.close();
       wMid.close();
-      spawnSync(
-        'cp',
-        [
-          '-r',
-          path.join(__dirname, '..', '..', 'templates', 'screenShotReport'),
-          path.join(appPath, 'screenShots')
-        ],
-        { stdio: 'inherit' }
-      );
       log('Screenshot test succesfully completed.');
     }
   );

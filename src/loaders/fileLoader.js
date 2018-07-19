@@ -1,7 +1,7 @@
 import path from 'path';
 import loaderUtils from 'loader-utils';
 
-module.exports = function (content) {
+module.exports = function(content) {
   this.cacheable && this.cacheable();
   if (!this.emitFile) {
     throw new Error('emitFile is required from module system');
@@ -43,7 +43,7 @@ module.exports = function (content) {
   let filePath = this.resourcePath;
   if (config.useRelativePath) {
     let issuerContext =
-      this._module && this._module.issuer && this._module.issuer.context ||
+      (this._module && this._module.issuer && this._module.issuer.context) ||
       context;
     let relativeUrl =
       issuerContext &&
