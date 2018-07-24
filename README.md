@@ -335,7 +335,11 @@ rtl changes and report publish replace issue fix
 - insertat and insertinto style-loader changes
 - fz-i18n issue fix
 
-# 0.0.3-beta.119 pending
+# 0.0.3-beta.119
+
+- docs updated
+
+# 0.0.3-beta.120 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
