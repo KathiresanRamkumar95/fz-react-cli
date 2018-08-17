@@ -1,11 +1,9 @@
-
 class RuntimePublicPathPlgin {
-  constructor (options) {
+  constructor(options) {
     this.publicPathCallback = options.publicPathCallback;
   }
 
-  apply (compiler) {
-
+  apply(compiler) {
     let { publicPathCallback } = this;
 
     compiler.hooks.thisCompilation.tap(
@@ -13,7 +11,7 @@ class RuntimePublicPathPlgin {
       compilation => {
         compilation.mainTemplate.hooks.requireExtensions.tap(
           'RuntimePublicPathPlgin',
-          function (source) {
+          function(source) {
             let buf = [];
             let wrapperName = 'requireEnsureWrapper';
             buf.push(source);

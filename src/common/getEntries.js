@@ -1,22 +1,22 @@
 import path from 'path';
+import { getServerURL } from '../utils';
 
-let getEntries = (options, mode) => {
+let getEntries = (appSchemas, mode) => {
   let appPath = process.cwd();
   let {
     isPreactMig,
     isReactMig,
     hasWidget,
     server,
-    app,
-    staticDomain
-  } = options;
-  let { js } = staticDomain;
+    folder,
+    staticDomainKeys: { js }
+  } = appSchemas.app;
 
   let mainJs = [];
   let entry = { main: mainJs };
 
   if (mode === 'development') {
-    let { host, port, hotReload } = server;
+    let { hotReload } = server;
 
     isPreactMig && mainJs.push('preact/devtools');
     mainJs.push(
@@ -25,11 +25,11 @@ let getEntries = (options, mode) => {
         '..',
         'templates',
         'WMSTemplate'
-      )}?wmsPath=wss://${host}.${process.env.npm_config_server_domain}.zohocorpin.com:${port}`
+      )}?wmsPath=wss:${getServerURL(server)}`
     );
 
     if (hotReload) {
-      let url = `ht${'tps:'}//${host}:${port}`;
+      let url = getServerURL(server);
       mainJs.push([
         `${require.resolve('../templates/HMRTemplate')}?hmrPath=${url}`,
         require.resolve('react-error-overlay')
@@ -40,8 +40,6 @@ let getEntries = (options, mode) => {
       `${require.resolve('../templates/publicPathTemplate.js')}?js=${js}`
     );
   }
-
-  let { folder } = app;
 
   mainJs.push(
     path.join(appPath, folder, isReactMig ? 'migration.js' : 'index.js')

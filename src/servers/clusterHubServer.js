@@ -2,14 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import express from 'express';
 
-import { getOptions, requireOptions, getServerURL, log } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL, log } from '../utils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { clusterServer: server } = options;
-let serverUrl = getServerURL('ht' + 'tp', server);
-let { port } = server;
+let options = getOptions();
+let {
+  cluster: { server }
+} = options;
 
 let app = express();
 let appPath = process.cwd();
@@ -21,7 +19,7 @@ if (fs.existsSync(clusterConfigPath)) {
   config = require(clusterConfigPath);
 } else {
   throw new Error(
-    `clusterConfig.js doen't exist under following path - ${  clusterConfigPath}`
+    `clusterConfig.js doen't exist under following path - ${clusterConfigPath}`
   );
 }
 
@@ -34,9 +32,9 @@ app.use(
   express.static(path.join(__dirname, '..', '..', 'templates', 'clusterhub'))
 );
 
-app.listen(port, err => {
+app.listen(server.port, err => {
   if (err) {
     throw err;
   }
-  log(`Listening at ${  serverUrl  }/clusterhub/`);
+  log(`Listening at ${getServerURL(server, 'ht' + 'tp')}/clusterhub/`);
 });

@@ -1,6 +1,5 @@
 import path from 'path';
-import { getOptions, requireOptions } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions } from '../utils';
 import {
   splitChunks,
   getEntries,
@@ -9,25 +8,28 @@ import {
 } from '../common';
 import { getProdPlugins } from '../pluginUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let {
-  app,
-  cssUniqueness,
-  needChunkHash,
-  outputFolder,
-  staticDomain,
-  useInsertInto,
-  useInsertAt,
-  styleTarget
-} = options;
-let { folder, context } = app;
-let appPath = process.cwd();
-let { images, fonts } = staticDomain;
-let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
-let { isDevelopment = false } = process;
+let options = getOptions();
 
-needChunkHash = !isDevelopment && needChunkHash;
+let {
+  app: {
+    context,
+    folder,
+    styleTarget,
+    useInsertInto,
+    useInsertAt,
+    staticDomainKeys,
+    cssUniqueness,
+    enableChunkHash,
+    outputFolder
+  }
+} = options;
+
+let appPath = process.cwd();
+let { images, fonts } = staticDomainKeys;
+let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
+
+let { isDevelopment = false } = process;
+enableChunkHash = !isDevelopment && enableChunkHash;
 
 if (useInsertInto && useInsertAt) {
   throw new Error(
@@ -47,16 +49,16 @@ if (useInsertInto) {
 
 module.exports = {
   entry: getEntries(options, 'production'),
-  devtool: isDevelopment ? 'source-map' : 'hidden-source-map',
+  devtool: isDevelopment ? 'eval' : 'hidden-source-map',
   mode: 'none',
   output: {
     path: path.resolve(appPath, outputFolder),
-    filename: needChunkHash ? 'js/[name].[chunkhash:20].js' : 'js/[name].js',
-    chunkFilename: needChunkHash
+    filename: enableChunkHash ? 'js/[name].[chunkhash:20].js' : 'js/[name].js',
+    chunkFilename: enableChunkHash
       ? 'js/[name].[chunkhash:20].js'
       : 'js/[name].js',
     jsonpFunction: `${context}Jsonp`,
-    sourceMapFilename: needChunkHash
+    sourceMapFilename: enableChunkHash
       ? 'smap/[name].[chunkhash:20].map'
       : 'smap/[name].map'
   },
@@ -66,6 +68,7 @@ module.exports = {
   },
   plugins: getProdPlugins(options),
   module: {
+    /* strictExportPresence for break the build when imported module not present in respective file */
     strictExportPresence: true,
     rules: [
       {
@@ -120,7 +123,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 1000,
-              name: needChunkHash
+              name: enableChunkHash
                 ? './images/[name].[hash:20].[ext]'
                 : './images/[name].[ext]',
               publicPath: url =>
@@ -140,7 +143,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 1000,
-              name: needChunkHash
+              name: enableChunkHash
                 ? './fonts/[name].[hash:20].[ext]'
                 : './fonts/[name].[ext]',
               publicPath: url =>
@@ -160,7 +163,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 1,
-              name: needChunkHash
+              name: enableChunkHash
                 ? './fonts/[name].[hash:20].[ext]'
                 : './fonts/[name].[ext]',
               publicPath: url =>

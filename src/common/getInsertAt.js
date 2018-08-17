@@ -1,5 +1,5 @@
 function getInsertAt() {
-  let flag = 'npm_package_fz_react_cli_insertAt';
+  let flag = 'npm_package_react_cli_insertAt';
 
   if (process.env[flag]) {
     return process.env[flag];

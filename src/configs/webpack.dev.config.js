@@ -1,6 +1,5 @@
 import path from 'path';
-import { getOptions, requireOptions, getServerURL } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL } from '../utils';
 import {
   splitChunks,
   getEntries,
@@ -10,22 +9,25 @@ import {
 import { getDevPlugins } from '../pluginUtils';
 import { getDevJsLoaders } from '../loaderUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
+let options = getOptions();
 let {
-  server,
-  app,
-  disableContextURL,
-  styleTarget,
-  needEslinting,
-  useInsertInto,
-  useInsertAt
+  app: {
+    context,
+    folder,
+    server,
+    styleTarget,
+    useInsertInto,
+    useInsertAt,
+    outputFolder
+  },
+  esLint: { enable: enableEslint }
 } = options;
-let { folder, context } = app;
-let { hotReload } = server;
+
+let { hotReload, disableContextURL } = server;
+
 let appPath = process.cwd();
 let contextURL = disableContextURL ? '' : context;
-let serverUrl = getServerURL('htt' + 'ps', server);
+let serverUrl = getServerURL(server);
 
 if (useInsertInto && useInsertAt) {
   throw new Error(
@@ -44,7 +46,7 @@ if (useInsertInto) {
 }
 
 let output = {
-  path: path.join(appPath, 'build'),
+  path: path.join(appPath, outputFolder),
   filename: 'js/[name].js',
   chunkFilename: 'js/[name].js',
   publicPath: `${[serverUrl, contextURL].filter(a => a).join('/')}/`,
@@ -67,7 +69,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: getDevJsLoaders(needEslinting),
+        use: getDevJsLoaders(enableEslint),
         include: path.join(appPath, folder)
       },
       {

@@ -1,13 +1,13 @@
 import path from 'path';
-import { getOptions, requireOptions } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions } from '../utils';
 import { getAlias } from '../common';
 import { getServerPlugins } from '../pluginUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { app, cssUniqueness, needChunkHash, outputFolder, watchMode } = options;
-let { folder, context } = app;
+let options = getOptions();
+let {
+  app: { cssUniqueness, enableChunkHash, outputFolder, folder, context },
+  ssr: { watch }
+} = options;
 let appPath = process.cwd();
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 
@@ -20,12 +20,12 @@ module.exports = {
   target: 'node',
   output: {
     path: path.resolve(appPath, outputFolder, 'js'),
-    filename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
-    chunkFilename: needChunkHash ? '[name].[chunkhash].js' : '[name].js',
+    filename: enableChunkHash ? '[name].[chunkhash].js' : '[name].js',
+    chunkFilename: enableChunkHash ? '[name].[chunkhash].js' : '[name].js',
     jsonpFunction: `${context}Jsonp`,
     sourceMapFilename: 'smap/[name].map'
   },
-  watch: watchMode,
+  watch: watch,
   optimization: {
     minimize: true
   },
@@ -80,7 +80,7 @@ module.exports = {
         test: /\.jpe?g$|\.gif$|\.png$/,
         use: [
           `url-loader?limit=1000&name=${
-            needChunkHash
+            enableChunkHash
               ? './images/[name].[hash].[ext]'
               : './images/[name].[ext]'
           }`

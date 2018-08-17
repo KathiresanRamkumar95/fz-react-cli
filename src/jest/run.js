@@ -1,12 +1,11 @@
 import jest from 'jest';
 
-import { getOptions, requireOptions } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions } from '../utils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { app } = options;
-let { folder } = app;
+let options = getOptions();
+let {
+  app: { folder }
+} = options;
 
 let argv = process.argv.slice(2);
 

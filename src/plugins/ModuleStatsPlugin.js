@@ -1,10 +1,10 @@
 class ModuleStatsPlugin {
-  constructor (options = {}) {
+  constructor(options = {}) {
     this.options = options;
     this.options.filename = options.filename || 'moduleStats.js';
   }
 
-  apply (compiler) {
+  apply(compiler) {
     compiler.hooks.emit.tap('ModuleStatsPlugin', compilation => {
       let stats = compilation.getStats().toJson();
 
@@ -119,10 +119,10 @@ class ModuleStatsPlugin {
       let mResult = `let mdata = ${dataResult}`;
 
       compilation.assets[this.options.filename] = {
-        source: function () {
+        source: function() {
           return mResult;
         },
-        size: function () {
+        size: function() {
           return mResult.length;
         }
       };

@@ -4,11 +4,11 @@ import path from 'path';
 import { writeFile, log, makeDir } from '../utils';
 
 class SourceMapHookPlugin {
-  constructor (options = {}) {
+  constructor(options = {}) {
     this.optimize = options.optimize;
   }
 
-  apply (compiler) {
+  apply(compiler) {
     compiler.hooks.afterEmit.tapAsync(
       'SourceMapHookPlugin',
       (compilation, callback) => {
@@ -20,21 +20,15 @@ class SourceMapHookPlugin {
 
         let promises = [];
         let files = fs.readdirSync(jsPath);
+
         files.forEach(file => {
-          let src = fs
-            .readFileSync(path.join(jsPath, file))
-            .toString();
-          let optimizedSrc;
-          if (this.optimize) {
-            optimizedSrc = optimizeJS(src);
-          } else {
-            optimizedSrc = src;
-          }
+          let src = fs.readFileSync(path.join(jsPath, file)).toString();
           src += `\n//# sourceMappingURL=../smap/${file}.map`;
-          promises.push(
-            writeFile(path.join(jsPath, file), optimizedSrc)
-          );
           promises.push(writeFile(path.join(smapJsPath, file), src));
+
+          if (this.optimize) {
+            promises.push(writeFile(path.join(jsPath, file), optimizeJS(src)));
+          }
         });
 
         Promise.all(promises).then(() => {

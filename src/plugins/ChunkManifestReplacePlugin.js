@@ -2,11 +2,11 @@ import { writeFile } from '../utils';
 import path from 'path';
 
 class ChunkManifestReplacePlugin {
-  constructor (options) {
+  constructor(options) {
     this.options = options;
   }
 
-  apply (compiler) {
+  apply(compiler) {
     let originalChunkFileName;
 
     compiler.hooks.thisCompilation.tap(
@@ -27,7 +27,8 @@ class ChunkManifestReplacePlugin {
 
             compilation.chunks.forEach(chunk => {
               let { name, renderedHash, id } = chunk;
-              let fullName = `${name + (needChunkHash ? `.${   renderedHash}` : '')  }.js`;
+              let fullName = `${name +
+                (needChunkHash ? `.${renderedHash}` : '')}.js`;
               chunkManifest[id] = fullName;
               if (chunk.canBeInitial()) {
                 initialJS[name || id] = fullName;
@@ -61,10 +62,7 @@ class ChunkManifestReplacePlugin {
               let { output } = compilation.compiler.options;
               output.chunkFilename = originalChunkFileName;
               let regex = /"__CHUNK_MANIFEST__"/g;
-              return source.replace(
-                regex,
-                `window.${replacer}[${chunkIdVar}]`
-              );
+              return source.replace(regex, `window.${replacer}[${chunkIdVar}]`);
             }
             return source;
           }

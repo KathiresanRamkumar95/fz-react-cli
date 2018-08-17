@@ -1,31 +1,25 @@
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import { getOptions, requireOptions } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions } from '../utils';
 import { getAlias } from '../common';
 import { getUMDCSSPlugins } from '../pluginUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
+let options = getOptions();
 let {
-  cssUniqueness,
-  app,
-  outputFolder,
-  watchUMDComponent,
-  umdVar,
-  cssUMDPublicPath,
+  umd: {
+    css: { umdVar, watch, outputFolder, cssUniqueness, folder, publicPath }
+  },
   packageVersion
 } = options;
-let { folder } = app;
 
 let appPath = process.cwd();
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 
-let publicPath = `${cssUMDPublicPath ||
+let publicPathStr = `${publicPath ||
   `${'//js.zohostatic.com/support/zohodeskcomponent@'}${packageVersion}`}/${outputFolder}/`;
 
 module.exports = {
-  watch: watchUMDComponent,
+  watch: watch,
   entry: {
     main: path.join(appPath, folder, 'css.js')
   },
@@ -34,13 +28,13 @@ module.exports = {
     filename: '[name].js',
     library: umdVar,
     libraryTarget: 'umd',
-    publicPath
+    publicPath: publicPathStr
   },
   mode: 'production',
   optimization: {
     minimize: true
   },
-  plugins: getUMDCSSPlugins(options),
+  plugins: getUMDCSSPlugins(),
   module: {
     rules: [
       {

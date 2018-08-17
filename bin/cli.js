@@ -3,21 +3,20 @@
 let path = require('path');
 let os = require('os');
 let { spawnSync } = require('child_process');
-let { getOptions, requireOptions } = require('../lib/utils/index.js');
-let { default: defaultOptions } = require('../lib/defaultOptions/index.js');
+let { getOptions } = require('../lib/utils/index.js');
 
-let { log } = require('../lib/utils');
+let { log, initPreCommitHook } = require('../lib/utils');
+initPreCommitHook();
 
 let presets = {
   env: require.resolve('babel-preset-env'),
   react: require.resolve('babel-preset-react')
 };
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
+let options = getOptions();
 
 let { esLint: esLintOptions } = options;
-let { ignoreFilePath: esLintIgnorePath } = esLintOptions;
+let { ignoreFilePaths: esLintIgnorePaths } = esLintOptions;
 
 let isWindows = os.platform().toLowerCase() === 'win32';
 
@@ -30,10 +29,6 @@ let isNodeModuleUnderAppFolder = __dirname.indexOf(appPath) !== -1;
 let webpack = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'webpack')
   : 'webpack';
-
-let crossEnv = !isNodeModuleUnderAppFolder
-  ? path.join(__dirname, '..', 'node_modules', '.bin', 'cross-env')
-  : 'cross-env';
 
 let babel = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'babel')
@@ -49,7 +44,6 @@ let esLint = !isNodeModuleUnderAppFolder
 
 if (isWindows) {
   webpack += '.cmd';
-  crossEnv += '.cmd';
   babel += '.cmd';
   propertyToJson += '.cmd';
   esLint += '.cmd';
@@ -109,7 +103,7 @@ switch (option) {
   case 'library':
     result = spawnSync(
       'cp',
-      ['-r', path.join(__dirname, '..', 'library')].concat(args),
+      ['-r', path.join(__dirname, '..', 'templates', 'library')].concat(args),
       { stdio: 'inherit' }
     );
     process.exit(result.status);
@@ -165,23 +159,6 @@ switch (option) {
     );
     process.exit(result.status);
     break;
-  case 'build:component':
-    result = spawnSync(
-      crossEnv,
-      [
-        'BABEL_ENV=commonjs',
-        babel,
-        'src',
-        '--out-dir',
-        'lib',
-        `--presets=${presets.env},${presets.react}`,
-        '--copy-files'
-      ].concat(args),
-      { stdio: 'inherit' }
-    );
-    process.exit(result.status);
-
-    break;
   case 'build:component:umd':
     result = spawnSync(
       webpack,
@@ -226,11 +203,25 @@ switch (option) {
     process.exit(result.status);
 
     break;
+  case 'build:library:cmjs':
+    result = spawnSync(
+      babel,
+      [
+        'src',
+        '-d',
+        'lib',
+        `--presets=${presets.env},${presets.react}`,
+        '--copy-files'
+      ].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+
+    break;
   case 'build:library:es':
     result = spawnSync(
-      crossEnv,
+      babel,
       [
-        babel,
         'src',
         '--out-dir',
         'es',
@@ -249,7 +240,7 @@ switch (option) {
       webpack,
       [
         '--config',
-        require.resolve('../lib/configs/webpack.library.build.config.js')
+        require.resolve('../lib/configs/webpack.library.umd.config.js')
       ],
       { stdio: 'inherit' }
     );
@@ -292,14 +283,29 @@ switch (option) {
         '-c',
         path.join(__dirname, '..', '.eslintrc.js'),
         '--ignore-path',
-        esLintIgnorePath
-          ? path.join(appPath, esLintIgnorePath)
+        esLintIgnorePaths
+          ? path.join(appPath, esLintIgnorePaths)
           : path.join(__dirname, '..', '.eslintignore')
       ].concat(args.map(arg => path.join(appPath, arg))),
       {
         stdio: 'inherit'
       }
     );
+    break;
+
+  case 'set:config':
+    result = spawnSync(
+      'node',
+      [require.resolve('../lib/utils/setEnvVariables')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
+  case '--version':
+  case '-version':
+  case '--v':
+  case '-v':
+    log(`@zohodesk/react-cli v${require('../package.json').version}`);
     break;
   default:
     log(`fz-react-cli > Unknown option "${option}".`);

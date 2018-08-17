@@ -1,8 +1,7 @@
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import webpack from 'webpack';
 
-let getUMDComponentPlugins = options => {
-  let { isDocs } = options;
+let getUMDComponentPlugins = isDocs => {
   let plugins = [
     new CaseSensitivePathsPlugin(),
     new webpack.DefinePlugin({

@@ -1,16 +1,16 @@
 import path from 'path';
 
-module.exports = function (appFolder) {
+module.exports = function(appFolder) {
   let appPath = process.cwd();
   return {
     rootDir: appPath,
     testPathIgnorePatterns: ['/node_modules/', 'docs'],
     unmockedModulePathPatterns: ['__tests__', 'node_modules', '.*'],
-    testPathDirs: [`<rootDir>/${appFolder}/`],
+    roots: [`<rootDir>/${appFolder}/`],
     collectCoverage: true,
     coverageReporters: ['json', 'html', 'json-summary', 'text'],
     moduleFileExtensions: ['js'],
-    testRegex: '(/__tests__/.*|\\.(test|spec))\\.(js|json|node)$',
+    testRegex: '/__tests__/.*(spec|test).js$',
     moduleNameMapper: {
       '\\.(css|less)$': 'identity-obj-proxy'
     },
@@ -47,6 +47,7 @@ module.exports = function (appFolder) {
     moduleDirectories: [
       path.resolve(__dirname, '..', '..', 'node_modules'),
       'node_modules'
-    ]
+    ],
+    verbose: true
   };
 };

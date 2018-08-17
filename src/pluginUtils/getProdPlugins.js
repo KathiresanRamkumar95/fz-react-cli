@@ -9,11 +9,12 @@ import {
 
 let getProdPlugins = options => {
   let {
-    needChunkHash,
+    enableChunkHash,
     manifestReplacer,
     manifestFileName,
-    bundleAnalyze
-  } = options;
+    bundleAnalyze,
+    optimize
+  } = options.app;
 
   let plugins = [
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -37,7 +38,7 @@ let getProdPlugins = options => {
   if (!process.isDevelopment) {
     plugins.push(
       new SourceMapHookPlugin({
-        optimize: options.optimize
+        optimize: optimize
       })
     );
 
@@ -45,7 +46,7 @@ let getProdPlugins = options => {
       new ChunkManifestReplacePlugin({
         replacer: manifestReplacer,
         fileName: manifestFileName,
-        needChunkHash
+        enableChunkHash
       })
     );
 

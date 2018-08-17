@@ -1,13 +1,13 @@
 import path from 'path';
 import express from 'express';
 
-import { getOptions, requireOptions, getServerURL, log } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL, log } from '../utils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { helpServer: server } = options;
-let serverUrl = getServerURL('ht' + 'tp', server);
+let options = getOptions();
+let {
+  help: { server }
+} = options;
+let serverUrl = getServerURL(server, 'htt' + 'p');
 let { port } = server;
 
 let app = express();
@@ -21,5 +21,5 @@ app.listen(port, err => {
   if (err) {
     throw err;
   }
-  log(`Listening at ${  serverUrl  }/help/`);
+  log(`Listening at ${serverUrl}/help/`);
 });

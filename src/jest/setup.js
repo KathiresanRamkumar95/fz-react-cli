@@ -43,7 +43,6 @@ window.XMLHttpRequest = function() {
   let xmlReqCopy = new xmlReq();
   let originalOpen = xmlReqCopy.open;
   xmlReqCopy.open = function() {
-    console.log(mockDomain);
     if (arguments[1].indexOf('http') != 0) {
       arguments[1] = mockDomain + arguments[1];
     }
@@ -54,6 +53,7 @@ window.XMLHttpRequest = function() {
 
 TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
   let componentList = TestUtils.findAllInRenderedTree(dom, (i, j) => {
+    // console.log(i);
     if (TestUtils.isDOMComponent(i)) {
       let val = i.getAttribute('data-id');
       if (typeof val !== 'undefined' && val == name) {
@@ -67,6 +67,13 @@ TestUtils.scryRenderedComponentsWithTestid = function(dom, name) {
 
 TestUtils.findRenderedComponentsWithTestid = function(dom, name) {
   let list = TestUtils.scryRenderedComponentsWithTestid(dom, name);
+  // console.log(list);
+  if (list.length){
+    list.forEach(item=>{
+      let key = Object.keys(item)[0];
+      console.log(item[key][key]);
+    })
+  }
   if (list.length !== 1) {
     throw new Error(
       `Did not find exactly one match (found: ${
@@ -120,23 +127,28 @@ global.setup = function(Component, props, state) {
 
 function higherComponent(ActualComponent, context) {
   if (context) {
-    let HigherComponent = React.createClass({
-      getChildContext: function() {
+    class HigherComponent extends React.Component{
+
+      getChildContext()
+      {
         return context;
-      },
-      render: function() {
-        return <ActualComponent {...this.props} />;
-      },
-      childContextTypes: {
-        router: PropTypes.any,
-        store: PropTypes.any
       }
-    });
-    return HigherComponent;
+
+      render() {
+        return <ActualComponent {...this.props} />;
+      }
+    }
+
+    HigherComponent.childContextTypes = {
+      router: PropTypes.any,
+      store: PropTypes.any
+    }
+    return HigherComponent
   }
   return ActualComponent;
 
 }
+
 global.window.matchMedia =
   window.matchMedia ||
   function() {

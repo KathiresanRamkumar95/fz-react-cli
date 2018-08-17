@@ -1,43 +1,28 @@
 import path from 'path';
-import { getOptions, requireOptions } from '../utils';
-import defaultOptions from '../defaultOptions';
-import { getAlias, getInsertIntoFunction } from '../common';
+import { getOptions } from '../utils';
+import { getAlias } from '../common';
 import { getUMDComponentPlugins } from '../pluginUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
+let options = getOptions();
+
 let {
-  cssUniqueness,
-  app,
-  isHtml,
-  outputFolder,
-  watchUMDComponent,
-  umdVar,
-  isDocs,
-  useInsertInto,
-  useInsertAt,
-  styleTarget
+  umd: {
+    component: {
+      umdVar,
+      isHtml,
+      isDocs,
+      watch,
+      outputFolder,
+      cssUniqueness,
+      folder
+    }
+  }
 } = options;
-let { folder } = app;
 
 let appPath = process.cwd();
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 
-if (useInsertInto && useInsertAt) {
-  throw new Error(
-    'You can\'t use style loader\'s insertInto and insertAt at a same time; Please refer this PR to get more info - https://github.com/webpack-contrib/style-loader/pull/325'
-  );
-}
-
 let styleLoaderOption = {};
-
-if (useInsertInto) {
-  styleLoaderOption.insertInto = getInsertIntoFunction(styleTarget);
-} else if (useInsertAt) {
-  let getInsertAt = require('../common/getInsertAt');
-  let insertAt = getInsertAt();
-  styleLoaderOption.insertAt = insertAt;
-}
 
 // let publicPath =
 //   `${process.env.npm_config_public_path ||
@@ -46,7 +31,7 @@ if (useInsertInto) {
 //       process.env.npm_package_version}`  }/dist/`;
 
 module.exports = {
-  watch: watchUMDComponent,
+  watch: watch,
   entry: {
     main: path.join(appPath, folder, isHtml ? 'html.js' : 'index.js')
   },
@@ -60,7 +45,7 @@ module.exports = {
   optimization: {
     minimize: true
   },
-  plugins: getUMDComponentPlugins(options),
+  plugins: getUMDComponentPlugins(isDocs),
   module: {
     rules: [
       {

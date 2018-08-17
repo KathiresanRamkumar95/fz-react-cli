@@ -7,7 +7,11 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:css-modules/recommended'
+  ],
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
@@ -15,7 +19,7 @@ module.exports = {
     },
     sourceType: 'module'
   },
-  plugins: ['react'],
+  plugins: ['react', 'css-modules'],
   rules: {
     'for-direction': [logLevel],
     'no-prototype-builtins': [logLevel],
@@ -107,6 +111,9 @@ module.exports = {
     'react/jsx-equals-spacing': [logLevel],
     'react/jsx-indent': [logLevel, 2],
     'react/jsx-key': [logLevel],
-    'react/jsx-pascal-case': [logLevel]
+    'react/jsx-pascal-case': [logLevel],
+
+    'css-modules/no-unused-class': [logLevel, { camelCase: true }],
+    'css-modules/no-undef-class': [logLevel, { camelCase: 'only' }]
   }
 };

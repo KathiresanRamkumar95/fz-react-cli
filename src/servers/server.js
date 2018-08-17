@@ -8,19 +8,26 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import reactErrorOverlay from 'react-error-overlay/middleware';
 
 import HMRMiddleware from '../middlewares/HMRMiddleware';
-import { getOptions, requireOptions, getServerURL, log } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL, log } from '../utils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { server, app: appInfo, disableContextURL } = options;
-let { host, port, domain, mode, hotReload, hasMock } = server;
-let { context } = appInfo;
+let options = getOptions();
+let {
+  app: { context, server }
+} = options;
+let {
+  host,
+  port,
+  domain,
+  mode,
+  hotReload,
+  hasMock,
+  disableContextURL
+} = server;
 
-let isCompatableHttp2 = Number(process.version.substr(1)) >= 8;
+let isCompatableHttp2 = Number(process.version.substr(1).split('.')[0]) >= 8;
 
 let contextURL = disableContextURL ? '' : `/${context}`;
-let serverUrl = getServerURL('htt' + 'ps', server);
+let serverUrl = getServerURL(server, 'htt' + 'ps');
 
 const app = express();
 
@@ -32,10 +39,10 @@ app.use(
 );
 
 let config;
-if (mode === 'production') {
+if (mode === 'prod') {
   process.isDevelopment = true;
   config = require('../configs/webpack.prod.config');
-} else if (hotReload || mode === 'development') {
+} else if (hotReload || mode === 'dev') {
   process.isDevelopment = true;
   config = require('../configs/webpack.dev.config');
 } else {
@@ -99,43 +106,6 @@ const httpsServer = https.createServer(
   app
 );
 
-// if (isCompatableHttp2) {
-//   const http2 = require('http2');
-//   const http2Server = http2.createSecureServer({
-//     key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
-//     cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
-//     passphrase: 'zddqa1585f82'
-//   });
-//
-//   //eslint-disable-next-line
-//   http2Server.on('stream', (stream, headers) => {
-//     stream.respond({
-//       'content-type': 'text/html',
-//       ':status': 200
-//     });
-//     stream.end('<h1>Hello World <br>Working with http2</h1>');
-//   });
-
-//   let http2Port = Number(port) + 1;
-//
-//   http2Server.listen(http2Port, err => {
-//     if (err) {
-//       throw err;
-//     }
-//     log(
-//       `Listening at ${getServerURL('ht' + 'tps', {
-//         host,
-//         domain,
-//         port: http2Port
-//       })}${contextURL}/`
-//     );
-//   });
-// } else {
-//   log(
-//     'Your node version didn\'t adopted http2 support. Kindly update that to 8 LTS or above you can engage the http2'
-//   );
-// }
-
 const wss = new WebSocket.Server({ server: httpsServer });
 let wsPool = [];
 
@@ -181,6 +151,46 @@ httpsServer.listen(port, err => {
   log(`Listening at ${serverUrl}${contextURL}/`);
 });
 
+if (isCompatableHttp2) {
+  const http2 = require('http2');
+  const http2Server = http2.createSecureServer({
+    key: fs.readFileSync(path.join(__dirname, '../../cert/key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert/cert.pem')),
+    passphrase: 'zddqa1585f82'
+  });
+
+  //eslint-disable-next-line
+  http2Server.on('stream', (stream, headers) => {
+    stream.respond({
+      'content-type': 'text/html',
+      ':status': 200
+    });
+    stream.end('<h1>Hello World! <br>Working with http2</h1>');
+  });
+
+  let http2Port = Number(port) + 1;
+
+  http2Server.listen(http2Port, err => {
+    if (err) {
+      throw err;
+    }
+    log(
+      `Listening at ${getServerURL(
+        {
+          host,
+          domain,
+          port: http2Port
+        },
+        'htt' + 'ps'
+      )}${contextURL}/`
+    );
+  });
+} else {
+  log(
+    'Your node version didn\'t adopted http2 support. Kindly update that to 8 LTS or above you can engage the http2'
+  );
+}
+
 let httpPort = Number(port) + (isCompatableHttp2 ? 2 : 1);
 
 app.listen(httpPort, err => {
@@ -188,10 +198,13 @@ app.listen(httpPort, err => {
     throw err;
   }
   log(
-    `Listening at ${getServerURL('ht' + 'tp', {
-      host,
-      domain,
-      port: httpPort
-    })}${contextURL}/`
+    `Listening at ${getServerURL(
+      {
+        host,
+        domain,
+        port: httpPort
+      },
+      'ht' + 'tp'
+    )}${contextURL}/`
   );
 });

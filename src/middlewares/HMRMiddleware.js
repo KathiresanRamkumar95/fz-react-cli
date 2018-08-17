@@ -1,4 +1,4 @@
-function pathMatch (url, path) {
+function pathMatch(url, path) {
   if (url === path) {
     return true;
   }
@@ -9,10 +9,10 @@ function pathMatch (url, path) {
   return url.substring(0, q) === path;
 }
 
-export default function HMRMiddleware (compiler, opts = {}) {
+export default function HMRMiddleware(compiler, opts = {}) {
   opts.log =
-		// eslint-disable-next-line no-console
-		typeof opts.log === 'undefined' ? console.log.bind(console) : opts.log;
+    // eslint-disable-next-line no-console
+    typeof opts.log === 'undefined' ? console.log.bind(console) : opts.log;
   opts.path = opts.path || '/__webpack_hmr';
   opts.heartbeat = opts.heartbeat || 10 * 1000;
 
@@ -32,7 +32,7 @@ export default function HMRMiddleware (compiler, opts = {}) {
 
     publishStats('built', latestStats, eventStream, opts.log);
   });
-  let middleware = function (req, res, next) {
+  let middleware = function(req, res, next) {
     if (!pathMatch(req.url, opts.path)) {
       return next();
     }
@@ -47,10 +47,10 @@ export default function HMRMiddleware (compiler, opts = {}) {
   return middleware;
 }
 
-function createEventStream (heartbeat) {
+function createEventStream(heartbeat) {
   let clientId = 0;
   let clients = {};
-  function everyClient (fn) {
+  function everyClient(fn) {
     Object.keys(clients).forEach(id => {
       fn(clients[id]);
     });
@@ -61,7 +61,7 @@ function createEventStream (heartbeat) {
     });
   }, heartbeat).unref();
   return {
-    handler: function (req, res) {
+    handler: function(req, res) {
       req.socket.setKeepAlive(true);
       res.writeHead(200, {
         'Access-Control-Allow-Origin': '*',
@@ -76,7 +76,7 @@ function createEventStream (heartbeat) {
         delete clients[id];
       });
     },
-    publish: function (payload) {
+    publish: function(payload) {
       everyClient(client => {
         client.write(`data: ${JSON.stringify(payload)}\n\n`);
       });
@@ -84,7 +84,7 @@ function createEventStream (heartbeat) {
   };
 }
 
-function publishStats (action, statsResult, eventStream, log) {
+function publishStats(action, statsResult, eventStream, log) {
   // For multi-compiler, stats will be an object with a 'children' array of stats
   let bundles = extractBundles(statsResult.toJson({ errorDetails: false }));
   bundles.forEach(stats => {
@@ -130,7 +130,7 @@ function publishStats (action, statsResult, eventStream, log) {
   });
 }
 
-function extractBundles (stats) {
+function extractBundles(stats) {
   // Stats has modules, single bundle
   if (stats.modules) {
     return [stats];

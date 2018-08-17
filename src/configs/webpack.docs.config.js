@@ -1,15 +1,14 @@
 import path from 'path';
-import { getOptions, requireOptions, getServerURL } from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL } from '../utils';
 import { getAlias } from '../common';
 import { getDocsPlugins } from '../pluginUtils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { docsServer, cssUniqueness, componentFolder, app } = options;
-let { folder } = app;
+let options = getOptions();
+let {
+  docs: { server, componentFolder, cssUniqueness, folder }
+} = options;
 let appPath = process.cwd();
-let serverUrl = getServerURL('htt' + 'ps', docsServer);
+let serverUrl = getServerURL(server);
 
 let className = cssUniqueness ? 'fz__[hash:base64:5]' : '[name]__[local]';
 

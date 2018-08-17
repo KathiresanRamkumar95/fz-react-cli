@@ -18,13 +18,16 @@ let getDevPlugins = options => {
     })
   ];
 
-  let { app, findUnusedFiles } = options;
+  let {
+    app: { folder },
+    unusedFiles
+  } = options;
 
-  if (findUnusedFiles.active) {
+  if (unusedFiles.enable) {
     plugins.push(
       new UnusedFilesFindPlugin(
-        Object.assign(findUnusedFiles, {
-          origin: path.join(process.cwd(), app.folder)
+        Object.assign(unusedFiles, {
+          origin: path.join(process.cwd(), folder)
         })
       )
     );

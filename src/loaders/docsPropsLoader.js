@@ -17,5 +17,5 @@ module.exports = source => {
   let comNameAry = this.resourcePath.split(path.sep);
   let comName = comNameAry[comNameAry.length - 1];
   let name = comName.substring(0, comName.lastIndexOf('.'));
-  return `${source  };${  name  }.propsObj=${  JSON.stringify(value)}`;
+  return `${source};${name}.propsObj=${JSON.stringify(value)}`;
 };

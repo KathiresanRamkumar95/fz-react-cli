@@ -6,9 +6,9 @@ import { log, writeFile, makeDir } from '../utils';
 let getRegex = regexString => regexString.map(str => new RegExp(str));
 
 class UnusedFilesFindPlugin {
-  constructor (options = {}) {
+  constructor(options = {}) {
     this.usedFilesExcludes = getRegex(options.usedFilesExcludes);
-    this.allFilesExcludes = getRegex(options.allFilesExcludes);
+    this.appFilesExcludes = getRegex(options.appFilesExcludes);
     this.origin = options.origin;
     this.delete = options.delete;
     this.outputFileName = options.outputFileName;
@@ -17,7 +17,7 @@ class UnusedFilesFindPlugin {
     }
   }
 
-  isIgnoredUsedFile (file) {
+  isIgnoredUsedFile(file) {
     let result;
     for (let i = 0; i < this.usedFilesExcludes.length; i++) {
       let exclude = this.usedFilesExcludes[i];
@@ -29,10 +29,10 @@ class UnusedFilesFindPlugin {
     return result;
   }
 
-  isIgnoredAllFile (file) {
+  isIgnoredAllFile(file) {
     let result;
-    for (let i = 0; i < this.allFilesExcludes.length; i++) {
-      let exclude = this.allFilesExcludes[i];
+    for (let i = 0; i < this.appFilesExcludes.length; i++) {
+      let exclude = this.appFilesExcludes[i];
       result = exclude.test(file);
       if (result) {
         break;
@@ -41,11 +41,9 @@ class UnusedFilesFindPlugin {
     return result;
   }
 
-  getAllFiles (rootPath) {
+  getAllFiles(rootPath) {
     let allFiles = [];
-    let files = fs
-      .readdirSync(rootPath)
-      .map(file => path.join(rootPath, file));
+    let files = fs.readdirSync(rootPath).map(file => path.join(rootPath, file));
     files.forEach(file => {
       if (fs.statSync(file).isDirectory()) {
         allFiles = allFiles.concat(this.getAllFiles(file));
@@ -58,7 +56,7 @@ class UnusedFilesFindPlugin {
     return allFiles;
   }
 
-  apply (compiler) {
+  apply(compiler) {
     compiler.hooks.afterEmit.tap('UnusedFilesShowPlugin', compilation => {
       let { path: outputPath } = compilation.compiler.options.output;
       let usedFiles = Array.from(compilation.fileDependencies).reduce(
@@ -85,9 +83,10 @@ class UnusedFilesFindPlugin {
       } else {
         if (this.outputFileName) {
           log(
-            `You can see unused files info from ${ 
-              path.join(outputPath, this.outputFileName) 
-            } path`
+            `You can see unused files info from ${path.join(
+              outputPath,
+              this.outputFileName
+            )} path`
           );
           makeDir(outputPath);
           writeFile(
@@ -100,7 +99,7 @@ class UnusedFilesFindPlugin {
       if (this.delete) {
         unusedFiles.forEach(file => {
           fs.unlinkSync(file);
-          log(`Deleted - ${  file}`);
+          log(`Deleted - ${file}`);
         });
       }
     });

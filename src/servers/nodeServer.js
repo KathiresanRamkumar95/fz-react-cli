@@ -2,36 +2,31 @@ import path from 'path';
 import express from 'express';
 import { spawnSync } from 'child_process';
 
-import {
-  getOptions,
-  requireOptions,
-  getServerURL,
-  log,
-  createEventStream
-} from '../utils';
-import defaultOptions from '../defaultOptions';
+import { getOptions, getServerURL, log, createEventStream } from '../utils';
 
-let userOptions = requireOptions();
-let options = getOptions(defaultOptions, userOptions);
-let { nodeServer: server } = options;
+let options = getOptions();
+let {
+  ssr: { server }
+} = options;
 let { host, port, repoUrl, branch, clientAppPath } = server;
 
 let appPath = process.cwd();
-let serverUrl = getServerURL('ht' + 'tp', server);
+let serverUrl = getServerURL(server, 'htt' + 'p');
 
 const app = express();
 
 let commitHash = '';
 let serverProcess;
 
-let stream = createEventStream(5000, () => ({ branch, commitHash, isStart: serverProcess ? true : false }));
+let stream = createEventStream(5000, () => ({
+  branch,
+  commitHash,
+  isStart: serverProcess ? true : false
+}));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET,POST,PUT,DELETE,OPTIONS'
-  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
@@ -90,7 +85,7 @@ app.get('/node/start', (req, res) => {
     log(test.stdout);
     serverProcess = spawnSync(
       'npm',
-      ['run', 'serverrender', `--server:port=${  port}`],
+      ['run', 'serverrender', `--server:port=${port}`],
       {
         encoding: 'utf8',
         shell: true,
@@ -98,13 +93,13 @@ app.get('/node/start', (req, res) => {
       }
     );
     serverProcess.on('error', err => {
-      log(`Oh noez, teh errurz: ${  err}`);
+      log(`Oh noez, teh errurz: ${err}`);
       res.send('Server Error');
       serverProcess = null;
     });
     let flag = true;
     serverProcess.stdout.on('data', data => {
-      log(`stdout: ${  data.toString()}`);
+      log(`stdout: ${data.toString()}`);
       if (flag) {
         res.send('Server start');
         flag = false;
@@ -139,15 +134,11 @@ app.post('/node/deploy', (req, res) => {
       });
       log('pull:', test.stdout);
       let deployObj = req.body;
-      test = spawnSync(
-        'git',
-        ['reset', '--hard', deployObj.repoInfo.hash],
-        {
-          encoding: 'utf8',
-          shell: true,
-          cwd: path.join(appPath, branch, clientAppPath)
-        }
-      );
+      test = spawnSync('git', ['reset', '--hard', deployObj.repoInfo.hash], {
+        encoding: 'utf8',
+        shell: true,
+        cwd: path.join(appPath, branch, clientAppPath)
+      });
       log('reset commit hash', test.stdout);
       commitHash = deployObj.repoInfo.hash;
       // test = spawnSync('npm', ['install'], {
@@ -167,7 +158,7 @@ app.post('/node/deploy', (req, res) => {
         [
           'run',
           'serverrender',
-          `--server:port=${  port}`,
+          `--server:port=${port}`,
           '--',
           JSON.stringify(JSON.stringify(deployObj))
         ],
@@ -178,13 +169,13 @@ app.post('/node/deploy', (req, res) => {
         }
       );
       serverProcess.on('error', err => {
-        log(`Oh noez, teh errurz: ${  err}`);
+        log(`Oh noez, teh errurz: ${err}`);
         res.send('Server Error');
         serverProcess = null;
       });
       let flag = true;
       serverProcess.stdout.on('data', data => {
-        log(`stdout: ${  data.toString()}`);
+        log(`stdout: ${data.toString()}`);
         if (flag) {
           res.send('Server start');
           flag = false;
@@ -225,7 +216,7 @@ app.post('/node/deploy', (req, res) => {
       [
         'run',
         'serverrender',
-        `--server:port=${  port}`,
+        `--server:port=${port}`,
         '--',
         JSON.stringify(JSON.stringify(deployObj))
       ],
@@ -236,13 +227,13 @@ app.post('/node/deploy', (req, res) => {
       }
     );
     serverProcess.on('error', err => {
-      log(`Oh noez, teh errurz: ${  err}`);
+      log(`Oh noez, teh errurz: ${err}`);
       res.send('Server Error');
       serverProcess = null;
     });
     let flag = true;
     serverProcess.stdout.on('data', data => {
-      log(`stdout: ${  data.toString()}`);
+      log(`stdout: ${data.toString()}`);
       if (flag) {
         res.send('Server start');
         flag = false;
@@ -255,5 +246,5 @@ app.listen(port + 1, err => {
   if (err) {
     throw err;
   }
-  log(`Listening at ${  serverUrl  }/node/`);
+  log(`Listening at ${serverUrl}/node/`);
 });

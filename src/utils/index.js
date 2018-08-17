@@ -1,10 +1,11 @@
 import { Readable } from 'stream';
 import fs from 'fs';
+
 export { default as getOptions } from './getOptions';
-export { default as requireOptions } from './requireOptions';
 export { default as createEventStream } from './createEventStream';
 export { default as getServerURL } from './getServerURL';
 export { default as getCurrentBranch } from './getCurrentBranch';
+export * from './initPreCommitHook';
 
 export let log = (...info) => {
   let print = console;
