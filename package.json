@@ -9,7 +9,7 @@
     "start": "babel src -d lib -w --copy-files",
     "build": "babel src -d lib --copy-files",
     "prepublish": "npm run lint && npm run clean && npm run build",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src ./bin/cli.js"
   },
   "engines": {
     "node": "<=6.10.0"

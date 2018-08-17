@@ -1,2 +1,5 @@
 **/*.docs.js
 /src/jest/setup.js
+**/lib/*
+**/es/*
+**/templates/*
