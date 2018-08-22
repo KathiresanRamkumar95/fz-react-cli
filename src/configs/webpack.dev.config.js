@@ -18,7 +18,8 @@ let {
     styleTarget,
     useInsertInto,
     useInsertAt,
-    outputFolder
+    outputFolder,
+    disableES5Transpile
   },
   esLint: { enable: enableEslint }
 } = options;
@@ -60,7 +61,7 @@ if (hotReload) {
 
 module.exports = {
   entry: getEntries(options, 'development'),
-  devtool: hotReload ? 'cheap-module-source-map' : 'eval',
+  devtool: hotReload ? 'cheap-module-source-map' : 'source-map',
   mode: 'none',
   output,
   optimization: { splitChunks },
@@ -69,7 +70,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: getDevJsLoaders(enableEslint),
+        use: getDevJsLoaders(enableEslint, disableES5Transpile),
         include: path.join(appPath, folder)
       },
       {

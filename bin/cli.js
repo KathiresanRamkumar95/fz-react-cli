@@ -67,31 +67,16 @@ switch (option) {
     );
     process.exit(result.status);
     break;
-  case 'gitclone':
-    args[args.length - 1] = path.join(appPath, args[args.length - 1]);
+
+  case 'clone':
     result = spawnSync(
       'node',
-      [require.resolve('../lib/utils/clean'), args[args.length - 1]],
+      [require.resolve('../lib/utils/repoClone')].concat(args.concat(args)),
       { stdio: 'inherit' }
     );
     process.exit(result.status);
-    result = spawnSync('git', ['clone'].concat(args), {
-      stdio: 'inherit'
-    });
-    process.exit(result.status);
     break;
-  case 'hgclone':
-    args[args.length - 1] = path.join(appPath, args[args.length - 1]);
-    result = spawnSync(
-      'node',
-      [require.resolve('../lib/utils/clean'), args[args.length - 1]],
-      { encoding: 'utf-8' }
-    );
-    result = spawnSync('hg', ['clone'].concat(args), {
-      stdio: 'inherit'
-    });
-    process.exit(result.status);
-    break;
+
   case 'app':
     result = spawnSync(
       'cp',
@@ -159,6 +144,7 @@ switch (option) {
     );
     process.exit(result.status);
     break;
+  case 'build:library:umd':
   case 'build:component:umd':
     result = spawnSync(
       webpack,
@@ -234,17 +220,6 @@ switch (option) {
     );
     process.exit(result.status);
 
-    break;
-  case 'build:library:umd':
-    result = spawnSync(
-      webpack,
-      [
-        '--config',
-        require.resolve('../lib/configs/webpack.library.umd.config.js')
-      ],
-      { stdio: 'inherit' }
-    );
-    process.exit(result.status);
     break;
   case 'build':
     result = spawnSync(

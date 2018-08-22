@@ -1,6 +1,6 @@
 {
   "name": "@zohodesk/react-cli",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "Command line tool for client side applications",
   "scripts": {
     "init": "node ./lib/utils/init.js",

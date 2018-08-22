@@ -1,4 +1,5 @@
-import { hostname } from 'os';
+import path from 'path';
+import { hostname, homedir } from 'os';
 
 export default {
   app: {
@@ -18,6 +19,7 @@ export default {
       images: 'images',
       fonts: 'fonts'
     },
+    disableES5Transpile: false,
     styleTarget: false,
     useInsertInto: false,
     useInsertAt: false,
@@ -115,10 +117,14 @@ export default {
     enable: { value: false, cli: 'enable_eslint' },
     ignoreFilePaths: false
   },
-  reactCliDocs: {
-    server: {
-      host: hostname(),
-      port: { value: 3000, cli: 'reactcli_port' }
-    }
+  clone: {
+    type: { value: null, cli: 'clone_type' },
+    url: { value: null, cli: 'clone_url' },
+    branch: { value: null, cli: 'clone_branch' },
+    revision: { value: null, cli: 'clone_revision' },
+    projectName: { value: null, cli: 'clone_project_name' },
+    remoteName: { value: 'origin', cli: 'clone_remote_name' },
+    cacheDir: path.join(homedir(), '.react-cli'),
+    shouldDelete: { value: true, cli: 'clone_delete' }
   }
 };

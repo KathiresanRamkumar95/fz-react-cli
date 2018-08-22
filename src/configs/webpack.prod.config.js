@@ -20,7 +20,8 @@ let {
     staticDomainKeys,
     cssUniqueness,
     enableChunkHash,
-    outputFolder
+    outputFolder,
+    disableES5Transpile
   }
 } = options;
 
@@ -49,7 +50,7 @@ if (useInsertInto) {
 
 module.exports = {
   entry: getEntries(options, 'production'),
-  devtool: isDevelopment ? 'eval' : 'hidden-source-map',
+  devtool: isDevelopment ? 'source-map' : 'hidden-source-map',
   mode: 'none',
   output: {
     path: path.resolve(appPath, outputFolder),
@@ -78,21 +79,40 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: [
-                [require.resolve('babel-preset-env'), { modules: false }],
+                [
+                  require.resolve('babel-preset-env'),
+                  disableES5Transpile
+                    ? {
+                      modules: false,
+                      useBuiltIns: true,
+                      targets: {
+                        browsers: [
+                          'Chrome >= 60',
+                          'Safari >= 10.1',
+                          'iOS >= 10.3',
+                          'Firefox >= 54',
+                          'Edge >= 15'
+                        ]
+                      }
+                    }
+                    : { modules: false }
+                ],
                 require.resolve('babel-preset-react')
               ],
-              plugins: [
-                require.resolve('../utils/removeTestIds'),
-                [
-                  require.resolve('babel-plugin-transform-runtime'),
-                  {
-                    helpers: true,
-                    polyfill: true,
-                    regenerator: false,
-                    moduleName: 'babel-runtime'
-                  }
-                ]
-              ],
+              plugins: disableES5Transpile
+                ? [require.resolve('../utils/removeTestIds')]
+                : [
+                  require.resolve('../utils/removeTestIds'),
+                  [
+                    require.resolve('babel-plugin-transform-runtime'),
+                    {
+                      helpers: true,
+                      polyfill: true,
+                      regenerator: false,
+                      moduleName: 'babel-runtime'
+                    }
+                  ]
+                ],
               cacheDirectory: true
             }
           }
