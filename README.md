@@ -339,7 +339,11 @@ rtl changes and report publish replace issue fix
 
 - docs updated
 
-# 0.0.3-beta.120 pending
+# 0.0.3-beta.120
+
+- duplicate function issue "fz-i18n" version updated
+
+# 0.0.3-beta.121 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
