@@ -23,7 +23,7 @@ var transporter = nodemailer.createTransport({
     pass: pass
   }
 });
-groupMail.forEach(to){
+groupMail.forEach(function(to){
   var mailOptions = {
     from: from,
     to: to,
@@ -37,4 +37,4 @@ groupMail.forEach(to){
       console.log( 'Email sent: ' + info.response );
     }
   } );
-}
+})
