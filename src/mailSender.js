@@ -7,9 +7,12 @@ if (process.argv.length <= 6) {
 
 var from = process.argv[2];
 var pass = process.argv[3];
-var to = process.argv[4];
+var commiterMail = process.argv[4];
 var subject = process.argv[5];
 var html = process.argv[6];
+var groupMail= process.argv[7];
+groupMail = groupMail.split(',');
+groupMail.push(commiterMail);
 
 var transporter = nodemailer.createTransport({
   host: 'smtp.zoho.com',
@@ -20,18 +23,18 @@ var transporter = nodemailer.createTransport({
     pass: pass
   }
 });
-
-var mailOptions = {
-  from: from,
-  to: to,
-  subject: subject,
-  html: html
-};
-
-transporter.sendMail(mailOptions, function(error, info) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
+groupMail.forEach(to){
+  var mailOptions = {
+    from: from,
+    to: to,
+    subject: subject,
+    html: html
+  };
+  transporter.sendMail( mailOptions, function ( error, info ) {
+    if ( error ) {
+      console.log( error );
+    } else {
+      console.log( 'Email sent: ' + info.response );
+    }
+  } );
+}
