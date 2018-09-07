@@ -33,4 +33,4 @@ msg="<p><b>report url - <a href='$reportUrl'>Link</a></b></p>
 <p><b>Report branchName - $branchName</b></p>
 <p><b>Report unique id - $unique</b></p>"
 #node mailSender.js <from> <pass> <to> <subject> <text>
-node ./node_modules/fz-react-cli/lib/mailSender $4 $5 $6 "$subject" "$msg"
+node ./node_modules/fz-react-cli/lib/mailSender $3 $4 $5 "$subject" "$msg" $6
