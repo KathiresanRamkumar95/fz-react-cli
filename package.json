@@ -109,7 +109,10 @@
     "fz-react-cli": "bin/build.js"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "serverconfig": {
     "host": "localhost",
