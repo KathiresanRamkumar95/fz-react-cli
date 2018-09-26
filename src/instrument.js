@@ -1,51 +1,51 @@
 let esprima = require('esprima');
 let escodegen = require('escodegen');
 let start = {
-  'type': 'ExpressionStatement',
-  'expression': {
-    'type': 'CallExpression',
-    'callee': {
-      'type': 'MemberExpression',
-      'computed': false,
-      'object': {
-        'type': 'MemberExpression',
-        'computed': false,
-        'object': {
-          'type': 'MemberExpression',
-          'computed': false,
-          'object': {
-            'type': 'Identifier',
-            'name': 'window'
+  type: 'ExpressionStatement',
+  expression: {
+    type: 'CallExpression',
+    callee: {
+      type: 'MemberExpression',
+      computed: false,
+      object: {
+        type: 'MemberExpression',
+        computed: false,
+        object: {
+          type: 'MemberExpression',
+          computed: false,
+          object: {
+            type: 'Identifier',
+            name: 'window'
           },
-          'property': {
-            'type': 'Identifier',
-            'name': 'ClientCoverage'
+          property: {
+            type: 'Identifier',
+            name: 'ClientCoverage'
           }
         },
-        'property': {
-          'type': 'Identifier',
-          'name': 'JS'
+        property: {
+          type: 'Identifier',
+          name: 'JS'
         }
       },
-      'property': {
-        'type': 'Identifier',
-        'name': 'visitMethod'
+      property: {
+        type: 'Identifier',
+        name: 'visitMethod'
       }
     },
-    'arguments': [
+    arguments: [
       {
-        'type': 'Literal',
-        'value': 'filename',
-        'raw': '\'filename\''
+        type: 'Literal',
+        value: 'filename',
+        raw: "'filename'"
       },
       {
-        'type': 'Literal',
-        'value': 'functionName',
-        'raw': '\'functionName\''
+        type: 'Literal',
+        value: 'functionName',
+        raw: "'functionName'"
       }
     ]
   }
-}; 
+};
 
 function instrument(source) {
   let parsed = esprima.parseModule(source, { jsx: true });
@@ -78,41 +78,7 @@ function instrument(source) {
     }
   }
 
-  let newCode = escodegen.generate(parsed);
-  // function removeDuplicates(arr) {
-  //   let uniqueArray = [];
-  //   for (let i = 0; i < arr.length; i++) {
-  //     if (uniqueArray.indexOf(arr[i]) == -1) {
-  //       uniqueArray.push(arr[i]);
-  //     }
-  //   }
-  //   return uniqueArray;
-  // }
-  // funcArray = removeDuplicates(funcArray);
-  return newCode;
+  return escodegen.generate(parsed);
 }
 
 module.exports = instrument;
-
-// let start = {
-//   type: 'ExpressionStatement',
-//   expression: {
-//     type: 'CallExpression',
-//     callee: {
-//       type: 'Identifier',
-//       name: 'getMethodName'
-//     },
-//     arguments: [
-//       {
-//         type: 'Literal',
-//         value: 'filename',
-//         raw: '"filename"'
-//       },
-//       {
-//         type: 'Literal',
-//         value: 'functionname',
-//         raw: '"functionname"'
-//       }
-//     ]
-//   }
-// };
