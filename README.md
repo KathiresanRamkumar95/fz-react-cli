@@ -347,7 +347,11 @@ rtl changes and report publish replace issue fix
 
 - mailSender - multiple recipient support
 
-# 0.0.3-beta.122 pending
+# 0.0.3-beta.122
+
+- impact instrumentation changes
+
+# 0.0.3-beta.123 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
