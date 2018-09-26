@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.122",
+  "version": "0.0.3-beta.123",
   "description": "A CLI tool for build modern web application and libraries",
   "main": "lib/index.js",
   "scripts": {
@@ -40,6 +40,8 @@
     "cross-spawn": "4.0.0",
     "css-loader": "^0.25.0",
     "css-modules-require-hook": "^4.0.5",
+    "escodegen": "^1.11.0",
+    "esprima": "^4.0.1",
     "expect": "^1.20.2",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^3.0.2",

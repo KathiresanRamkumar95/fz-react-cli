@@ -279,6 +279,14 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+  case 'coverage':
+    var result = spawn.sync(
+      'node',
+      [require.resolve('../lib/coverage')].concat(args),
+      { stdio: 'inherit' }
+    );
+    process.exit(result.status);
+    break;
   default:
     console.log('fz-react-cli > Unknown script "' + script + '".');
     console.log('fz-react-cli app <appName>');

@@ -66,10 +66,10 @@ const result = function(inp) {
     statementPerment += coverageData.statements.pct;
     branchesPercent += coverageData.branches.pct;
   }
-  var totalLinesPercent = linesPercent / (i * 100) * 100;
-  var totalFunctionPercent = functionPercent / (i * 100) * 100;
-  var totalStatementPercent = statementPerment / (i * 100) * 100;
-  var totalBranchesPercent = branchesPercent / (i * 100) * 100;
+  var totalLinesPercent = (linesPercent / (i * 100)) * 100;
+  var totalFunctionPercent = (functionPercent / (i * 100)) * 100;
+  var totalStatementPercent = (statementPerment / (i * 100)) * 100;
+  var totalBranchesPercent = (branchesPercent / (i * 100)) * 100;
   var totalPercentage =
     totalLinesPercent +
     totalFunctionPercent +
@@ -117,19 +117,17 @@ const result = function(inp) {
 				</tr>`;
       })}
 			</table>
-			<br/>COVERAGE <span class="${coverage < 60
-        ? 'red'
-        : 'green'}">${coverage.toFixed(
-    2
-  )}%</span> <br/> less than 60% consider failure
+			<br/>COVERAGE <span class="${
+        coverage < 60 ? 'red' : 'green'
+      }">${coverage.toFixed(2)}%</span> <br/> less than 60% consider failure
 		</body>
 	</html>
 		`;
-  try {
+
+  if (!fs.existsSync('./unittest')) {
     fs.mkdirSync('./unittest');
-  } catch (e) {
-    console.log(e);
   }
+
   fs.writeFileSync('./unittest/index.html', html, 'utf8');
   if (coverage < 60) {
     throw new Error(
