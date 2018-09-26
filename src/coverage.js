@@ -1,8 +1,9 @@
+let path = require('path');
 let os = require('os');
 let spawn = require('cross-spawn');
 let config = require('./config/jest.config');
 
-var isNodeModuleUnderAppFolder = __dirname.indexOf(appPath) != -1;
+var isNodeModuleUnderAppFolder = __dirname.indexOf(process.cwd()) != -1;
 var jest = !isNodeModuleUnderAppFolder
   ? path.join(__dirname, '..', 'node_modules', '.bin', 'jest')
   : 'jest';
