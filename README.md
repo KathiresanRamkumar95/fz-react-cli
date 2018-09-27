@@ -352,11 +352,15 @@ rtl changes and report publish replace issue fix
 - impact instrumentation changes
 
 # 0.0.3-beta.123
+
 - commit file code coverage changes
 - package json esprima escodegen library added
 
+# 0.0.3-beta.124
 
-# 0.0.3-beta.124 pending
+- Issue fixed for last commit coverage changes
+
+# 0.0.3-beta.125 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash

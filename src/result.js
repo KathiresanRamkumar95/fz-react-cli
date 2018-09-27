@@ -19,6 +19,7 @@ const result = function(inp) {
     }
     filePath = filePath.replace('.spec', '');
     filePath = filePath.replace('/__tests__', '');
+	  filePath = filePath.replace('/__test__','');
     var fileJson = {};
     fileJson.testPath = testResult.testFilePath;
     fileJson.sourcePath = filePath;
@@ -75,8 +76,14 @@ const result = function(inp) {
     totalFunctionPercent +
     totalStatementPercent +
     totalStatementPercent;
-  var coverage = totalPercentage / 4;
-  console.log('COVERAGE ' + coverage.toFixed(2) + '%');
+  var coverage = ( totalPercentage / 4 ).toFixed( 2 );
+  if(Number.isNaN(coverage)){
+    console.log('This build does\'t have any JS changes!')
+  }
+  else
+  {
+    console.log( 'COVERAGE ' + coverage + '%' );
+  }
 
   var html = `<html>
 	<head>
@@ -129,16 +136,7 @@ const result = function(inp) {
   }
 
   fs.writeFileSync('./unittest/index.html', html, 'utf8');
-  if (coverage < 60) {
-    throw new Error(
-      'The coverage percentage calculated for the test files are below 60% please look at the coverage file and try to cover more lines and functions.'
-    );
-  }
 };
 
-// var resultJson = fs.readFileSync("./test.json").toString();
-// resultJson = JSON.parse(resultJson);
-
-// result(resultJson);
 
 module.exports = result;
