@@ -4,7 +4,7 @@ let path = require('path');
 module.exports = function(appFolder, forCommittedFiles = false) {
   if (forCommittedFiles) {
     return {
-      coverageReporters: ['json-summary', 'json'],
+      coverageReporters: ['json-summary', 'json','json-summary','text'],
       collectCoverage: true,
       transform: {
         '^.+\\.(js|jsx)$': path.resolve(__dirname, '..', 'jsPreprocessor.js'),
