@@ -19,7 +19,7 @@ const result = function(inp) {
     }
     filePath = filePath.replace('.spec', '');
     filePath = filePath.replace('/__tests__', '');
-	  filePath = filePath.replace('/__test__','');
+    filePath = filePath.replace('/__test__', '');
     var fileJson = {};
     fileJson.testPath = testResult.testFilePath;
     fileJson.sourcePath = filePath;
@@ -75,14 +75,15 @@ const result = function(inp) {
     totalLinesPercent +
     totalFunctionPercent +
     totalStatementPercent +
-    totalStatementPercent;
-  var coverage = ( totalPercentage / 4 ).toFixed( 2 );
-  if(Number.isNaN(coverage)){
-    console.log('This build does\'t have any JS changes!')
-  }
-  else
-  {
-    console.log( 'COVERAGE ' + coverage + '%' );
+    totalBranchesPercent;
+  var coverage = (totalPercentage / 4).toFixed(2);
+  coverage=Number(coverage)
+  
+  if (Number.isNaN(coverage)) {
+    console.log("This build does't have any JS changes!");
+    coverage=0;
+  } else {
+    console.log('COVERAGE ' + coverage + '%');
   }
 
   var html = `<html>
@@ -126,7 +127,7 @@ const result = function(inp) {
 			</table>
 			<br/>COVERAGE <span class="${
         coverage < 60 ? 'red' : 'green'
-      }">${coverage.toFixed(2)}%</span> <br/> less than 60% consider failure
+      }">${coverage}%</span> <br/> less than 60% consider failure
 		</body>
 	</html>
 		`;
@@ -134,9 +135,7 @@ const result = function(inp) {
   if (!fs.existsSync('./unittest')) {
     fs.mkdirSync('./unittest');
   }
-
   fs.writeFileSync('./unittest/index.html', html, 'utf8');
 };
-
 
 module.exports = result;
