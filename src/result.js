@@ -77,11 +77,11 @@ const result = function(inp) {
     totalStatementPercent +
     totalBranchesPercent;
   var coverage = (totalPercentage / 4).toFixed(2);
-  coverage=Number(coverage)
-  
+  coverage = Number(coverage);
+
   if (Number.isNaN(coverage)) {
     console.log("This build does't have any JS changes!");
-    coverage=0;
+    coverage = 0;
   } else {
     console.log('COVERAGE ' + coverage + '%');
   }
