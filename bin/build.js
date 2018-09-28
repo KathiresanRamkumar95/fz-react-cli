@@ -279,6 +279,7 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+    /* check to reuse "test" option */
   case 'coverage':
     var result = spawn.sync(
       'node',

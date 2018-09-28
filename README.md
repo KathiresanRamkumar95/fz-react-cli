@@ -360,7 +360,11 @@ rtl changes and report publish replace issue fix
 
 - Issue fixed for last commit coverage changes
 
-# 0.0.3-beta.125 pending
+# 0.0.3-beta.125
+
+- Issue fixed - coverage "html" added
+
+# 0.0.3-beta.126 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
