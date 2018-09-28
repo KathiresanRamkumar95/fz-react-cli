@@ -368,7 +368,7 @@ rtl changes and report publish replace issue fix
 
 - Code coverage issue fixed
 
-# 0.0.3-beta.126 pending
+# 0.0.3-beta.127 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
