@@ -16,7 +16,7 @@ module.exports = function(appFolder, forCommittedFiles = false) {
         )
       },
       moduleFileExtensions: ['js'],
-      testResultsProcessor: path.resolve(__dirname, '..', 'result.js')
+      testResultsProcessor: path.resolve(__dirname, '..', 'coverageResult.js')
     };
   }
 
