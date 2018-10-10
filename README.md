@@ -368,7 +368,15 @@ rtl changes and report publish replace issue fix
 
 - Code coverage issue fixed
 
-# 0.0.3-beta.127 pending
+# 0.0.3-beta.127 
+
+- Mail to multiple recipient as CC:
+- Changed the mail subject as 'Client Report - React'
+- Generate seperate report for last commited changed files unit case coverage
+- List the last changed files list in that above report 
+- sstest report generated even the component list is not available in docs
+
+# 0.0.3-beta.128 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
