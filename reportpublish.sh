@@ -23,7 +23,7 @@ cp -rf ./scrTemplate/js ./screenShots/js
 cp -rf ./scrTemplate/images ./screenShots/images
 cp -rf ./scrTemplate/index.html ./screenShots/index.html
 
-tar -czvf $publishFolder.tar.gz coverage screenShots unittest ./css ./js ./index.html
+tar -czvf $publishFolder.tar.gz coverage screenShots unittest coverageTest ./css ./js ./index.html
 
 curl -i -F name=file -F file=@$publishFolder.tar.gz $url"/cgi-bin/upload.py"
 replace=$publishFolder
