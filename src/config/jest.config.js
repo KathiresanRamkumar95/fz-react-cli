@@ -2,9 +2,11 @@ let fs = require('fs');
 let path = require('path');
 
 module.exports = function(appFolder, forCommittedFiles = false) {
+  let appPath = fs.realpathSync( process.cwd() );
   if (forCommittedFiles) {
     return {
       coverageReporters: ['json', 'html', 'json-summary', 'text'],
+      coverageDirectory: path.resolve( appPath, 'commitCoverage' ),
       collectCoverage: true,
       transform: {
         '^.+\\.(js|jsx)$': path.resolve(__dirname, '..', 'jsPreprocessor.js'),
@@ -20,7 +22,6 @@ module.exports = function(appFolder, forCommittedFiles = false) {
     };
   }
 
-  let appPath = fs.realpathSync(process.cwd());
   return {
     rootDir: appPath,
     testPathIgnorePatterns: ['/node_modules/', 'docs'],
