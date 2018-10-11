@@ -39,9 +39,8 @@ const result = function(inp) {
         });
   });
 
-  var coverageSummary = fs
-    .readFileSync('./commitCoverage/coverage-summary.json')
-    .toString();
+  var coverageSummary = fs.readFileSync('./commitCoverage/coverage-summary.json').toString();
+  
   if (coverageSummary.indexOf('\\') != -1) {
     coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
   }
@@ -50,7 +49,7 @@ const result = function(inp) {
   var functionPercent = 0;
   var statementPerment = 0;
   var branchesPercent = 0;
-
+  
   let fileList = '<h4>Changed files in last code check-in</h4><ul>';
   for (var i = 0; i < testFilesArr.length; i++) {
     var curSourceFile = testFilesArr[i].sourcePath;
@@ -69,7 +68,7 @@ const result = function(inp) {
     statementPerment += coverageData.statements.pct;
     branchesPercent += coverageData.branches.pct;
   }
-
+  
   fileList = `${fileList}</ul>`;
   if (testFilesArr.length == 0) {
     fileList = '<div></div>';
