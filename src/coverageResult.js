@@ -39,9 +39,8 @@ const result = function(inp) {
         });
   });
 
-  var coverageSummary = fs
-    .readFileSync('./coverage/coverage-summary.json')
-    .toString();
+  var coverageSummary = fs.readFileSync('./commitCoverage/coverage-summary.json').toString();
+  
   if (coverageSummary.indexOf('\\') != -1) {
     coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
   }
@@ -50,8 +49,11 @@ const result = function(inp) {
   var functionPercent = 0;
   var statementPerment = 0;
   var branchesPercent = 0;
+  
+  let fileList = '<h4>Changed files in last code check-in</h4><ul>';
   for (var i = 0; i < testFilesArr.length; i++) {
     var curSourceFile = testFilesArr[i].sourcePath;
+    fileList = `${fileList}<li>${curSourceFile}</li>`;
     var coverageData = coverageJson[curSourceFile];
     if (coverageData == undefined) {
       console.log(
@@ -66,6 +68,11 @@ const result = function(inp) {
     statementPerment += coverageData.statements.pct;
     branchesPercent += coverageData.branches.pct;
   }
+  
+  fileList = `${fileList}</ul>`;
+  if (testFilesArr.length == 0) {
+    fileList = '<div></div>';
+  }
   var totalLinesPercent = (linesPercent / (i * 100)) * 100;
   var totalFunctionPercent = (functionPercent / (i * 100)) * 100;
   var totalStatementPercent = (statementPerment / (i * 100)) * 100;
@@ -79,6 +86,7 @@ const result = function(inp) {
   coverage = Number(coverage);
 
   if (Number.isNaN(coverage)) {
+    fileList = '<div></div>';
     console.log("This build does't have any JS changes!");
     coverage = 0;
   } else {

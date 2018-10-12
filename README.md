@@ -376,8 +376,12 @@ rtl changes and report publish replace issue fix
 - List the last changed files list in that above report 
 - sstest report generated even the component list is not available in docs
 
-# 0.0.3-beta.128 pending
+# 0.0.3-beta.128
 
+- coverage for last commit files optimization and its issue fix
+- seperate coverage summary for last committed changes
+
+# 0.0.3-beta.129 pending
 - clone repo option i18n pending
 - webpack-md5-hash
 - server side rendering
