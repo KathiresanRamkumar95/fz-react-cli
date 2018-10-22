@@ -39,9 +39,8 @@ const result = function(inp) {
         });
   });
 
-  var coverageSummary = fs
-    .readFileSync('./coverage/coverage-summary.json')
-    .toString();
+  var coverageSummary = fs.readFileSync('./commitCoverage/coverage-summary.json').toString();
+  
   if (coverageSummary.indexOf('\\') != -1) {
     coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
   }
@@ -50,9 +49,11 @@ const result = function(inp) {
   var functionPercent = 0;
   var statementPerment = 0;
   var branchesPercent = 0;
+  
+  let fileList = '<h4>Changed files in last code check-in</h4><ul>';
   for (var i = 0; i < testFilesArr.length; i++) {
-    var curFileObj = testFilesArr[i];
     var curSourceFile = testFilesArr[i].sourcePath;
+    fileList = `${fileList}<li>${curSourceFile}</li>`;
     var coverageData = coverageJson[curSourceFile];
     if (coverageData == undefined) {
       console.log(
@@ -67,6 +68,11 @@ const result = function(inp) {
     statementPerment += coverageData.statements.pct;
     branchesPercent += coverageData.branches.pct;
   }
+  
+  fileList = `${fileList}</ul>`;
+  if (testFilesArr.length == 0) {
+    fileList = '<div></div>';
+  }
   var totalLinesPercent = (linesPercent / (i * 100)) * 100;
   var totalFunctionPercent = (functionPercent / (i * 100)) * 100;
   var totalStatementPercent = (statementPerment / (i * 100)) * 100;
@@ -80,62 +86,21 @@ const result = function(inp) {
   coverage = Number(coverage);
 
   if (Number.isNaN(coverage)) {
+    fileList = '<div></div>';
     console.log("This build does't have any JS changes!");
     coverage = 0;
   } else {
     console.log('COVERAGE ' + coverage + '%');
   }
 
-  var html = `<html>
-	<head>
-	<style>
-	.red{
-		font-weight:bold;
-		color:red;
-	}
-	.green{
-		font-weight:bold;
-		color:green;
-	}
-	table
-		{
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-		}
+  let html = `<html><head><style>.red{font-weight:bold;color:red;}.green{font-weight:bold;color:green;}</style></head><body><br/>COVERAGE <span class="${
+    coverage < 60 ? 'red' : 'green'
+  }">${coverage}%</span> <br/> less than 60% consider failure${fileList}</body></html>`;
 
-		td, th
-		{
-    border: 1px solid #dddddd;
-    padding: 8px;
-		}
-	</style>
-	</head>
-		<body>
-			<table>
-			<tr>
-				<th>Title</th>
-				<th>FullName</th>
-				<th>Test Case Path</th>
-			</tr>
-			${unitTestReport.map(t => {
-        return `<tr>
-					<td>${t.title}</td>
-					<td>${t.fullName}</td>
-					<td>${t.filePath}</td>
-				</tr>`;
-      })}
-			</table>
-			<br/>COVERAGE <span class="${
-        coverage < 60 ? 'red' : 'green'
-      }">${coverage}%</span> <br/> less than 60% consider failure
-		</body>
-	</html>
-		`;
-
-  if (!fs.existsSync('./unittest')) {
-    fs.mkdirSync('./unittest');
+  if (!fs.existsSync('./coverageTest')) {
+    fs.mkdirSync('./coverageTest');
   }
-  fs.writeFileSync('./unittest/index.html', html, 'utf8');
+  fs.writeFileSync('./coverageTest/index.html', html, 'utf8');
 };
 
 module.exports = result;

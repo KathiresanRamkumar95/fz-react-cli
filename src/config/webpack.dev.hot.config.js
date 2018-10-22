@@ -2,6 +2,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+let scriptLoader = require( '../scriptLoader' );
 var getIP = require('../utils/ipaddress');
 var i18nPlugin = require('../i18nPlugin');
 var host = process.env.npm_config_server_host || getIP();
@@ -90,7 +91,7 @@ module.exports = {
   },
   plugins: [
     //write hot module plugin like webpack-dev-server  server.js    new webpack.HotModuleReplacementPlugin(),
-
+    new scriptLoader(),
     new CaseSensitivePathsPlugin(),
 
     // new i18nPlugin({
@@ -126,6 +127,9 @@ module.exports = {
       {
         test: /\.jsx|\.js$/,
         use: [
+          {
+            loader: path.resolve(__dirname, '../instrument.js')
+          },
           {
             loader: 'babel-loader',
             options: {

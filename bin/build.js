@@ -139,6 +139,14 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+  case 'impact':
+    var result = spawn.sync(
+      'node',
+      [ require.resolve( '../lib/server/impactServer' ) ].concat( args ),
+      { stdio: 'inherit' }
+    );
+    process.exit( result.status );
+    break;
   case 'build:component':
     var result = spawn.sync(
       crossEnv,
@@ -279,6 +287,7 @@ switch (script) {
     );
     process.exit(result.status);
     break;
+    /* check to reuse "test" option */
   default:
     console.log('fz-react-cli > Unknown script "' + script + '".');
     console.log('fz-react-cli app <appName>');

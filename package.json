@@ -1,64 +1,28 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "fz-react-cli@0.0.3-beta.119",
-        "scope": null,
-        "escapedName": "fz-react-cli",
-        "name": "fz-react-cli",
-        "rawSpec": "0.0.3-beta.119",
-        "spec": "0.0.3-beta.119",
-        "type": "version"
-      },
-      "/Users/bharathi-zt93/git/react/jsapps/supportapp"
-    ]
-  ],
-  "_from": "fz-react-cli@0.0.3-beta.119",
-  "_id": "fz-react-cli@0.0.3-beta.119",
-  "_inCache": true,
-  "_location": "/fz-react-cli",
-  "_nodeVersion": "8.11.1",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/fz-react-cli_0.0.3-beta.119_1532420114675_0.8896425351397363"
+  "name": "fz-react-cli",
+  "version": "0.0.3-beta.130",
+  "description": "A CLI tool for build modern web application and libraries",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib coverage",
+    "start": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --watch",
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "prepublish": "npm run clean && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "_npmUser": {
-    "name": "vimalesan",
-    "email": "vimalesan.ceg@gmail.com"
+  "engines": {
+    "node": "<=6.10.0"
   },
-  "_npmVersion": "4.6.1",
-  "_phantomChildren": {},
-  "_requested": {
-    "raw": "fz-react-cli@0.0.3-beta.119",
-    "scope": null,
-    "escapedName": "fz-react-cli",
-    "name": "fz-react-cli",
-    "rawSpec": "0.0.3-beta.119",
-    "spec": "0.0.3-beta.119",
-    "type": "version"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vimalceg/fz-react-cli.git"
   },
-  "_requiredBy": [
-    "#DEV:/",
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/fz-react-cli/-/fz-react-cli-0.0.3-beta.119.tgz",
-  "_shasum": "09dd74dec6d5ba0d025108ea82aedd575fadbf18",
-  "_shrinkwrap": null,
-  "_spec": "fz-react-cli@0.0.3-beta.119",
-  "_where": "/Users/bharathi-zt93/git/react/jsapps/supportapp",
   "author": "",
-  "babel": {
-    "presets": [
-      "es2015",
-      "react"
-    ]
-  },
-  "bin": {
-    "fz-react-cli": "bin/build.js"
-  },
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/vimalceg/fz-react-cli/issues"
   },
+  "homepage": "https://github.com/vimalceg/fz-react-cli#readme",
   "dependencies": {
     "babel-cli": "^6.10.4",
     "babel-core": "^6.10.4",
@@ -76,12 +40,14 @@
     "cross-spawn": "4.0.0",
     "css-loader": "^0.25.0",
     "css-modules-require-hook": "^4.0.5",
+    "escodegen": "^1.11.0",
+    "esprima": "^4.0.1",
     "expect": "^1.20.2",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "fbjs": "^0.8.8",
     "file-loader": "^0.10.1",
-    "fz-i18n": "1.2.0-beta.13",
+    "fz-i18n": "1.2.0-beta.14",
     "fz-layout": "^1.0.0-beta.7",
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
@@ -141,61 +107,17 @@
     "xhr2": "^0.1.3",
     "xmlhttprequest": "1.8.0"
   },
-  "description": "A CLI tool for build modern web application and libraries",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "shasum": "09dd74dec6d5ba0d025108ea82aedd575fadbf18",
-    "tarball": "https://registry.npmjs.org/fz-react-cli/-/fz-react-cli-0.0.3-beta.119.tgz",
-    "fileCount": 165,
-    "unpackedSize": 4325612
+  "bin": {
+    "fz-react-cli": "bin/build.js"
   },
-  "engines": {
-    "node": "<=6.10.0"
-  },
-  "gitHead": "235428e7fc3fb8abe3fca4194c671d1ce309e8c1",
-  "homepage": "https://github.com/vimalceg/fz-react-cli#readme",
-  "license": "ISC",
-  "main": "lib/index.js",
-  "maintainers": [
-    {
-      "name": "vimalesan",
-      "email": "vimalesan.ceg@gmail.com"
-    }
-  ],
-  "name": "fz-react-cli",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vimalceg/fz-react-cli.git"
-  },
-  "scripts": {
-    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "clean": "rimraf lib coverage",
-    "prepublish": "npm run clean && npm run build",
-    "start": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "serverconfig": {
     "host": "localhost",
     "port": "9090"
-  },
-  "version": "0.0.3-beta.119",
-  "warnings": [
-    {
-      "code": "ENOTSUP",
-      "required": {
-        "node": "<=6.10.0"
-      },
-      "pkgid": "fz-react-cli@0.0.3-beta.119"
-    },
-    {
-      "code": "ENOTSUP",
-      "required": {
-        "node": "<=6.10.0"
-      },
-      "pkgid": "fz-react-cli@0.0.3-beta.119"
-    }
-  ]
+  }
 }
