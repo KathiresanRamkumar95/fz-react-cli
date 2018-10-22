@@ -1,0 +1,17 @@
+{
+  "name": "testapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "fz-react-cli clean build unittest coverage",
+    "docs":"fz-react-cli docs",
+    "component":"fz-react-cli build:component",
+    "component:umd":"fz-react-cli build:component:umd",
+    "start": "fz-react-cli start",
+    "build": "fz-react-cli build",
+    "test": "npm run clean && fz-react-cli test"
+  },
+  "author": "",
+  "license": "ISC"
+}

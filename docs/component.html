@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel=stylesheet href="./css/component.css">
+	</head>
+	<body>
+		<div id="react" class="appContainer"></div>
+		<div id="reactUserEdit"></div>
+		<script src="/docs/js/vendor.js"  defer="true"></script>
+		<script src="/docs/js/main.js" defer="true"></script>
+		<script src="/docs/js/babel.min.js"></script>
+		<script type="text/babel">
+		var test = 'test';
+var ReactDOM = Component.ReactDOM;
+var React = Component.React;
+var ReactDOMServer = Component.ReactDOMServer;
+class RenderComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Components: Component,
+
+      selectedComponent: location.hash != '' ? location.hash.substring(1) : null
+    };
+    this.hashChange = this.hashChange.bind(this);
+  }
+  hashChange() {
+    this.setState({
+      selectedComponent: location.hash != '' ? location.hash.substring(1) : null
+    });
+  }
+
+  componentDidMount() {
+    window.addEventListener('hashchange', this.hashChange);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('hashchange', this.hashChange);
+  }
+  render() {
+    const {Components, selectedComponent} = this.state;
+    var ComponentClass = selectedComponent && Components[selectedComponent];
+    var keysSingleAr =
+      (ComponentClass &&
+        ComponentClass.docs &&
+        ComponentClass.docs.testProps &&
+        Object.keys(ComponentClass.docs.testProps)) ||
+      [];
+    return (
+      <div className="root">
+        {Components[selectedComponent] ? (
+          Array.isArray(ComponentClass.docs.testProps) ? (
+            ComponentClass.docs.testProps.map((prop, i) => {
+              return (
+                <div className="comps">
+                  <ComponentClass {...prop} />
+                </div>
+              );
+            })
+          ) : (
+            <ComponentClass {...ComponentClass.docs.testProps} />
+          )
+        ) : (
+          <div className={'emptyState'}>
+            <svg
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              style={{enableBackground: 'new 0 0 512 512'}}
+              xmlSpace="preserve" className={"smileIcon"}
+            >
+              <linearGradient
+                id="SVGID_1_"
+                gradientUnits="userSpaceOnUse"
+                x1="256"
+                y1="514"
+                x2="256"
+                y2="2"
+                gradientTransform="matrix(1 0 0 -1 0 514)"
+              >
+                <stop offset="0" style={{stopColor: '#2AF598'}} />
+                <stop offset="1" style={{stopColor: '#009EFD'}} />
+              </linearGradient>
+              <path
+                style={{fill: 'url(#SVGID_1_)'}}
+                d="M344.354,381.58c-1.33-1.651-33.207-40.458-88.354-40.458
+					c-55.832,0-87.972,39.974-88.29,40.378l-31.42-24.756c1.79-2.271,44.687-55.622,119.71-55.622s117.92,53.352,119.71,55.622
+					L344.29,381.5L344.354,381.58z M437.02,437.02C485.371,388.668,512,324.38,512,256s-26.629-132.667-74.98-181.02
+					C388.667,26.629,324.38,0,256,0S123.333,26.629,74.98,74.98C26.629,123.333,0,187.62,0,256s26.629,132.668,74.98,181.02
+					C123.333,485.371,187.62,512,256,512S388.667,485.371,437.02,437.02z M472,256c0,119.103-96.897,216-216,216S40,375.103,40,256
+					S136.897,40,256,40S472,136.897,472,256z M168,212.122c17.673,0,32-14.327,32-32s-14.327-32-32-32s-32,14.327-32,32
+					S150.327,212.122,168,212.122z M344,212.122c17.673,0,32-14.327,32-32s-14.327-32-32-32s-32,14.327-32,32
+					S326.327,212.122,344,212.122z"
+              />
+            </svg>
+            <div>Please click the components on left side menu bar</div>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<RenderComponent />, react);
+</script>
+
+
+
+<!-- hook for screen shot testing start-->
+<script type="text/javascript">
+var err = null;
+var comName = '';
+var findErr = (window.onerror = function(e, line) {
+  err = e;
+  comName = window.location.hash.substr(1);
+});
+var funct = function() {
+  return {error: err, name: comName};
+};
+</script>
+    <!-- hook for screen shot testing End-->
+	</body>
+</html>

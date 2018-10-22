@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="./css/b.min.css">
+		<style>
+		body {
+      position: relative;
+  }
+  ul.nav-pills {
+      top: 20px;
+      position: fixed;
+  }
+p{
+	font-size: 18px;
+}
+.container{
+	width:100%;
+	background-color: #473425;
+}
+.source,.html{
+	cursor:pointer;
+	margin:10px;
+	color:blue;
+	font-size:15px;
+}
+#componentInfo{
+	background:white;
+}
+.component{
+	padding:30px 15px;
+	border-bottom: 2px solid #dddbda;
+}
+	</style>
+	  <script src="./js/j.min.js"></script>
+	  <script src="./js/b.min.js"></script>
+	</head>
+	<body  data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+<div class="container">
+  <div class="row">
+    <nav class="col-sm-2" id="myScrollspy">
+
+
+
+      <ul class="nav nav-pills nav-stacked" id="componentMenu">
+
+      </ul>
+
+    </nav>
+    <div class="col-sm-10" id="componentInfo">
+
+    </div>
+  </div>
+</div>
+
+
+
+
+		<script src="/docs/js/vendor.js" ></script>
+		<script src="/docs/js/main.js" ></script>
+
+		<script>
+		function toggle(id, type) {
+  if (type == 'source') {
+    document.getElementById(id + '_html').style.display = 'none';
+  } else {
+    document.getElementById(id + '_source').style.display = 'none';
+  }
+  var x = document.getElementById(id + '_' + type);
+  if (x.style.display === 'none') {
+    x.style.display = 'block';
+  } else {
+    x.style.display = 'none';
+  }
+}
+function process(str) {
+  var div = document.createElement('div');
+  div.innerHTML = str.trim();
+
+  return format(div, 0).innerHTML;
+}
+
+function format(node, level) {
+  var indentBefore = new Array(level++ + 1).join('  '),
+    indentAfter = new Array(level - 1).join('  '),
+    textNode;
+
+  for (var i = 0; i < node.children.length; i++) {
+    textNode = document.createTextNode('\n' + indentBefore);
+    node.insertBefore(textNode, node.children[i]);
+
+    format(node.children[i], level);
+
+    if (node.lastElementChild == node.children[i]) {
+      textNode = document.createTextNode('\n' + indentAfter);
+      node.appendChild(textNode);
+    }
+  }
+
+  return node;
+}
+var test = 'test';
+var ReactDOM = Component.ReactDOM;
+var React = Component.React;
+var renderToStaticMarkup = Component.renderToStaticMarkup;
+
+// class RenderComponent extends React.Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   render() {
+//     var { Components } = this.props;
+//
+//     return (
+//       <div>
+//         {Object.keys(Components).map(ComponentName => {
+//           if (
+//             ComponentName == 'React' ||
+//             ComponentName == 'ReactDOM' ||
+//             ComponentName.indexOf('__') == -1
+//           ) {
+//             return 'test';
+//           }
+//
+//           var Component = Components[ComponentName];
+//           console.dir(Component);
+//
+//           return (
+//             <div>
+//               <div><Component /></div>
+//               <div>{ComponentName}</div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     );
+//   }
+// }
+
+var baseComponent = {};
+var baseComponentState = {};
+Object.keys(Component).forEach(c => {
+  var componentObj = Component[c];
+  if (c.indexOf('__') != -1) {
+    if (baseComponentState[c.split('__')[0]]) {
+      baseComponentState[c.split('__')[0]].push(c);
+    } else {
+      baseComponentState[c.split('__')[0]] = [c];
+    }
+  } else if (
+    componentObj.docs &&
+    componentObj.docs.external &&
+    (componentObj.docs.componentGroup == 'Atom' ||
+      componentObj.docs.componentGroup == 'Molecule' ||
+      componentObj.docs.componentGroup == 'Organism')
+  ) {
+    baseComponent[c] = componentObj;
+  }
+});
+console.log(baseComponent);
+console.log(baseComponentState);
+var str = Object.keys(baseComponent)
+  .sort()
+  .reduce((result, componentKey) => {
+    return `${result}<li><a href="#${componentKey}" class="menuItem">${componentKey}</a></li>`;
+  }, '');
+
+var getComponentState = componentKey => {
+  var result = '';
+  baseComponentState[componentKey].forEach(ckey => {
+    result += `<div><span onClick="toggle('${ckey}','source')" class="source">Source</span><span onClick="toggle('${ckey}',
+      'html')" class="html">html</span><pre id="${ckey +
+        '_source'}" style="display:none"></pre><pre id="${ckey +
+      '_html'}"  style="display:none"></pre><div id="${ckey}"></div></div>`;
+    setTimeout(() => {
+      ReactDOM.render(
+        React.createElement(Component[ckey]),
+        document.getElementById(ckey)
+      );
+      document.getElementById(ckey + '_source').innerText =
+        Component[ckey].docs.source;
+      document.getElementById(ckey + '_html').innerText = process(
+        renderToStaticMarkup(React.createElement(Component[ckey]))
+      );
+    }, 100);
+  });
+  return result;
+};
+var componentInfo = Object.keys(baseComponent)
+  .sort()
+  .reduce((result, componentKey) => {
+    return `${result}<div id="${componentKey}" class="component">
+	  <h1>${componentKey}</h1>
+	  <p>
+	    ${baseComponent[componentKey].docs.description || 'No description'}
+	  </p>
+		<h4>PropTypes</h4>
+		<table  class="table table-striped">
+		<tr><th>PropsName</th><th>type</th><th>isRequired</th></th>
+		${Object.keys(baseComponent[componentKey].propTypes).sort()
+      .map(pKey => {
+        var pObj = baseComponent[componentKey].propTypes[pKey];
+        return `<tr>
+			<td>
+					${pKey}
+				</td>
+
+			<td>
+
+					${pObj.hookType}
+
+			</td><td>
+
+					${pObj.isRequired ? '' : 'true'}
+
+			</td></tr>`;
+      })
+      .join('')}
+			</table>
+		<h4>State</h4>
+		${getComponentState(componentKey)}
+		${baseComponent[componentKey].docs.additionDescription ? `<h4>More Information about component</h4><p>${baseComponent[componentKey].docs.additionDescription}</p>`:""}
+
+	</div>`;
+  }, '');
+
+document.getElementById('componentMenu').innerHTML = str;
+document.getElementById('componentInfo').innerHTML = componentInfo;
+// var html = Object.keys(Component).reduce((res, cName) => {
+//   return `${res} <div><div id="${cName}"></div><div>${cName}</div></div>`;
+// });
+// document.getElementById('react').innerHTML = html;
+// Object.keys(Component).forEach(cName => {
+//   if (cName == 'React' || cName == 'ReactDOM') {
+//     return;
+//   }
+//   var C = Component[cName];
+//   try {
+//     ReactDOM.render(<C />, document.getElementById(cName));
+//   } catch (e) {
+//     console.log('Error render', cName);
+//   }
+// });
+</script>
+
+
+	</body>
+</html>

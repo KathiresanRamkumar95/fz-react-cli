@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>fz-react-cli docs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/b.min.css">
+  <script src="./js/j.min.js"></script>
+  <script src="./js/b.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-with-addons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script> -->
+  <style>
+  body {
+      position: relative;
+  }
+
+script {
+  display: block;
+}
+p{
+  width:500px;
+  text-indent: 50px;
+}
+.noIntend{
+  text-indent: 0px;
+}
+  #introduction,#basic,#serverside,#react,#redux,#section41,#section42,#router{
+    padding-top:50px;min-height:650px;
+  }
+
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">FZ-REACT-CLI Help</a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#basic">Basic</a></li>
+          <li><a href="#react">React</a></li>
+          <li><a href="#redux">Redux</a></li>
+          <li><a href="#router">Router</a></li>
+          <li><a href="#serverside">Server Side render</a></li>
+
+          <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#section41">Section 4-1</a></li>
+              <li><a href="#section42">Section 4-2</a></li>
+            </ul>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="introduction" class="container-fluid">
+  <h1>Introduction</h1>
+  <p>fz-react-cli is a node cli tool to create and build our react project and also JS library.
+  Before installation kindly check your node version is v6.10.0 or above (node -v)
+and also check git installed your machine (git --version).<br />
+Node - <a href="https://nodejs.org/en/download/" target="_blank">Download</a></p>
+  <h3>Installation</h3>
+	<pre>
+    &gt; node -v
+    &gt; git --version
+    &gt; npm install fz-react-cli -g</pre>
+
+	<h3>How to create react application and how to start the application?</h3>
+  <p>You can create and start the application using the following command. It starts running in the default port 9090.
+    You may change your running port by passing argument --server:port=8080.<br />
+    <pre>
+    &gt; fz-react-cli app &lt;appname&gt;
+    &gt; cd &lt;appname&gt;
+    &gt; npm run start</pre>
+
+    Some useful arguments
+      <ul>
+        <li>--server:port=9090 <br />(for changing port)</li>
+        <li>--server:context=support || portal <br />(for changing context)</li>
+        <li>--dev:hot=true <br />(for hot reloading while development)</li>
+        <li>--server:prod=true <br />(for checking like production build )</li>
+      </ul>
+  </p>
+
+  <h3>React application folder structure look like below.</h3>
+
+  <pre>
+      -&lt;appname&gt;
+          -src
+              -components
+                  -&lt;componentnameasfoldername&gt;
+                      -__tests__
+                          * &lt;componentname&gt;.spec.js
+                      -docs
+                          * &lt;componentname&gt;__&lt;state1&gt;.docs.js
+                          * &lt;componentname&gt;__&lt;state2&gt;.docs.js
+                      * &lt;componentname&gt;.js
+                      * &lt;componentname&gt;.css
+
+                  * index.js ( component export )
+                  * docs.js  ( docs export )
+              -containers
+                  -&lt;containercomponent&gt;
+                      *&lt;containercomponent&gt;.js
+                      *&lt;containercomponent&gt;.css
+              * index.js
+          -mockapi
+              * index.js
+          -app
+              * index.html
+          -docs (optional)
+              * all.html (optional)
+          * package.json
+          * .gitignore
+          * README.md
+
+
+Note:
+      - folder
+      * file
+      -&lt;&gt; userfolder
+      *&lt;&gt; userfile
+  </pre>
+  <p>
+    <b>Information:</b> You may create some folder under "components" folder. We can call it as group.
+    Under group folder, we create component then it is specific to that group not generic component.
+     It is under "components" then more generic component. Similarly rule for containers also.
+
+  </p>
+  <h3>What is Component?</h3>
+  <p>Components are small and reusable building blocks in your application. Example Button is a component.
+  We can use same button throught our application. These components are created under components folder.</p>
+
+  <h3>How to create component?</h3>
+  <p>Inside components folder create new folder and rename into component name.
+    Create Component name dot css and js file. Create "docs" folder for documentation. create "__tests__" folder for testing purpose. we will discuss docs and testing later. Simple Contact component below.
+  <pre>
+function Contact(props){
+  var { name, onClick } = props;
+  return (
+    &lt;div className="contact--default" onClick={onClick}&gt;
+      &lt;span&gt;{name}&lt;/span&gt;
+    &lt;/div&gt;;
+  )
+} </pre>
+<p class="noIntend">Don't worry if you not understanding this example. I will explain later</p>
+
+  <h3>What is Container?</h3>
+  <p>Container is also component. But It's main responsibility to fetch data using api and maintaining state and pass the state to it's children. Creating container component is similar like component. It also has react lifecycle method</p>
+  <pre>
+    class ContactListContainer extends React.Component{
+      constructor(props){
+        super(props);
+        this.state={
+          contacts:[]
+        }
+      }
+      render(){
+        return &lt;div&gt;
+          {
+            this.state.contacts.map((contact)=>{
+              return &lt;Contact name={contact.name} onClick={()=>{console.log(contact.id)} /&gt;
+            })
+        }
+        &lt;/div&gt;
+      }
+    }
+    componentDidMount(){
+      fetch('/api/v1/contacts').then(res=>res.json()).then(res)=>{
+        this.setState({contacts:res})
+      })
+    }
+  }
+
+  </pre>
+<p  class="noIntend">Don't worry if you not understanding this example. I will explain later</p>
+
+  <h3>What is component documentation?</h3>
+  <p> Once components grow, It is hard to find out available component and it is possible UI state of the component.
+    So You need a documentation for your components. Each component has docs folder and you can define different UI state of your component.
+    This will display your component documentation</p>
+
+  <h3>How can i view my components as documentation?</h3>
+  <p>You can run the below command to start your document server. It runs in the default port 9292.
+     You may change your running port using --server:port={port}  </p>
+  <pre>npm run docs --server:componentPath=./src/components/</pre>
+
+  <h3>What is it means --server:componentPath?</h3>
+  <p>
+    It means, You can mention your components library location in your application folder.
+    Default location under src/components
+  </p>
+
+  <h3>Should i maintain component library inside application repository?</h3>
+  <p> No. Not necessary. You may create separate repository for your component library.
+     You can publish your component library and use inside your application</p>
+
+  <h3>How to create separate component library?</h3>
+  <p>You can create library using below component</p>
+  <pre>fz-react-cli library &lt;libraryname&gt;</pre>
+  <div>open package.json file and add below code into scripts </div>
+  <pre>"scripts":{
+    "docs":"fz-react-cli docs",
+    ...
+  }</pre>
+
+
+  <h3>What about folder structure of component library?</h3>
+  <p>It is similar to app folder structure. You can create your component directly under src folder.
+  No need to create under components folder. Remove some unwanted folder like container, app folder,etc.
+  see below for sample
+</P>
+  <pre>
+      -&lt;componentLibrary&gt;
+          -src
+              -&lt;componentnameasfoldername&gt;
+                  -__tests__
+                      * &lt;componentname&gt;.spec.js
+                  -docs
+                      * &lt;componentname&gt;__&lt;state1&gt;.docs.js
+                      * &lt;componentname&gt;__&lt;state2&gt;.docs.js
+                  * &lt;componentname&gt;.js
+                  * &lt;componentname&gt;.css
+
+              * index.js ( component export )
+              * docs.js  ( docs export )
+          -docs (optional)
+              * all.html (optional)
+          * package.json
+          * .gitignore
+          * README.md
+
+Note:
+      - folder
+      * file
+      -&lt;&gt; userfolder
+      *&lt;&gt; userfile
+  </pre>
+
+  <h3>How to build my component library?</h3>
+  <p>You can build your component library using below command. It builds your component library into different module system common js and
+     es6. Understand different module system (AMD,Commonjs,umd) (<a href="https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/">link</a>) </p>
+  <pre>npm run build:component
+npm run build:es
+  </pre>
+
+  <h3>Can I get single js for my component library?(UMD)</h3>
+  <p>You may build as single js. but I am not prefer becuase component library has images and fonts and css and other resources.
+    Build support bundle css inside js. there is no problem it is plain Css. If it use images fonts then we need to provide
+    proper domain to download images and fonts. My opinion is to install as a dependencies and require you app and use it.
+  </p>
+
+  <h3>How to publish my component library?</h3>
+  <p>It is out of the scope of this library. It is based on your registry configuration.
+  If you configure npm registry using below component to use publish.
+  you can get more information from this video tutorial (<a href="https://egghead.io/lessons/javascript-publishing-to-npm" target="_blank">Link</a>)</p>
+  <pre>npm publish</pre>
+
+	<h3>How to create other than component library (like redux) only js not css/images/fonts ?</h3>
+  <p> you can use the same command. Update your package json information. </p>
+  <pre>fz-react-cli library &lt;libraryname&gt;</pre>
+
+  <h3>Can i get single js for my library?(UMD file)</h3>
+  <p>Yes. You can get your library as single umd js file. You can use the below command to create your umd js.
+  Once build success, It is created under dist folder. you can also build your library in commonjs and es6 modules</p>
+  <pre>npm run build:umd</pre>
+  <pre>npm run build:component
+npm run build:es
+  </pre>
+
+  <h3>How can i change my umd global variable?</h3>
+  <p>In package json file, you can see the variable "umdVar". You can change your globally export variable there.</p>
+
+
+
+  <pre>fz-react-cli propertyToJson &lt;propertyfolder&gt; &lt;jsonfolder&gt; &lt;defaultpropertyfile&gt; &lt;usedpropertyasfile&gt;
+Example
+fz-react-cli propertyToJson ./support/properties/ ./support/i18n ./support/properties/ApplicationResources_en_US.properties ./support/properties/JSResources.properties
+  </pre>
+
+  <h3>Some restriction</h3>
+  <p>don't create docs app name</p>
+
+  <h3>Advanced</h3>
+  <h3>Node Cluster Monitor</h3>
+	<pre>fz-react-cli cluster:monitor</pre>
+  <p>cluster config object </p>
+  <pre>
+    {
+      "cluster":[
+      {
+        "ip": "localhost",
+        "port": "4040"
+      },
+      {
+        "ip": "localhost",
+        "port": "4050"
+      }
+    ]
+    }
+
+  </pre>
+
+  <h3>Node</h3>
+	<pre>fz-react-cli node &lt;host&gt; &lt;port&gt; &lt;repourl&gt; &lt;branch&gt; </pre>
+
+
+  <h3>Learn</h3>
+  <ul>
+    <li>ES2015/ES6</li>
+    <li>React</li>
+    <li>Redux</li>
+    <li>React-Redux</li>
+    <li>simple-normalizer</li>
+    <li>redux-router-middle</li>
+    <li>fz-i18n</li>
+    <li>fz-propertytojson</li>
+    <li>fz-dnd</li>
+    <li>fz-permission</li>
+    <li>fz-layout</li>
+    <li>css-modules</li>
+    <li>webpack</li>
+    <li>Server Side Rendering</li>
+  </ul>
+  <p>Learn all topic in deep. I will explain basic in the following section</p>
+</div>
+<div id="basic" class="container-fluid">
+   <h1>Basic</h1>
+   <p>Before going to write application we are going to learn some basic. Those things only going to use most of the places.
+  <h2>Javascript</h2>
+    <P>In javascript, We are going to see following methods
+    <ul>
+      <li>Object.assign</li>
+      <li>Object.keys methods</li>
+      <li>Array.map</li>
+      <li>Array.filter</li>
+      <li>Array.reduce</li>
+      <li>Function.apply</li>
+      <li>Function.call</li>
+      <li>Function.bind</li>
+    </ul>
+    After that ES2015 feature
+     <ul>
+      <li>arrow function</li>
+      <li>class </li>
+      <li>string template</li>
+      <li>Promise</li>
+    </ul>
+</P>
+
+  <h3>Object.assign</h3>
+  <pre>
+  var target = Object.assign(target,source1,source2,...);</pre>
+    <p>The Object.assign() method is used to copy the values of all properties from source objects to a target object. It will return the target object.</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/aw7NfYhR5rc" frameborder="0" allowfullscreen></iframe>
+
+  <h3>Array methods</h3>
+    <h4>Map</h4>
+    <p>Map function used to map value to correponding array element</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.map(function(val){
+          return val*2;
+        })
+        a1=[1,2,3] a2=[2,4,6]
+    </pre>
+    <h4>Filter</h4>
+    <p>Filter function used to filter values from give array</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.filter(function(val){
+          val%2;
+        })
+        a1=[1,2,3] a2=[1,3]
+    </pre>
+    <h4>Reduce</h4>
+    <p>Reduce function used to reduce one dimention array to single value.</p>
+    <pre>
+        var a1=[1,2,3];
+        var a2=a1.reduce(function(result,next){
+          return result+next;
+        },0)
+        a1=[1,2,3] a2=6
+    </pre>
+    <p> Try these examples
+      <a href="http://reactivex.io/learnrx/">Link</a>
+    </p>
+
+  <h1>ES2015/ES6</h1>
+  <h3>Arrow Function</h3>
+  <pre>
+      function test(a,b){
+        return a+b
+      }
+
+      var test = (a,b) => {
+        return a+b
+      }
+
+      only return directly return no need curly braces
+      var test = (a,b) => a+b
+
+      Single argument no need function of parentheses
+      var test = a => a+10;
+
+      function test(){
+        return {
+          a:1
+        }
+      }
+
+      object return using arrow function
+
+      var test = () => ({a:1})
+  </pre>
+  <h3>Class</h3>
+  <pre>
+      class Test{
+
+      }
+
+      class Test{
+        constructor(){
+          super();
+        }
+      }
+      class Test{
+        constructor(){
+
+        }
+        get(){
+          //instance method
+        }
+      }
+      Test.method=function(){
+        //static method
+      }
+      Test.obj={}
+      //Static member
+
+  </pre>
+  <h3>Template string</h3>
+  <pre>
+    var str1="Hello"
+    var str2="World"
+    var newString=str1+", "+str2;
+
+    var newString =`${str1}, ${str2}`
+  </pre>
+  <h3>Promise</h3>
+  <pre>
+    Callback hell...
+    function test(cb){
+      code...
+      may throw error
+      cb();
+
+    }
+    function test1(cb){
+      code...
+      may throw error
+      test()
+    }
+
+    horizontal Flattern callback hell using promise
+
+    var promise =new Promise((resolve,reject)=>{
+      task...
+      taskSuccess call resolve()
+      taskFailure call reject
+
+    })
+    promise.then(()=>{
+      return "pass next then"
+    },(e)=>{
+      //error handling
+    }).then((prePass)=>{
+      return
+    }).catch((e)=>{
+      error handling...
+    })
+
+    Vertical flattern/Normal flow using async function
+    async function feature comes in ES7
+
+    Some of the feature not supported all browser. We are using babel to transpile es2015 code into es5 code. We will see babel in feature
+  </pre>
+  <h3>Functional Programming</h3>
+  <p><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch1.html">book</a></p>
+  <h3>Pure Function</h3>
+  <h4>What is pure function?</h4>
+  <p>A pure function is a function which given the same input, will always return the same output and also not produces any side effects.</p>
+  <pre>
+    function add(a,b){
+      return a+b;
+    }
+  </pre>
+
+  <pre>
+    Not pure function
+    function add(){
+      var a=document.getElementById("a").value;//access dom object
+      var b=document.getElementById("b").value;
+      return a+b;
+    }
+    function add(a,b){
+      updateIntoDisk(a+b);
+      return a+b;
+    }
+    function add(obj){
+      obj.c=obj.a+obj.b;
+      return obj;
+    }
+  </pre>
+  <h4>What is side effect?</h4>
+  <p>modification of some kind of state</p>
+
+  <h4>Advantages of purefunction</h4>
+  <p>
+    Code easy to testable. easy to debug.
+  </p>
+</div>
+<div id="react" class="container-fluid">
+  <h1>React </h1>
+
+  <h3>JSX</h3>
+
+    <ol>
+      <li>
+      How to create element
+      <pre>
+        <script type="text/plain">
+      var element=<div id="test">test</div>
+
+      equalenent js
+
+        React.createElement('div',{id:"test"},"test");
+      </script>
+    </pre>
+  </li>
+  <li>
+    JSX Condition
+      <pre>
+        <script type="text/plain">
+      var element=(<div>
+        {
+          a==true ? <div>A</div> : <div>Else</div>
+        }
+        </div>)
+      </script>
+    </pre>
+  </li>
+  <li>
+    JSX Loop
+      <pre>
+        <script type="text/plain">
+        var arr = [1, 2, 3];
+var element = (
+  <div>
+    {arr.map(no => {
+      <div>{no}</div>;
+    }) //no semicolon
+    }
+  </div>
+);
+</script>
+    </pre>
+  </li>
+    <li>
+      How to create functional Component
+      <pre>
+        <script type="text/plain">
+      var Text=(props)=>{
+        <div>Text</div>
+      }
+      </script>
+    </pre>
+    </li>
+    <li>
+      How to create Stateless es6 Component
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component {
+  render() {
+    <div>Text</div>;
+  }
+}
+</script>
+    </pre>
+    </li>
+
+    <li>
+      How to create Stateful es6 Component
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+  render() {
+    <div>Text {this.state.count}</div>;
+  }
+}
+</script>
+    </pre>
+    </li>
+    <li>
+      Component Lifecycle
+      <pre>
+        <script type="text/plain">
+        class Text extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+  componentWillMount() {}
+  componentWillReceiveProps(nextProps) {}
+  componentWillUpdate() {}
+  componentWillUnmount() {}
+  render() {
+    <div>Text {this.state.count}</div>;
+  }
+  componentDidMount() {}
+  componentDidUpdate(preProps, preState) {}
+  shouldComponentUpdate(nextProps, nextState) {}
+}
+</script>
+    </pre>
+    </li>
+    <li>
+      Note Important
+      <pre>
+        <script type="text/plain">
+        1. Component Name Caps
+        2. Parent to child should pass as props
+        3. Child to parent data should pass throw callback method. do not pass data throw event. It is hard to track and some one can
+        4.
+      </script>
+    </pre>
+    </li>
+  </ol>
+    <a href="facebook.github.io/react/">More</a>
+</div>
+<div id="redux" class="container-fluid">
+  <h1>Redux</h1>
+
+  <p>Redux is a state management library. You can get more information from redux <a href="http://redux.js.org/docs/introduction/">docs</a>. Here we going to discuss about basic idea of state management</p>
+  <h4>What is State?</h4>
+  <p>State means data and It can be changed based on action/time,etc.<br />
+    Example switch has two state one is "ON" another one is "OFF".
+    You can "ON" or "OFF" a switch based on action.
+  </p>
+  <img src="./img/switch.jpg" height="200" width="200"/>
+  <pre>
+    function switch(state="OFF"){
+        return state;
+    }
+    switch ();
+  </pre>
+  <p>
+    I just define pure function. It is going to handle switch state.
+    If you call switch function, you get the switch state.
+    Now it is always return "OFF" state. because we didn't handle any action. <br />My action is going to press switch button.
+    We slightly modify above function which handle our actions
+  </p>
+  <pre>
+    function switch(state="OFF",action){
+    if(action=="PRESS"){
+        if(state=="ON"){
+          state="OFF";
+        }
+        else{
+           state="ON";
+        }
+    }
+    return state;
+    }
+
+    var previousSwitchState="ON";
+    var  currentSwitchState= switch(previousSwitchState, "PRESS");
+    console.log(currentSwitchState)
+  </pre>
+  <p>Anybody feels problem in the above action. <br />Some problem in the above action.
+    Assume switch is already "ON" state I press switch for "ON". But It toggle it's state.
+    So action and some more information needed. So instead of action as string we pass it as object.
+  </p>
+  <p>
+    {type:"ACTION_TYPE",data:{information about action}}
+  </p>
+  <pre>
+    var Off = {type:"PRESS",data:"up"}
+    var On = {type:"PRESS",data:"down"}
+
+    function switch(state="OFF",action){
+      if(action.type=="PRESS"){
+          if(action.data =="up"){
+            state="OFF";
+          }
+          else if(action.data =="down"){
+             state="ON";
+          }
+      }
+      return state;
+    }
+    var state1 =switch(previousState,on);
+    var state2 = switch(state1,off);
+  </pre>
+
+
+  <p>Switch was connected to bulb. Whenever switch state changes bulb going to glow or not glow.
+   </p>
+   <pre>
+    bulb(switchState){
+      if(switchState=="ON"){
+        return "glow"
+      }
+      else{
+      return "not glow"
+      }
+    }
+    var previousState;
+    dispatch(action){
+      var nextState=switch(previousState,action);
+      console.log(bulb(nextState));
+      previousState=nextState;
+      return action;
+    }
+
+    var Off = {type:"PRESS",data:"up"}
+    var On = {type:"PRESS",data:"down"}
+
+    dispatch(On);
+    dispatch(Off);
+
+   </pre>
+
+
+
+
+  <p>state data nothing but your api data. switch and bulb are your html when ever data changes you have to update the UI</p>
+</div>
+<div id="router" class="container-fluid">
+  Redux router middleware
+</div>
+<div id="serverside" class="container-fluid">
+  <h1>Server side rendering</h1>
+  <p> Notice:
+    1. Not access document/window/global variable inside render method
+    2. * browser time zone string (ip based)
+     4. xmlhttprequest - both support node, browser library
+     5. Initial data portalInfo hard coded (change to api call)
+     6. * editor js loading handling
+     7. build deploy and rollback. node server start and stop
+     8. node build update
+     9. flow of request server side rendering
+               Header customization
+               1. request->tomcat filter -> jsp -> http connect to node (if auth cookie) -> (do all api calls with or without cookie)-> generate html using that state and return to jsp -> jsp append html response -> client response
+              2. request ->  node -> call apis with request cookies -> return html -> client response
+      10. threshold
+
+     Advantage
+     reduce api call round trip
+     fast rendering (html once parse done render)
+     SEO easy to parse (no need client rendering from seo)
+
+
+     server side rendering css modules.
+     server side rendering code splitting
+https://github.com/kriasoft/isomorphic-style-loader
+https://github.com/lyft/universal-async-component
+     hash changing ={
+
+     }
+     Node cluster Manager
+          git:””,hash:”"
+          node:[{“ip”,”port”},{“ip”,”port”}];
+          node information - {ip:””, port:””}
+               port free?
+               git clone succes?
+               git hard clone
+          List of Cluster
+          node verification
+     https://stackoverflow.com/questions/16525617/how-to-detect-users-timezone/16526897#16526897
+     https://github.com/aickin/react-dom-stream
+     https://medium.com/@aickin/whats-new-with-server-side-rendering-in-react-16-9b0d78585d67
+   </p>
+</div>
+<!-- <div id="section41" class="container-fluid">
+  <h1>Section 4 Submenu 1</h1>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+<div id="section42" class="container-fluid">
+  <h1>Section 4 Submenu 2</h1>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div> -->
+
+</body>
+</html>

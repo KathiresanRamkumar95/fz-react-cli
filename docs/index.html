@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel=stylesheet href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Lemonada|Lora|Open+Sans+Condensed:300|PT+Sans+Narrow|Slabo+27px|Source+Sans+Pro"
+    rel="stylesheet" />
+  <link href="https://supportclientapp.localzoho.com/support/images/support-2.ico" type="IMAGE/X-ICON" rel="SHORTCUT ICON" />
+
+  <script src="./js/codemirror.js"></script>
+  <script src="./js/javascript.js"></script>
+  <script src="./js/active-line.js"></script>
+  <script src="./js/matchbrackets.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/hopscotch.css">
+ <title>Zoho Desk - React Components</title>
+</head>
+
+<body>
+  <div id="react"></div>
+  <div class="iframeCentering">
+    <span class="posAb">Zoho Desk - React Components</span>
+    <iframe src="about:blank" id="ifm"></iframe>
+  </div>
+
+  <script src="/docs/js/babel.min.js"></script>
+  <script type="text/babel">
+    window.loadDOC = function(Component, mdata) {
+  window.RTLmode = false;
+  var ReactDOM = Component.ReactDOM;
+  var React = Component.React;
+  class Doc extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        componentObj:props.componentObj,
+        search: '',
+        selectedComponent: location.hash,
+        Components: Component,
+        popUp: '',
+        fullScreenSrc: '',
+        viewGroup:'Global',
+        viewFolder:'General',
+        moreInform:false,
+        infoTab:'component',
+        changeset:null,
+        version:'',
+        frameWidth:'100%',
+        isMenuClose:false,
+        isRTL:false
+
+      };
+      this.search = this.search.bind(this);
+      this.hashChange = this.hashChange.bind(this);
+      this.popupToggle = this.popupToggle.bind(this);
+      this.popupToggleDoc = this.popupToggleDoc.bind(this);
+      this.removeClose = this.removeClose.bind(this);
+      this.fullScreenSrcToggle = this.fullScreenSrcToggle.bind(this);
+      this.toggleFolder = this.toggleFolder.bind(this);
+      this.toggleGroup = this.toggleGroup.bind(this);
+      this.onTabinfo = this.onTabinfo.bind(this);
+      this.codeview = this.codeview.bind(this);
+      this.reloadFrame = this.reloadFrame.bind(this);
+      this.getFileDetails = this.getFileDetails.bind(this);
+      this.iframeSize = this.iframeSize.bind(this);
+      this.menuOpen = this.menuOpen.bind(this);
+      this.onRtlView=this.onRtlView.bind(this);
+
+    }
+    toggleFolder(name){
+      let { viewFolder } = this.state;
+      if(name == viewFolder)
+      {
+        name =''
+      }
+      this.setState({  viewFolder: name });
+    }
+    hashChange() {
+      let ele = document.getElementById('componentIframe')
+      if(ele){
+        var src = document.getElementById('componentIframe').src;
+        var url = src && src.split('#')[0];
+        document.getElementById('componentIframe').src = url + location.hash;
+      }
+
+      this.setState({ selectedComponent: location.hash,  infoTab:'component' });
+    }
+
+    toggleGroup(name) {
+      let { viewGroup } = this.state;
+      if(name == viewGroup)
+      {
+        name =''
+      }
+      this.setState({  viewGroup: name });
+    }
+
+
+    componentDidMount() {
+      window.addEventListener('hashchange', this.hashChange);
+      document.addEventListener('click', this.popupToggleDoc);
+
+
+      fetch('/cli/version').then((res)=>{return res.json()}).then((response)=>{
+        (response && response.version) ? this.setState({version : response.version }) : this.setState({version : "version get failure" })
+      }).catch(function(err) {
+        this.setState({changeset : "Error accured" })
+      });
+
+
+
+
+    }
+
+    codeview()
+    {
+
+      let compName = location.hash != '' ? location.hash.substring(1) : null;
+      let element = document.getElementById('codeView')
+      if (Component[compName] && typeof CodeMirror !== 'undefined' && element ) {
+      CodeMirror(element, {
+           value:'',
+          lineNumbers: false,
+          styleActiveLine: false,
+          matchBrackets: false,
+          theme: 'blackboard',
+        });
+      }
+
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('click', this.popupToggleDoc);
+    }
+    componentWillUnmount() {
+      window.removeEventListener('hashchange', this.hashChange);
+    }
+    search(e) {
+      this.setState({ search: e.target.value });
+    }
+    popupToggleDoc() {
+      this.setState({ popUp: '' });
+    }
+    fullScreenSrcToggle(select) {
+      this.setState({ fullScreenSrc: select });
+      this.popupToggleDoc();
+    }
+    popupToggle(popup, e) {
+      this.setState({ popUp: popup });
+      e.stopPropagation && e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation &&
+        e.nativeEvent.stopImmediatePropagation();
+    }
+    removeClose(e) {
+      e.stopPropagation && e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation &&
+        e.nativeEvent.stopImmediatePropagation();
+    }
+    filter(list, str) {
+      list = list.sort((a, b) => {
+        var at = a.toLowerCase();
+        var bt = b.toLowerCase();
+        return at > bt ? 1 : at < bt ? -1 : 0;
+      });
+      // return list.filter(
+      //   item => item.toUpperCase().indexOf(str.toUpperCase()) != -1
+      // );
+
+      return list.filter((item)=>{
+          let value = item.split('__')[0]
+
+          return value.toUpperCase().indexOf(str.toUpperCase()) != -1
+      })
+    }
+
+    onTabinfo(name)
+    {
+      this.setState({infoTab:name})
+    }
+    reloadFrame()
+	    {
+	         let iframeEle = document.getElementById('componentIframe');
+	         iframeEle.contentDocument.location.reload()
+	    }
+
+    getFileDetails()
+    {
+      this.onTabinfo('changeset')
+        let compName = location.hash != '' ? location.hash.substring(1) : null;
+      let propComName = Component[compName].docs.filePath || ''
+
+
+      fetch('/author/get?componentName='+propComName).then((res)=>{return res.json()}).then((response)=>{
+        (response && response.stdout) ? this.setState({changeset : response.stdout }) : this.setState({changeset : "response is empty" })
+      }).catch(function(err) {
+        this.setState({changeset : "Error accured" })
+      });
+    }
+    iframeSize(type) {
+
+      if (type == 'mobile') {
+        this.setState({frameWidth:'319px'})
+        this.setState({isMenuClose:false})
+      } else if (type == 'tab') {
+          this.setState({frameWidth:'767px'})
+          this.setState({isMenuClose:false})
+      } else if (type == 'desktop') {
+          this.setState({frameWidth:'979px'})
+          this.setState({isMenuClose:false})
+      } else if (type == 'full') {
+          this.setState({frameWidth:'100%'})
+          this.setState({isMenuClose:true})
+      } else {
+          this.setState({frameWidth:'100%'})
+          this.setState({isMenuClose:false})
+      }
+    }
+    menuOpen()
+    {
+          this.setState({isMenuClose:!this.state.isMenuClose})
+
+    }
+     onRtlView(e) {
+      let iframeEle = document.getElementById('componentIframe');
+      let ele = e.target.element || null
+      if (!this.state.isRTL) {
+        this.setState({isRTL:true})
+        window.RTLmode = true;
+        iframeEle.contentDocument.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        this.setState({isRTL:false})
+        iframeEle.contentDocument.documentElement.setAttribute('dir', 'ltr');
+        window.RTLmode = false;
+      }
+    }
+
+    render() {
+      const {
+        Components,
+        componentObj,
+        search,
+        selectedComponent,
+        popUp,
+        viewGroup,
+        viewFolder,
+        moreInform,
+        infoTab,
+        changeset,
+        version,
+        frameWidth,
+        isMenuClose,
+        isRTL
+      } = this.state;/* Components & componentObj no need in the state access in props itself*/
+
+      let reactCliVersion =version.split(' ').filter(function(el){return el.toLowerCase().indexOf("fz-react-cli@") > -1;});
+      let versionFz = reactCliVersion.length?reactCliVersion[0].substring(reactCliVersion[0].indexOf('@')+1,reactCliVersion[0].length) : '';
+      let compName = location.hash != '' ? location.hash.substring(1) : null;
+      let propComName = compName ? compName.split('__')[0] : '';
+      let propsObj =
+        (Components &&
+          Components[propComName] &&
+          Components[propComName].propTypes) ||
+        {};
+      let currentCompProps = Object.keys(propsObj) || [];
+      let currentCompDefault =
+        (Components[propComName] && Components[propComName].defaultProps) || {};
+      return (
+       <main className="dflex flexrow">
+       {location.hash &&  <div className={"rtlChkDis offSelection "+(isRTL?'rtlChkSel':'')} onClick={this.onRtlView} id="rtl"> {isRTL?'Disable':'Enable'} RTL </div>}
+
+          <div
+            className="showToggleLeft"
+            onClick={this.menuOpen}
+          ><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGOSURBVGhD7ZrBKkVBHIdPSNKV5A3YKSvvYG/BE0jI3tbGxsYGdTeeQnY8gcLOTigba1KE73ewOGUxc8/8/2fUfPXVndOd23ydM92ae6sIeniIT/iZgW94hYsYxTH+9YFd+4pzGMQIvqAmzepCBgzhESpmRxdCmERNuKtH+bCBWpeCgighxpSQEmJECSkhRpSQkJBRvMFTHNcFQ0xDxvAW9f5ztIwxf7Rm8B6tY1z2iEeM22a3jnELEZYxriHCKsY9RFjERIfo4OECT+rR4KSOiQ5JScqYRsgULji7jM/YNqYR8vAz6NIz1KlILI2QfdTz762Ol7SID1zFQeh0j4gtVECbCBEdMox6tufrUTtSRYjokBTfIyJlhOgkJHWEcA+xiBCuIVYRwi3EMkK4hFhHCPMQjwhhGjKN72gdIczvyDYufb80xW2zW1NCSogRJaSEGFFC/n3IBGrCYz3Kh03Uug7qUSC/x0Z7uJaB63iNWpPuTDArqP9IaWJOXqJ+JYtCJym72M9A7QvdFSKq6gtlqbpowcg25wAAAABJRU5ErkJggg==" />
+          </div>
+
+        <div className={"menuBar "+(isMenuClose?"isMenuClose":"isMenuOpen")}>
+        <div className="dflex flexcolumn">
+         <div className="flexshrink logoPart"><img src="./css/desklogo.png"  />
+         </div>
+         <div className="flexshrink searchPart">
+          <Search onChange={this.search} />
+           </div>
+            <menu className="flexgrow flexbasis scrollY menuContainer" id="leftPanel">
+            {componentObj &&
+                      Object.keys(componentObj).length &&
+                      Object.keys(componentObj).map(folderName => {
+                        let folderCompCount=0;
+                        let outcomp = Object.keys(componentObj[folderName]).map(
+                          grn => {
+                            let searchList = this.filter(
+                              componentObj[folderName][grn],
+                              search
+                            );
+                            if(searchList.length){
+                            folderCompCount=folderCompCount+1;
+                          }
+                            return searchList.length ? true : false;
+                          }
+                        );
+                        if (outcomp.indexOf(true) != -1) {
+                          return (
+                            <div>
+                              <div
+                                onClick={this.toggleFolder.bind(
+                                  this,
+                                  folderName
+                                )}
+                                className={'mainMenu dflex flexrow alignVertical offSelection'+' '+
+                                  (viewFolder == folderName
+                                    ? 'mainMenuActive'
+                                    : '')
+                                }
+                              >
+                                <span className={'flexgrow mainMenutitle dotted'}>{folderName}</span>
+                                <span className={'flexshrink mainMenuCount'}>{folderCompCount}</span>
+                                <i className={'flexshrink mainMenuArrow'}><svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+	 viewBox="0 0 792 792" ><g><g id="Rectangle_5_copy"><g><polygon points="580.802,369.604 580.802,369.604 211.198,0 184.802,26.396 554.405,396 184.802,765.604 211.198,792
+				607.198,396 			" className="arrowPath"/></g></g></g>
+</svg></i>
+                              </div>
+                              <div
+                                className={
+                                  viewFolder == folderName || search
+                                    ? 'folderOpen'
+                                    : 'hide'
+                                }
+                              >
+                                {Object.keys(componentObj[folderName]).map(
+                                  groupName => {
+                                    return (
+                                      <ComponentList
+                                        type={groupName}
+                                        components={this.filter(
+                                          componentObj[folderName][groupName],
+                                          search
+                                        )}
+                                        selectedComponent={selectedComponent}
+                                        toggleGroup={this.toggleGroup}
+                                        viewGroup={
+                                          search ? groupName : viewGroup
+                                        }
+                                      />
+                                    );
+                                  }
+                                )}
+                              </div>
+                            </div>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
+              </menu>
+                {versionFz!=''&&<div className="flexshrink versionPart ">
+                <span>Version {versionFz}</span>
+                </div>}
+              </div>
+              </div>
+
+
+
+
+          <div className="flexgrow flexbasis">
+              <container id="container" className="dflex flexcolumn flexbasis">
+
+            {compName ?
+             <div className="flexshrink cheader">
+
+
+
+                <div className="dflex flexrow flexbasis alignVertical">
+                <div className="flexshrink"><h1 className="cheadertitle">{compName && compName.split('__')[0]}</h1></div>
+                    <div className='flexgrow flexbasis infoTabs dflex'>
+                        <span onClick={this.onTabinfo.bind(this,'component')} className={infoTab == 'component' ? 'dotted infoactive' : 'dotted'}>Component view</span>
+                        <span onClick={this.onTabinfo.bind(this,'proptypes')} className={infoTab == 'proptypes' ? 'dotted infoactive' : 'dotted'}>PropTypes</span>
+                        <span   onClick={this.onTabinfo.bind(this,'code')} className={infoTab == 'code' ? 'dotted infoactive' : 'dotted'}>Docs Code</span>
+                      {  /* <span onClick={this.onTabinfo.bind(this,'src')} className={infoTab == 'src' ? 'dotted infoactive' : 'dotted'}>Source</span> */}
+                        <span  onClick={this.onTabinfo.bind(this,'references')}className={infoTab=='references' ? 'dotted infoactive' : 'dotted'}>References</span>
+                        <span onClick={this.onTabinfo.bind(this,'visual')} className={infoTab == 'visual' ? 'dotted infoactive' : 'dotted'}>Visual Design</span>
+                        <span onClick={this.getFileDetails} className={infoTab == 'changeset' ? 'dotted infoactive' : 'dotted'}>Author</span>
+                    </div>
+
+                      <a className="newTab flexshrink" href={'/docs/component.html' + location.hash} target="_blank" >
+                        Open in New Tab
+                        <svg x="0px" y="0px" viewBox="0 0 26 26" style={{enableBackground:'new 0 0 26 26'}} xmlSpace="preserve">
+                             <path d="M18,17.759v3.366C18,22.159,17.159,23,16.125,23H4.875C3.841,23,3,22.159,3,21.125V9.875C3,8.841,3.841,8,4.875,8h3.429l3.001-3h-6.43C2.182,5,0,7.182,0,9.875v11.25C0,23.818,2.182,26,4.875,26h11.25C18.818,26,21,23.818,21,21.125v-6.367L18,17.759z"/>
+
+                            <path d="M22.581,0H12.322c-1.886,0.002-1.755,0.51-0.76,1.504l3.22,3.22l-5.52,5.519c-1.145,1.144-1.144,2.998,0,4.141l2.41,2.411c1.144,1.141,2.996,1.142,4.14-0.001l5.52-5.52l3.16,3.16c1.101,1.1,1.507,1.129,1.507-0.757L26,3.419C25.999-0.018,26.024-0.001,22.581,0z"/>
+                        </svg>
+                      </a>
+                </div>
+                </div>
+
+
+              :null}
+
+
+
+
+               <div className="flexgrow flexbasis cfooter ">
+                <div className="dflex flexcolumn flexbasis">
+                                  <div className="flexgrow flexbasis scrollY ccontent">
+                                        {infoTab == 'changeset' ?
+
+                                        <pre className="authorview">{changeset ? changeset : 'loading....!!!'}</pre>
+
+                                         :null}
+
+                                      {infoTab == 'code' ?
+
+                                          <CodeView compName={compName} src={Component[compName].docs.source}/>
+
+                                      :null}
+
+
+                                     {infoTab == 'src' ?
+
+                                       <CodeView compName={compName+'src'} src={Component[propComName].source}/>
+
+                                    : null}
+                                    {infoTab == 'component' &&
+                                        <section id="resize" style={{"width":frameWidth}} className={"dflex flexcolumn flexbasis iframeSection"}>
+                                          <iframe
+                                            id="componentIframe"
+                                            className="iframe"
+                                            src={'/docs/component.html' + location.hash}
+
+                                          />
+
+                                         <div className={"responsive offSelection "}>
+                                         <span className={"responsiveMenu"}   onClick={this.reloadFrame}>
+                                         <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                                              version="1.1" id="Capa_1"
+
+                                              viewBox="0 0 28.265 28.265"
+
+                                              className={"relaodIfr"}>
+                                        <g>
+                                          <path d="M14.133,28.265c-7.061,0-12.805-5.75-12.805-12.809c0-7.06,5.744-12.807,12.805-12.807c0.469,0,0.943,0.027,1.414,0.08   v-2.07c0-0.266,0.164-0.508,0.406-0.611c0.252-0.098,0.531-0.043,0.723,0.148l4.537,4.547c0.258,0.258,0.258,0.67,0,0.932   l-4.535,4.557c-0.193,0.188-0.473,0.246-0.725,0.143c-0.242-0.104-0.406-0.344-0.406-0.609V7.47   c-0.469-0.086-0.941-0.125-1.414-0.125c-4.473,0-8.113,3.639-8.113,8.111c0,4.471,3.641,8.113,8.113,8.113s8.111-3.643,8.111-8.113   c0-0.363,0.295-0.66,0.662-0.66h3.369c0.365,0,0.662,0.297,0.662,0.66C26.937,22.515,21.189,28.265,14.133,28.265z"/>
+                                         </g>
+                                        </svg>
+                                        </span>
+                                           <span className={"responsiveMenu"}   onClick={()=>this.iframeSize('mobile')}>
+                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                           viewBox="0 0 503.604 503.604"  >
+                                         <g>
+                                          <g>
+                                            <path d="M337.324,0H167.192c-28.924,0-53.5,23.584-53.5,52.5v398.664c0,28.916,24.056,52.44,52.98,52.44l170.412-0.184
+                                              c28.92,0,52.58-23.528,52.58-52.448l0.248-398.5C389.908,23.452,366.364,0,337.324,0z M227.68,31.476h49.36
+                                              c4.336,0,7.868,3.52,7.868,7.868c0,4.348-3.532,7.868-7.868,7.868h-49.36c-4.348,0-7.868-3.52-7.868-7.868
+                                              C219.812,34.996,223.332,31.476,227.68,31.476z M198.02,33.98c2.916-2.912,8.224-2.952,11.136,0c1.46,1.456,2.324,3.5,2.324,5.588
+                                              c0,2.048-0.864,4.088-2.324,5.548c-1.452,1.46-3.504,2.32-5.548,2.32c-2.084,0-4.088-0.86-5.588-2.32
+                                              c-1.452-1.456-2.28-3.5-2.28-5.548C195.736,37.48,196.568,35.436,198.02,33.98z M250.772,488.008
+                                              c-12.984,0-23.544-10.568-23.544-23.548c0-12.984,10.56-23.548,23.544-23.548s23.544,10.564,23.544,23.548
+                                              C274.316,477.44,263.752,488.008,250.772,488.008z M365.488,424.908H141.232V74.756h224.256V424.908z"/>
+                                          </g>
+                                         </g>
+                                         </svg>
+
+
+
+                                           </span>
+                                           <span className={"responsiveMenu"}   onClick={()=>this.iframeSize('tab')}>
+                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                           viewBox="0 0 503.592 503.592">
+                                         <g>
+                                          <g>
+                                            <path d="M428.636,27.852C428.636,12.508,416.144,0,400.792,0H102.66C87.312,0,74.828,12.504,74.828,27.852l0.132,447.892
+                                              c0,15.352,12.488,27.848,27.832,27.848h298.136c15.352,0,27.836-12.496,27.836-27.848L428.636,27.852z M232.36,31.472h38.884
+                                              c4.36,0,7.868,3.52,7.868,7.868c0,4.344-3.508,7.872-7.868,7.872H232.36c-4.348,0-7.868-3.524-7.868-7.872
+                                              S228.012,31.472,232.36,31.472z M202.964,33.912c2.916-2.948,8.184-2.948,11.136,0c1.452,1.46,2.324,3.504,2.324,5.552
+                                              c0,2.08-0.872,4.084-2.324,5.544c-1.46,1.496-3.504,2.324-5.584,2.324c-2.084,0-4.096-0.828-5.552-2.324
+                                              c-1.452-1.456-2.316-3.464-2.316-5.544C200.648,37.416,201.516,35.372,202.964,33.912z M250.216,488.128
+                                              c-12.98,0-23.544-10.564-23.544-23.544c0-12.984,10.568-23.548,23.544-23.548c12.988,0,23.544,10.564,23.544,23.548
+                                              S263.208,488.128,250.216,488.128z M94.424,424.904V74.752h314.744v350.152H94.424z"/>
+                                          </g>
+                                         </g>
+                                         </svg>
+                                           </span>
+                                           <span className={"responsiveMenu"}   onClick={()=>this.iframeSize('desktop')}>
+
+                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                               viewBox="0 0 503.588 503.588" >
+                                             <g>
+                                              <g>
+                                                <path d="M499.312,375.728h-23.256v-260.76c0-17.776-14.72-30.384-32.492-30.384H59.556c-17.784,0-32.016,12.604-32.016,30.384
+                                                  v260.756H3.8c-2.172,0-3.8-0.204-3.8,1.968v3.664c0,19.724,15.904,37.648,35.62,37.648h431.86
+                                                  c19.728,0,36.108-17.924,36.108-37.648v-3.664C503.592,375.524,501.484,375.728,499.312,375.728z M246.008,96.676
+                                                  c2.912-2.952,8.18-2.952,11.092,0c1.492,1.452,2.32,3.5,2.32,5.548c0,2.084-0.828,4.092-2.32,5.584
+                                                  c-1.46,1.456-3.464,2.28-5.544,2.28s-4.092-0.824-5.548-2.28c-1.5-1.496-2.324-3.504-2.324-5.584
+                                                  C243.688,100.136,244.512,98.128,246.008,96.676z M452.444,359.988h-401.3V119.996h401.3V359.988z"/>
+                                              </g>
+                                             </g>
+
+                                             </svg>
+
+
+
+
+                                           </span>
+
+                                           <span className={"responsiveMenu"}   onClick={()=>this.iframeSize('default')}>
+                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                           viewBox="0 0 503.588 503.588" >
+                                         <g>
+                                          <g>
+                                            <path d="M492.128,76.714H11.676C5.168,76.714,0,80.238,0,86.75v27.276V354.25v27.512c0,6.512,5.168,13.632,11.676,13.632h196.84
+                                              v15.74H59.132c-4.348,0-7.868,3.524-7.868,7.868c0,4.344,3.52,7.872,7.868,7.872h387.404c4.344,0,7.868-3.528,7.868-7.872
+                                              s-3.524-7.868-7.868-7.868H295.072v-15.74h197.056c6.508,0,11.46-7.12,11.46-13.632V354.25V114.03V86.754
+                                              C503.588,80.238,498.636,76.714,492.128,76.714z M257.448,379.27c-1.452,1.456-3.5,2.288-5.54,2.288
+                                              c-2.084,0-4.096-0.832-5.552-2.288c-1.496-1.496-2.32-3.5-2.32-5.58c0-2.092,0.824-4.092,2.28-5.556
+                                              c2.952-2.952,8.224-2.952,11.132,0c1.46,1.46,2.328,3.46,2.328,5.556C259.776,375.774,258.908,377.774,257.448,379.27z
+                                               M15.732,356.05V116.058h472.112V356.05H15.732z"/>
+                                          </g>
+                                         </g>
+
+                                         </svg>
+                                           </span>
+                                           <span className={"responsiveMenu"}   onClick={()=>this.iframeSize('full')}>
+
+                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 473.083 473.083" >
+                                               <g>
+                                                 <path style={{fill: '#020202'}} d="M330.406,213.107c-1.407-0.588-3.041-0.263-4.115,0.821l-15.018,15.024l-32.595-32.588
+                                           c-6.189-6.191-16.216-6.191-22.407,0c-6.189,6.189-6.189,16.216,0,22.405l32.597,32.589L273.833,266.4
+                                           c-1.082,1.083-1.4,2.708-0.819,4.116c0.588,1.407,1.965,2.336,3.497,2.336h52.456c1.006,0,1.965-0.403,2.678-1.114
+                                           c0.704-0.695,1.106-1.672,1.106-2.662l-0.008-52.472C332.744,215.072,331.823,213.695,330.406,213.107z" />
+                                                 <path style={{fill: '#020202'}} d="M194.793,196.365l-32.595,32.588l-15.017-15.024c-1.076-1.084-2.708-1.409-4.117-0.821
+                                           c-1.416,0.588-2.336,1.965-2.336,3.497l-0.008,52.472c0,0.99,0.402,1.967,1.107,2.662c0.711,0.711,1.67,1.114,2.676,1.114h52.458
+                                           c1.53,0,2.909-0.929,3.497-2.336c0.58-1.408,0.263-3.033-0.821-4.116l-15.033-15.041L217.2,218.77
+                                           c6.189-6.189,6.189-16.216,0-22.405C211.01,190.174,200.983,190.174,194.793,196.365z" />
+                                                 <path style={{fill: '#020202'}} d="M267.126,153.995c4.053,0,8.108-1.546,11.203-4.641l32.595-32.589l15.019,15.026
+                                           c1.076,1.082,2.708,1.406,4.116,0.818c1.415-0.588,2.336-1.964,2.336-3.497l0.008-52.472c0-0.99-0.402-1.965-1.106-2.661
+                                           c-0.711-0.712-1.672-1.114-2.678-1.114h-52.456c-1.532,0-2.909,0.929-3.497,2.337c-0.58,1.409-0.263,3.033,0.821,4.117
+                                           l15.032,15.04l-32.595,32.587c-6.191,6.189-6.191,16.217,0,22.407C259.019,152.449,263.072,153.995,267.126,153.995z" />
+                                                 <path style={{fill: '#020202'}} d="M142.715,132.611c1.409,0.588,3.041,0.264,4.117-0.818l15.017-15.026l32.597,32.589
+                                           c3.095,3.095,7.148,4.641,11.203,4.641c4.055,0,8.108-1.546,11.203-4.641c6.19-6.19,6.19-16.218,0-22.407l-32.596-32.587
+                                           l15.033-15.04c1.084-1.084,1.401-2.708,0.821-4.117c-0.588-1.408-1.965-2.337-3.497-2.337h-52.458
+                                           c-1.004,0-1.965,0.402-2.676,1.114c-0.704,0.696-1.106,1.671-1.106,2.661l0.008,52.472
+                                           C140.379,130.647,141.3,132.023,142.715,132.611z" />
+                                                 <path style={{fill: '#020202'}} d="M434.431,13.91H38.654C17.338,13.91,0,31.256,0,52.566V321.16c0,21.309,17.338,38.654,38.654,38.654
+                                           h132.682v51.822h-20.937c-13.13,0-23.768,10.646-23.768,23.769c0,13.121,10.638,23.768,23.768,23.768h172.317
+                                           c13.13,0,23.768-10.646,23.768-23.768c0-13.122-10.638-23.769-23.768-23.769H301.78v-51.822h132.65
+                                           c21.315,0,38.653-17.346,38.653-38.654V52.566C473.083,31.256,455.746,13.91,434.431,13.91z M377.974,336.047
+                                           c-5.958,0-10.77-4.813-10.77-10.754c0-5.958,4.813-10.771,10.77-10.771c5.942,0,10.754,4.813,10.754,10.771
+                                           C388.728,331.235,383.916,336.047,377.974,336.047z M425.51,338.631c-7.381,0-13.354-5.973-13.354-13.338
+                                           c0-7.381,5.974-13.355,13.354-13.355c7.365,0,13.338,5.974,13.338,13.355C438.848,332.658,432.875,338.631,425.51,338.631z
+                                            M441.393,298.46H31.69V52.566c0-3.838,3.126-6.964,6.963-6.964h395.777c3.838,0,6.962,3.126,6.962,6.964V298.46z" />
+                                               </g>
+
+                                             </svg>
+
+                                           </span>
+
+                                         </div>
+                                        </section>
+                              }
+
+
+                                  {infoTab == 'proptypes' ?
+
+                                            <div className="propsTable">
+                                              <div className="tableHeader">
+                                                <span className="brR">PropsName</span>
+                                                <span className="brR">Type</span>
+                                                <span className="brR">isRequired</span>
+                                                <span className="brR ">Default Props</span>
+                                              </div>
+                                              {currentCompProps.map((value, i) => {
+                                                return (
+                                                  <div
+                                                    className={
+                                                      currentCompProps.length - 1 == i
+                                                        ? 'tableHeaderNB'
+                                                        : 'tableHeader'
+                                                    }
+                                                  >
+                                                    <span>
+                                                      <div>{value}</div>
+                                                    </span>
+                                                    <span>
+                                                      <div>
+                                                        {propsObj[value] && propsObj[value].hookType}
+                                                      </div>
+                                                    </span>
+                                                    <span>
+                                                      <div>
+                                                        {propsObj[value] && propsObj[value].isRequired
+                                                          ? '-'
+                                                          : 'true'}
+                                                      </div>
+                                                    </span>
+                                                    <span>
+                                                      <div className="bn">
+                                                        {JSON.stringify(currentCompDefault[value])}
+                                                      </div>
+                                                    </span>
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
+                                       : null }
+
+
+
+
+
+                                  {infoTab == 'references' ?
+
+                                          <div className="referContainer">
+                                            <div className='refsBy'>ReferencedBy :</div>
+                                                <ul>
+
+                                            {compName
+                                              ? compName.indexOf('__') > -1
+                                                ? mdata[
+                                                    compName.substring(0, compName.indexOf('_'))
+                                                  ] &&
+                                                  mdata[
+                                                    compName.substring(0, compName.indexOf('_'))
+                                                  ].referencedby.map((val, i) => {
+                                                    return (
+                                                      <li key={i} className='refsLin'>
+                                                        <a className="link" href={'#' + val}>
+                                                          {val}
+                                                        </a>
+                                                      </li>
+                                                    );
+                                                  })
+                                                : mdata[compName].referencedby.map((val, i) => {
+                                                    return (
+                                                      <li key={i} className='refsLin'>
+                                                        <a className="link" href={'#' + val}>
+                                                          {val}
+                                                        </a>
+                                                      </li>
+                                                    );
+                                                  })
+                                              : null}
+                                              </ul>
+
+
+
+                                            <div className='refsBy'>References : </div>
+                                            <ul>
+                                            {compName
+                                              ? compName.indexOf('__') > -1
+                                                ? mdata[
+                                                    compName.substring(0, compName.indexOf('_'))
+                                                  ] &&
+                                                  mdata[
+                                                    compName.substring(0, compName.indexOf('_'))
+                                                  ].references.map((val, i) => {
+                                                    return (
+                                                      <li key={i} className='refsLin'>
+                                                        <a className="link" href={'#' + val}>
+                                                          {val}
+                                                        </a>
+                                                      </li>
+                                                    );
+                                                  })
+                                                : mdata[compName].references.map((val, i) => {
+                                                    return (
+                                                      <li key={i} className='refsLin'>
+                                                        <a className="link" href={'#' + val}>
+                                                          {val}
+                                                        </a>
+                                                      </li>
+                                                    );
+                                                  })
+                                              : null}
+                                              </ul>
+                                          </div>
+                              : null
+                                  }
+                                  {infoTab == 'visual' ?
+                                  <div>
+
+                                      {Component[propComName] &&
+                                        Component[propComName].docs &&
+                                        Component[propComName].docs.images &&
+                                        Component[propComName].docs.images.map(image => {
+                                          return (
+                                            <div className="psdContainer">
+                                            <div className="imageContainer">
+                                            <img className="psdImage" src={image.view} />
+                                            </div>
+
+                                              <div>
+                                                <a className="psdLink" href={image.psd} target="_blank" download>
+                                                  Download PSD
+                                                </a>
+                                              </div>
+                                              <div>
+                                                <a className="psdLink" href={image.view} target="_blank" download>
+                                                  Download Image
+                                                </a>
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+
+                                  </div> : null }
+
+                              </div>
+
+                          </div>
+</div>
+
+
+              </container>
+                </div>
+
+        </main>
+      );
+    }
+  }
+  class Search extends React.Component {
+    render() {
+      return (
+        <input
+          type="text"
+          onChange={this.props.onChange}
+          placeholder="Search"
+          className="inputSearch"
+        />
+      );
+    }
+  }
+  class ComponentList extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        toggle: false
+      };
+    }
+
+    render() {
+      const { components, type, toggleGroup,viewGroup } = this.props;
+      let classNameTab = type == viewGroup ? " selected " : '';
+      return (
+        <div  data-title={type}>
+        {components.length>0&&  <div className={"listItem dflex flexrow flexbasis alignVertical offSelection "+ classNameTab} onClick={toggleGroup.bind(this,type)}>
+            <i className={"flexshrink listIcon"}> <svg version="1.1"   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 761.339 761.34">
+<g>
+	<g>
+		<path d="M236.385,345.886c23.194,0,42.064-18.875,42.064-42.069c0-23.215-18.87-42.101-42.065-42.101
+			c-23.223,0-42.117,18.886-42.117,42.101C194.267,327.012,213.162,345.886,236.385,345.886z M236.385,277.893
+			c14.271,0,25.884,11.629,25.884,25.921c0,14.275-11.613,25.888-25.885,25.888c-14.303,0-25.937-11.613-25.937-25.888
+			C210.448,289.522,222.081,277.893,236.385,277.893z"/>
+		<path d="M237.092,469.468c23.207,0,42.085-18.887,42.085-42.102c0-23.207-18.878-42.085-42.085-42.085
+			c-23.203,0-42.081,18.878-42.081,42.085C195.012,450.581,213.89,469.468,237.092,469.468z M237.092,401.457
+			c14.283,0,25.905,11.622,25.905,25.905c0,14.291-11.622,25.921-25.905,25.921s-25.9-11.63-25.9-25.921
+			C211.192,413.079,222.809,401.457,237.092,401.457z"/>
+		<path d="M239.22,508.818c-23.207,0-42.085,18.898-42.085,42.125c0,23.207,18.878,42.085,42.085,42.085
+			c23.203,0,42.081-18.878,42.081-42.085C281.301,527.717,262.423,508.818,239.22,508.818z M239.22,576.848
+			c-14.283,0-25.905-11.621-25.905-25.904c0-14.308,11.622-25.945,25.905-25.945s25.9,11.638,25.9,25.945
+			C265.121,565.227,253.503,576.848,239.22,576.848z"/>
+		<path d="M616.763,130.369c-0.433,0-0.886,0.016-1.347,0.044c-3.771,0.012-49.528,0.024-114.698,0.024
+			c-4.466,0-8.09,3.624-8.09,8.09l0.008,5.857c-0.158,2.876-1.242,7.702-7.006,7.702c-0.004,0-0.004,0-0.009,0
+			c-6.366-0.162-41.085-0.194-69.094-0.194c-55.413,0-129.466,0.133-139.911,0.23c-3.309,0-4.332-1.096-4.668-1.452
+			c-1.618-1.735-1.938-5.335-1.84-6.735c0.02-0.238,0.032-0.473,0.032-0.716v-4.692c0-4.466-3.625-8.09-8.09-8.09
+			c-63.116,0-107.458-0.012-111.175-0.024c-9.041-0.546-14.971,4.817-15.735,13.858c-0.198,2.427-0.247,530.047-0.036,532.729
+			c0.797,8.511,6.326,13.802,14.425,13.802c0.453,0,0.926-0.016,1.412-0.053c5.149-0.061,102.122-0.104,232.2-0.104
+			c130.049,0,227.014,0.048,232.208,0.104c0.477,0.037,0.942,0.053,1.399,0.053c8.175,0,13.688-5.323,14.376-13.704
+			c0.255-2.432,0.299-530.427,0.057-532.854C630.452,135.688,624.93,130.369,616.763,130.369z M615,674.585
+			c-14.731-0.101-149.813-0.117-231.859-0.117c-82.144,0-217.443,0.017-231.904,0.117c-0.105-30.423-0.073-497.75,0.044-527.992
+			c4.008,0.012,21.734,0.028,102.729,0.028c0.304,4,1.553,10.109,5.979,14.943c2.815,3.078,7.989,6.743,16.888,6.743
+			c10.311-0.093,84.279-0.231,139.656-0.231c40.03,0,63.787,0.065,68.689,0.186l0.712,0.012c15.189,0,21.723-12.208,22.746-21.657
+			c84.355,0,102.389-0.016,106.365-0.028C615.169,176.66,615.133,644.676,615,674.585z"/>
+		<path d="M686.578,135.073l-0.009-30.524c0-23.211-19.743-36.794-38.853-38.193c-0.595-0.138-1.214-0.21-1.832-0.21
+			c-0.009,0-0.017,0-0.021,0l-137.056,0.356v-3.249c0-4.465-3.616-8.082-8.073-8.09c-15.004-0.028-34.282-0.033-56.32-0.033
+			C440.2,24.08,413.429,0,381.348,0c-32.086,0-58.856,24.072-63.067,55.106h-56.235c-4.466,0-8.09,3.625-8.09,8.09v3.96
+			l-141.574,0.368c-0.421,0-0.833,0.036-1.246,0.097c-23.288,3.686-35.847,25.925-36.341,37.296
+			c-0.162,3.317-0.166,195.507-0.021,587.543l0.012,30.509c0,24.02,21.415,38.371,42.118,38.371
+			c54.026,0,511.197-0.417,527.907-0.789c26.204-0.529,41.106-25.019,41.749-38.063
+			C686.699,719.194,686.707,527.049,686.578,135.073z M670.397,721.759c-0.223,4.534-8.79,22.272-25.929,22.62
+			c-16.642,0.376-473.553,0.785-527.563,0.785c-12.75,0-25.937-8.301-25.937-22.191l-0.012-30.517
+			c-0.182-478.29-0.093-583.122,0.004-586.795c0.162-3.766,7.407-19.263,22.135-21.957l148.972-0.388
+			c4.461-0.012,8.07-3.628,8.07-8.09v-3.944h55.66c4.441,0,8.05-3.58,8.09-8.021c0.218-25.957,21.508-47.081,47.461-47.081
+			c25.949,0,47.242,21.135,47.461,47.109c0.04,4.441,3.648,8.018,8.09,8.018c21.289,0,40.285,0,55.725,0.02v3.281
+			c0,2.147,0.854,4.211,2.379,5.728c1.517,1.513,3.572,2.362,5.712,2.362c0.008,0,0.016,0,0.021,0l143.781-0.372
+			c0.34,0.061,0.688,0.093,1.044,0.105c12.038,0.478,24.829,8.39,24.829,22.115l0.008,30.528
+			C670.551,613.727,670.482,718.385,670.397,721.759z"/>
+		<path d="M560.71,291.569H311.154c-4.466,0-8.09,3.625-8.09,8.09s3.625,8.09,8.09,8.09H560.71c4.466,0,8.091-3.624,8.091-8.09
+			S565.18,291.569,560.71,291.569z"/>
+		<path d="M560.71,422.322H311.154c-4.466,0-8.09,3.624-8.09,8.09s3.625,8.09,8.09,8.09H560.71c4.466,0,8.091-3.624,8.091-8.09
+			S565.18,422.322,560.71,422.322z"/>
+		<path d="M560.71,540.944H311.154c-4.466,0-8.09,3.624-8.09,8.09s3.625,8.09,8.09,8.09H560.71c4.466,0,8.091-3.624,8.091-8.09
+			S565.18,540.944,560.71,540.944z"/>
+		<path d="M138.931,103.731c0-4.465-3.625-8.09-8.09-8.09c-0.299,0-29.95,0.494-29.95,42.704c0,4.465,3.625,8.09,8.09,8.09
+			s8.09-3.625,8.09-8.09c0-24.966,12.378-26.439,13.927-26.524C135.395,111.733,138.931,108.145,138.931,103.731z"/>
+		<path d="M111.202,186.721c-4.466,0-8.09,3.624-8.09,8.09v411.684c0,4.466,3.625,8.091,8.09,8.091s8.09-3.625,8.09-8.091V194.811
+			C119.292,190.345,115.671,186.721,111.202,186.721z"/>
+	</g>
+</g>
+
+</svg>
+        </i>
+        <span className="dotted flexgrow flexbasis listTitle">{type}</span>
+        {components.length>0&&<i className={"flexshrink listCount"}>{components.length-(components.filter(function(el) {return el.toLowerCase().indexOf('__') > -1}).length)}</i>}
+          </div>
+
+}
+
+          <div className={ viewGroup == type ? 'activeComponent' : 'hide'}>
+            {components.map((component, i) => {
+              let docsComp = component.search('__');
+              return (
+                <div className={((docsComp == -1) ? "componentMain" : "componentDocs")} key={'component' + i} >
+
+                    <a
+                    href={ docsComp == -1 && type != 'Global'&& type != 'Page'  ? 'javascript:void(0);' : '#' + component}
+                    className={"dflex flexrow flexbasis alignVertical offSelection "+ (this.props.selectedComponent == '#' + component ? 'active' : '') } >
+
+
+                  <i className={"listIcon"}> <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" >
+<g>
+	<g>
+		<g>
+			<path d="M405.333,42.667h-44.632c-4.418-12.389-16.147-21.333-30.035-21.333h-32.219C288.427,8.042,272.677,0,256,0     s-32.427,8.042-42.448,21.333h-32.219c-13.888,0-25.617,8.944-30.035,21.333h-44.631C83.135,42.667,64,61.802,64,85.333v384     C64,492.865,83.135,512,106.667,512h298.667C428.865,512,448,492.865,448,469.333v-384C448,61.802,428.865,42.667,405.333,42.667     z M170.667,53.333c0-5.885,4.781-10.667,10.667-10.667h37.917c3.792,0,7.302-2.021,9.219-5.302     c5.844-10.042,16.135-16.031,27.531-16.031s21.688,5.99,27.531,16.031c1.917,3.281,5.427,5.302,9.219,5.302h37.917     c5.885,0,10.667,4.781,10.667,10.667V64c0,11.76-9.573,21.333-21.333,21.333H192c-11.76,0-21.333-9.573-21.333-21.333V53.333z      M426.667,469.333c0,11.76-9.573,21.333-21.333,21.333H106.667c-11.76,0-21.333-9.573-21.333-21.333v-384     c0-11.76,9.573-21.333,21.333-21.333h42.667c0,23.531,19.135,42.667,42.667,42.667h128c23.531,0,42.667-19.135,42.667-42.667     h42.667c11.76,0,21.333,9.573,21.333,21.333V469.333z" fill="#FFFFFF"/>
+			<path d="M352,234.667H160c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h192     c5.896,0,10.667-4.771,10.667-10.667C362.667,239.438,357.896,234.667,352,234.667z" fill="#FFFFFF"/>
+			<path d="M352,277.333H160c-5.896,0-10.667,4.771-10.667,10.667s4.771,10.667,10.667,10.667h192     c5.896,0,10.667-4.771,10.667-10.667S357.896,277.333,352,277.333z" fill="#FFFFFF"/>
+			<path d="M352,320H160c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h192     c5.896,0,10.667-4.771,10.667-10.667C362.667,324.771,357.896,320,352,320z" fill="#FFFFFF"/>
+			<path d="M266.667,362.667H160c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h106.667     c5.896,0,10.667-4.771,10.667-10.667C277.333,367.438,272.563,362.667,266.667,362.667z" fill="#FFFFFF"/>
+		</g>
+	</g>
+</g>
+</svg></i>
+                      <span className="dotted flexgrow flexbasis listTitle"> {docsComp == -1 ? component : component.split('__')[1]}</span>
+                      {(components.filter(function(el) {return el.indexOf(component+'__') > -1}).length)>0 && (docsComp == -1) &&<i className={"flexshrink listCount subCount"}>{(components.filter(function(el) {return el.indexOf(component+'__') > -1}).length)}</i>}
+
+                    </a>
+
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+  }
+
+
+
+
+
+class CodeView extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  componentDidMount()
+  {
+
+      let {compName,src} = this.props
+
+
+      let element = document.getElementById(compName)
+
+
+      if (Component[compName] && typeof CodeMirror !== 'undefined' && element ) {
+
+      CodeMirror.fromTextArea(element, {
+          lineNumbers: false,
+          styleActiveLine: false,
+          matchBrackets: false,
+          theme: 'blackboard'
+        });
+      }
+
+
+
+  }
+
+  render() {
+  let {src,compName} = this.props
+    return (
+      <div className={"dflex flexrow flexbasis "}>
+          <textarea className="srcCode" id={compName} defaultValue={src}/>
+      </div>
+    );
+  }
+}
+
+
+
+  var componentObj = {
+
+  }
+
+
+  Object.keys(Component).forEach(key => {
+    if (key == 'React' || key == 'ReactDOM') {
+      return;
+    }
+
+
+    if (Component[key].docs &&Component[key].docs.componentGroup )
+
+    {
+      let groupName = Component[key].docs.componentGroup
+      let folderName = Component[key].docs.folderName || "General";
+      if(!componentObj[folderName]){
+        componentObj[folderName]={}
+      }
+      if(!componentObj[folderName][groupName])
+      {
+          componentObj[folderName][groupName] = [] ;
+          componentObj[folderName][groupName].push(key)
+      }
+      else
+      {
+          componentObj[folderName][groupName].push(key)
+      }
+
+    }
+
+  });
+
+
+
+
+
+  ReactDOM.render(
+    <Doc
+      components={Component}
+      componentObj={componentObj}
+    />,
+    react
+  );
+};
+</script>
+  <script type="text/javascript">
+    var html =
+      "<body><script src='/docs/js/vendor.js'><\/script><script src='/docs/js/main.js'><\/script><script src='/docs/js/moduleStats.js'><\/script> <script> parent.loadDOC(Component, mdata)  <\/script> <\/body>";
+    var iframe = document.getElementById('ifm');
+    var frameDoc = iframe.document;
+    if (iframe.contentWindow) {
+      frameDoc = iframe.contentWindow.document;
+      frameDoc.open();
+      frameDoc.writeln(html);
+      frameDoc.close();
+    } else {
+    }
+  </script>
+  <script>
+    window.onload = function () {
+      // Minimum resizable area
+      var minWidth = 60;
+      var minHeight = 40;
+
+      // Thresholds
+      var FULLSCREEN_MARGINS = -10;
+      var MARGINS = 15;
+
+      // End of what's configurable.
+      var clicked = null;
+      var onRightEdge, onBottomEdge, onLeftEdge, onTopEdge;
+
+      var rightScreenEdge, bottomScreenEdge;
+
+      var preSnapped;
+
+      var b, x, y;
+
+      var redraw = false;
+
+      var pane = document.getElementById('resize');
+      var ghostpane = document.getElementById('ghostpane');
+
+      function setBounds(element, x, y, w, h) {
+        element.style.left = x + 'px';
+        element.style.top = y + 'px';
+        element.style.width = w + 'px';
+        element.style.height = h + 'px';
+      }
+
+      function hintHide() {
+        //setBounds(ghostpane, b.left, b.top, b.width, b.height);
+        //ghostpane.style.opacity = 0;
+        // var b = ghostpane.getBoundingClientRect();
+        // ghostpane.style.top = b.top + b.height / 2;
+        // ghostpane.style.left = b.left + b.width / 2;
+        // ghostpane.style.width = 0;
+        // ghostpane.style.height = 0;
+      }
+
+      // Mouse events
+      pane.addEventListener('mousedown', onMouseDown);
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+
+      // Touch events
+      pane.addEventListener('touchstart', onTouchDown);
+      document.addEventListener('touchmove', onTouchMove);
+      document.addEventListener('touchend', onTouchEnd);
+
+      function onTouchDown(e) {
+        onDown(e.touches[0]);
+        e.preventDefault();
+      }
+
+      function onTouchMove(e) {
+        onMove(e.touches[0]);
+      }
+
+      function onTouchEnd(e) {
+        if (e.touches.length == 0) onUp(e.changedTouches[0]);
+      }
+
+      function onMouseDown(e) {
+        onDown(e);
+        e.preventDefault();
+      }
+
+      function onDown(e) {
+        calc(e);
+
+        var isResizing = onRightEdge || onBottomEdge || onTopEdge || onLeftEdge;
+
+        clicked = {
+          x: x,
+          y: y,
+          cx: e.clientX,
+          cy: e.clientY,
+          w: b.width,
+          h: b.height,
+          isResizing: isResizing,
+          isMoving: !isResizing && canMove(),
+          onTopEdge: onTopEdge,
+          onLeftEdge: onLeftEdge,
+          onRightEdge: onRightEdge,
+          onBottomEdge: onBottomEdge
+        };
+      }
+
+      function canMove() {
+        return x > 0 && x < b.width && y > 0 && y < b.height && y < 30;
+      }
+
+      function calc(e) {
+        b = pane.getBoundingClientRect();
+        x = e.clientX - b.left;
+        y = e.clientY - b.top;
+
+        onTopEdge = y < MARGINS;
+        onLeftEdge = x < MARGINS;
+        onRightEdge = x >= b.width - MARGINS;
+        onBottomEdge = y >= b.height - MARGINS;
+
+        rightScreenEdge = window.innerWidth - MARGINS;
+        bottomScreenEdge = window.innerHeight - MARGINS;
+      }
+
+      var e;
+
+      function onMove(ee) {
+        calc(ee);
+
+        e = ee;
+
+        redraw = true;
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (!redraw) return;
+
+        redraw = false;
+
+        if (clicked && clicked.isResizing) {
+          if (clicked.onRightEdge) pane.style.width = Math.max(x, minWidth) + 'px';
+          if (clicked.onBottomEdge)
+            pane.style.height = Math.max(y, minHeight) + 'px';
+
+          if (clicked.onLeftEdge) {
+            var currentWidth = Math.max(
+              clicked.cx - e.clientX + clicked.w,
+              minWidth
+            );
+            if (currentWidth > minWidth) {
+              pane.style.width = currentWidth + 'px';
+              pane.style.left = e.clientX + 'px';
+            }
+          }
+
+          if (clicked.onTopEdge) {
+            var currentHeight = Math.max(
+              clicked.cy - e.clientY + clicked.h,
+              minHeight
+            );
+            if (currentHeight > minHeight) {
+              pane.style.height = currentHeight + 'px';
+              pane.style.top = e.clientY + 'px';
+            }
+          }
+
+          hintHide();
+
+          return;
+        }
+
+        if (clicked && clicked.isMoving) {
+          if (
+            b.top < FULLSCREEN_MARGINS ||
+            b.left < FULLSCREEN_MARGINS ||
+            b.right > window.innerWidth - FULLSCREEN_MARGINS ||
+            b.bottom > window.innerHeight - FULLSCREEN_MARGINS
+          ) {
+            // hintFull();
+            setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight);
+            ghostpane.style.opacity = 0.2;
+          } else if (b.top < MARGINS) {
+            // hintTop();
+            setBounds(ghostpane, 0, 0, window.innerWidth, window.innerHeight / 2);
+            ghostpane.style.opacity = 0.2;
+          } else if (b.left < MARGINS) {
+            // hintLeft();
+            setBounds(ghostpane, 0, 0, window.innerWidth / 2, window.innerHeight);
+            ghostpane.style.opacity = 0.2;
+          } else if (b.right > rightScreenEdge) {
+            // hintRight();
+            setBounds(
+              ghostpane,
+              window.innerWidth / 2,
+              0,
+              window.innerWidth / 2,
+              window.innerHeight
+            );
+            ghostpane.style.opacity = 0.2;
+          } else if (b.bottom > bottomScreenEdge) {
+            // hintBottom();
+            setBounds(
+              ghostpane,
+              0,
+              window.innerHeight / 2,
+              window.innerWidth,
+              window.innerWidth / 2
+            );
+            ghostpane.style.opacity = 0.2;
+          } else {
+            hintHide();
+          }
+
+          if (preSnapped) {
+            setBounds(
+              pane,
+              e.clientX - preSnapped.width / 2,
+              e.clientY - Math.min(clicked.y, preSnapped.height),
+              preSnapped.width,
+              preSnapped.height
+            );
+            return;
+          }
+
+          // moving
+          pane.style.top = e.clientY - clicked.y + 'px';
+          pane.style.left = e.clientX - clicked.x + 'px';
+
+          return;
+        }
+
+        // This code executes when mouse moves without clicking
+
+        // style cursor
+        if ((onRightEdge && onBottomEdge) || (onLeftEdge && onTopEdge)) {
+          pane.style.cursor = 'nwse-resize';
+        } else if ((onRightEdge && onTopEdge) || (onBottomEdge && onLeftEdge)) {
+          pane.style.cursor = 'nesw-resize';
+        } else if (onRightEdge || onLeftEdge) {
+          pane.style.cursor = 'ew-resize';
+        } else if (onBottomEdge || onTopEdge) {
+          pane.style.cursor = 'ns-resize';
+        } else if (canMove()) {
+          pane.style.cursor = 'move';
+        } else {
+          pane.style.cursor = 'default';
+        }
+      }
+
+      animate();
+
+      function onUp(e) {
+        calc(e);
+
+        if (clicked && clicked.isMoving) {
+          // Snap
+          var snapped = {
+            width: b.width,
+            height: b.height
+          };
+
+          if (
+            b.top < FULLSCREEN_MARGINS ||
+            b.left < FULLSCREEN_MARGINS ||
+            b.right > window.innerWidth - FULLSCREEN_MARGINS ||
+            b.bottom > window.innerHeight - FULLSCREEN_MARGINS
+          ) {
+            // hintFull();
+            setBounds(pane, 0, 0, window.innerWidth, window.innerHeight);
+            preSnapped = snapped;
+          } else if (b.top < MARGINS) {
+            // hintTop();
+            setBounds(pane, 0, 0, window.innerWidth, window.innerHeight / 2);
+            preSnapped = snapped;
+          } else if (b.left < MARGINS) {
+            // hintLeft();
+            setBounds(pane, 0, 0, window.innerWidth / 2, window.innerHeight);
+            preSnapped = snapped;
+          } else if (b.right > rightScreenEdge) {
+            // hintRight();
+            setBounds(
+              pane,
+              window.innerWidth / 2,
+              0,
+              window.innerWidth / 2,
+              window.innerHeight
+            );
+            preSnapped = snapped;
+          } else if (b.bottom > bottomScreenEdge) {
+            // hintBottom();
+            setBounds(
+              pane,
+              0,
+              window.innerHeight / 2,
+              window.innerWidth,
+              window.innerWidth / 2
+            );
+            preSnapped = snapped;
+          } else {
+            preSnapped = null;
+          }
+
+          hintHide();
+        }
+
+        clicked = null;
+      }
+    };
+
+    function shrinlLhs(state) {
+      var leftpanel = document.getElementById('leftPanel');
+      var winWidth = (window.window.innerWidth <= 1025) ? true : false;
+      if (winWidth && state) {
+        if (leftpanel.classList.contains('showmenu')) {
+          leftpanel.classList.remove('showmenu');
+        }
+        else {
+          leftpanel.classList.add('showmenu');
+        }
+      }
+      else {
+        leftpanel.classList.remove('showmenu');
+      }
+    }
+
+  </script>
+
+</body>
+
+
+
+
+
+
+</html>
