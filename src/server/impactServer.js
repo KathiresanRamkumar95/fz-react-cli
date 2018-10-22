@@ -262,5 +262,6 @@ let server = app.listen(port, err => {
     console.log(err);
     return;
   }
-  console.log(`Listening at ${url}/docs/`);
+  console.log( `Listening at ${url}/impact/build/`);
+  console.log('payload like => {buildUrl:test_build_url}')
 });
