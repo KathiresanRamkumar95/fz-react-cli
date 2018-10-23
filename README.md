@@ -387,6 +387,7 @@ rtl changes and report publish replace issue fix
 - Docs UI and its features 
 
 # 0.0.3-beta.130 pending
+
 - clone repo option i18n pending
 - webpack-md5-hash
 - server side rendering
