@@ -381,7 +381,13 @@ rtl changes and report publish replace issue fix
 - coverage for last commit files optimization and its issue fix
 - seperate coverage summary for last committed changes
 
-# 0.0.3-beta.129 pending
+# 0.0.3-beta.129
+
+- Impact server to get canged method name and locator (data-id) as response
+- Docs UI and its features 
+
+# 0.0.3-beta.130 pending
+
 - clone repo option i18n pending
 - webpack-md5-hash
 - server side rendering

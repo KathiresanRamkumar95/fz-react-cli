@@ -159,9 +159,10 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
 }
-*::-webkit-scrollbar {
-  width: 10px;
+a {
+  text-decoration: none;
 }
+
 /* FLex Assets*/
 .dflex {
   display: -webkit-box;
@@ -254,6 +255,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+.scrollY {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 body {
   background: #fff;
   font-size: 14px;
@@ -263,7 +268,6 @@ body {
 
 main {
   height: 100vh !important;
-  width: 100vw !important;
   animation: slide 0.4s ease 0s normal;
 }
 @keyframes slide {
@@ -274,13 +278,83 @@ main {
     opacity: 1;
   }
 }
-menu {
+.menuBar {
   width: 220px;
-  padding-bottom: 20px;
-  border-right: 1px solid #dbd8d8;
-  transition: margin-left 0.5s ease;
-  background: #f4f6f9;
+  border-right: 1px solid #0e1c27;
+  transition: transform 0.3s;
+  background: #1d2b36;
 }
+.isMenuClose {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-110%);
+  transition: transform 0.3s;
+}
+
+.menuContainer {
+  padding-bottom: 5px;
+}
+.logoPart {
+  height: 50px;
+  border-bottom: 1px solid #16222b;
+  line-height: 50px;
+  padding-left: 5px;
+}
+.logoPart img {
+  max-width: 100%;
+  width: 130px;
+  vertical-align: middle;
+}
+.searchPart {
+  padding: 10px;
+  border-bottom: 1px solid #16222b;
+}
+.versionPart {
+  padding: 4px 4px 7px;
+  text-align: center;
+  background: #0c1115;
+}
+.versionPart span {
+  color: #fff;
+  font-size: 12px;
+}
+.mainMenu {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s;
+}
+.mainMenuActive,
+.mainMenu:hover {
+  background-color: #162029;
+}
+.mainMenuActive .mainMenuArrow {
+  transform: rotate(90deg);
+}
+.mainMenutitle {
+  max-width: 100%;
+  color: #fff;
+  text-transform: capitalize;
+}
+.mainMenuCount {
+  padding: 3px 5px;
+  background: #008e4f;
+  border-radius: 15px;
+  font-size: 9px;
+  color: #fff;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.mainMenuArrow {
+  width: 12px;
+  transition: all 0.3s;
+}
+.arrowPath {
+  fill: #fff;
+}
+
 .menuHideLeft {
   width: 220px;
   padding-bottom: 20px;
@@ -289,50 +363,72 @@ menu {
   background: #f4f6f9;
   display: none;
 }
-menu.showmenu {
-  display: block !important;
+.listIcon {
+  width: 15px;
+  margin-right: 8px;
+  height: 15px;
 }
-.needscroll {
-  overflow-y: auto;
+.listItem,
+.componentMain,
+.componentDocs {
+  padding: 7px 5px 7px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
-
-menu a {
-  text-decoration: none;
-  color: #333;
+.listItem path {
+  fill: #fff;
+}
+.listTitle {
+  color: #fff;
+  font-size: 12px;
   text-transform: capitalize;
 }
-menu a:active {
-  text-decoration: none;
-  color: #000;
+.listCount {
+  padding: 3px 5px;
+  background: #0072b0;
+  border-radius: 15px;
+  font-size: 9px;
+  color: #fff;
+  margin-left: 5px;
+  font-style: initial;
+}
+.listItem:hover,
+.listItem.selected {
+  background-color: #0c1115;
+}
+.componentMain:hover,
+.componentDocs:hover {
+  background-color: #162029;
+}
+.componentDocs {
+  padding-left: 25px;
+}
+.componentMain {
+  padding-left: 15px;
+}
+.subCount {
+  background-color: #e03332;
+}
+.activeComponent {
+  position: relative;
+}
+.activeComponent::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background-color: #008f4c;
 }
 
 section {
   border: 15px solid #333;
   position: relative;
   border-radius: 16px;
-  transition: width 0.2s;
   border-bottom-width: 40px;
 }
-section::after {
-  position: absolute;
-  content: '';
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  bottom: -35px;
-  left: 50%;
-  background: #e8ebf2;
-  transform: translateX(-50%);
-}
-.bottom {
-  width: 100%;
-  height: 40vh;
-  border-top: 1px solid #ddd;
-}
-.component {
-  min-height: 57%;
-  margin-right: 10px;
-}
+
 .iframe {
   position: absolute;
   top: 0;
@@ -342,107 +438,59 @@ section::after {
   height: 100%;
   width: 100%;
   overflow: auto;
+  background: #fff;
 }
 
-.dir,
-.file,
-.dir .dir {
-  color: #333;
-}
-.file > a {
-  padding: 10px 10px 10px 27px;
-  cursor: default;
-}
-.fileNameDoc > a {
-  padding: 7px 5px 7px 53px;
-  color: #1e2633;
-}
-
-.dir,
-.dir .dir,
-.dir .file,
-.file {
-  margin-top: 4px;
-}
-.dir {
-  cursor: pointer;
-  padding: 10px 10px 10px 20px;
-}
-.dir:hover,
-.fileNameDoc:hover {
-  background-color: #edf0f5;
-}
-.dir.selectedDir {
-  background: #e8ebf2;
-}
-
-.dir .dir {
-  margin-left: 10px;
-}
-.dir .file {
-  margin-left: 40px;
-  font-weight: normal;
-  color: #a7a7a7;
-  cursor: pointer;
-}
-a.active {
-  color: #07b1ff;
-  font-family: Semibold;
-}
-.menu {
-  position: fixed;
-  right: 150px;
-  top: 0px;
-  color: #cacaca;
-}
-.menu span {
-  padding: 3px 10px;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 10px;
-}
-.menu svg {
-  width: 20px;
-  height: 20px;
-  fill: #cecece;
-}
-.header {
-  font-size: 17px;
-  text-align: center;
-  color: #fff;
-  font-family: 'Slabo 27px', serif;
-  padding: 8px 0px;
-  border-bottom: 1px solid #696969;
-}
 .inputSearch {
   width: 100%;
-  margin: auto;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #dad8d8;
-  padding: 15px;
-  background: transparent;
-  color: #696969;
-  font-size: 12px;
+  background: #0c1115;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 15px;
+  padding: 6px 15px;
 }
-.inputSearch:focus {
-  transition: all 0.5s ease;
-  color: #000;
-  border-bottom: 1px solid #000;
-}
+
 .cheader {
   border-bottom: 1px solid #dad8d8;
-}
-.cheader {
   padding: 6px 25px;
 }
 .ccontent {
-  padding: 15px 25px;
+  background-color: #fff;
+  padding: 15px 20px;
 }
+
 .cheadertitle {
   font-family: Semibold;
   font-size: 21px;
   margin-right: 30px;
+  color: #0c1015;
+}
+.responsive {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  min-width: 240px;
+}
+.responsiveMenu {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 25px;
+  background: #5c5e61;
+  border-radius: 50%;
+  margin: 0 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.responsiveMenu svg {
+  width: 15px;
+}
+.responsiveMenu svg path {
+  fill: #fff !important;
 }
 
 .propsTable {
@@ -514,32 +562,39 @@ a.active {
 .refsLin a {
   color: #1e2633;
 }
-.psdImages {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.psdDiv {
-  margin-top: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
-.psdDiv a {
-  text-decoration: none;
-  color: #00a3fe;
-  font-size: 12px;
+.psdContainer {
+  width: 24%;
+  border: 1px solid #1c2b36;
+  border-radius: 5px;
   padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   display: inline-block;
+  vertical-align: top;
 }
-.psdName {
-  color: #000;
-  padding-bottom: 10px;
-  font-size: 16px;
+.imageContainer {
+  min-height: 150px;
+  text-align: center;
 }
-.psd {
-  max-width: 300px;
-  max-height: 250px;
-  padding-bottom: 10px;
+.psdImage {
+  max-width: 100%;
+  max-height: 150px;
+}
+.psdLink {
+  color: #fff;
+  background: #1c2b36;
+  padding: 5px;
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 3px;
+  border:1px solid transparent
+}
+.psdLink:hover{
+  background: #fff;
+  color: #1c2b36;
+  border-color: #1c2b36
 }
 
 .infoTabs span {
@@ -549,15 +604,14 @@ a.active {
   cursor: pointer;
   margin-right: 10px;
   border-radius: 2px;
+  transition: all 0.1s;
 }
 .infoactive,
 .infoTabs span:hover {
-  background: #e8ebf2;
+  background: #3cc1a2;
+  color: #fff;
 }
 
-.folderClose {
-  display: none;
-}
 .folderIcon {
   width: 15px;
   height: 10px;
@@ -658,7 +712,6 @@ a.active {
   height: 35px;
   width: 35px;
   border: 1px solid #1e2633;
-  display: flex;
   align-items: center;
   justify-content: center;
   display: none;
@@ -749,6 +802,7 @@ a.active {
   font-size: 13px;
   margin-top: 1px;
   border-radius: 3px;
+  margin-right: 100px;
 }
 
 .newTab:hover {
@@ -758,8 +812,8 @@ a.active {
 .rtlChkDis {
   position: absolute;
   right: 30px;
-  top: 11px;
-  padding: 3px 10px;
+  top: 7px;
+  padding: 7px 10px;
   background-color: #048d51;
   font-size: 13px;
   color: #fff;
@@ -811,14 +865,27 @@ a.active {
 .none {
   display: none;
 }
-@media only screen and (max-width: 1025px) {
+@media only screen and (max-width: 980px) {
+  .menuBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translate(-110%);
+    z-index: 1;
+  }
+  .isMenuOpen {
+    transform: translateX(0);
+  }
   .showToggleLeft {
     display: flex;
   }
-  menu {
-    display: none !important;
-  }
-  menu.showmenu {
-    display: block !important;
-  }
+}
+
+.iframeSection {
+  position: relative;
+}
+
+.hide {
+  display: none;
 }

@@ -2,75 +2,14 @@
 <html>
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<style type="text/css">
-			.comps
-			{
-				padding: 10px;
-				max-width: 100%;
-				margin-bottom: 10px;
-				border-bottom: 1px solid #f5f5f5;
-			}
-			.componentNameRed
-			{
-				color: red;
-			}
-			.propertyName
-			{
-				color:green;
-				margin-left: 10px;
-			}
-			.valueName
-			{
-				color:orange;
-				margin-right: 10px;
-			}
-			.example
-			{
-				padding: 20px 20px 20px 0px;
-				width: 100%;
-				box-sizing: border-box;
-				margin: 15px 0px;
-			}
-			.htmlTag
-			{
-				color: #999;
-				color: #676565;
-    			line-height: 25px;
-    			margin-bottom: 10px;
-    			font-size: 13px;
-			}
-			.textArea
-			{
-				min-width: 50%;
-			    outline: none;
-			    min-height: 100px;
-			    margin: 15px 0px;
-			    max-width: 90%;
-			}
-			#notfound-styleguide
-			{
-				margin: 15% auto 0 auto;
-				width: 100px;
-				height: 100px;
-				display: block;
-
-			}
-			.notfoundStr-styleguide
-			{
-				padding-top: 40px;
-				text-align: center;
-				font-size: 17px;
-				color: #ddd
-			}
-		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel=stylesheet href="./css/component.css">
 	</head>
 	<body>
-		<div id="react"></div>
+		<div id="react" class="appContainer"></div>
 		<div id="reactUserEdit"></div>
 		<script src="/docs/js/vendor.js"  defer="true"></script>
-
 		<script src="/docs/js/main.js" defer="true"></script>
-
 		<script src="/docs/js/babel.min.js"></script>
 		<script type="text/babel">
 		var test = 'test';
@@ -100,7 +39,7 @@ class RenderComponent extends React.Component {
     window.removeEventListener('hashchange', this.hashChange);
   }
   render() {
-    const { Components, selectedComponent } = this.state;
+    const {Components, selectedComponent} = this.state;
     var ComponentClass = selectedComponent && Components[selectedComponent];
     var keysSingleAr =
       (ComponentClass &&
@@ -109,82 +48,55 @@ class RenderComponent extends React.Component {
         Object.keys(ComponentClass.docs.testProps)) ||
       [];
     return (
-      <div>
-        {Components[selectedComponent] ?
-          <div>
-            {Array.isArray(ComponentClass.docs.testProps)
-              ? ComponentClass.docs.testProps.map((prop, i) => {
-                  return (
-                    <div className="comps">
-                      <ComponentClass {...prop} />
-
-                      {/*details?<div>
-																		<div className="example">
-																			<span className="componentNameRed"> {"<"+selectedComponent}
-																			</span>
-																			{
-																				Object.keys(prop).map((val)=>{
-
-																				return 	<span>
-																							<span className="propertyName">{val}</span>
-																							<span> = </span>
-																							<span className="valueName">
-																							{JSON.stringify(prop[val])}
-																							</span>
-																						</span>
-
-																				})
-																			}
-																			<span className="componentNameRed"> {" />"} </span>
-																		</div>
-
-																		<div className="htmlTag">
-																		{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps[i] }/>)}
-																		</div>
-																	</div>:null
-																*/}
-                    </div>
-                  );
-                })
-              : <div>
-                  <ComponentClass {...ComponentClass.docs.testProps} />
-                  {/*details?<div>
-													<div className="example">
-														<span className="componentNameRed"> {"<"+selectedComponent} </span>
-														{
-															keysSingleAr.map((val,i)=>{
-																return 	<span>
-																			<span className="propertyName">{val}=</span>
-																			<span className="valueName">{JSON.stringify(ComponentClass.docs.testProps[val]) }</span>
-																		</span>
-															})
-														}
-														<span className="componentNameRed"> {" />"} </span>
-													</div>
-													<div className="htmlTag">
-													{ReactDOMServer.renderToStaticMarkup(<ComponentClass {...ComponentClass.docs.testProps }/>)}
-													</div>
-												</div>:null*/}
-                </div>}
-          </div>:
-          <div>
-          		<svg id='notfound-styleguide' x="0px" y="0px"
-					 viewBox="0 0 512 512" style={{enableBackground:'new 0 0 512 512'}} xmlSpace="preserve">
-				<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="256" y1="514" x2="256" y2="2" gradientTransform="matrix(1 0 0 -1 0 514)">
-					<stop  offset="0" style={{stopColor:'#2AF598'}}/>
-					<stop  offset="1" style={{stopColor:'#009EFD'}}/>
-				</linearGradient>
-				<path style={{fill:'url(#SVGID_1_)'}} d="M344.354,381.58c-1.33-1.651-33.207-40.458-88.354-40.458
+      <div className="root">
+        {Components[selectedComponent] ? (
+          Array.isArray(ComponentClass.docs.testProps) ? (
+            ComponentClass.docs.testProps.map((prop, i) => {
+              return (
+                <div className="comps">
+                  <ComponentClass {...prop} />
+                </div>
+              );
+            })
+          ) : (
+            <ComponentClass {...ComponentClass.docs.testProps} />
+          )
+        ) : (
+          <div className={'emptyState'}>
+            <svg
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              style={{enableBackground: 'new 0 0 512 512'}}
+              xmlSpace="preserve" className={"smileIcon"}
+            >
+              <linearGradient
+                id="SVGID_1_"
+                gradientUnits="userSpaceOnUse"
+                x1="256"
+                y1="514"
+                x2="256"
+                y2="2"
+                gradientTransform="matrix(1 0 0 -1 0 514)"
+              >
+                <stop offset="0" style={{stopColor: '#2AF598'}} />
+                <stop offset="1" style={{stopColor: '#009EFD'}} />
+              </linearGradient>
+              <path
+                style={{fill: 'url(#SVGID_1_)'}}
+                d="M344.354,381.58c-1.33-1.651-33.207-40.458-88.354-40.458
 					c-55.832,0-87.972,39.974-88.29,40.378l-31.42-24.756c1.79-2.271,44.687-55.622,119.71-55.622s117.92,53.352,119.71,55.622
 					L344.29,381.5L344.354,381.58z M437.02,437.02C485.371,388.668,512,324.38,512,256s-26.629-132.667-74.98-181.02
 					C388.667,26.629,324.38,0,256,0S123.333,26.629,74.98,74.98C26.629,123.333,0,187.62,0,256s26.629,132.668,74.98,181.02
 					C123.333,485.371,187.62,512,256,512S388.667,485.371,437.02,437.02z M472,256c0,119.103-96.897,216-216,216S40,375.103,40,256
 					S136.897,40,256,40S472,136.897,472,256z M168,212.122c17.673,0,32-14.327,32-32s-14.327-32-32-32s-32,14.327-32,32
 					S150.327,212.122,168,212.122z M344,212.122c17.673,0,32-14.327,32-32s-14.327-32-32-32s-32,14.327-32,32
-					S326.327,212.122,344,212.122z"/>
-				</svg>
-				<div className='notfoundStr-styleguide'>Please click the components on left side menu bar</div>
-          </div>}
+					S326.327,212.122,344,212.122z"
+              />
+            </svg>
+            <div>Please click the components on left side menu bar</div>
+          </div>
+        )}
       </div>
     );
   }
@@ -204,7 +116,7 @@ var findErr = (window.onerror = function(e, line) {
   comName = window.location.hash.substr(1);
 });
 var funct = function() {
-  return { error: err, name: comName };
+  return {error: err, name: comName};
 };
 </script>
     <!-- hook for screen shot testing End-->

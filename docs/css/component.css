@@ -1,0 +1,31 @@
+.comps {
+  padding: 10px;
+  max-width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f5f5f5;
+}
+.appContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+}
+.root {
+  flex-grow: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+}
+.emptyState{
+  display: flex;
+  flex-direction: column;
+  align-items: center;justify-content: center;
+  height:100%;
+}
+.smileIcon{
+  width: 60px;
+  margin-bottom: 30px
+}
+body {
+  overflow: hidden;
+}
