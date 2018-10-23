@@ -52,6 +52,7 @@
     "fz-permission": "0.0.1",
     "fz-propertytojson": "1.0.3",
     "fz-screenshot-test": "1.0.0-beta.19",
+    "gitlab": "^4.2.0",
     "history": "^4.0.0",
     "hoist-non-react-statics": "^1.2.0",
     "html-loader": "^0.5.1",
