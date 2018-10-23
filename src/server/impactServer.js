@@ -1,9 +1,7 @@
 'use strict';
 
 let express = require('express');
-let webpack = require('webpack');
 let bodyParser = require('body-parser');
-let config = require('fz-react-cli/lib/config/webpack.impact.config');
 let getIP = require('fz-react-cli/lib/utils/ipaddress');
 let selectn = require('selectn');
 let app = express();
@@ -23,20 +21,9 @@ const services = new ProjectsBundle({
   token: 'n6aqQz3RfzqRGPyMTPy8'
 });
 
-let compiler = webpack(config);
 let host = process.env.npm_config_server_host || getIP();
 let port = process.env.npm_config_server_port || '9292';
 let url = `${'htt' + 'p://'}${host}:${port}`;
-
-app.use(
-  require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath,
-    headers: { 'Access-Control-Allow-Origin': '*' }
-  })
-);
-
-app.use(require('webpack-hot-middleware')(compiler));
 
 app.post('/impact/build', (req, res) => {
   req.setTimeout(0);
@@ -221,7 +208,7 @@ function getDetails(url, callback) {
                 filename.includes('.js')
               ) {
                 try {
-                  services.RepositoryFiles.show( 1143, filename, branch).then(
+                  services.RepositoryFiles.show(1143, filename, branch).then(
                     res => {
                       let code = Buffer.from(res.content, 'base64').toString(
                         'ascii'
@@ -262,6 +249,6 @@ let server = app.listen(port, err => {
     console.log(err);
     return;
   }
-  console.log( `Listening at ${url}/impact/build/`);
-  console.log('payload like => {buildUrl:test_build_url}')
+  console.log(`Listening at ${url}/impact/build/`);
+  console.log('payload like => {buildUrl:test_build_url}');
 });

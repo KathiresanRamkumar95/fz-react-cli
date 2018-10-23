@@ -2,6 +2,7 @@
 branchName=$2
 url=$1
 zipUrl=$3
+commitMessage=$8
 
 unique=$(date +"%d_%m_%y_Time_%H_%M_%S")
 publishFolder=$branchName"_"$unique
@@ -29,8 +30,10 @@ curl -i -F name=file -F file=@$publishFolder.tar.gz $url"/cgi-bin/upload.py"
 replace=$publishFolder
 reportUrl=$url"/"$replace
 subject="Client Report - React - $publishFolder"
-msg="<p><b>report url - <a href='$reportUrl'>Link</a></b></p>
-<p><b>Report branchName - $branchName</b></p>
-<p><b>Report unique id - $unique</b></p>"
+msg="<p><b>Report URL - <a href='$reportUrl'>Link</a></b></p>
+<p><b>Report Branchname - $branchName</b></p>
+<p><b>Report Unique ID - $unique</b></p>
+<p><b>Report Developer - $6</b></p>
+<p><b>Report commitMessage - $commitMessage</b></p>"
 #node mailSender.js <from> <pass> <to> <subject> <text>
 node ./node_modules/fz-react-cli/lib/mailSender $4 $5 $6 "$subject" "$msg" $7
