@@ -368,12 +368,12 @@ rtl changes and report publish replace issue fix
 
 - Code coverage issue fixed
 
-# 0.0.3-beta.127 
+# 0.0.3-beta.127
 
 - Mail to multiple recipient as CC:
 - Changed the mail subject as 'Client Report - React'
 - Generate seperate report for last commited changed files unit case coverage
-- List the last changed files list in that above report 
+- List the last changed files list in that above report
 - sstest report generated even the component list is not available in docs
 
 # 0.0.3-beta.128
@@ -384,7 +384,11 @@ rtl changes and report publish replace issue fix
 # 0.0.3-beta.129
 
 - Impact server to get canged method name and locator (data-id) as response
-- Docs UI and its features 
+- Docs UI and its features
+
+# 0.0.3-beta.130
+
+- Docs - addded new apis
 
 # 0.0.3-beta.130 pending
 
