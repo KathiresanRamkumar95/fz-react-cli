@@ -1,6 +1,6 @@
 {
   "name": "fz-react-cli",
-  "version": "0.0.3-beta.130",
+  "version": "0.0.3-beta.131",
   "description": "A CLI tool for build modern web application and libraries",
   "main": "lib/index.js",
   "scripts": {

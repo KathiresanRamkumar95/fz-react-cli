@@ -388,9 +388,13 @@ rtl changes and report publish replace issue fix
 
 # 0.0.3-beta.130
 
-- Docs - addded new apis
+- Docs - addded new apis (issue - import)
 
-# 0.0.3-beta.130 pending
+# 0.0.3-beta.131
+
+- Docs - import issue fix
+
+# 0.0.3-beta.132 pending
 
 - clone repo option i18n pending
 - webpack-md5-hash
