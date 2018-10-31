@@ -37,13 +37,16 @@ let result = function result(inp) {
         });
       });
   });
-
-  let coverageSummary = fs
-    .readFileSync('./coverage/coverage-summary.json')
-    .toString();
-  if (coverageSummary.indexOf('\\') != -1) {
-    coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
+  let coverageSummary = {};
+  if (fs.existsSync('./commitCoverage/coverage-summary.json')) {
+    coverageSummary = fs
+      .readFileSync('./commitCoverage/coverage-summary.json')
+      .toString();
+    if (coverageSummary.indexOf('\\') != -1) {
+      coverageSummary = coverageSummary.replace(/\\/g, '\\\\');
+    }
   }
+
   let coverageJson = JSON.parse(coverageSummary);
   let linesPercent = 0;
   let functionPercent = 0;
