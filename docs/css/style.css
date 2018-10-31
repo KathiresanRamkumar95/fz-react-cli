@@ -346,6 +346,8 @@ main {
   color: #fff;
   margin-right: 10px;
   margin-left: 5px;
+  min-width: 18px;
+text-align: center;
 }
 .mainMenuArrow {
   width: 12px;
@@ -372,8 +374,8 @@ main {
 .componentMain,
 .componentDocs {
   padding: 7px 5px 7px 10px;
-  cursor: pointer;
   transition: all 0.3s;
+  cursor: pointer;
 }
 .listItem path {
   fill: #fff;
@@ -391,6 +393,8 @@ main {
   color: #fff;
   margin-left: 5px;
   font-style: initial;
+  min-width: 18px;
+text-align: center;
 }
 .listItem:hover,
 .listItem.selected {
@@ -401,10 +405,27 @@ main {
   background-color: #162029;
 }
 .componentDocs {
-  padding-left: 25px;
+  padding-left: 35px;
+}
+.componentDocs > a.active,.componentMain > a.active {
+  position: relative;
+}
+.componentDocs > a.active::after,.componentMain > a.active::after  {
+  content: '';
+  position: absolute;
+  top: 0px;
+  height: 15px;
+  width: 15px;
+  background-color: #008f4c;
+  border-radius: 1px;
+  left: -43px;
+  transform: rotate(45deg);
+}
+.componentMain > a.active::after {
+  left:-28px
 }
 .componentMain {
-  padding-left: 15px;
+  padding-left: 20px;
 }
 .subCount {
   background-color: #e03332;
@@ -485,7 +506,9 @@ section {
   margin: 0 5px;
   padding: 5px;
   cursor: pointer;
+  transition:all 0.3s;
 }
+.responsiveMenu:hover{background-color: #00995a}
 .responsiveMenu svg {
   width: 15px;
 }
@@ -589,12 +612,12 @@ section {
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 3px;
-  border:1px solid transparent
+  border: 1px solid transparent;
 }
-.psdLink:hover{
+.psdLink:hover {
   background: #fff;
   color: #1c2b36;
-  border-color: #1c2b36
+  border-color: #1c2b36;
 }
 
 .infoTabs span {
@@ -884,6 +907,7 @@ section {
 
 .iframeSection {
   position: relative;
+  margin:0 auto
 }
 
 .hide {

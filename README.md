@@ -394,14 +394,13 @@ rtl changes and report publish replace issue fix
 
 - Docs - import issue fix
 
-# 0.0.3-beta.132 pending
+# 0.0.3-beta.132
 
-# 0.0.3-beta.129
+- Get Unit case coverage for changed files during next release issue fix
+- Docs UI and some issue fixes
 
-- Impact server to get canged method name and locator (data-id) as response
-- Docs UI and its features 
+# 0.0.3-beta.133 pending
 
-# 0.0.3-beta.130 pending
 - clone repo option i18n pending
 - webpack-md5-hash
 - server side rendering
