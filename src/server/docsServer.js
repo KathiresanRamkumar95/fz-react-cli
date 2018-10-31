@@ -10,6 +10,8 @@ var getIP = require('../utils/ipaddress');
 var spawn = require('cross-spawn');
 var selectn = require('selectn');
 var app = express();
+const exec = require('child_process').exec;
+
 var appPath = fs.realpathSync(process.cwd());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(
@@ -72,6 +74,20 @@ if (repoBranch) {
     res.send('done');
   });
 }
+
+app.use('/author/get', function(req, res) {
+  let compName = req.query.componentName || '';
+  exec('git blame ' + compName, (error, stdout, stderr) => {
+    res.json({ stdout });
+  });
+});
+
+app.use('/cli/version', function(req, res) {
+  exec('npm ls fz-react-cli', (error, version, stderr) => {
+    res.json({ version });
+  });
+});
+
 var server = app.listen(port, function(err) {
   if (err) {
     console.log(err);

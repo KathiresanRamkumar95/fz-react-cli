@@ -10,5 +10,15 @@ module.exports = function(source, map) {
   var src = fs
     .readFileSync(filePath.startsWith(appPath) ? filePath : changePath)
     .toString();
-  return source + ';' + name + '.source=' + JSON.stringify(src);
+  return (
+    source +
+    ';' +
+    name +
+    '.source=' +
+    JSON.stringify(src) +
+    ';' +
+    name +
+    '.filePath=' +
+    JSON.stringify(filePath)
+  );
 };
